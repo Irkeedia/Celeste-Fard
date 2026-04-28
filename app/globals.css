@@ -153,6 +153,23 @@ body.site-body {
   gap: 1.3rem;
 }
 
+.intro-screen {
+  min-height: calc(100vh - 110px);
+  display: grid;
+  align-content: center;
+  gap: 1rem;
+}
+
+.intro-metrics {
+  margin-top: 0;
+}
+
+.content-start {
+  display: grid;
+  gap: 1.3rem;
+  margin-top: 0.8rem;
+}
+
 .hero-section,
 .section-block {
   padding: 2rem;
@@ -207,6 +224,50 @@ h3 {
   display: flex;
   gap: 0.7rem;
   flex-wrap: wrap;
+}
+
+.hero-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.hero-section .hero-copy {
+  max-width: 62ch;
+}
+
+.hero-side-panel {
+  border: 1px solid rgba(124, 98, 155, 0.24);
+  border-radius: 1rem;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.74);
+  display: grid;
+}
+
+.hero-side-image {
+  position: relative;
+  min-height: 210px;
+}
+
+.hero-side-image img {
+  object-fit: cover;
+}
+
+.hero-side-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  padding: 0.7rem;
+}
+
+.hero-side-meta span {
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.86);
+  border: 1px solid rgba(124, 98, 155, 0.2);
+  padding: 0.3rem 0.65rem;
+  font-size: 0.78rem;
+  color: #6c587d;
 }
 
 .cta-primary,
@@ -626,6 +687,15 @@ h3 {
 }
 
 @media (max-width: 860px) {
+  .intro-screen {
+    min-height: auto;
+    align-content: initial;
+  }
+
+  .hero-layout {
+    grid-template-columns: 1fr;
+  }
+
   .player-shell {
     grid-template-columns: 1fr;
   }
