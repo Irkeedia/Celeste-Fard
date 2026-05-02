@@ -19,8 +19,13 @@ body {
   padding: 0;
 }
 
+html {
+  overflow-x: clip;
+}
+
 body.site-body {
   min-height: 100vh;
+  overflow-x: clip;
   color: var(--text);
   font-family: var(--font-body), Arial, sans-serif;
   background:
@@ -153,6 +158,7 @@ body.site-body {
 .page-wrap {
   display: grid;
   gap: 1.3rem;
+  min-width: 0;
 }
 
 .intro-screen {
@@ -160,6 +166,7 @@ body.site-body {
   display: grid;
   align-content: center;
   gap: 1rem;
+  min-width: 0;
 }
 
 .intro-metrics {
@@ -170,6 +177,7 @@ body.site-body {
   display: grid;
   gap: 1.3rem;
   margin-top: 0.8rem;
+  min-width: 0;
 }
 
 .hero-section,
@@ -179,6 +187,7 @@ body.site-body {
   backdrop-filter: blur(18px);
   background: var(--card);
   border: 1px solid var(--line);
+  min-width: 0;
 }
 
 h1,
@@ -194,6 +203,9 @@ h1 {
   font-family: var(--font-title), serif;
   font-weight: 700;
   letter-spacing: 0.01em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 h2 {
@@ -212,6 +224,8 @@ h3 {
 .hero-copy,
 .muted {
   color: var(--muted);
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .eyebrow {
@@ -237,6 +251,11 @@ h3 {
   grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
   gap: 1rem;
   align-items: stretch;
+  min-width: 0;
+}
+
+.hero-layout > * {
+  min-width: 0;
 }
 
 .hero-section .hero-copy {
@@ -249,6 +268,7 @@ h3 {
   overflow: hidden;
   background: rgba(255, 255, 255, 0.74);
   display: grid;
+  min-width: 0;
 }
 
 .hero-side-image {
@@ -703,26 +723,26 @@ h3 {
   }
 }
 
-@media (max-width: 860px) {
+@media (max-width: 900px) {
   .site-header {
-    flex-wrap: nowrap;
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: stretch;
     gap: 0.65rem;
   }
 
   .brand-link {
-    flex-shrink: 0;
-    padding-top: 0.15rem;
+    align-self: flex-start;
+    max-width: 100%;
+    white-space: normal;
   }
 
   .site-header nav {
-    flex: 1;
-    min-width: 0;
+    width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
-    mask-image: linear-gradient(to right, #000 92%, transparent);
+    mask-image: none;
   }
 
   .site-header nav::-webkit-scrollbar {
@@ -731,7 +751,7 @@ h3 {
 
   .nav-list {
     flex-wrap: nowrap;
-    justify-content: flex-end;
+    justify-content: flex-start;
     gap: 0.35rem;
     padding-bottom: 0.15rem;
   }
@@ -741,7 +761,9 @@ h3 {
     padding: 0.45rem 0.65rem;
     font-size: 0.86rem;
   }
+}
 
+@media (max-width: 860px) {
   .intro-screen {
     min-height: calc(100dvh - 140px);
     align-content: center;
