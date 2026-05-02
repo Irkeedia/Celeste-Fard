@@ -31,6 +31,25 @@ export function MainNav() {
   }, []);
 
   useEffect(() => {
+    const header = document.querySelector(".site-header");
+    if (!header) return;
+
+    const syncHeaderHeight = () => {
+      const h = header.getBoundingClientRect().height;
+      document.documentElement.style.setProperty("--site-header-h", `${Math.round(h * 100) / 100}px`);
+    };
+
+    syncHeaderHeight();
+    const ro = new ResizeObserver(syncHeaderHeight);
+    ro.observe(header);
+    window.addEventListener("orientationchange", syncHeaderHeight);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("orientationchange", syncHeaderHeight);
+    };
+  }, []);
+
+  useEffect(() => {
     if (!menuOpen) return;
     const mq = window.matchMedia(MOBILE_QUERY);
     if (!mq.matches) return;
@@ -61,12 +80,18 @@ export function MainNav() {
         onClick={() => setMenuOpen((o) => !o)}
         aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
       >
-        <span className="nav-burger-lines" aria-hidden>
-          <span />
-          <span />
-          <span />
+        <span className="nav-burger-box" aria-hidden>
+          <span className="nav-burger-line" />
+          <span className="nav-burger-line" />
+          <span className="nav-burger-line" />
         </span>
       </button>
+
+      <div
+        className={`nav-backdrop ${menuOpen ? "is-open" : ""}`}
+        aria-hidden={!menuOpen}
+        onClick={closeMenu}
+      />
 
       <nav
         id="primary-navigation"

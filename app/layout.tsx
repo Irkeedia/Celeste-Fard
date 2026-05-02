@@ -37,10 +37,12 @@ export default function RootLayout({
         <div className="ambient-glow ambient-left" />
         <div className="ambient-glow ambient-right" />
         <header className="site-header">
-          <Link href="/" className="brand-link">
-            CELESTE FARD
-          </Link>
-          <MainNav />
+          <div className="site-header-inner">
+            <Link href="/" className="brand-link">
+              CELESTE FARD
+            </Link>
+            <MainNav />
+          </div>
         </header>
         <main className="site-main">{children}</main>
         <footer className="site-footer">
