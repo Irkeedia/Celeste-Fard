@@ -147,6 +147,51 @@ body.site-body {
   background: rgba(255, 255, 255, 0.64);
 }
 
+.nav-burger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid rgba(124, 98, 155, 0.28);
+  border-radius: 0.85rem;
+  background: rgba(255, 255, 255, 0.78);
+  cursor: pointer;
+  color: var(--text);
+}
+
+.nav-burger-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 1.2rem;
+}
+
+.nav-burger-lines span {
+  display: block;
+  height: 2px;
+  width: 100%;
+  background: currentColor;
+  border-radius: 1px;
+  transition:
+    transform 0.22s ease,
+    opacity 0.18s ease;
+}
+
+.nav-burger[aria-expanded="true"] .nav-burger-lines span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav-burger[aria-expanded="true"] .nav-burger-lines span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-burger[aria-expanded="true"] .nav-burger-lines span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
 .site-main {
   max-width: 1160px;
   margin: 0 auto;
@@ -507,8 +552,11 @@ h3 {
   grid-auto-columns: minmax(240px, 32%);
   gap: 0.9rem;
   overflow-x: auto;
+  overflow-y: hidden;
   padding-bottom: 0.35rem;
   scroll-snap-type: x mandatory;
+  touch-action: pan-x;
+  overscroll-behavior: contain;
 }
 
 .photo-tile {
@@ -725,41 +773,73 @@ h3 {
 
 @media (max-width: 900px) {
   .site-header {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.65rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.5rem 0.75rem;
   }
 
   .brand-link {
-    align-self: flex-start;
-    max-width: 100%;
+    min-width: 0;
+    align-self: center;
     white-space: normal;
   }
 
-  .site-header nav {
-    width: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    mask-image: none;
+  .nav-burger {
+    display: inline-flex;
+    z-index: 30;
   }
 
-  .site-header nav::-webkit-scrollbar {
-    display: none;
+  .site-nav {
+    grid-column: 1 / -1;
+    width: 100%;
+    margin: 0;
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(124, 98, 155, 0.18);
+    box-shadow: 0 14px 48px rgba(31, 21, 45, 0.12);
+    transition:
+      max-height 0.36s ease,
+      opacity 0.24s ease,
+      padding 0.24s ease,
+      visibility 0.24s ease;
+  }
+
+  .site-nav:not(.is-open) {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+  }
+
+  .site-nav.is-open {
+    max-height: min(72vh, 440px);
+    overflow-y: auto;
+    overflow-x: hidden;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    padding: 0.45rem 0.5rem 0.65rem;
+    -webkit-overflow-scrolling: touch;
   }
 
   .nav-list {
+    flex-direction: column;
     flex-wrap: nowrap;
-    justify-content: flex-start;
-    gap: 0.35rem;
-    padding-bottom: 0.15rem;
+    align-items: stretch;
+    gap: 0.2rem;
+    padding-bottom: 0;
   }
 
   .nav-link {
-    flex-shrink: 0;
-    padding: 0.45rem 0.65rem;
-    font-size: 0.86rem;
+    width: 100%;
+    text-align: center;
+    padding: 0.65rem 0.85rem;
+    font-size: 0.9rem;
   }
 }
 
