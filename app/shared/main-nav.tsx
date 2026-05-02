@@ -98,19 +98,26 @@ export function MainNav() {
         aria-label="Navigation principale"
         className={`site-nav ${menuOpen ? "is-open" : ""}`}
       >
-        <ul className="nav-list">
-          {LINKS.map((link) => {
+        <div className="site-nav-head" aria-hidden>
+          <span className="site-nav-kicker">Explorer</span>
+          <span className="site-nav-display">Celeste Fard</span>
+        </div>
+        <ul className="nav-list nav-list--drawer">
+          {LINKS.map((link, index) => {
             const isActive =
               pathname === link.href || (link.href !== "/" && pathname.startsWith(link.href));
 
             return (
               <li key={link.href}>
                 <Link
-                  className={`nav-link ${isActive ? "active" : ""}`}
+                  className={`nav-link nav-link--drawer ${isActive ? "active" : ""}`}
                   href={link.href}
                   onClick={closeMenu}
                 >
-                  {link.label}
+                  <span className="nav-link-index" aria-hidden>
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="nav-link-label">{link.label}</span>
                 </Link>
               </li>
             );
