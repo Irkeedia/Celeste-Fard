@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { Track } from "./content";
 
 type AudioPlayerProps = {
@@ -10,11 +10,47 @@ type AudioPlayerProps = {
 
 export function AudioPlayer({ tracks }: AudioPlayerProps) {
   const [currentTrackId, setCurrentTrackId] = useState(tracks[0]?.id ?? "");
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const skipAutoplayOnLoad = useRef(true);
 
   const currentTrack = useMemo(
     () => tracks.find((track) => track.id === currentTrackId) ?? tracks[0],
     [currentTrackId, tracks],
   );
+
+  const trackSrc = currentTrack?.src;
+
+  useEffect(() => {
+    const el = audioRef.current;
+    if (!el) return;
+
+    const onEnded = () => {
+      setCurrentTrackId((prev) => {
+        const idx = tracks.findIndex((t) => t.id === prev);
+        if (idx === -1) return tracks[0]?.id ?? prev;
+        const next = tracks[idx + 1];
+        return next ? next.id : (tracks[0]?.id ?? prev);
+      });
+    };
+
+    el.addEventListener("ended", onEnded);
+    return () => el.removeEventListener("ended", onEnded);
+  }, [tracks]);
+
+  useEffect(() => {
+    const el = audioRef.current;
+    if (!el || !trackSrc) return;
+
+    el.pause();
+    el.load();
+
+    if (skipAutoplayOnLoad.current) {
+      skipAutoplayOnLoad.current = false;
+      return;
+    }
+
+    void el.play().catch(() => {});
+  }, [trackSrc]);
 
   if (!currentTrack) {
     return null;
@@ -36,7 +72,7 @@ export function AudioPlayer({ tracks }: AudioPlayerProps) {
         <p className="muted">Je chante en francais, italien et anglais selon mon humeur creative.</p>
         <h3>{currentTrack.title}</h3>
         <p className="muted">{currentTrack.subtitle}</p>
-        <audio key={currentTrack.id} controls preload="none" className="native-player">
+        <audio ref={audioRef} controls preload="metadata" className="native-player">
           <source src={currentTrack.src} type="audio/mpeg" />
           Votre navigateur ne supporte pas la lecture audio.
         </audio>
