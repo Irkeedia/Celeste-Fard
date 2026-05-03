@@ -499,18 +499,41 @@ h3 {
   list-style: none;
   display: grid;
   gap: 0.55rem;
+  max-height: min(48vh, 20rem);
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding-right: 0.2rem;
 }
 
 .track-item {
   width: 100%;
+  min-width: 0;
   border: 1px solid rgba(139, 117, 159, 0.24);
   background: rgba(255, 255, 255, 0.8);
   border-radius: 0.9rem;
   padding: 0.65rem 0.8rem;
   display: flex;
   justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.65rem;
+  flex-wrap: wrap;
   cursor: pointer;
   font-family: inherit;
+  text-align: left;
+}
+
+.track-item > span:first-child {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.track-item > span:last-child {
+  flex-shrink: 0;
+  white-space: nowrap;
+  font-size: 0.82rem;
+  opacity: 0.85;
 }
 
 .track-item.selected {

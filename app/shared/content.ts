@@ -27,38 +27,218 @@ export type FanMoment = {
   stat: string;
 };
 
-export const featuredTracks: Track[] = [
+/** Fichiers dans `public/audio` — encodage URL pour espaces, apostrophes, accents. */
+function audioFromPublic(filename: string): string {
+  return "/audio/" + encodeURIComponent(filename);
+}
+
+const TRACK_COVERS = [
+  "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1487180144351-b8472da7d491?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1508700119012-35966822bbf1?auto=format&fit=crop&w=900&q=80",
+  "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=900&q=80",
+] as const;
+
+function coverForIndex(index: number): string {
+  return TRACK_COVERS[index % TRACK_COVERS.length];
+}
+
+/**
+ * Pistes locales : noms de fichiers tels que dans `public/audio/`.
+ * Titres d’affichage **distincts** pour chaque fichier (même morceau en plusieurs versions).
+ * Durées indicatives (approx. taille fichier) — le navigateur affiche la durée réelle à la lecture.
+ */
+const TRACKS_RAW: Array<
+  Omit<Track, "cover" | "src"> & { file: string }
+> = [
   {
     id: "01",
-    title: "Lune Chromee",
-    subtitle: "Single manifesto",
-    cover:
-      "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=900&q=80",
-    src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-    duration: "3:18",
-    language: "fr",
+    file: "Venezia Dark(1).mp3",
+    title: "Venezia Dark — canal cramoisi",
+    subtitle: "Version A · Italie nocturne",
+    duration: "3:58",
+    language: "it",
   },
   {
     id: "02",
-    title: "Veleno d'Amore",
-    subtitle: "Ballade franco-italienne",
-    cover:
-      "https://images.unsplash.com/photo-1487180144351-b8472da7d491?auto=format&fit=crop&w=900&q=80",
-    src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
-    duration: "3:52",
+    file: "Venezia Dark(2).mp3",
+    title: "Venezia Dark — lagune close",
+    subtitle: "Version B · même titre, autre prise",
+    duration: "3:31",
     language: "it",
   },
   {
     id: "03",
-    title: "Nuits de Satin",
-    subtitle: "Version live studio",
-    cover:
-      "https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=900&q=80",
-    src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
-    duration: "4:03",
+    file: "L'Angle Mort.mp3",
+    title: "L'Angle Mort — vision directe",
+    subtitle: "Take principale",
+    duration: "3:41",
+    language: "fr",
+  },
+  {
+    id: "04",
+    file: "L'Angle Mort(1).mp3",
+    title: "L'Angle Mort — contre-plongée",
+    subtitle: "Deuxième enregistrement du même titre",
+    duration: "3:04",
+    language: "fr",
+  },
+  {
+    id: "05",
+    file: "L'excellence est un choix.mp3",
+    title: "L'excellence est un choix — manifeste",
+    subtitle: "Version longue",
+    duration: "4:12",
+    language: "fr",
+  },
+  {
+    id: "06",
+    file: "L'excellence est un choix(1).mp3",
+    title: "L'excellence est un choix — contre-manifeste",
+    subtitle: "Variante du même titre",
+    duration: "3:54",
+    language: "fr",
+  },
+  {
+    id: "07",
+    file: "Une assurance-vie.mp3",
+    title: "Une assurance-vie",
+    subtitle: "Morceau seul dans le dossier",
+    duration: "4:35",
+    language: "fr",
+  },
+  {
+    id: "08",
+    file: "Une dignité de plomb(1).mp3",
+    title: "Une dignité de plomb — lettre ouverte",
+    subtitle: "Version 1",
+    duration: "4:34",
+    language: "fr",
+  },
+  {
+    id: "09",
+    file: "Une dignité de plomb(2).mp3",
+    title: "Une dignité de plomb — dernière couche",
+    subtitle: "Version 2 · même titre",
+    duration: "4:43",
+    language: "fr",
+  },
+  {
+    id: "10",
+    file: "Une valise en carton(1).mp3",
+    title: "Une valise en carton — départ",
+    subtitle: "Version A",
+    duration: "6:14",
+    language: "fr",
+  },
+  {
+    id: "11",
+    file: "Une valise en carton(2).mp3",
+    title: "Une valise en carton — arrivée",
+    subtitle: "Version B · même titre",
+    duration: "6:40",
+    language: "fr",
+  },
+  {
+    id: "12",
+    file: "Plus d'erreurs de calcul,(1).mp3",
+    title: "Plus d'erreurs de calcul — variante A",
+    subtitle: "Premier fichier du duo",
+    duration: "5:02",
+    language: "fr",
+  },
+  {
+    id: "13",
+    file: "Plus d'erreurs de calcul,(2).mp3",
+    title: "Plus d'erreurs de calcul — variante B",
+    subtitle: "Deuxième fichier du duo",
+    duration: "4:44",
+    language: "fr",
+  },
+  {
+    id: "14",
+    file: "J'ai mal aux souvenirs(1).mp3",
+    title: "J'ai mal aux souvenirs — prise unique",
+    subtitle: "Seule version dans la bibliothèque",
+    duration: "4:52",
+    language: "fr",
+  },
+  {
+    id: "15",
+    file: "Default State.mp3",
+    title: "Default State — édition studio",
+    subtitle: "Take principale",
+    duration: "5:10",
+    language: "en",
+  },
+  {
+    id: "16",
+    file: "Default State(1).mp3",
+    title: "Default State — version nocturne",
+    subtitle: "Même titre, autre fichier",
+    duration: "5:14",
+    language: "en",
+  },
+  {
+    id: "17",
+    file: "Don't waste it.mp3",
+    title: "Don't Waste It — cut original",
+    subtitle: "Take 1",
+    duration: "4:28",
+    language: "en",
+  },
+  {
+    id: "18",
+    file: "Don't waste it(1).mp3",
+    title: "Don't Waste It — rework électrique",
+    subtitle: "Take 2 · même titre",
+    duration: "4:40",
+    language: "en",
+  },
+  {
+    id: "19",
+    file: "Ego Patrimonial(1).mp3",
+    title: "Ego Patrimonial — ouverture",
+    subtitle: "Version 1",
+    duration: "4:40",
+    language: "fr",
+  },
+  {
+    id: "20",
+    file: "Ego Patrimonial(2).mp3",
+    title: "Ego Patrimonial — coda intègre",
+    subtitle: "Version 2 · même titre",
+    duration: "5:06",
+    language: "fr",
+  },
+  {
+    id: "21",
+    file: "I\u2019m still here(1).mp3",
+    title: "I'm Still Here — session prophète",
+    subtitle: "Version A · pop nocturne",
+    duration: "5:36",
+    language: "en",
+  },
+  {
+    id: "22",
+    file: "I\u2019m still here(2).mp3",
+    title: "I'm Still Here — miroir froid",
+    subtitle: "Version B · même titre",
+    duration: "5:20",
     language: "en",
   },
 ];
+
+export const featuredTracks: Track[] = TRACKS_RAW.map((row, index) => {
+  const { file, ...rest } = row;
+  return {
+    ...rest,
+    cover: coverForIndex(index),
+    src: audioFromPublic(file),
+  };
+});
 
 export const releases: Release[] = [
   {

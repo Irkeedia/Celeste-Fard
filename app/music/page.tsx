@@ -61,8 +61,9 @@ export default function MusicPage() {
         <p className="eyebrow">TES FICHIERS AUDIO</p>
         <h2>Dossier simple pour ranger tes sons</h2>
         <p className="muted">
-          Glisse tous tes fichiers mp3 directement dans `public/audio`. Je m occuperai ensuite du tri
-          et de l integration dans le lecteur.
+          Les morceaux sont servis depuis <code>public/audio</code> (fichiers MP3). Pour en ajouter,
+          copie-les dans ce dossier puis déclare-les dans <code>app/shared/content.ts</code> avec un
+          titre d’affichage unique.
         </p>
       </section>
     </div>
