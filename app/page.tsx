@@ -29,16 +29,18 @@ export default function Home() {
             <aside className="hero-side-panel">
               <div className="hero-side-image">
                 <Image
-                  src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1200&q=80"
-                  alt="Portrait artistique de Celeste"
+                  src="/image/celeste_fard.png"
+                  alt="Celeste Fard"
                   fill
+                  priority
                   sizes="(max-width: 860px) 100vw, 34vw"
+                  className="hero-side-photo"
                 />
               </div>
               <div className="hero-side-meta">
-                <span>FR / IT / EN</span>
-                <span>Chanteuse</span>
-                <span>Rap pop sombre</span>
+                <span className="hero-pill">FR / IT / EN</span>
+                <span className="hero-pill">Chanteuse</span>
+                <span className="hero-pill">Rap pop sombre</span>
               </div>
             </aside>
           </div>
