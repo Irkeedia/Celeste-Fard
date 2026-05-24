@@ -283,26 +283,34 @@ export const shortVideos = [
   },
 ];
 
-export const galleryPhotos: Photo[] = [
+export const galleryPhotos2: Photo[] = [
   {
-    title: "Portrait couture rose",
-    src: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=1200&q=80",
+    title: "Sur scene",
+    src: "/image/celestescene.png",
   },
   {
-    title: "Studio neon",
-    src: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1200&q=80",
+    title: "Moment intime",
+    src: "/image/celestecanapé.png",
   },
   {
-    title: "Backstage elegance",
-    src: "https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&fit=crop&w=1200&q=80",
+    title: "Avec mon chien",
+    src: "/image/celestechien.png",
   },
   {
-    title: "Live atmosphere",
-    src: "https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?auto=format&fit=crop&w=1200&q=80",
+    title: "Au studio",
+    src: "/image/celestetravail.png",
   },
   {
-    title: "Editorial Paris",
-    src: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=1200&q=80",
+    title: "Aigrie le matin — ne pas deranger",
+    src: "/image/celestelematin.png",
+  },
+  {
+    title: "Seance autographes",
+    src: "/image/celesteautographe.png",
+  },
+  {
+    title: "Encore un portrait (oui, encore)",
+    src: "/image/celesteencoreunportrait.png",
   },
 ];
 

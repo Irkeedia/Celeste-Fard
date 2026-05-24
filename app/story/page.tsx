@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { galleryPhotos } from "../shared/content";
+import { galleryPhotos2 } from "../shared/content";
 
 export default function StoryPage() {
   return (
@@ -76,7 +76,7 @@ export default function StoryPage() {
           <h2>Images qui racontent mon histoire</h2>
         </div>
         <div className="story-gallery">
-          {galleryPhotos.slice(0, 4).map((photo) => (
+          {galleryPhotos2.slice(0, 4).map((photo) => (
             <article key={photo.src} className="story-gallery-card">
               <Image src={photo.src} alt={photo.title} fill sizes="(max-width: 860px) 100vw, 24vw" />
             </article>

@@ -4,11 +4,11 @@ import Image from "next/image";
 import { useMemo, useState } from "react";
 import type { Photo } from "./content";
 
-type PhotoCarouselProps = {
+type PhotoCarousel2Props = {
   photos: Photo[];
 };
 
-export function PhotoCarousel({ photos }: PhotoCarouselProps) {
+export function PhotoCarousel2({ photos }: PhotoCarousel2Props) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   const selectedPhoto = useMemo(
@@ -18,7 +18,7 @@ export function PhotoCarousel({ photos }: PhotoCarouselProps) {
 
   return (
     <>
-      <section className="photo-carousel" aria-label="Galerie photos de Celeste Fard">
+      <section className="photo-carousel-2" aria-label="Carousel 2 — galerie photos de Celeste Fard">
         {photos.map((photo, index) => (
           <button
             type="button"

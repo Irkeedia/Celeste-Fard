@@ -1,8 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { AudioPlayer } from "./shared/audio-player";
-import { PhotoCarousel } from "./shared/photo-carousel";
-import { fanMoments, featuredTracks, galleryPhotos, releases } from "./shared/content";
+import { PhotoCarousel2 } from "./shared/photo-carousel-2";
+import { fanMoments, featuredTracks, galleryPhotos2, releases } from "./shared/content";
 
 export default function Home() {
   return (
@@ -29,18 +29,18 @@ export default function Home() {
             <aside className="hero-side-panel">
               <div className="hero-side-image">
                 <Image
-                  src="/image/celeste_fard.png"
+                  src="/image/Celestefardhero.png"
                   alt="Celeste Fard"
                   fill
                   priority
                   sizes="(max-width: 860px) 100vw, 34vw"
                   className="hero-side-photo"
                 />
-              </div>
-              <div className="hero-side-meta">
-                <span className="hero-pill">FR / IT / EN</span>
-                <span className="hero-pill">Chanteuse</span>
-                <span className="hero-pill">Rap pop sombre</span>
+                <div className="hero-side-meta">
+                  <span className="hero-pill">FR / IT / EN</span>
+                  <span className="hero-pill">Chanteuse</span>
+                  <span className="hero-pill">Rap pop sombre</span>
+                </div>
               </div>
             </aside>
           </div>
@@ -85,15 +85,39 @@ export default function Home() {
           </p>
         </section>
 
+        <section className="section-block scene-spotlight">
+          <div className="scene-spotlight-layout">
+            <div className="scene-spotlight-image">
+              <Image
+                src="/image/celestescene.png"
+                alt="Celeste Fard sur scene"
+                fill
+                sizes="(max-width: 860px) 100vw, 42vw"
+              />
+            </div>
+            <div className="scene-spotlight-copy">
+              <p className="eyebrow">SUR SCENE</p>
+              <h2>Quand la lumiere tombe, je deviens moi</h2>
+              <p className="hero-copy">
+                Sur scene, je ne joue pas un role : je vis ce que j ecris. Chaque micro, chaque
+                regard, chaque silence avant le refrain — c est la que ma musique prend tout son sens.
+              </p>
+              <Link href="/music" className="cta-primary">
+                Ecouter mes morceaux
+              </Link>
+            </div>
+          </div>
+        </section>
+
         <section className="section-block">
           <div className="section-heading">
-            <p className="eyebrow">VISUELS SIGNATURE</p>
+            <p className="eyebrow">CAROUSEL 2</p>
             <h2>Mon univers en images</h2>
             <p className="muted">
-              Chaque visuel est une partie de mon journal intime : studio, scene, mode et renaissance.
+              Chaque visuel est une partie de mon journal intime : scene, intimite, studio et renaissance.
             </p>
           </div>
-          <PhotoCarousel photos={galleryPhotos} />
+          <PhotoCarousel2 photos={galleryPhotos2} />
         </section>
 
         <section className="section-block">
