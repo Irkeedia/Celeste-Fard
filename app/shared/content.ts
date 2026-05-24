@@ -1,11 +1,24 @@
 export type Track = {
   id: string;
+  albumId: string;
   title: string;
   subtitle: string;
   cover: string;
   src: string;
   duration: string;
   language: "fr" | "it" | "en";
+};
+
+export type Album = {
+  id: string;
+  kind: "album" | "singles";
+  title: string;
+  subtitle: string;
+  year: string;
+  mood: string;
+  description: string;
+  cover: string;
+  tracks: Track[];
 };
 
 export type Release = {
@@ -28,8 +41,31 @@ export type FanMoment = {
 };
 
 /** Fichiers dans `public/audio` — encodage URL pour espaces, apostrophes, accents. */
-function audioFromPublic(filename: string): string {
-  return "/audio/" + encodeURIComponent(filename);
+function audioFromPublic(relativePath: string): string {
+  return `/audio/${relativePath.split("/").map((segment) => encodeURIComponent(segment)).join("/")}`;
+}
+
+type TrackRow = Omit<Track, "cover" | "src" | "albumId"> & { file: string };
+
+function buildAlbumTracks(
+  albumId: string,
+  rows: TrackRow[],
+  options: { folder?: string; coverOffset?: number; cover?: string } = {},
+): Track[] {
+  const { folder = "", coverOffset = 0, cover } = options;
+
+  return rows.map((row, index) => {
+    const { file, ...rest } = row;
+    const path = folder ? `${folder}/${file}` : file;
+
+    return {
+      ...rest,
+      id: `${albumId}-${rest.id}`,
+      albumId,
+      cover: cover ?? coverForIndex(coverOffset + index),
+      src: audioFromPublic(path),
+    };
+  });
 }
 
 const TRACK_COVERS = [
@@ -50,9 +86,7 @@ function coverForIndex(index: number): string {
  * Titres d’affichage **distincts** pour chaque fichier (même morceau en plusieurs versions).
  * Durées indicatives (approx. taille fichier) — le navigateur affiche la durée réelle à la lecture.
  */
-const TRACKS_RAW: Array<
-  Omit<Track, "cover" | "src"> & { file: string }
-> = [
+const TRACKS_RAW: TrackRow[] = [
   {
     id: "01",
     file: "Venezia Dark(1).mp3",
@@ -231,14 +265,61 @@ const TRACKS_RAW: Array<
   },
 ];
 
-export const featuredTracks: Track[] = TRACKS_RAW.map((row, index) => {
-  const { file, ...rest } = row;
-  return {
-    ...rest,
-    cover: coverForIndex(index),
-    src: audioFromPublic(file),
-  };
-});
+const ALBUM_1_RAW: TrackRow[] = [
+  { id: "01", file: "Axiome 0.mp3", title: "Axiome 0", subtitle: "Ouverture · version principale", duration: "4:50", language: "fr" },
+  { id: "02", file: "Axiome 0-2.mp3", title: "Axiome 0", subtitle: "Version B", duration: "4:45", language: "fr" },
+  { id: "03", file: "L'Axiome de ma Vie.mp3", title: "L'Axiome de ma Vie", subtitle: "Manifeste intime", duration: "6:00", language: "fr" },
+  { id: "04", file: "LA CHAIR ET L'E\u0301CHELLE.mp3", title: "LA CHAIR ET L'\u00c9CHELLE", subtitle: "Corps et ascension", duration: "5:29", language: "fr" },
+  { id: "05", file: "LES LARMES DU CHAOS-2.mp3", title: "LES LARMES DU CHAOS", subtitle: "Version B", duration: "6:13", language: "fr" },
+  { id: "06", file: "L'Angle Mort-2.mp3", title: "L'Angle Mort", subtitle: "Version album", duration: "3:41", language: "fr" },
+  { id: "07", file: "L'Apex de Silicium.mp3", title: "L'Apex de Silicium", subtitle: "Version principale", duration: "4:57", language: "fr" },
+  { id: "08", file: "L'Apex de Silicium-2.mp3", title: "L'Apex de Silicium", subtitle: "Version B", duration: "5:19", language: "fr" },
+  { id: "09", file: "SYNAPSE & SOUVERAINETE\u0301.mp3", title: "SYNAPSE & SOUVERAINET\u00c9", subtitle: "Transmission nerveuse", duration: "5:21", language: "fr" },
+  { id: "10", file: "SOUVERAINE ALIENATION.mp3", title: "SOUVERAINE ALIENATION", subtitle: "Distance choisie", duration: "4:43", language: "fr" },
+  { id: "11", file: "trinite\u0301 pure.mp3", title: "trinit\u00e9 pure", subtitle: "Version principale", duration: "4:31", language: "fr" },
+  { id: "12", file: "trinite\u0301 pure-2.mp3", title: "trinit\u00e9 pure", subtitle: "Version B", duration: "4:28", language: "fr" },
+  { id: "13", file: "Vautour de Soie.mp3", title: "Vautour de Soie", subtitle: "Version principale", duration: "5:04", language: "fr" },
+  { id: "14", file: "Vautour de Soie-2.mp3", title: "Vautour de Soie", subtitle: "Version B", duration: "5:20", language: "fr" },
+  { id: "15", file: "Vigogne & Me\u0301pris.mp3", title: "Vigogne & M\u00e9pris", subtitle: "Version principale", duration: "5:09", language: "fr" },
+  { id: "16", file: "Vigogne & Me\u0301pris-2.mp3", title: "Vigogne & M\u00e9pris", subtitle: "Version B", duration: "5:13", language: "fr" },
+  { id: "17", file: "Selezione d'E\u0301lite.mp3", title: "Selezione d'\u00c9lite", subtitle: "Version principale", duration: "5:01", language: "it" },
+  { id: "18", file: "Selezione d'E\u0301lite-2.mp3", title: "Selezione d'\u00c9lite", subtitle: "Version B", duration: "4:45", language: "it" },
+  { id: "19", file: "Piombo e Seta.mp3", title: "Piombo e Seta", subtitle: "Version principale", duration: "4:51", language: "it" },
+  { id: "20", file: "Piombo e Seta-2.mp3", title: "Piombo e Seta", subtitle: "Version B", duration: "4:58", language: "it" },
+  { id: "21", file: "The Apex Market.mp3", title: "The Apex Market", subtitle: "Version principale", duration: "4:57", language: "en" },
+  { id: "22", file: "The Apex Market-2.mp3", title: "The Apex Market", subtitle: "Version B", duration: "4:50", language: "en" },
+];
+
+const ARCHIVES_RAW: TrackRow[] = TRACKS_RAW;
+
+export const albums: Album[] = [
+  {
+    id: "album-1",
+    kind: "album",
+    title: "Album 1",
+    subtitle: "Velours Brut · nouvel album",
+    year: "2026",
+    mood: "Rap pop sombre · cinematique",
+    description:
+      "Mon premier album assemble : axiomes, silicium, soie et chaos. FR, IT et EN dans le meme flux emotionnel.",
+    cover: "/image/celestetravail.png",
+    tracks: buildAlbumTracks("album-1", ALBUM_1_RAW, { folder: "album 1" }),
+  },
+  {
+    id: "singles",
+    kind: "singles",
+    title: "Singles",
+    subtitle: "Premieres musiques · demos & versions",
+    year: "2024-2026",
+    mood: "Singles · doubles prises",
+    description:
+      "Mes tout premiers morceaux : Venezia Dark, L'Angle Mort, Default State et les versions alternatives.",
+    cover: "/image/celestesurscene.png",
+    tracks: buildAlbumTracks("singles", ARCHIVES_RAW, { coverOffset: 3 }),
+  },
+];
+
+export const featuredTracks: Track[] = albums.flatMap((album) => album.tracks);
 
 export const releases: Release[] = [
   {
@@ -316,21 +397,18 @@ export const galleryPhotos2: Photo[] = [
 
 export const fanMoments: FanMoment[] = [
   {
-    title: "Aftershow selfies",
-    image:
-      "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&w=1200&q=80",
-    stat: "3.2k partages",
+    title: "Fete dans la foret",
+    image: "/image/celestefeteforet.png",
+    stat: "Concert intimiste sous les guirlandes",
   },
   {
-    title: "Vinyl unboxing",
-    image:
-      "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=1200&q=80",
-    stat: "1.1k videos fans",
+    title: "Soiree au bar",
+    image: "/image/celestealcool.png",
+    stat: "Je fais la diete... mais pas tous les jours",
   },
   {
-    title: "Studio night",
-    image:
-      "https://images.unsplash.com/photo-1516280030429-27679b3dc9cf?auto=format&fit=crop&w=1200&q=80",
-    stat: "18h de live cumule",
+    title: "Evenement sportif",
+    image: "/image/celestesportif.png",
+    stat: "Entre deux morceaux, je cours aussi",
   },
 ];

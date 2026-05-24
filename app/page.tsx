@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { AudioPlayer } from "./shared/audio-player";
 import { PhotoCarousel2 } from "./shared/photo-carousel-2";
-import { fanMoments, featuredTracks, galleryPhotos2, releases } from "./shared/content";
+import { albums, fanMoments, galleryPhotos2, releases } from "./shared/content";
 
 export default function Home() {
   return (
@@ -145,7 +145,24 @@ export default function Home() {
           </div>
         </section>
 
-        <AudioPlayer tracks={featuredTracks} />
+        <section className="section-block player-section">
+          <div className="section-heading">
+            <p className="eyebrow">ECOUTER CELESTE</p>
+            <h2>Mes musiques en direct</h2>
+            <p className="muted">
+              Choisis <strong>Album</strong> pour le nouvel album, ou <strong>Singles</strong> pour
+              retrouver mes premieres musiques.
+            </p>
+          </div>
+          <AudioPlayer
+            albums={albums}
+            defaultAlbumId="album-1"
+            sceneImage={{
+              src: "/image/celestesurscene.png",
+              alt: "Celeste Fard sur scene",
+            }}
+          />
+        </section>
 
         <section className="section-block">
           <div className="section-heading">

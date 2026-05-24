@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { AudioPlayer } from "../shared/audio-player";
-import { featuredTracks, releases } from "../shared/content";
+import { albums, releases } from "../shared/content";
 
 export default function MusicPage() {
   return (
@@ -9,25 +9,50 @@ export default function MusicPage() {
         <p className="eyebrow">MUSIQUE</p>
         <h1>Mes chansons, mes langues, mes emotions</h1>
         <p className="hero-copy">
-          Je chante en FR, IT et EN. Tres souvent je melange deux langues dans le meme titre selon
-          mon energie du moment.
+          Utilise le selecteur du lecteur pour basculer entre <strong>Album 1</strong> (nouvel album)
+          et <strong>Singles</strong> (premieres musiques, demos et versions).
         </p>
       </section>
 
-      <AudioPlayer tracks={featuredTracks} />
+      <section className="section-block">
+        <div className="section-heading">
+          <p className="eyebrow">ALBUMS</p>
+          <h2>Mes projets en ecoute</h2>
+        </div>
+        <div className="album-grid">
+          {albums.map((album) => (
+            <article key={album.id} className="album-card glass-panel">
+              <div className="album-card-cover">
+                <Image src={album.cover} alt={album.title} fill sizes="(max-width: 860px) 100vw, 280px" />
+              </div>
+              <div className="album-card-body">
+                <p className="eyebrow">{album.year}</p>
+                <h3>{album.title}</h3>
+                <p className="muted">{album.subtitle}</p>
+                <p>{album.description}</p>
+                <p className="album-card-meta">
+                  {album.tracks.length} morceaux · {album.mood}
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <AudioPlayer albums={albums} defaultAlbumId="album-1" />
 
       <section className="section-block">
         <div className="section-heading">
           <p className="eyebrow">VISUEL TRACKS</p>
-          <h2>Mes covers et mes humeurs</h2>
+          <h2>Couvertures & humeurs</h2>
         </div>
         <div className="cover-grid">
-          {featuredTracks.map((track) => (
-            <article key={track.id} className="cover-card">
-              <Image src={track.cover} alt={track.title} fill sizes="(max-width: 860px) 100vw, 30vw" />
+          {albums.map((album) => (
+            <article key={album.id} className="cover-card">
+              <Image src={album.cover} alt={album.title} fill sizes="(max-width: 860px) 100vw, 30vw" />
               <div className="cover-caption">
-                <strong>{track.title}</strong>
-                <span>{track.duration}</span>
+                <strong>{album.title}</strong>
+                <span>{album.tracks.length} titres</span>
               </div>
             </article>
           ))}
@@ -59,11 +84,10 @@ export default function MusicPage() {
 
       <section className="section-block local-library">
         <p className="eyebrow">TES FICHIERS AUDIO</p>
-        <h2>Dossier simple pour ranger tes sons</h2>
+        <h2>Dossiers albums dans public/audio</h2>
         <p className="muted">
-          Les morceaux sont servis depuis <code>public/audio</code> (fichiers MP3). Pour en ajouter,
-          copie-les dans ce dossier puis déclare-les dans <code>app/shared/content.ts</code> avec un
-          titre d’affichage unique.
+          Les morceaux sont ranges par album dans <code>public/audio/album 1</code>, etc. Declare-les
+          dans <code>app/shared/content.ts</code> pour les afficher dans le lecteur.
         </p>
       </section>
     </div>
