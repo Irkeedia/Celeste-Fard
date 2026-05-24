@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 export default function ContactPage() {
   return (
     <div className="page-wrap">
@@ -44,39 +42,6 @@ export default function ContactPage() {
             Envoyer
           </button>
         </form>
-      </section>
-
-      <section className="section-block">
-        <div className="section-heading">
-          <p className="eyebrow">VISUELS PRESSE</p>
-          <h2>Kit media rapide</h2>
-        </div>
-        <div className="story-gallery">
-          <article className="story-gallery-card">
-            <Image
-              src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=1200&q=80"
-              alt="Portrait presse"
-              fill
-              sizes="(max-width: 860px) 100vw, 24vw"
-            />
-          </article>
-          <article className="story-gallery-card">
-            <Image
-              src="https://images.unsplash.com/photo-1516280030429-27679b3dc9cf?auto=format&fit=crop&w=1200&q=80"
-              alt="Studio presse"
-              fill
-              sizes="(max-width: 860px) 100vw, 24vw"
-            />
-          </article>
-          <article className="story-gallery-card">
-            <Image
-              src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=1200&q=80"
-              alt="Live scene"
-              fill
-              sizes="(max-width: 860px) 100vw, 24vw"
-            />
-          </article>
-        </div>
       </section>
     </div>
   );

@@ -40,6 +40,14 @@ export type FanMoment = {
   stat: string;
 };
 
+export type VideoClip = {
+  id: string;
+  title: string;
+  caption: string;
+  /** Fichier dans `public/video/` ou URL externe temporaire. */
+  src: string;
+};
+
 /** Fichiers dans `public/audio` — encodage URL pour espaces, apostrophes, accents. */
 function audioFromPublic(relativePath: string): string {
   return `/audio/${relativePath.split("/").map((segment) => encodeURIComponent(segment)).join("/")}`;
@@ -346,21 +354,28 @@ export const releases: Release[] = [
   },
 ];
 
-export const shortVideos = [
+/**
+ * Clips video de la home.
+ * Remplace `src` par `/video/ton-fichier.mp4` une fois le MP4 depose dans `public/video/`.
+ */
+export const homeVideos: VideoClip[] = [
   {
-    title: "Backstage Milano",
-    caption: "Essayage couture + teaser refrain.",
-    src: "https://assets.mixkit.co/videos/preview/mixkit-woman-singing-in-a-recording-studio-51991-large.mp4",
+    id: "remerciement",
+    title: "Remerciement",
+    caption: "Un message pour vous, directement depuis mon univers.",
+    src: "/image/celsteremerciement.mp4",
   },
   {
-    title: "Studio confession",
-    caption: "Comment une phrase devient un hook.",
-    src: "https://assets.mixkit.co/videos/preview/mixkit-young-woman-singing-and-recording-in-studio-39824-large.mp4",
+    id: "video-2",
+    title: "Celeste en video 2",
+    caption: "Un autre instant, direct et sans filtre.",
+    src: "/video/celestevideo2.mp4",
   },
   {
-    title: "Mini live Paris",
-    caption: "Extrait acoustique du prochain single.",
-    src: "https://assets.mixkit.co/videos/preview/mixkit-girl-singing-on-a-stage-with-smoke-39185-large.mp4",
+    id: "studio",
+    title: "En studio",
+    caption: "Coulisses d enregistrement, voix et intensity.",
+    src: "/video/celeste-studio.mp4",
   },
 ];
 

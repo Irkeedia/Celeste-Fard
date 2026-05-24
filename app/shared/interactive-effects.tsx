@@ -8,7 +8,7 @@ export function InteractiveEffects() {
 
     const revealTargets = Array.from(
       document.querySelectorAll<HTMLElement>(
-        ".hero-section, .section-block, .glass-panel, .short-card, .photo-tile, .story-gallery-card, .cover-card, .fan-moment-card",
+        ".hero-section, .section-block, .glass-panel, .photo-tile, .story-gallery-card, .cover-card, .fan-moment-card, .video-picker-card",
       ),
     );
 

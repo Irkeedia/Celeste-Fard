@@ -2,7 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { AudioPlayer } from "./shared/audio-player";
 import { PhotoCarousel2 } from "./shared/photo-carousel-2";
-import { albums, fanMoments, galleryPhotos2, releases } from "./shared/content";
+import { VideoSection } from "./shared/video-section";
+import { albums, fanMoments, galleryPhotos2, homeVideos, releases } from "./shared/content";
 
 export default function Home() {
   return (
@@ -107,6 +108,17 @@ export default function Home() {
               </Link>
             </div>
           </div>
+        </section>
+
+        <section className="section-block video-section">
+          <div className="section-heading">
+            <p className="eyebrow">CELESTE EN VIDEO</p>
+            <h2>La voir, l entendre, la sentir</h2>
+            <p className="muted">
+              Extraits live, studio et coulisses — mes images bougent ici.
+            </p>
+          </div>
+          <VideoSection videos={homeVideos} />
         </section>
 
         <section className="section-block">
