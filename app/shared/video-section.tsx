@@ -2,29 +2,40 @@
 
 import { useMemo, useState } from "react";
 import type { VideoClip } from "./content";
+import { useVideoPoster } from "./use-video-poster";
 
 type VideoSectionProps = {
   videos: VideoClip[];
 };
 
-type VideoPreviewProps = {
+type VideoThumbProps = {
   src: string;
-  title: string;
-  className: string;
   onError: () => void;
 };
 
-function VideoPreview({ src, title, className, onError }: VideoPreviewProps) {
+function VideoThumb({ src, onError }: VideoThumbProps) {
+  const poster = useVideoPoster(src);
+
   return (
-    <video
-      src={src}
-      className={className}
-      muted
-      playsInline
-      preload="metadata"
-      aria-label={title}
-      onError={onError}
-    />
+    <>
+      {poster ? (
+        // eslint-disable-next-line @next/next/no-img-element -- data URL générée côté client
+        <img src={poster} alt="" className="video-picker-poster" aria-hidden />
+      ) : (
+        <video
+          src={src}
+          className="video-picker-preview"
+          muted
+          playsInline
+          preload="auto"
+          aria-hidden
+          onError={onError}
+        />
+      )}
+      <span className="video-picker-play" aria-hidden>
+        Play
+      </span>
+    </>
   );
 }
 
@@ -36,6 +47,8 @@ export function VideoSection({ videos }: VideoSectionProps) {
     () => videos.find((video) => video.id === activeId) ?? videos[0],
     [activeId, videos],
   );
+
+  const activePoster = useVideoPoster(activeVideo?.src ?? "", Boolean(activeVideo));
 
   const markError = (videoId: string) => {
     setLoadErrors((prev) => ({
@@ -61,6 +74,7 @@ export function VideoSection({ videos }: VideoSectionProps) {
               controls
               playsInline
               preload="metadata"
+              poster={activePoster ?? undefined}
               onError={() => markError(activeVideo.id)}
             >
               <source src={activeVideo.src} type="video/mp4" />
@@ -97,18 +111,14 @@ export function VideoSection({ videos }: VideoSectionProps) {
             >
               <span className="video-picker-thumb">
                 {!loadErrors[video.id] ? (
-                  <VideoPreview
+                  <VideoThumb
+                    key={video.src}
                     src={video.src}
-                    title={video.title}
-                    className="video-picker-preview"
                     onError={() => markError(video.id)}
                   />
                 ) : (
                   <span className="video-picker-placeholder" aria-hidden />
                 )}
-                <span className="video-picker-play" aria-hidden>
-                  Play
-                </span>
               </span>
               <span className="video-picker-text">
                 <strong>{video.title}</strong>
