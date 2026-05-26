@@ -10,17 +10,19 @@ type VideoSectionProps = {
 
 type VideoThumbProps = {
   src: string;
+  poster?: string;
   onError: () => void;
 };
 
-function VideoThumb({ src, onError }: VideoThumbProps) {
-  const poster = useVideoPoster(src);
+function VideoThumb({ src, poster, onError }: VideoThumbProps) {
+  const generatedPoster = useVideoPoster(src, !poster);
+  const thumbPoster = poster ?? generatedPoster;
 
   return (
     <>
-      {poster ? (
-        // eslint-disable-next-line @next/next/no-img-element -- data URL générée côté client
-        <img src={poster} alt="" className="video-picker-poster" aria-hidden />
+      {thumbPoster ? (
+        // eslint-disable-next-line @next/next/no-img-element -- poster statique ou data URL générée côté client
+        <img src={thumbPoster} alt="" className="video-picker-poster" aria-hidden />
       ) : (
         <video
           src={src}
@@ -48,7 +50,11 @@ export function VideoSection({ videos }: VideoSectionProps) {
     [activeId, videos],
   );
 
-  const activePoster = useVideoPoster(activeVideo?.src ?? "", Boolean(activeVideo));
+  const activePoster = useVideoPoster(
+    activeVideo?.src ?? "",
+    Boolean(activeVideo && !activeVideo.poster),
+  );
+  const resolvedPoster = activeVideo?.poster ?? activePoster;
 
   const markError = (videoId: string) => {
     setLoadErrors((prev) => ({
@@ -74,7 +80,7 @@ export function VideoSection({ videos }: VideoSectionProps) {
               controls
               playsInline
               preload="metadata"
-              poster={activePoster ?? undefined}
+              poster={resolvedPoster ?? undefined}
               onError={() => markError(activeVideo.id)}
             >
               <source src={activeVideo.src} type="video/mp4" />
@@ -114,6 +120,7 @@ export function VideoSection({ videos }: VideoSectionProps) {
                   <VideoThumb
                     key={video.src}
                     src={video.src}
+                    poster={video.poster}
                     onError={() => markError(video.id)}
                   />
                 ) : (

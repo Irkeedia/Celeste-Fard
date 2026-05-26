@@ -1361,11 +1361,13 @@ h3 {
 
 .fan-image-wrap {
   position: relative;
-  min-height: 190px;
+  aspect-ratio: 5 / 9;
+  width: 100%;
 }
 
 .fan-image-wrap img {
   object-fit: cover;
+  object-position: center top;
 }
 
 .fan-moment-card div {

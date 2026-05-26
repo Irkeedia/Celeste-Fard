@@ -46,6 +46,8 @@ export type VideoClip = {
   caption: string;
   /** Fichier dans `public/video/` ou URL externe temporaire. */
   src: string;
+  /** Miniature statique dans `public/image/` — sinon extraite de la vidéo. */
+  poster?: string;
 };
 
 /** Fichiers dans `public/audio` — encodage URL pour espaces, apostrophes, accents. */
@@ -363,7 +365,8 @@ export const homeVideos: VideoClip[] = [
     id: "remerciement",
     title: "Remerciement",
     caption: "Un message pour vous, directement depuis mon univers.",
-    src: "/image/celsteremerciement.mp4",
+    src: "/video/celestevideoderemerciement.mp4",
+    poster: "/image/miniaturevideomercie.png",
   },
   {
     id: "video-2",
