@@ -192,9 +192,12 @@ export function AudioPlayer({ albums, defaultAlbumId, sceneImage }: AudioPlayerP
       )}
 
       <section className="glass-panel player-shell">
-        <audio ref={audioRef} preload="metadata" className="player-audio-hidden">
-          <source src={currentTrack.src} type="audio/mpeg" />
-        </audio>
+        <audio
+          ref={audioRef}
+          src={currentTrack.src}
+          preload="metadata"
+          className="player-audio-hidden"
+        />
 
         <div className="player-source-picker">
           <div className="player-source-head">

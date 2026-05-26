@@ -13,17 +13,18 @@ export default function Home() {
           <div className="hero-layout">
             <div>
               <p className="eyebrow">SITE OFFICIEL - CELESTE FARD</p>
-              <h1>Je suis Celeste Fard, chanteuse rap pop sombre et emotionnelle.</h1>
+              <h1>Celeste Fard — 25 ans, rousse, etudiante en sciences, chanteuse le soir.</h1>
               <p className="hero-copy">
-                Bienvenue dans mon univers musical : chansons, storytelling, clips courts et sorties
-                exclusives. Je chante en francais, italien et anglais selon mon energie creative.
+                Bienvenue dans mon univers. Ici tu trouves mes morceaux, mes humeurs en trois langues,
+                mes paradoxes assumes et zero filtre. Je suis franco-italo-anglaise dans l ame — et
+                entierement moi dans chaque note.
               </p>
               <div className="hero-actions">
                 <Link href="/music" className="cta-primary">
                   Ecouter mes chansons
                 </Link>
                 <Link href="/story" className="cta-secondary">
-                  Decouvrir mon univers
+                  Decouvrir mon histoire
                 </Link>
               </div>
             </div>
@@ -39,7 +40,7 @@ export default function Home() {
                 />
                 <div className="hero-side-meta">
                   <span className="hero-pill">FR / IT / EN</span>
-                  <span className="hero-pill">Chanteuse</span>
+                  <span className="hero-pill">Sciences & voix</span>
                   <span className="hero-pill">Rap pop sombre</span>
                 </div>
               </div>
@@ -49,16 +50,16 @@ export default function Home() {
 
         <section className="cards-grid intro-metrics">
           <article className="glass-panel release-card metric-card">
-            <p className="metric-value">Sons</p>
-            <p className="muted">Singles, albums, versions live et extraits studio</p>
-          </article>
-          <article className="glass-panel release-card metric-card">
-            <p className="metric-value">Style</p>
-            <p className="muted">Rap pop sombre, melodique, introspectif et visuel</p>
+            <p className="metric-value">Humeurs</p>
+            <p className="muted">Chaque morceau = l instant exact ou je l ai ecrit</p>
           </article>
           <article className="glass-panel release-card metric-card">
             <p className="metric-value">Langues</p>
-            <p className="muted">Francais, italien, anglais - selon l emotion du morceau</p>
+            <p className="muted">FR, IT ou EN — selon ce que je ressens, pas selon un plan marketing</p>
+          </article>
+          <article className="glass-panel release-card metric-card">
+            <p className="metric-value">Vrai moi</p>
+            <p className="muted">Pas de luxe, des gâteaux, de la science, ma soeur, et de l autoderision</p>
           </article>
         </section>
       </section>
@@ -67,22 +68,21 @@ export default function Home() {
         <section className="section-block">
           <div className="section-heading">
             <p className="eyebrow">LETTRE DE CELESTE</p>
-            <h2>Je chante pour respirer, pour tenir, pour avancer</h2>
+            <h2>Si tu es la, c est que tu veux le vrai moi</h2>
           </div>
           <p className="hero-copy">
-            J ecris comme je parle, sans masque. Ma musique est nee de mes fractures et de mes
-            victoires, de ce que j ai perdu, de ce que j ai reconstruit, et de ce que je protege
-            aujourd hui. Je viens de Montauban, j ai grandi entre des langues, entre des maisons,
-            entre des verites parfois dures. Alors quand je chante, je ne joue pas un personnage :
-            j ouvre mon carnet intime. Je parle de famille, de loyautes, de reussite, de la vie
-            reelle, et de tout ce qui nous casse puis nous releve.
+            Je m appelle Celeste, j ai 25 ans, des cheveux roux naturels et une tete pleine de
+            formules quantiques. Le jour je theorise le monde ; le soir je le chante. Ma musique
+            n est pas un produit : c est un miroir. Joyeuse, je fais du leger. En colere, je choisis
+            la langue qui porte le mieux ma rage. Sombre, je ne filtre rien. C est ma transparence
+            radicale — je suis comme ca, on ne me changera pas.
           </p>
           <p className="hero-copy">
-            Je chante d abord pour moi, parce que c est mon moteur. Mais quand vos messages arrivent,
-            quand vous me dites qu une phrase vous a aide, qu un refrain vous a fait tenir une nuit de
-            plus, ca devient plus grand que moi. Ce site, c est ma maison artistique : vous entrez dans
-            ma tete, dans mes sons, dans mes silences, et dans la lumiere que je choisis meme quand mes
-            morceaux sont sombres.
+            Je ne suis pas riche. Pas de yacht, pas de garde-robe de star — juste de la necessite,
+            de l humour, et une soeur nommee Jenny qui est mon point fixe dans l univers. Dans mes
+            chansons, parfois je joue une ambitieuse ou une egocentrique : ce sont des masques
+            d exploration, pas ma vie reelle. Ce site, c est l espace ou tu peux me suivre sans
+            filtre — gâteaux, echecs de diete, photos que je deteste mais que je partage quand meme.
           </p>
         </section>
 
@@ -98,10 +98,12 @@ export default function Home() {
             </div>
             <div className="scene-spotlight-copy">
               <p className="eyebrow">SUR SCENE</p>
-              <h2>Quand la lumiere tombe, je deviens moi</h2>
+              <h2>La ou mes humeurs deviennent son</h2>
               <p className="hero-copy">
-                Sur scene, je ne joue pas un role : je vis ce que j ecris. Chaque micro, chaque
-                regard, chaque silence avant le refrain — c est la que ma musique prend tout son sens.
+                Sur scene, je ne joue pas un personnage marketing. Je vis le morceau — colere,
+                tendresse, ironie, tout ce que j ai ressenti en l ecrivant. C est le seul endroit
+                ou ma lucidite de scientifique et mon innocence apparente se rencontrent sans
+                contradiction.
               </p>
               <Link href="/music" className="cta-primary">
                 Ecouter mes morceaux
@@ -113,9 +115,9 @@ export default function Home() {
         <section className="section-block video-section">
           <div className="section-heading">
             <p className="eyebrow">CELESTE EN VIDEO</p>
-            <h2>La voir, l entendre, la sentir</h2>
+            <h2>Me voir, m entendre, me comprendre</h2>
             <p className="muted">
-              Extraits live, studio et coulisses — mes images bougent ici.
+              Clips et messages — sans filtre, comme promis.
             </p>
           </div>
           <VideoSection videos={homeVideos} />
@@ -123,10 +125,10 @@ export default function Home() {
 
         <section className="section-block">
           <div className="section-heading">
-            <p className="eyebrow">CAROUSEL 2</p>
-            <h2>Mon univers en images</h2>
+            <p className="eyebrow">GALERIE</p>
+            <h2>Des images que je deteste partager (mais que j assume)</h2>
             <p className="muted">
-              Chaque visuel est une partie de mon journal intime : scene, intimite, studio et renaissance.
+              J adore photographier. Etre photographiee, beaucoup moins. Pourtant tu les trouveras ici — c est mon paradoxe prefere.
             </p>
           </div>
           <PhotoCarousel2 photos={galleryPhotos2} />
@@ -135,18 +137,25 @@ export default function Home() {
         <section className="section-block">
           <div className="section-heading">
             <p className="eyebrow">LIEN AVEC CELESTE</p>
-            <h2>Nos moments ensemble</h2>
+            <h2>Ma vie, sans filtre</h2>
           </div>
           <p className="hero-copy">
-            Je veux garder un lien simple et vrai avec vous. Pas une vitrine parfaite, mais un espace
-            vivant : des coulisses, des ratages, des essais, des idees brutes, et des moments qui font
-            sourire. Ici, on avance ensemble.
+            Pas de vitrine parfaite : des concerts en foret, des blagues au bar, des escapades en
+            bateau qui sont ma survie mentale (pas un signe de richesse — j en ris a chaque fois).
+            Tu es invite dans mon quotidien reel, celui avec Jenny, les gâteaux, et les theories
+            quantiques a minuit.
           </p>
           <div className="fan-moment-grid">
             {fanMoments.map((moment) => (
               <article key={moment.title} className="fan-moment-card">
                 <div className="fan-image-wrap">
-                  <Image src={moment.image} alt={moment.title} fill sizes="(max-width: 860px) 100vw, 30vw" />
+                  <Image
+                    src={moment.image}
+                    alt={moment.title}
+                    fill
+                    unoptimized
+                    sizes="(max-width: 860px) 100vw, 30vw"
+                  />
                 </div>
                 <div>
                   <h3>{moment.title}</h3>
@@ -160,10 +169,10 @@ export default function Home() {
         <section className="section-block player-section">
           <div className="section-heading">
             <p className="eyebrow">ECOUTER CELESTE</p>
-            <h2>Mes musiques en direct</h2>
+            <h2>Mes humeurs en musique</h2>
             <p className="muted">
-              Choisis <strong>Album</strong> pour le nouvel album, ou <strong>Singles</strong> pour
-              retrouver mes premieres musiques.
+              Choisis <strong>Album 1</strong> ou <strong>Singles</strong> — chaque morceau, c est
+              l humeur du jour figee en son.
             </p>
           </div>
           <AudioPlayer
@@ -201,16 +210,16 @@ export default function Home() {
         <section className="cards-grid">
           <article className="glass-panel release-card">
             <p className="eyebrow">TOUR DIARY</p>
-            <h3>Mes dates et showcases</h3>
-            <p className="muted">Je prepare des formats intimes pour parler vrai avec vous.</p>
+            <h3>Mes dates</h3>
+            <p className="muted">Showcases intimes — la ou tu peux vraiment me rencontrer, pas une version edulcoree.</p>
             <button type="button" className="ghost-btn">
               Voir les dates
             </button>
           </article>
           <article className="glass-panel release-card">
             <p className="eyebrow">FAN CLUB</p>
-            <h3>Mon club prive</h3>
-            <p className="muted">Avant premieres, messages vocaux et extraits bruts du studio.</p>
+            <h3>Mon cercle proche</h3>
+            <p className="muted">Demos brutes, voix notes sinceres, et les morceaux avant tout le monde.</p>
             <button type="button" className="ghost-btn">
               Rejoindre la liste VIP
             </button>
@@ -218,9 +227,9 @@ export default function Home() {
           <article className="glass-panel release-card">
             <p className="eyebrow">BOOKING & PRESSE</p>
             <h3>Contact direct</h3>
-            <p className="muted">Management, media, collaborations mode & beaute.</p>
+            <p className="muted">Booking, presse, collabs — ecris-moi, je lis ce qui me parle vraiment.</p>
             <Link href="/contact" className="cta-primary">
-              Contacter Celeste
+              Me contacter
             </Link>
           </article>
         </section>

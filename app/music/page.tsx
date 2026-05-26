@@ -7,10 +7,12 @@ export default function MusicPage() {
     <div className="page-wrap">
       <section className="section-block">
         <p className="eyebrow">MUSIQUE</p>
-        <h1>Mes chansons, mes langues, mes emotions</h1>
+        <h1>Mes humeurs, mes langues, mes masques</h1>
         <p className="hero-copy">
-          Utilise le selecteur du lecteur pour basculer entre <strong>Album 1</strong> (nouvel album)
-          et <strong>Singles</strong> (premieres musiques, demos et versions).
+          Chaque morceau est un instant fige. Joyeux, sombre, colerique, ironique — je choisis la
+          langue selon ce que je ressens, pas selon une strategie. Parfois je joue un personnage
+          ambitieux ou egocentrique : c est une exploration, pas ma vie reelle. Ecoute et tu
+          comprendras ou j en suis.
         </p>
       </section>
 

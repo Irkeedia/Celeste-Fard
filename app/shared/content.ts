@@ -52,7 +52,8 @@ export type VideoClip = {
 
 /** Fichiers dans `public/audio` — encodage URL pour espaces, apostrophes, accents. */
 function audioFromPublic(relativePath: string): string {
-  return `/audio/${relativePath.split("/").map((segment) => encodeURIComponent(segment)).join("/")}`;
+  const normalized = relativePath.normalize("NFC");
+  return `/audio/${normalized.split("/").map((segment) => encodeURIComponent(segment)).join("/")}`;
 }
 
 type TrackRow = Omit<Track, "cover" | "src" | "albumId"> & { file: string };
@@ -279,21 +280,21 @@ const ALBUM_1_RAW: TrackRow[] = [
   { id: "01", file: "Axiome 0.mp3", title: "Axiome 0", subtitle: "Ouverture · version principale", duration: "4:50", language: "fr" },
   { id: "02", file: "Axiome 0-2.mp3", title: "Axiome 0", subtitle: "Version B", duration: "4:45", language: "fr" },
   { id: "03", file: "L'Axiome de ma Vie.mp3", title: "L'Axiome de ma Vie", subtitle: "Manifeste intime", duration: "6:00", language: "fr" },
-  { id: "04", file: "LA CHAIR ET L'E\u0301CHELLE.mp3", title: "LA CHAIR ET L'\u00c9CHELLE", subtitle: "Corps et ascension", duration: "5:29", language: "fr" },
+  { id: "04", file: "LA CHAIR ET L'ÉCHELLE.mp3", title: "LA CHAIR ET L'ÉCHELLE", subtitle: "Corps et ascension", duration: "5:29", language: "fr" },
   { id: "05", file: "LES LARMES DU CHAOS-2.mp3", title: "LES LARMES DU CHAOS", subtitle: "Version B", duration: "6:13", language: "fr" },
   { id: "06", file: "L'Angle Mort-2.mp3", title: "L'Angle Mort", subtitle: "Version album", duration: "3:41", language: "fr" },
   { id: "07", file: "L'Apex de Silicium.mp3", title: "L'Apex de Silicium", subtitle: "Version principale", duration: "4:57", language: "fr" },
   { id: "08", file: "L'Apex de Silicium-2.mp3", title: "L'Apex de Silicium", subtitle: "Version B", duration: "5:19", language: "fr" },
-  { id: "09", file: "SYNAPSE & SOUVERAINETE\u0301.mp3", title: "SYNAPSE & SOUVERAINET\u00c9", subtitle: "Transmission nerveuse", duration: "5:21", language: "fr" },
+  { id: "09", file: "SYNAPSE & SOUVERAINETÉ.mp3", title: "SYNAPSE & SOUVERAINETÉ", subtitle: "Transmission nerveuse", duration: "5:21", language: "fr" },
   { id: "10", file: "SOUVERAINE ALIENATION.mp3", title: "SOUVERAINE ALIENATION", subtitle: "Distance choisie", duration: "4:43", language: "fr" },
-  { id: "11", file: "trinite\u0301 pure.mp3", title: "trinit\u00e9 pure", subtitle: "Version principale", duration: "4:31", language: "fr" },
-  { id: "12", file: "trinite\u0301 pure-2.mp3", title: "trinit\u00e9 pure", subtitle: "Version B", duration: "4:28", language: "fr" },
+  { id: "11", file: "trinité pure.mp3", title: "trinité pure", subtitle: "Version principale", duration: "4:31", language: "fr" },
+  { id: "12", file: "trinité pure-2.mp3", title: "trinité pure", subtitle: "Version B", duration: "4:28", language: "fr" },
   { id: "13", file: "Vautour de Soie.mp3", title: "Vautour de Soie", subtitle: "Version principale", duration: "5:04", language: "fr" },
   { id: "14", file: "Vautour de Soie-2.mp3", title: "Vautour de Soie", subtitle: "Version B", duration: "5:20", language: "fr" },
-  { id: "15", file: "Vigogne & Me\u0301pris.mp3", title: "Vigogne & M\u00e9pris", subtitle: "Version principale", duration: "5:09", language: "fr" },
-  { id: "16", file: "Vigogne & Me\u0301pris-2.mp3", title: "Vigogne & M\u00e9pris", subtitle: "Version B", duration: "5:13", language: "fr" },
-  { id: "17", file: "Selezione d'E\u0301lite.mp3", title: "Selezione d'\u00c9lite", subtitle: "Version principale", duration: "5:01", language: "it" },
-  { id: "18", file: "Selezione d'E\u0301lite-2.mp3", title: "Selezione d'\u00c9lite", subtitle: "Version B", duration: "4:45", language: "it" },
+  { id: "15", file: "Vigogne & Mépris.mp3", title: "Vigogne & Mépris", subtitle: "Version principale", duration: "5:09", language: "fr" },
+  { id: "16", file: "Vigogne & Mépris-2.mp3", title: "Vigogne & Mépris", subtitle: "Version B", duration: "5:13", language: "fr" },
+  { id: "17", file: "Selezione d'Élite.mp3", title: "Selezione d'Élite", subtitle: "Version principale", duration: "5:01", language: "it" },
+  { id: "18", file: "Selezione d'Élite-2.mp3", title: "Selezione d'Élite", subtitle: "Version B", duration: "4:45", language: "it" },
   { id: "19", file: "Piombo e Seta.mp3", title: "Piombo e Seta", subtitle: "Version principale", duration: "4:51", language: "it" },
   { id: "20", file: "Piombo e Seta-2.mp3", title: "Piombo e Seta", subtitle: "Version B", duration: "4:58", language: "it" },
   { id: "21", file: "The Apex Market.mp3", title: "The Apex Market", subtitle: "Version principale", duration: "4:57", language: "en" },
@@ -311,7 +312,7 @@ export const albums: Album[] = [
     year: "2026",
     mood: "Rap pop sombre · cinematique",
     description:
-      "Mon premier album assemble : axiomes, silicium, soie et chaos. FR, IT et EN dans le meme flux emotionnel.",
+      "Mon album : chaque piste cartographie une humeur. Axiomes, silicium, chaos — entre theorie scientifique et emotion brute, en FR, IT et EN.",
     cover: "/image/celestetravail.png",
     tracks: buildAlbumTracks("album-1", ALBUM_1_RAW, { folder: "album 1" }),
   },
@@ -323,7 +324,7 @@ export const albums: Album[] = [
     year: "2024-2026",
     mood: "Singles · doubles prises",
     description:
-      "Mes tout premiers morceaux : Venezia Dark, L'Angle Mort, Default State et les versions alternatives.",
+      "Mes premieres musiques — demos, doubles prises, humeurs d avant que je sache expliquer ce que je faisais.",
     cover: "/image/celestesurscene.png",
     tracks: buildAlbumTracks("singles", ARCHIVES_RAW, { coverOffset: 3 }),
   },
@@ -338,21 +339,21 @@ export const releases: Release[] = [
     year: "2026",
     mood: "Cinematique / Electro pop",
     description:
-      "Le premier album-concept de Celeste, entre confidences de loge et refrains qui restent en tete.",
+      "Mon premier album-concept : la ou mes theories scientifiques et mes emotions se rencontrent sans filtre.",
   },
   {
     title: "Rouge Minuit",
     kind: "Single",
     year: "2026",
     mood: "Pop nocturne",
-    description: "Un titre puissant sur l'audace feminine, pense pour la scene et les playlists.",
+    description: "Colere nocturne en francais — le morceau que j ai ecrit un soir ou rien ne passait.",
   },
   {
     title: "Prima Donna",
     kind: "Single",
     year: "2025",
     mood: "Italo disco moderne",
-    description: "Un clin d'oeil italien ultra moderne, a la fois elegant et addictif.",
+    description: "Humeur italienne, egocentrique assumee — spoiler : c est un masque d exploration, pas ma facture EDF.",
   },
 ];
 
@@ -364,69 +365,75 @@ export const homeVideos: VideoClip[] = [
   {
     id: "remerciement",
     title: "Remerciement",
-    caption: "Un message pour vous, directement depuis mon univers.",
+    caption: "Merci d etre la — message direct, sans script.",
     src: "/video/celestevideoderemerciement.mp4",
     poster: "/image/miniaturevideomercie.png",
   },
   {
-    id: "video-2",
-    title: "Celeste en video 2",
-    caption: "Un autre instant, direct et sans filtre.",
-    src: "/video/celestevideo2.mp4",
+    id: "passion",
+    title: "Passion",
+    caption: "Quand la musique prend le dessus — pur feu, humeur du moment.",
+    src: "/video/celestevideopassion.mp4",
   },
   {
-    id: "studio",
-    title: "En studio",
-    caption: "Coulisses d enregistrement, voix et intensity.",
-    src: "/video/celeste-studio.mp4",
+    id: "bateau",
+    title: "Sur le bateau",
+    caption: "Pas un yacht — juste l Italie quand j en ai besoin pour respirer.",
+    src: "/video/celestesitewebbateau.mp4",
+    poster: "/image/miniaturebateau.png",
   },
 ];
 
 export const galleryPhotos2: Photo[] = [
   {
-    title: "Sur scene",
+    title: "Sur scene — la ou je ne triche pas",
     src: "/image/celestescene.png",
   },
   {
-    title: "Moment intime",
+    title: "Canape — pas VIP, juste fatiguee",
     src: "/image/celestecanapé.png",
   },
   {
-    title: "Avec mon chien",
+    title: "Mon chien — plus stable que mes equations",
     src: "/image/celestechien.png",
   },
   {
-    title: "Au studio",
+    title: "Studio — la ou les humeurs deviennent des fichiers",
     src: "/image/celestetravail.png",
   },
   {
-    title: "Aigrie le matin — ne pas deranger",
+    title: "Matin — ne pas me parler avant le cafe",
     src: "/image/celestelematin.png",
   },
   {
-    title: "Seance autographes",
+    title: "Autographes — j adore ca, je deteste les photos",
     src: "/image/celesteautographe.png",
   },
   {
-    title: "Encore un portrait (oui, encore)",
+    title: "Portrait #47 — oui, j en ai trop (paradoxe assume)",
     src: "/image/celesteencoreunportrait.png",
   },
 ];
 
 export const fanMoments: FanMoment[] = [
   {
-    title: "Fete dans la foret",
+    title: "Concert en foret",
     image: "/image/celestefeteforet.png",
-    stat: "Concert intimiste sous les guirlandes",
+    stat: "Magie d ete — Jenny etait dans le public",
   },
   {
-    title: "Soiree au bar",
+    title: "Au bar (je ne bois presque pas)",
     image: "/image/celestealcool.png",
-    stat: "Je fais la diete... mais pas tous les jours",
+    stat: "Une biere pour la photo. C est tout. Promis.",
+  },
+  {
+    title: "Sur le bateau — survie mentale",
+    image: "/image/celestebateau.png",
+    stat: "Pas un yacht. Juste l Italie quand j en ai besoin pour respirer.",
   },
   {
     title: "Evenement sportif",
     image: "/image/celestesportif.png",
-    stat: "Entre deux morceaux, je cours aussi",
+    stat: "Entre deux cours de physique et un morceau a finir",
   },
 ];

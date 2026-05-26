@@ -29,9 +29,10 @@ export default function ShopPage() {
     <div className="page-wrap">
       <section className="section-block">
         <p className="eyebrow">SHOP</p>
-        <h1>Mon shop, mon extension artistique</h1>
+        <h1>Prolonger l experience, pas le luxe</h1>
         <p className="hero-copy">
-          Chaque piece prolonge mes chansons : la famille, la resilience, la victoire et le style.
+          Vinyles, CD, hoodies — des objets sinceres pour ceux qui veulent garder un morceau de mon
+          univers chez eux. Pas de bling, juste de la musique et du style accessible. Comme moi.
         </p>
       </section>
 
@@ -54,13 +55,13 @@ export default function ShopPage() {
       <section className="section-block">
         <div className="section-heading">
           <p className="eyebrow">PACKAGING</p>
-          <h2>Experience unboxing Celeste</h2>
+          <h2>Ce que tu recois — sans fioritures</h2>
         </div>
         <div className="unboxing-strip">
           <span>Vinyle colore</span>
-          <span>Poster dedie</span>
-          <span>Message manuscrit</span>
-          <span>Sticker edition tour</span>
+          <span>Poster signe</span>
+          <span>Carte postale sincere</span>
+          <span>Sticker edition</span>
         </div>
       </section>
     </div>
