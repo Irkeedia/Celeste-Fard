@@ -374,6 +374,7 @@ export const homeVideos: VideoClip[] = [
     title: "Passion",
     caption: "Quand la musique prend le dessus — pur feu, humeur du moment.",
     src: "/video/celestevideopassion.mp4",
+    poster: "/image/miniaturepassion.png",
   },
   {
     id: "bateau",
@@ -428,7 +429,7 @@ export const fanMoments: FanMoment[] = [
   },
   {
     title: "Sur le bateau — survie mentale",
-    image: "/image/celestebateau.png",
+    image: "/image/celestebateauok.png",
     stat: "Pas un yacht. Juste l Italie quand j en ai besoin pour respirer.",
   },
   {
