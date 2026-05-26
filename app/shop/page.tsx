@@ -55,6 +55,7 @@ export default function ShopPage() {
                       src={product.image}
                       alt={product.title}
                       fill
+                      unoptimized
                       sizes="(max-width: 860px) 100vw, 320px"
                     />
                   </div>
