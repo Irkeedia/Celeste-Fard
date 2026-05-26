@@ -1,6 +1,15 @@
 import Image from "next/image";
 
-const products = [
+type ShopProduct = {
+  title: string;
+  price: string;
+  badge: string;
+  image: string;
+  note: string;
+  imageClass?: string;
+};
+
+const products: ShopProduct[] = [
   {
     title: "CD Velours Brut",
     price: "17",
@@ -21,6 +30,7 @@ const products = [
     badge: "Cafe quantique",
     image: "/image/shopmug.png",
     note: "Pour le cafe du matin avant les cours de physique.",
+    imageClass: "shop-card-image--mug",
   },
 ];
 
@@ -50,7 +60,7 @@ export default function ShopPage() {
               <span className="shop-card-badge">{product.badge}</span>
               <div className="shop-card-stage">
                 <div className="shop-card-frame">
-                  <div className="shop-card-image">
+                  <div className={`shop-card-image${product.imageClass ? ` ${product.imageClass}` : ""}`}>
                     <Image
                       src={product.image}
                       alt={product.title}
