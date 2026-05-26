@@ -19,7 +19,7 @@ const cormorant = Cormorant_Garamond({
 export const metadata: Metadata = {
   title: "Celeste Fard | Pop Couture",
   description:
-    "Celeste Fard — 25 ans, etudiante en sciences et chanteuse. Rap pop sombre, humeurs en FR/IT/EN, transparence radicale et humanite imparfaite.",
+    "Celeste Fard, 25 ans, etudiante en sciences et chanteuse. Rap pop sombre, humeurs en FR/IT/EN, transparence radicale et humanite imparfaite.",
 };
 
 export default function RootLayout({
@@ -46,7 +46,7 @@ export default function RootLayout({
         </header>
         <main className="site-main">{children}</main>
         <footer className="site-footer">
-          <p>France · Racines FR / IT / EN — Pop couture sincere</p>
+          <p>France, Racines FR / IT / EN, Pop couture sincere</p>
           <p>© {new Date().getFullYear()} Celeste Fard. Tous droits reserves.</p>
         </footer>
       </body>

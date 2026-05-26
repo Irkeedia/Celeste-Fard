@@ -31,7 +31,7 @@ export default function ShopPage() {
         <p className="eyebrow">SHOP</p>
         <h1>Prolonger l experience, pas le luxe</h1>
         <p className="hero-copy">
-          Vinyles, CD, hoodies — des objets sinceres pour ceux qui veulent garder un morceau de mon
+          Vinyles, CD, hoodies, des objets sinceres pour ceux qui veulent garder un morceau de mon
           univers chez eux. Pas de bling, juste de la musique et du style accessible. Comme moi.
         </p>
       </section>
@@ -55,7 +55,7 @@ export default function ShopPage() {
       <section className="section-block">
         <div className="section-heading">
           <p className="eyebrow">PACKAGING</p>
-          <h2>Ce que tu recois — sans fioritures</h2>
+          <h2>Ce que tu recois, sans fioritures</h2>
         </div>
         <div className="unboxing-strip">
           <span>Vinyle colore</span>

@@ -9,7 +9,7 @@ export default function MusicPage() {
         <p className="eyebrow">MUSIQUE</p>
         <h1>Mes humeurs, mes langues, mes masques</h1>
         <p className="hero-copy">
-          Chaque morceau est un instant fige. Joyeux, sombre, colerique, ironique — je choisis la
+          Chaque morceau est un instant fige. Joyeux, sombre, colerique, ironique, je choisis la
           langue selon ce que je ressens, pas selon une strategie. Parfois je joue un personnage
           ambitieux ou egocentrique : c est une exploration, pas ma vie reelle. Ecoute et tu
           comprendras ou j en suis.
@@ -33,7 +33,7 @@ export default function MusicPage() {
                 <p className="muted">{album.subtitle}</p>
                 <p>{album.description}</p>
                 <p className="album-card-meta">
-                  {album.tracks.length} morceaux · {album.mood}
+                  {album.tracks.length} morceaux, {album.mood}
                 </p>
               </div>
             </article>
@@ -78,7 +78,7 @@ export default function MusicPage() {
             <h3>{release.title}</h3>
             <p>{release.description}</p>
             <button type="button" className="ghost-btn">
-              Pre-save / Acheter
+              Presave / Acheter
             </button>
           </article>
         ))}
@@ -88,7 +88,7 @@ export default function MusicPage() {
         <p className="eyebrow">TES FICHIERS AUDIO</p>
         <h2>Dossiers albums dans public/audio</h2>
         <p className="muted">
-          Les morceaux sont ranges par album dans <code>public/audio/album 1</code>, etc. Declare-les
+          Les morceaux sont ranges par album dans <code>public/audio/album 1</code>, etc. Declare les
           dans <code>app/shared/content.ts</code> pour les afficher dans le lecteur.
         </p>
       </section>

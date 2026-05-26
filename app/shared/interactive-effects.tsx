@@ -2,20 +2,30 @@
 
 import { useEffect } from "react";
 
+function isMobileExperience() {
+  return window.matchMedia("(max-width: 860px), (hover: none), (pointer: coarse)").matches;
+}
+
 export function InteractiveEffects() {
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const skipMotionEffects = prefersReducedMotion || isMobileExperience();
 
     const revealTargets = Array.from(
       document.querySelectorAll<HTMLElement>(
-        ".hero-section, .section-block, .glass-panel, .photo-tile, .story-gallery-card, .cover-card, .fan-moment-card, .video-picker-card",
+        ".hero-banner, .section-block, .glass-panel, .photo-tile, .story-gallery-card, .cover-card, .fan-moment-card, .video-picker-card",
       ),
     );
 
-    revealTargets.forEach((element) => element.classList.add("reveal-on-scroll"));
-
     let observer: IntersectionObserver | null = null;
-    if (!prefersReducedMotion) {
+
+    if (skipMotionEffects) {
+      revealTargets.forEach((element) => {
+        element.classList.add("reveal-on-scroll", "revealed");
+      });
+    } else {
+      revealTargets.forEach((element) => element.classList.add("reveal-on-scroll"));
+
       observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -30,8 +40,6 @@ export function InteractiveEffects() {
       );
 
       revealTargets.forEach((element) => observer?.observe(element));
-    } else {
-      revealTargets.forEach((element) => element.classList.add("revealed"));
     }
 
     const isDesktopPointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;

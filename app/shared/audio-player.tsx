@@ -40,15 +40,20 @@ export function AudioPlayer({ albums, defaultAlbumId, sceneImage }: AudioPlayerP
     [activeAlbumId, albums],
   );
 
-  const tracks = activeAlbum?.tracks ?? [];
+  const tracks = useMemo(() => activeAlbum?.tracks ?? [], [activeAlbum]);
 
-  useEffect(() => {
-    const album = albums.find((item) => item.id === activeAlbumId) ?? albums[0];
-    if (!album?.tracks[0]) return;
-    setCurrentTrackId(album.tracks[0].id);
-    setQuery("");
-    shouldAutoplay.current = false;
-  }, [activeAlbumId, albums]);
+  const selectAlbum = useCallback(
+    (albumId: string) => {
+      if (albumId === activeAlbumId) return;
+
+      const album = albums.find((item) => item.id === albumId) ?? albums[0];
+      shouldAutoplay.current = false;
+      setActiveAlbumId(albumId);
+      setCurrentTrackId(album?.tracks[0]?.id ?? "");
+      setQuery("");
+    },
+    [activeAlbumId, albums],
+  );
 
   const currentTrack = useMemo(
     () => tracks.find((track) => track.id === currentTrackId) ?? tracks[0],
@@ -104,12 +109,6 @@ export function AudioPlayer({ albums, defaultAlbumId, sceneImage }: AudioPlayerP
     },
     [currentIndex, playTrack, tracks],
   );
-
-  const selectAlbum = useCallback((albumId: string) => {
-    if (albumId === activeAlbumId) return;
-    shouldAutoplay.current = false;
-    setActiveAlbumId(albumId);
-  }, [activeAlbumId]);
 
   useEffect(() => {
     const el = audioRef.current;
@@ -213,7 +212,7 @@ export function AudioPlayer({ albums, defaultAlbumId, sceneImage }: AudioPlayerP
             >
               {albums.map((album) => (
                 <option key={album.id} value={album.id}>
-                  {album.kind === "album" ? "Album" : "Singles"} — {album.title} ({album.tracks.length}{" "}
+                  {album.kind === "album" ? "Album" : "Singles"}, {album.title} ({album.tracks.length}{" "}
                   titres)
                 </option>
               ))}
@@ -238,7 +237,7 @@ export function AudioPlayer({ albums, defaultAlbumId, sceneImage }: AudioPlayerP
                   {album.kind === "singles"
                     ? "Premieres musiques"
                     : "Nouvel album"}{" "}
-                  · {album.tracks.length} titres
+                 , {album.tracks.length} titres
                 </span>
               </button>
             ))}
@@ -338,7 +337,7 @@ export function AudioPlayer({ albums, defaultAlbumId, sceneImage }: AudioPlayerP
                   </span>
                 </span>
                 <span className="track-item-meta">
-                  {track.language.toUpperCase()} · {track.duration}
+                  {track.language.toUpperCase()}, {track.duration}
                 </span>
               </button>
             </li>

@@ -18,7 +18,7 @@ export function PhotoCarousel2({ photos }: PhotoCarousel2Props) {
 
   return (
     <>
-      <section className="photo-carousel-2" aria-label="Carousel 2 — galerie photos de Celeste Fard">
+      <section className="photo-carousel-2" aria-label="Carousel 2, galerie photos de Celeste Fard">
         {photos.map((photo, index) => (
           <button
             type="button"

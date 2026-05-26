@@ -90,7 +90,7 @@ export function VideoSection({ videos }: VideoSectionProps) {
               <div className="video-fallback-copy">
                 <p className="video-fallback-title">{activeVideo.title}</p>
                 <p className="video-fallback-hint">
-                  Video bientot disponible — ajoute le fichier dans{" "}
+                  Video bientot disponible, ajoute le fichier dans{" "}
                   <code>public/video/</code>
                 </p>
               </div>

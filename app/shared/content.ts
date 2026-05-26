@@ -46,11 +46,11 @@ export type VideoClip = {
   caption: string;
   /** Fichier dans `public/video/` ou URL externe temporaire. */
   src: string;
-  /** Miniature statique dans `public/image/` — sinon extraite de la vidéo. */
+  /** Miniature statique dans `public/image/`, sinon extraite de la vidéo. */
   poster?: string;
 };
 
-/** Fichiers dans `public/audio` — encodage URL pour espaces, apostrophes, accents. */
+/** Fichiers dans `public/audio`, encodage URL pour espaces, apostrophes, accents. */
 function audioFromPublic(relativePath: string): string {
   const normalized = relativePath.normalize("NFC");
   return `/audio/${normalized.split("/").map((segment) => encodeURIComponent(segment)).join("/")}`;
@@ -95,29 +95,29 @@ function coverForIndex(index: number): string {
 /**
  * Pistes locales : noms de fichiers tels que dans `public/audio/`.
  * Titres d’affichage **distincts** pour chaque fichier (même morceau en plusieurs versions).
- * Durées indicatives (approx. taille fichier) — le navigateur affiche la durée réelle à la lecture.
+ * Durées indicatives (approx. taille fichier), le navigateur affiche la durée réelle à la lecture.
  */
 const TRACKS_RAW: TrackRow[] = [
   {
     id: "01",
     file: "Venezia Dark(1).mp3",
-    title: "Venezia Dark — canal cramoisi",
-    subtitle: "Version A · Italie nocturne",
+    title: "Venezia Dark, canal cramoisi",
+    subtitle: "Version A, Italie nocturne",
     duration: "3:58",
     language: "it",
   },
   {
     id: "02",
     file: "Venezia Dark(2).mp3",
-    title: "Venezia Dark — lagune close",
-    subtitle: "Version B · même titre, autre prise",
+    title: "Venezia Dark, lagune close",
+    subtitle: "Version B, même titre, autre prise",
     duration: "3:31",
     language: "it",
   },
   {
     id: "03",
     file: "L'Angle Mort.mp3",
-    title: "L'Angle Mort — vision directe",
+    title: "L'Angle Mort, vision directe",
     subtitle: "Take principale",
     duration: "3:41",
     language: "fr",
@@ -125,7 +125,7 @@ const TRACKS_RAW: TrackRow[] = [
   {
     id: "04",
     file: "L'Angle Mort(1).mp3",
-    title: "L'Angle Mort — contre-plongée",
+    title: "L'Angle Mort, contre plongée",
     subtitle: "Deuxième enregistrement du même titre",
     duration: "3:04",
     language: "fr",
@@ -133,7 +133,7 @@ const TRACKS_RAW: TrackRow[] = [
   {
     id: "05",
     file: "L'excellence est un choix.mp3",
-    title: "L'excellence est un choix — manifeste",
+    title: "L'excellence est un choix, manifeste",
     subtitle: "Version longue",
     duration: "4:12",
     language: "fr",
@@ -141,7 +141,7 @@ const TRACKS_RAW: TrackRow[] = [
   {
     id: "06",
     file: "L'excellence est un choix(1).mp3",
-    title: "L'excellence est un choix — contre-manifeste",
+    title: "L'excellence est un choix, contre manifeste",
     subtitle: "Variante du même titre",
     duration: "3:54",
     language: "fr",
@@ -149,7 +149,7 @@ const TRACKS_RAW: TrackRow[] = [
   {
     id: "07",
     file: "Une assurance-vie.mp3",
-    title: "Une assurance-vie",
+    title: "Une assurance vie",
     subtitle: "Morceau seul dans le dossier",
     duration: "4:35",
     language: "fr",
@@ -157,7 +157,7 @@ const TRACKS_RAW: TrackRow[] = [
   {
     id: "08",
     file: "Une dignité de plomb(1).mp3",
-    title: "Une dignité de plomb — lettre ouverte",
+    title: "Une dignité de plomb, lettre ouverte",
     subtitle: "Version 1",
     duration: "4:34",
     language: "fr",
@@ -165,15 +165,15 @@ const TRACKS_RAW: TrackRow[] = [
   {
     id: "09",
     file: "Une dignité de plomb(2).mp3",
-    title: "Une dignité de plomb — dernière couche",
-    subtitle: "Version 2 · même titre",
+    title: "Une dignité de plomb, dernière couche",
+    subtitle: "Version 2, même titre",
     duration: "4:43",
     language: "fr",
   },
   {
     id: "10",
     file: "Une valise en carton(1).mp3",
-    title: "Une valise en carton — départ",
+    title: "Une valise en carton, départ",
     subtitle: "Version A",
     duration: "6:14",
     language: "fr",
@@ -181,15 +181,15 @@ const TRACKS_RAW: TrackRow[] = [
   {
     id: "11",
     file: "Une valise en carton(2).mp3",
-    title: "Une valise en carton — arrivée",
-    subtitle: "Version B · même titre",
+    title: "Une valise en carton, arrivée",
+    subtitle: "Version B, même titre",
     duration: "6:40",
     language: "fr",
   },
   {
     id: "12",
     file: "Plus d'erreurs de calcul,(1).mp3",
-    title: "Plus d'erreurs de calcul — variante A",
+    title: "Plus d'erreurs de calcul, variante A",
     subtitle: "Premier fichier du duo",
     duration: "5:02",
     language: "fr",
@@ -197,7 +197,7 @@ const TRACKS_RAW: TrackRow[] = [
   {
     id: "13",
     file: "Plus d'erreurs de calcul,(2).mp3",
-    title: "Plus d'erreurs de calcul — variante B",
+    title: "Plus d'erreurs de calcul, variante B",
     subtitle: "Deuxième fichier du duo",
     duration: "4:44",
     language: "fr",
@@ -205,7 +205,7 @@ const TRACKS_RAW: TrackRow[] = [
   {
     id: "14",
     file: "J'ai mal aux souvenirs(1).mp3",
-    title: "J'ai mal aux souvenirs — prise unique",
+    title: "J'ai mal aux souvenirs, prise unique",
     subtitle: "Seule version dans la bibliothèque",
     duration: "4:52",
     language: "fr",
@@ -213,7 +213,7 @@ const TRACKS_RAW: TrackRow[] = [
   {
     id: "15",
     file: "Default State.mp3",
-    title: "Default State — édition studio",
+    title: "Default State, édition studio",
     subtitle: "Take principale",
     duration: "5:10",
     language: "en",
@@ -221,7 +221,7 @@ const TRACKS_RAW: TrackRow[] = [
   {
     id: "16",
     file: "Default State(1).mp3",
-    title: "Default State — version nocturne",
+    title: "Default State, version nocturne",
     subtitle: "Même titre, autre fichier",
     duration: "5:14",
     language: "en",
@@ -229,7 +229,7 @@ const TRACKS_RAW: TrackRow[] = [
   {
     id: "17",
     file: "Don't waste it.mp3",
-    title: "Don't Waste It — cut original",
+    title: "Don't Waste It, cut original",
     subtitle: "Take 1",
     duration: "4:28",
     language: "en",
@@ -237,15 +237,15 @@ const TRACKS_RAW: TrackRow[] = [
   {
     id: "18",
     file: "Don't waste it(1).mp3",
-    title: "Don't Waste It — rework électrique",
-    subtitle: "Take 2 · même titre",
+    title: "Don't Waste It, rework électrique",
+    subtitle: "Take 2, même titre",
     duration: "4:40",
     language: "en",
   },
   {
     id: "19",
     file: "Ego Patrimonial(1).mp3",
-    title: "Ego Patrimonial — ouverture",
+    title: "Ego Patrimonial, ouverture",
     subtitle: "Version 1",
     duration: "4:40",
     language: "fr",
@@ -253,31 +253,31 @@ const TRACKS_RAW: TrackRow[] = [
   {
     id: "20",
     file: "Ego Patrimonial(2).mp3",
-    title: "Ego Patrimonial — coda intègre",
-    subtitle: "Version 2 · même titre",
+    title: "Ego Patrimonial, coda intègre",
+    subtitle: "Version 2, même titre",
     duration: "5:06",
     language: "fr",
   },
   {
     id: "21",
     file: "I\u2019m still here(1).mp3",
-    title: "I'm Still Here — session prophète",
-    subtitle: "Version A · pop nocturne",
+    title: "I'm Still Here, session prophète",
+    subtitle: "Version A, pop nocturne",
     duration: "5:36",
     language: "en",
   },
   {
     id: "22",
     file: "I\u2019m still here(2).mp3",
-    title: "I'm Still Here — miroir froid",
-    subtitle: "Version B · même titre",
+    title: "I'm Still Here, miroir froid",
+    subtitle: "Version B, même titre",
     duration: "5:20",
     language: "en",
   },
 ];
 
 const ALBUM_1_RAW: TrackRow[] = [
-  { id: "01", file: "Axiome 0.mp3", title: "Axiome 0", subtitle: "Ouverture · version principale", duration: "4:50", language: "fr" },
+  { id: "01", file: "Axiome 0.mp3", title: "Axiome 0", subtitle: "Ouverture, version principale", duration: "4:50", language: "fr" },
   { id: "02", file: "Axiome 0-2.mp3", title: "Axiome 0", subtitle: "Version B", duration: "4:45", language: "fr" },
   { id: "03", file: "L'Axiome de ma Vie.mp3", title: "L'Axiome de ma Vie", subtitle: "Manifeste intime", duration: "6:00", language: "fr" },
   { id: "04", file: "LA CHAIR ET L'ÉCHELLE.mp3", title: "LA CHAIR ET L'ÉCHELLE", subtitle: "Corps et ascension", duration: "5:29", language: "fr" },
@@ -308,11 +308,11 @@ export const albums: Album[] = [
     id: "album-1",
     kind: "album",
     title: "Album 1",
-    subtitle: "Velours Brut · nouvel album",
+    subtitle: "Velours Brut, nouvel album",
     year: "2026",
-    mood: "Rap pop sombre · cinematique",
+    mood: "Rap pop sombre, cinematique",
     description:
-      "Mon album : chaque piste cartographie une humeur. Axiomes, silicium, chaos — entre theorie scientifique et emotion brute, en FR, IT et EN.",
+      "Mon album : chaque piste cartographie une humeur. Axiomes, silicium, chaos, entre theorie scientifique et emotion brute, en FR, IT et EN.",
     cover: "/image/celestetravail.png",
     tracks: buildAlbumTracks("album-1", ALBUM_1_RAW, { folder: "album 1" }),
   },
@@ -320,11 +320,11 @@ export const albums: Album[] = [
     id: "singles",
     kind: "singles",
     title: "Singles",
-    subtitle: "Premieres musiques · demos & versions",
-    year: "2024-2026",
-    mood: "Singles · doubles prises",
+    subtitle: "Premieres musiques, demos & versions",
+    year: "2024 et 2026",
+    mood: "Singles, doubles prises",
     description:
-      "Mes premieres musiques — demos, doubles prises, humeurs d avant que je sache expliquer ce que je faisais.",
+      "Mes premieres musiques, demos, doubles prises, humeurs d avant que je sache expliquer ce que je faisais.",
     cover: "/image/celestesurscene.png",
     tracks: buildAlbumTracks("singles", ARCHIVES_RAW, { coverOffset: 3 }),
   },
@@ -339,21 +339,21 @@ export const releases: Release[] = [
     year: "2026",
     mood: "Cinematique / Electro pop",
     description:
-      "Mon premier album-concept : la ou mes theories scientifiques et mes emotions se rencontrent sans filtre.",
+      "Mon premier album concept : la ou mes theories scientifiques et mes emotions se rencontrent sans filtre.",
   },
   {
     title: "Rouge Minuit",
     kind: "Single",
     year: "2026",
     mood: "Pop nocturne",
-    description: "Colere nocturne en francais — le morceau que j ai ecrit un soir ou rien ne passait.",
+    description: "Colere nocturne en francais, le morceau que j ai ecrit un soir ou rien ne passait.",
   },
   {
     title: "Prima Donna",
     kind: "Single",
     year: "2025",
     mood: "Italo disco moderne",
-    description: "Humeur italienne, egocentrique assumee — spoiler : c est un masque d exploration, pas ma facture EDF.",
+    description: "Humeur italienne, egocentrique assumee, spoiler : c est un masque d exploration, pas ma facture EDF.",
   },
 ];
 
@@ -365,21 +365,21 @@ export const homeVideos: VideoClip[] = [
   {
     id: "remerciement",
     title: "Remerciement",
-    caption: "Merci d etre la — message direct, sans script.",
+    caption: "Merci d etre la, message direct, sans script.",
     src: "/video/celestevideoderemerciement.mp4",
     poster: "/image/miniaturevideomercie.png",
   },
   {
     id: "passion",
     title: "Passion",
-    caption: "Quand la musique prend le dessus — pur feu, humeur du moment.",
+    caption: "Quand la musique prend le dessus, pur feu, humeur du moment.",
     src: "/video/celestevideopassion.mp4",
     poster: "/image/miniaturepassion.png",
   },
   {
     id: "bateau",
     title: "Sur le bateau",
-    caption: "Pas un yacht — juste l Italie quand j en ai besoin pour respirer.",
+    caption: "Pas un yacht, juste l Italie quand j en ai besoin pour respirer.",
     src: "/video/celestesitewebbateau.mp4",
     poster: "/image/miniaturebateau.png",
   },
@@ -387,31 +387,31 @@ export const homeVideos: VideoClip[] = [
 
 export const galleryPhotos2: Photo[] = [
   {
-    title: "Sur scene — la ou je ne triche pas",
+    title: "Sur scene, la ou je ne triche pas",
     src: "/image/celestescene.png",
   },
   {
-    title: "Canape — pas VIP, juste fatiguee",
+    title: "Canape, pas VIP, juste fatiguee",
     src: "/image/celestecanapé.png",
   },
   {
-    title: "Mon chien — plus stable que mes equations",
+    title: "Mon chien, plus stable que mes equations",
     src: "/image/celestechien.png",
   },
   {
-    title: "Studio — la ou les humeurs deviennent des fichiers",
+    title: "Studio, la ou les humeurs deviennent des fichiers",
     src: "/image/celestetravail.png",
   },
   {
-    title: "Matin — ne pas me parler avant le cafe",
+    title: "Matin, ne pas me parler avant le cafe",
     src: "/image/celestelematin.png",
   },
   {
-    title: "Autographes — j adore ca, je deteste les photos",
+    title: "Autographes, j adore ca, je deteste les photos",
     src: "/image/celesteautographe.png",
   },
   {
-    title: "Portrait #47 — oui, j en ai trop (paradoxe assume)",
+    title: "Portrait #47, oui, j en ai trop (paradoxe assume)",
     src: "/image/celesteencoreunportrait.png",
   },
 ];
@@ -420,7 +420,7 @@ export const fanMoments: FanMoment[] = [
   {
     title: "Concert en foret",
     image: "/image/celestefeteforet.png",
-    stat: "Magie d ete — Jenny etait dans le public",
+    stat: "Magie d ete, Jenny etait dans le public",
   },
   {
     title: "Au bar (je ne bois presque pas)",
@@ -428,7 +428,7 @@ export const fanMoments: FanMoment[] = [
     stat: "Une biere pour la photo. C est tout. Promis.",
   },
   {
-    title: "Sur le bateau — survie mentale",
+    title: "Sur le bateau, survie mentale",
     image: "/image/celestebateauok.png",
     stat: "Pas un yacht. Juste l Italie quand j en ai besoin pour respirer.",
   },

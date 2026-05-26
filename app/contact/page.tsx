@@ -3,10 +3,10 @@ export default function ContactPage() {
     <div className="page-wrap">
       <section className="section-block">
         <p className="eyebrow">CONTACT</p>
-        <h1>Ecris-moi — je lis ce qui est sincere</h1>
+        <h1>Ecris moi, je lis ce qui est sincere</h1>
         <p className="hero-copy">
           Booking, collab, presse, ou juste un message parce qu un morceau t a touche : mon equipe
-          filtre, et je repasse derriere quand ca me parle vraiment. Pas de blabla corporate — sois
+          filtre, et je repasse derriere quand ca me parle vraiment. Pas de blabla corporate, sois
           direct, comme moi.
         </p>
       </section>
@@ -36,7 +36,7 @@ export default function ContactPage() {
             id="message"
             name="message"
             rows={6}
-            placeholder="Dis-moi ce que tu penses — sans filtre..."
+            placeholder="Dis moi ce que tu penses, sans filtre..."
             required
           />
 
