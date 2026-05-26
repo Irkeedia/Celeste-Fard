@@ -3,7 +3,7 @@ import Image from "next/image";
 import { AudioPlayer } from "./shared/audio-player";
 import { PhotoCarousel2 } from "./shared/photo-carousel-2";
 import { VideoSection } from "./shared/video-section";
-import { albums, fanMoments, galleryPhotos2, homeVideos, releases } from "./shared/content";
+import { albums, fanMoments, galleryPhotos2, homeVideos } from "./shared/content";
 
 export default function Home() {
   return (
@@ -186,53 +186,50 @@ export default function Home() {
           />
         </section>
 
-        <section className="section-block">
+        <section className="section-block story-closing">
           <div className="section-heading">
-            <p className="eyebrow">RELEASES</p>
-            <h2>Albums & Singles</h2>
+            <p className="eyebrow">ET MAINTENANT</p>
+            <h2>Tu connais deja une partie de moi</h2>
           </div>
-          <div className="cards-grid">
-            {releases.map((release) => (
-              <article key={release.title} className="glass-panel release-card">
-                <p className="release-meta">
-                  {release.kind} {release.year}
-                </p>
-                <h3>{release.title}</h3>
-                <p className="muted">{release.mood}</p>
-                <p>{release.description}</p>
-                <button type="button" className="ghost-btn">
-                  Ajouter au panier
-                </button>
-              </article>
-            ))}
+          <p className="hero-copy story-closing-lead">
+            Si tu es arrive jusqu ici, ce n est pas pour remplir un panier. C est pour comprendre
+            qui chante, pourquoi, et avec quelle honnetete. Voila ou continuer l histoire.
+          </p>
+          <div className="story-closing-grid">
+            <article className="glass-panel story-closing-card">
+              <p className="eyebrow">MON ALBUM</p>
+              <h3>Velours Brut, en cours d ecriture</h3>
+              <p className="muted">
+                Mes theories scientifiques et mes emotions se rencontrent sans filtre. Ce qui existe
+                deja, tu peux l ecouter maintenant.
+              </p>
+              <Link href="/music" className="cta-primary">
+                Ecouter mes morceaux
+              </Link>
+            </article>
+            <article className="glass-panel story-closing-card">
+              <p className="eyebrow">MON RECIT</p>
+              <h3>Jenny, les paradoxes, les cheveux roux</h3>
+              <p className="muted">
+                L histoire complete : la science le matin, la voix le soir, et tout ce que je n
+                mets pas dans une bio Instagram.
+              </p>
+              <Link href="/story" className="cta-secondary">
+                Lire mon storytelling
+              </Link>
+            </article>
+            <article className="glass-panel story-closing-card">
+              <p className="eyebrow">TA VOIX</p>
+              <h3>Un message suffit</h3>
+              <p className="muted">
+                Booking, collab, presse, ou juste me dire qu un morceau t a touche. Je lis ce qui
+                est sincere.
+              </p>
+              <Link href="/contact" className="cta-secondary">
+                Ecris moi
+              </Link>
+            </article>
           </div>
-        </section>
-
-        <section className="cards-grid">
-          <article className="glass-panel release-card">
-            <p className="eyebrow">TOUR DIARY</p>
-            <h3>Mes dates</h3>
-            <p className="muted">Showcases intimes, la ou tu peux vraiment me rencontrer, pas une version edulcoree.</p>
-            <button type="button" className="ghost-btn">
-              Voir les dates
-            </button>
-          </article>
-          <article className="glass-panel release-card">
-            <p className="eyebrow">FAN CLUB</p>
-            <h3>Mon cercle proche</h3>
-            <p className="muted">Demos brutes, voix notes sinceres, et les morceaux avant tout le monde.</p>
-            <button type="button" className="ghost-btn">
-              Rejoindre la liste VIP
-            </button>
-          </article>
-          <article className="glass-panel release-card">
-            <p className="eyebrow">BOOKING & PRESSE</p>
-            <h3>Contact direct</h3>
-            <p className="muted">Booking, presse, collabs, ecris moi, je lis ce qui me parle vraiment.</p>
-            <Link href="/contact" className="cta-primary">
-              Me contacter
-            </Link>
-          </article>
         </section>
       </section>
     </div>

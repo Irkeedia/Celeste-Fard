@@ -2,25 +2,22 @@ import Image from "next/image";
 
 const products = [
   {
-    title: "Vinyle Velours Brut",
-    price: "39 EUR",
-    badge: "Edition limitee",
-    image:
-      "https://images.unsplash.com/photo-1614613535308-eb5fbd847f5f?auto=format&fit=crop&w=1200&q=80",
+    title: "CD Velours Brut",
+    price: "17 EUR",
+    badge: "Edition debut",
+    image: "/image/cd.png",
   },
   {
-    title: "CD Deluxe + photobook",
-    price: "24 EUR",
-    badge: "Collector",
-    image:
-      "https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1200&q=80",
+    title: "T shirt Celeste Club",
+    price: "34 EUR",
+    badge: "Unisex",
+    image: "/image/tshirt.png",
   },
   {
-    title: "Hoodie Celeste Club",
-    price: "69 EUR",
-    badge: "Best seller",
-    image:
-      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1200&q=80",
+    title: "Mug roux naturel",
+    price: "15 EUR",
+    badge: "Cafe quantique",
+    image: "/image/mug.png",
   },
 ];
 
@@ -31,8 +28,8 @@ export default function ShopPage() {
         <p className="eyebrow">SHOP</p>
         <h1>Prolonger l experience, pas le luxe</h1>
         <p className="hero-copy">
-          Vinyles, CD, hoodies, des objets sinceres pour ceux qui veulent garder un morceau de mon
-          univers chez eux. Pas de bling, juste de la musique et du style accessible. Comme moi.
+          CD, t shirt, mug : des objets sinceres pour garder un morceau de mon univers chez toi. Pas
+          de bling, juste de la musique et du style accessible. Comme moi.
         </p>
       </section>
 
@@ -58,9 +55,9 @@ export default function ShopPage() {
           <h2>Ce que tu recois, sans fioritures</h2>
         </div>
         <div className="unboxing-strip">
-          <span>Vinyle colore</span>
-          <span>Poster signe</span>
+          <span>CD signe</span>
           <span>Carte postale sincere</span>
+          <span>Emballage sobre</span>
           <span>Sticker edition</span>
         </div>
       </section>
