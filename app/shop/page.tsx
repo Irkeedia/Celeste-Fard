@@ -5,7 +5,7 @@ const products = [
     title: "CD Velours Brut",
     price: "17",
     badge: "Edition debut",
-    image: "/image/shopcd.png",
+    image: "/image/shopcdok.png",
     note: "Album signe, pochette mate, le debut de l era.",
   },
   {
