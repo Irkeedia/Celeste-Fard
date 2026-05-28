@@ -1923,6 +1923,10 @@ h3 {
   padding: 0.8rem;
 }
 
+.photo-carousel-2-wrap {
+  position: relative;
+}
+
 .photo-carousel-2 {
   display: grid;
   grid-auto-flow: column;
@@ -1934,6 +1938,51 @@ h3 {
   scroll-snap-type: x mandatory;
   touch-action: pan-x;
   overscroll-behavior: contain;
+  scrollbar-width: none;
+}
+
+.photo-carousel-2::-webkit-scrollbar {
+  display: none;
+}
+
+.photo-carousel-2-nav {
+  display: none;
+}
+
+.photo-carousel-2-arrow {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid rgba(124, 98, 155, 0.24);
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--text);
+  font-size: 1.45rem;
+  line-height: 1;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(31, 21, 45, 0.12);
+  transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.photo-carousel-2-arrow:hover {
+  background: #fff;
+  border-color: rgba(160, 107, 255, 0.42);
+  transform: translateY(-1px);
+}
+
+@media (min-width: 769px) {
+  .photo-carousel-2-nav {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
 }
 
 .photo-tile {
