@@ -1173,6 +1173,21 @@ h3 {
   box-shadow: 0 10px 28px rgba(243, 90, 184, 0.28);
 }
 
+.vinyl-control-btn--main:hover,
+.vinyl-control-btn--main:focus,
+.vinyl-control-btn--main:focus-visible,
+.vinyl-control-btn--main:active {
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  border-color: transparent;
+  box-shadow: 0 10px 28px rgba(243, 90, 184, 0.28);
+}
+
+.vinyl-control-btn--main:focus-visible {
+  outline: 2px solid rgba(160, 107, 255, 0.45);
+  outline-offset: 3px;
+}
+
 .vinyl-player-bottom {
   display: grid;
   gap: 1rem;
