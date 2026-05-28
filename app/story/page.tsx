@@ -1,114 +1,211 @@
 import Image from "next/image";
 import { galleryPhotos2 } from "../shared/content";
 
+const storyImage = (file: string) => `/image/page story/${file}`;
+
+const chapters = [
+  {
+    id: "science",
+    index: "01",
+    eyebrow: "Chapitre 01",
+    title: "La science et la voix",
+    body: "Le matin, j'analyse des systemes. Le soir, j'enregistre ce que je ressens. Pour moi, un axiome et un refrain obeissent a la meme logique : ils decrivent une verite provisoire sur l'instant present. Ma musique, c'est ma facon de cartographier mes humeurs.",
+    image: "/image/celesteprofilvert.png",
+    alt: "Celeste en mode etudiante",
+  },
+  {
+    id: "jenny",
+    index: "02",
+    eyebrow: "Chapitre 02",
+    title: "Ma soeur, mon ancrage",
+    body: "Ma soeur Jenny, c'est la personne pour qui je vis. On partage tout, les doutes, les fous rires, les gâteaux qu'on avait promis de ne pas acheter. Quand le monde devient trop bruyant, c'est elle. Toujours elle.",
+    image: storyImage("celestechats.png"),
+    alt: "Celeste a la maison, moment de douceur",
+  },
+  {
+    id: "masques",
+    index: "03",
+    eyebrow: "Chapitre 03",
+    title: "Les masques de la musique",
+    body: "Dans mes morceaux, je deviens parfois une entrepreneuse ambitieuse, une philosophe acide ou une egocentrique assumee. Ce ne sont pas mes factures ni ma personnalite reelle : ce sont des explorations. Des personnages que j'habite pour comprendre l'ame humaine, y compris la mienne.",
+    image: storyImage("celestecontratserieuse.png"),
+    alt: "Celeste serieuse, le masque de l'ambitieuse",
+  },
+] as const;
+
+const paradoxes = [
+  {
+    tag: "Photo",
+    title: "J'adore shooter, je deteste etre shootee",
+    body: "Toutes ces images sur le site ? Mon paradoxe prefere, assume avec autoderision.",
+  },
+  {
+    tag: "Scene",
+    title: "Le verre n'est presque jamais realite",
+    body: "Je bois tres peu. Si tu me vois avec un verre, c'est une scene, une blague, ou un moment rare.",
+  },
+  {
+    tag: "Gourmandise",
+    title: "Diete anti sucre, combat perdant",
+    body: "J'adore les gâteaux. Je l'assume publiquement, sans filtre Instagram.",
+  },
+  {
+    tag: "Evasion",
+    title: "Bateau = survie mentale, pas yacht",
+    body: "Mes escapades en Italie ou en Angleterre, ce n'est pas le luxe. C'est respirer. J'en ris, c'est plus honnete.",
+  },
+] as const;
+
 export default function StoryPage() {
   return (
-    <div className="page-wrap">
-      <section className="section-block">
-        <p className="eyebrow">STORYTELLING</p>
-        <h1>
-          Moi c'est Celeste. 25 ans, rousse naturelle (promis, ce n'est pas une teinture), et je ne
-          joue pas a etre quelqu'un d'autre.
-        </h1>
-        <p className="hero-copy">
-          J'habite en France, mais mon coeur parle francais, italien et anglais, parfois les trois
-          dans la meme journee, selon mon humeur. Etudiante en sciences le matin, chanteuse le soir :
-          j'utilise la physique quantique pour comprendre le monde, et la musique pour comprendre ce
-          que les equations ne disent pas. Je suis comme ca. On ne me changera pas.
-        </p>
-      </section>
-
-      <section className="timeline-grid">
-        <article className="glass-panel">
-          <p className="eyebrow">CHAPITRE 01</p>
-          <h3>La science et la voix</h3>
-          <p>
-            Le matin, j'analyse des systemes. Le soir, j'enregistre ce que je ressens. Pour moi,
-            un axiome et un refrain obeissent a la meme logique : ils decrivent une verite provisoire
-            sur l'instant present. Ma musique, c'est ma facon de cartographier mes humeurs.
-          </p>
-        </article>
-        <article className="glass-panel">
-          <p className="eyebrow">CHAPITRE 02</p>
-          <h3>Ma soeur, mon ancrage</h3>
-          <p>
-            Ma soeur Jenny, c'est la personne pour qui je vis. On partage tout, les doutes, les
-            fous rires, les gâteaux qu'on avait promis de ne pas acheter. Quand le monde devient trop
-            bruyant, c'est elle. Toujours elle.
-          </p>
-        </article>
-        <article className="glass-panel">
-          <p className="eyebrow">CHAPITRE 03</p>
-          <h3>Les masques de la musique</h3>
-          <p>
-            Dans mes morceaux, je deviens parfois une entrepreneuse ambitieuse, une philosophe acide
-            ou une egocentrique assumee. Spoiler : ce ne sont pas mes factures ni ma personnalite
-            reelle, ce sont des explorations. Des personnages que j'habite pour comprendre l'ame
-            humaine, y compris la mienne.
-          </p>
-        </article>
-      </section>
-
-      <section className="section-block">
-        <div className="section-heading">
-          <p className="eyebrow">JENNY ET MOI</p>
-          <h2>Deux soeurs, une seule gravite</h2>
+    <div className="page-wrap story-page">
+      <section className="story-hero" aria-label="Introduction story Celeste Fard">
+        <div className="story-hero-visual">
+          <Image
+            src={storyImage("celestecheveuxcoiffure.png")}
+            alt="Celeste Fard, portrait story"
+            fill
+            priority
+            sizes="(max-width: 860px) 100vw, 1160px"
+            className="story-hero-photo"
+          />
+          <div className="story-hero-scrim" aria-hidden="true" />
         </div>
-        <p className="hero-copy">
-          Jenny a deux ans de moins que moi et pourtant, c'est elle qui me recadre quand je pars
-          trop loin dans mes theories. On n'a pas de vie de luxe, juste de la necessite, de
-          l'humour, et cette complicite qui tient quand tout vacille. Si tu me suis ici, tu la
-          verras partout, parce qu'elle est partout dans ma tete.
-        </p>
-        <p className="hero-copy">
-          En physique, on parle de points d'ancrage. En vie reelle, le mien s'appelle Jenny. Je
-          chante parfois des choses sombres, coleriques, ambitieuses, mais quand j'eteins le micro,
-          je redeviens la fille qui partage son gateau a moitie et qui rigole de ses propres
-          contradictions.
-        </p>
-      </section>
-
-      <section className="section-block">
-        <div className="section-heading">
-          <p className="eyebrow">PARADOXES ASSUMES</p>
-          <h2>Ce que tu vois ici, et ce que je vis vraiment</h2>
+        <div className="story-hero-content">
+          <p className="eyebrow story-hero-eyebrow">Storytelling</p>
+          <h1>
+            Moi c&apos;est Celeste. 25 ans, rousse naturelle, et je ne joue pas a etre quelqu&apos;un
+            d&apos;autre.
+          </h1>
+          <p className="story-hero-lead">
+            J&apos;habite en France, mais mon coeur parle francais, italien et anglais, parfois les
+            trois dans la meme journee. Etudiante en sciences le matin, chanteuse le soir : la
+            physique quantique pour comprendre le monde, la musique pour ce que les equations ne
+            disent pas.
+          </p>
+          <div className="story-hero-pills">
+            <span className="hero-pill">Sciences</span>
+            <span className="hero-pill">Musique</span>
+            <span className="hero-pill">FR / IT / EN</span>
+          </div>
         </div>
-        <p className="hero-copy">
-          J'adore la photographie, mais je deteste etre photographiee. Toutes ces images sur le site ?
-          Mon propre paradoxe, assume avec autoderision. Je ne bois presque pas d'alcool, si tu me
-          vois avec un verre, c'est une scene, une blague, ou un moment rare. Pas de glamour factice.
-        </p>
-        <p className="hero-copy">
-          J'adore les gâteaux. Ma diete anti sucre ? Un combat perdant d'avance, et je l'assume
-          publiquement. Mes escapades en Italie ou en Angleterre, souvent sur un bateau ? Ce n'est
-          pas le luxe, c'est ma survie mentale. J'en ris, parce que c'est plus honnete que de
-          faire croire que j'ai un yacht. Modeste financierement, passionnee jusqu'au bout des
-          cheveux roux.
-        </p>
       </section>
 
-      <section className="section-block">
-        <div className="section-heading">
-          <p className="eyebrow">MANIFESTE</p>
-          <h2>Je chante selon mon humeur. Point.</h2>
+      <section className="story-timeline" aria-label="Chapitres de mon histoire">
+        <header className="story-section-intro">
+          <p className="eyebrow">Mon fil rouge</p>
+          <h2>Trois chapitres, une seule voix</h2>
           <p className="muted">
-            Colere ? Je choisis la langue qui porte le mieux la tension. Joie ? Le morceau devient
-            leger. Sombre ? Pas de filtre. Je ne cherche pas qu'on m'aime pour mon image, je veux
-            qu'on me comprenne dans ma complexite. Entre la froideur des concepts quantiques et la
-            chaleur de l'affection humaine, il y a ma voix. Ecoute-la.
+            Entre laboratoire, scene et vie reelle, voila comment je raconte qui je suis vraiment.
           </p>
+        </header>
+
+        {chapters.map((chapter, index) => (
+          <article
+            key={chapter.id}
+            className={`story-chapter ${index % 2 === 1 ? "is-reverse" : ""}`}
+          >
+            <div className="story-chapter-visual">
+              <span className="story-chapter-index" aria-hidden="true">
+                {chapter.index}
+              </span>
+              <div className="story-chapter-image">
+                <Image src={chapter.image} alt={chapter.alt} fill sizes="(max-width: 860px) 100vw, 50vw" />
+              </div>
+            </div>
+            <div className="story-chapter-copy">
+              <p className="eyebrow">{chapter.eyebrow}</p>
+              <h3>{chapter.title}</h3>
+              <p>{chapter.body}</p>
+            </div>
+          </article>
+        ))}
+      </section>
+
+      <section className="story-sisters-sport" aria-label="Sport avec Jenny">
+        <div className="story-sisters-sport-inner">
+          <div className="story-sisters-sport-copy">
+            <p className="story-sisters-sport-number" aria-hidden="true">
+              04
+            </p>
+            <p className="eyebrow">Jenny &amp; moi</p>
+            <h2>Le sport, notre passion commune</h2>
+            <p className="story-sisters-sport-lead">
+              Ma soeur et moi, on ne partage pas que les gâteaux et les fous rires. On partage aussi
+              le sport : courir, bouger, se challenger. C&apos;est notre rituel a deux, sans audience,
+              sans filtre.
+            </p>
+            <p>
+              Quand la tete tourne trop vite entre les cours, les morceaux et les paradoxes, on enfile
+              nos baskets. La foret, le sentier, le souffle : c&apos;est la ou on se retrouve vraiment.
+              Pas besoin de parler longtemps, le rythme suffit.
+            </p>
+            <ul className="story-sisters-sport-list">
+              <li>Course &amp; cardio</li>
+              <li>Defis a deux</li>
+              <li>Deconnexion totale</li>
+            </ul>
+          </div>
+
+          <figure className="story-sisters-sport-portrait">
+            <div className="story-sisters-sport-frame">
+              <Image
+                src={storyImage("celestejogsforet.png")}
+                alt="Celeste en course en foret"
+                fill
+                sizes="(max-width: 860px) 72vw, 280px"
+              />
+            </div>
+            <figcaption>Sport · complicite · Jenny &amp; moi</figcaption>
+          </figure>
         </div>
       </section>
 
-      <section className="section-block">
-        <div className="section-heading">
-          <p className="eyebrow">MOODBOARD</p>
-          <h2>Des photos que je deteste et que j'ai quand meme choisies</h2>
+      <section className="story-paradoxes" aria-label="Paradoxes assumes">
+        <header className="story-section-intro">
+          <p className="eyebrow">Paradoxes assumes</p>
+          <h2>Ce que tu vois ici, et ce que je vis vraiment</h2>
+          <p className="muted">Pas de glamour factice. Juste ma vraie complexite, sans filtre.</p>
+        </header>
+        <div className="story-paradox-grid">
+          {paradoxes.map((item) => (
+            <article key={item.tag} className="story-paradox-card">
+              <span className="story-paradox-tag">{item.tag}</span>
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+            </article>
+          ))}
         </div>
-        <div className="story-gallery">
-          {galleryPhotos2.slice(0, 4).map((photo) => (
-            <article key={photo.src} className="story-gallery-card">
-              <Image src={photo.src} alt={photo.title} fill sizes="(max-width: 860px) 100vw, 24vw" />
+      </section>
+
+      <section className="story-manifesto" aria-label="Manifeste">
+        <p className="story-manifesto-quote" aria-hidden="true">
+          &ldquo;
+        </p>
+        <p className="eyebrow">Manifeste</p>
+        <h2>Je chante selon mon humeur. Point.</h2>
+        <p>
+          Colere ? Je choisis la langue qui porte le mieux la tension. Joie ? Le morceau devient
+          leger. Sombre ? Pas de filtre. Je ne cherche pas qu&apos;on m&apos;aime pour mon image, je
+          veux qu&apos;on me comprenne dans ma complexite. Entre la froideur des concepts quantiques
+          et la chaleur de l&apos;affection humaine, il y a ma voix.
+        </p>
+        <span className="story-manifesto-signature">Celeste Fard</span>
+      </section>
+
+      <section className="story-moodboard" aria-label="Moodboard photos">
+        <header className="story-section-intro">
+          <p className="eyebrow">Moodboard</p>
+          <h2>Des photos que je deteste et que j&apos;ai quand meme choisies</h2>
+        </header>
+        <div className="story-moodboard-grid">
+          {galleryPhotos2.slice(0, 4).map((photo, index) => (
+            <article
+              key={photo.src}
+              className={`story-gallery-card story-gallery-card--${index + 1}`}
+            >
+              <Image src={photo.src} alt={photo.title} fill sizes="(max-width: 860px) 100vw, 30vw" />
+              <span className="story-gallery-caption">{photo.title}</span>
             </article>
           ))}
         </div>
