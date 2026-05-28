@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { VideoClip } from "./content";
 
 type VideoSectionProps = {
@@ -78,6 +78,32 @@ export function VideoSection({ videos }: VideoSectionProps) {
     setIsReady(true);
     setIsSwitching(false);
   };
+
+  // Au premier chargement, le navigateur peut émettre `canplay` avant que React
+  // n'attache les handlers — on resynchronise l'état depuis readyState.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const syncReadyState = () => {
+      if (video.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
+        setIsReady(true);
+        setIsSwitching(false);
+      }
+    };
+
+    syncReadyState();
+    const rafId = requestAnimationFrame(syncReadyState);
+
+    video.addEventListener("loadeddata", syncReadyState);
+    video.addEventListener("canplay", syncReadyState);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      video.removeEventListener("loadeddata", syncReadyState);
+      video.removeEventListener("canplay", syncReadyState);
+    };
+  }, [activeVideo.id]);
 
   if (!activeVideo) {
     return null;
