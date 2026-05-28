@@ -63,15 +63,20 @@ export function PhotoCarousel2({ photos }: PhotoCarousel2Props) {
             onClick={() => scrollCarousel(-1)}
             aria-label="Photo precedente"
           >
-            ‹
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M14.5 6.5 9 12l5.5 5.5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </button>
+          <span className="photo-carousel-2-nav-divider" aria-hidden="true" />
           <button
             type="button"
             className="photo-carousel-2-arrow"
             onClick={() => scrollCarousel(1)}
             aria-label="Photo suivante"
           >
-            ›
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M9.5 6.5 15 12l-5.5 5.5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </button>
         </div>
       </div>
