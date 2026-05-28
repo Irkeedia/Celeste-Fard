@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { AudioPlayer } from "../shared/audio-player";
-import { albums, releases } from "../shared/content";
+import { albums, latestRelease, releases } from "../shared/content";
 
 export default function MusicPage() {
   return (
@@ -41,7 +41,12 @@ export default function MusicPage() {
         </div>
       </section>
 
-      <AudioPlayer albums={albums} defaultAlbumId="album-1" />
+      <AudioPlayer
+        albums={albums}
+        defaultAlbumId="album-1"
+        defaultTrackId={latestRelease.trackId}
+        latestRelease={latestRelease}
+      />
 
       <section className="section-block">
         <div className="section-heading">

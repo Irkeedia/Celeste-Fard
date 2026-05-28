@@ -40,6 +40,14 @@ export type FanMoment = {
   stat: string;
 };
 
+export type LatestRelease = {
+  trackId: string;
+  albumId: string;
+  title: string;
+  eyebrow: string;
+  description: string;
+};
+
 export type VideoClip = {
   id: string;
   title: string;
@@ -331,6 +339,16 @@ export const albums: Album[] = [
 ];
 
 export const featuredTracks: Track[] = albums.flatMap((album) => album.tracks);
+
+/** Dernier titre mis en avant sur la home. */
+export const latestRelease: LatestRelease = {
+  trackId: "album-1-04",
+  albumId: "album-1",
+  title: "LA CHAIR ET L'ÉCHELLE",
+  eyebrow: "Mon dernier titre",
+  description:
+    "Ma critique de la guerre. Pas un clip patriotique, pas une pose : regarder ce que la violence fait au corps, a l'echelle humaine, quand les equations ne suffisent plus a expliquer l'horreur. Je le chante parce que ce sujet affreux me tient a coeur, et parce que le silence ne m'a jamais convenu.",
+};
 
 export const releases: Release[] = [
   {

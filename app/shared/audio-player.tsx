@@ -2,17 +2,13 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import type { Album } from "./content";
-
-type SceneImage = {
-  src: string;
-  alt: string;
-};
+import type { Album, LatestRelease } from "./content";
 
 type AudioPlayerProps = {
   albums: Album[];
   defaultAlbumId?: string;
-  sceneImage?: SceneImage;
+  defaultTrackId?: string;
+  latestRelease?: LatestRelease;
 };
 
 function formatTime(seconds: number): string {
@@ -22,12 +18,34 @@ function formatTime(seconds: number): string {
   return `${minutes}:${secs.toString().padStart(2, "0")}`;
 }
 
-export function AudioPlayer({ albums, defaultAlbumId, sceneImage }: AudioPlayerProps) {
-  const initialAlbum =
-    albums.find((album) => album.id === (defaultAlbumId ?? albums[0]?.id)) ?? albums[0];
+function findTrackInAlbums(albums: Album[], trackId: string) {
+  for (const album of albums) {
+    const track = album.tracks.find((item) => item.id === trackId);
+    if (track) return { album, track };
+  }
+  return null;
+}
 
-  const [activeAlbumId, setActiveAlbumId] = useState(initialAlbum?.id ?? "");
-  const [currentTrackId, setCurrentTrackId] = useState(initialAlbum?.tracks[0]?.id ?? "");
+export function AudioPlayer({
+  albums,
+  defaultAlbumId,
+  defaultTrackId,
+  latestRelease,
+}: AudioPlayerProps) {
+  const defaultContext = useMemo(() => {
+    if (defaultTrackId) {
+      const match = findTrackInAlbums(albums, defaultTrackId);
+      if (match) return match;
+    }
+
+    const album =
+      albums.find((item) => item.id === (defaultAlbumId ?? albums[0]?.id)) ?? albums[0];
+    const track = album?.tracks[0];
+    return album && track ? { album, track } : null;
+  }, [albums, defaultAlbumId, defaultTrackId]);
+
+  const [activeAlbumId, setActiveAlbumId] = useState(defaultContext?.album.id ?? "");
+  const [currentTrackId, setCurrentTrackId] = useState(defaultContext?.track.id ?? "");
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -41,19 +59,6 @@ export function AudioPlayer({ albums, defaultAlbumId, sceneImage }: AudioPlayerP
   );
 
   const tracks = useMemo(() => activeAlbum?.tracks ?? [], [activeAlbum]);
-
-  const selectAlbum = useCallback(
-    (albumId: string) => {
-      if (albumId === activeAlbumId) return;
-
-      const album = albums.find((item) => item.id === albumId) ?? albums[0];
-      shouldAutoplay.current = false;
-      setActiveAlbumId(albumId);
-      setCurrentTrackId(album?.tracks[0]?.id ?? "");
-      setQuery("");
-    },
-    [activeAlbumId, albums],
-  );
 
   const currentTrack = useMemo(
     () => tracks.find((track) => track.id === currentTrackId) ?? tracks[0],
@@ -88,8 +93,19 @@ export function AudioPlayer({ albums, defaultAlbumId, sceneImage }: AudioPlayerP
     el.pause();
   }, []);
 
-  const playTrack = useCallback(
+  const playTrackById = useCallback(
     (trackId: string) => {
+      const match = findTrackInAlbums(albums, trackId);
+      if (!match) return;
+
+      if (match.album.id !== activeAlbumId) {
+        shouldAutoplay.current = true;
+        setActiveAlbumId(match.album.id);
+        setCurrentTrackId(trackId);
+        setQuery("");
+        return;
+      }
+
       if (trackId === currentTrackId) {
         togglePlay();
         return;
@@ -98,16 +114,29 @@ export function AudioPlayer({ albums, defaultAlbumId, sceneImage }: AudioPlayerP
       shouldAutoplay.current = true;
       setCurrentTrackId(trackId);
     },
-    [currentTrackId, togglePlay],
+    [activeAlbumId, albums, currentTrackId, togglePlay],
+  );
+
+  const selectAlbum = useCallback(
+    (albumId: string) => {
+      if (albumId === activeAlbumId) return;
+
+      const album = albums.find((item) => item.id === albumId) ?? albums[0];
+      shouldAutoplay.current = false;
+      setActiveAlbumId(albumId);
+      setCurrentTrackId(album?.tracks[0]?.id ?? "");
+      setQuery("");
+    },
+    [activeAlbumId, albums],
   );
 
   const playAdjacent = useCallback(
     (offset: number) => {
       if (currentIndex === -1) return;
       const nextIndex = (currentIndex + offset + tracks.length) % tracks.length;
-      playTrack(tracks[nextIndex].id);
+      playTrackById(tracks[nextIndex].id);
     },
-    [currentIndex, playTrack, tracks],
+    [currentIndex, playTrackById, tracks],
   );
 
   useEffect(() => {
@@ -173,24 +202,34 @@ export function AudioPlayer({ albums, defaultAlbumId, sceneImage }: AudioPlayerP
     return null;
   }
 
-  const artwork = sceneImage ? null : activeAlbum.cover;
+  const isLatestPlaying =
+    latestRelease != null &&
+    currentTrack.id === latestRelease.trackId &&
+    isPlaying;
 
   return (
-    <section className={`player-block${sceneImage ? " player-block--with-scene" : ""}`}>
-      {sceneImage && (
-        <aside className="player-scene-panel">
-          <div className="player-scene-image">
-            <Image
-              src={sceneImage.src}
-              alt={sceneImage.alt}
-              fill
-              sizes="(max-width: 860px) 100vw, 320px"
-            />
+    <div className="vinyl-player-wrap">
+      {latestRelease && (
+        <article className="glass-panel player-featured">
+          <div className="player-featured-copy">
+            <p className="eyebrow">{latestRelease.eyebrow}</p>
+            <h2>{latestRelease.title}</h2>
+            <p className="player-featured-lead">{latestRelease.description}</p>
           </div>
-        </aside>
+          <div className="player-featured-actions">
+            <span className="player-featured-badge">Critique de la guerre</span>
+            <button
+              type="button"
+              className="cta-primary"
+              onClick={() => playTrackById(latestRelease.trackId)}
+            >
+              {isLatestPlaying ? "En lecture" : "Ecouter maintenant"}
+            </button>
+          </div>
+        </article>
       )}
 
-      <section className="glass-panel player-shell">
+      <section className="glass-panel vinyl-player">
         <audio
           ref={audioRef}
           src={currentTrack.src}
@@ -198,27 +237,83 @@ export function AudioPlayer({ albums, defaultAlbumId, sceneImage }: AudioPlayerP
           className="player-audio-hidden"
         />
 
-        <div className="player-source-picker">
-          <div className="player-source-head">
-            <p className="player-source-label">Choisir la collection</p>
-            <label className="sr-only" htmlFor="player-source-select">
-              Choisir album ou singles
-            </label>
-            <select
-              id="player-source-select"
-              className="player-source-select"
-              value={activeAlbum.id}
-              onChange={(event) => selectAlbum(event.target.value)}
-            >
-              {albums.map((album) => (
-                <option key={album.id} value={album.id}>
-                  {album.kind === "album" ? "Album" : "Singles"}, {album.title} ({album.tracks.length}{" "}
-                  titres)
-                </option>
-              ))}
-            </select>
+        <div className="vinyl-player-top">
+          <div className="vinyl-stage" aria-hidden>
+            <div className={`vinyl-disc ${isPlaying ? "is-spinning" : ""}`}>
+              <div className="vinyl-grooves" />
+              <div className="vinyl-shine" />
+              <div className="vinyl-label">
+                <Image
+                  src={activeAlbum.cover}
+                  alt=""
+                  fill
+                  sizes="120px"
+                  className="vinyl-label-art"
+                />
+              </div>
+            </div>
+            <div className={`vinyl-arm ${isPlaying ? "is-playing" : ""}`}>
+              <span className="vinyl-arm-head" />
+              <span className="vinyl-arm-body" />
+            </div>
           </div>
 
+          <div className="vinyl-now-playing">
+            <p className="eyebrow">{activeAlbum.title}</p>
+            <h3>{currentTrack.title}</h3>
+            <p className="muted">{currentTrack.subtitle}</p>
+            <div className="player-track-badges">
+              <span className="player-lang-pill">{currentTrack.language.toUpperCase()}</span>
+              <span className="player-lang-pill player-lang-pill--soft">
+                {currentIndex + 1} / {tracks.length}
+              </span>
+            </div>
+
+            <div className="vinyl-controls">
+              <button
+                type="button"
+                className="vinyl-control-btn"
+                onClick={() => playAdjacent(-1)}
+                aria-label="Morceau precedent"
+              >
+                ‹
+              </button>
+              <button
+                type="button"
+                className="vinyl-control-btn vinyl-control-btn--main"
+                onClick={togglePlay}
+                aria-label={isPlaying ? "Pause" : "Lecture"}
+              >
+                {isPlaying ? "❚❚" : "▶"}
+              </button>
+              <button
+                type="button"
+                className="vinyl-control-btn"
+                onClick={() => playAdjacent(1)}
+                aria-label="Morceau suivant"
+              >
+                ›
+              </button>
+            </div>
+
+            <div className="player-progress-row">
+              <span className="player-time">{formatTime(currentTime)}</span>
+              <input
+                type="range"
+                className="player-progress"
+                min={0}
+                max={duration || 0}
+                step={0.1}
+                value={Math.min(currentTime, duration || 0)}
+                onChange={(event) => handleSeek(Number(event.target.value))}
+                aria-label="Position dans le morceau"
+              />
+              <span className="player-time">{formatTime(duration)}</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="vinyl-player-bottom">
           <div className="player-source-switch" role="tablist" aria-label="Album ou singles">
             {albums.map((album) => (
               <button
@@ -233,120 +328,52 @@ export function AudioPlayer({ albums, defaultAlbumId, sceneImage }: AudioPlayerP
                   {album.kind === "album" ? "Album" : "Singles"}
                 </span>
                 <span className="player-source-option-title">{album.title}</span>
-                <span className="player-source-option-meta">
-                  {album.kind === "singles"
-                    ? "Premieres musiques"
-                    : "Nouvel album"}{" "}
-                 , {album.tracks.length} titres
-                </span>
+                <span className="player-source-option-meta">{album.tracks.length} titres</span>
               </button>
             ))}
           </div>
-        </div>
 
-        <div className="player-head">
-          {artwork && (
-            <div className="player-artwork">
-              <Image src={artwork} alt={activeAlbum.title} fill sizes="96px" />
-            </div>
-          )}
-          <div className="player-track-meta">
-            <p className="eyebrow">{activeAlbum.title}</p>
-            <h3>{currentTrack.title}</h3>
-            <p className="muted">{currentTrack.subtitle}</p>
-            <div className="player-track-badges">
-              <span className="player-lang-pill">{currentTrack.language.toUpperCase()}</span>
-              <span className="player-lang-pill player-lang-pill--soft">
-                {currentIndex + 1} / {tracks.length}
-              </span>
-            </div>
+          <div className="player-playlist-head">
+            <p className="player-playlist-title">Playlist</p>
+            <input
+              type="search"
+              className="player-search"
+              placeholder="Chercher un titre..."
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              aria-label="Filtrer la playlist"
+            />
           </div>
-        </div>
 
-        <div className="player-controls-row">
-          <button
-            type="button"
-            className="player-btn player-btn--ghost"
-            onClick={() => playAdjacent(-1)}
-            aria-label="Morceau precedent"
-          >
-            Prev
-          </button>
-          <button
-            type="button"
-            className="player-btn player-btn--play"
-            onClick={togglePlay}
-            aria-label={isPlaying ? "Pause" : "Lecture"}
-          >
-            {isPlaying ? "Pause" : "Play"}
-          </button>
-          <button
-            type="button"
-            className="player-btn player-btn--ghost"
-            onClick={() => playAdjacent(1)}
-            aria-label="Morceau suivant"
-          >
-            Next
-          </button>
-        </div>
-
-        <div className="player-progress-row">
-          <span className="player-time">{formatTime(currentTime)}</span>
-          <input
-            type="range"
-            className="player-progress"
-            min={0}
-            max={duration || 0}
-            step={0.1}
-            value={Math.min(currentTime, duration || 0)}
-            onChange={(event) => handleSeek(Number(event.target.value))}
-            aria-label="Position dans le morceau"
-          />
-          <span className="player-time">{formatTime(duration)}</span>
-        </div>
-
-        <div className="player-playlist-head">
-          <p className="player-playlist-title">
-            {activeAlbum.subtitle} ({tracks.length})
-          </p>
-          <input
-            type="search"
-            className="player-search"
-            placeholder="Chercher un titre..."
-            value={query}
-            onChange={(event) => setQuery(event.target.value)}
-            aria-label="Filtrer la playlist"
-          />
-        </div>
-
-        <ul className="track-list">
-          {filteredTracks.map((track, index) => (
-            <li key={track.id}>
-              <button
-                type="button"
-                onClick={() => playTrack(track.id)}
-                className={`track-item ${track.id === currentTrack.id ? "selected" : ""} ${
-                  track.id === currentTrack.id && isPlaying ? "playing" : ""
-                }`}
-              >
-                <span className="track-item-main">
-                  <span className="track-item-index">{String(index + 1).padStart(2, "0")}</span>
-                  <span className="track-item-text">
-                    <strong>{track.title}</strong>
-                    <small>{track.subtitle}</small>
+          <ul className="track-list track-list--vinyl">
+            {filteredTracks.map((track, index) => (
+              <li key={track.id}>
+                <button
+                  type="button"
+                  onClick={() => playTrackById(track.id)}
+                  className={`track-item ${track.id === currentTrack.id ? "selected" : ""} ${
+                    track.id === currentTrack.id && isPlaying ? "playing" : ""
+                  }`}
+                >
+                  <span className="track-item-main">
+                    <span className="track-item-index">{String(index + 1).padStart(2, "0")}</span>
+                    <span className="track-item-text">
+                      <strong>{track.title}</strong>
+                      <small>{track.subtitle}</small>
+                    </span>
                   </span>
-                </span>
-                <span className="track-item-meta">
-                  {track.language.toUpperCase()}, {track.duration}
-                </span>
-              </button>
-            </li>
-          ))}
-          {filteredTracks.length === 0 && (
-            <li className="player-empty">Aucun morceau ne correspond a ta recherche.</li>
-          )}
-        </ul>
+                  <span className="track-item-meta">
+                    {track.language.toUpperCase()} · {track.duration}
+                  </span>
+                </button>
+              </li>
+            ))}
+            {filteredTracks.length === 0 && (
+              <li className="player-empty">Aucun morceau ne correspond a ta recherche.</li>
+            )}
+          </ul>
+        </div>
       </section>
-    </section>
+    </div>
   );
 }

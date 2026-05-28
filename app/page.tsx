@@ -3,7 +3,7 @@ import Image from "next/image";
 import { AudioPlayer } from "./shared/audio-player";
 import { PhotoCarousel2 } from "./shared/photo-carousel-2";
 import { VideoSection } from "./shared/video-section";
-import { albums, fanMoments, galleryPhotos2, homeVideos } from "./shared/content";
+import { albums, fanMoments, galleryPhotos2, homeVideos, latestRelease } from "./shared/content";
 
 export default function Home() {
   return (
@@ -62,6 +62,23 @@ export default function Home() {
             <p className="muted">Diva un jour ? Peut etre. En attendant j'apprends, je teste, je rigole.</p>
           </article>
         </section>
+      </section>
+
+      <section className="section-block player-section player-section--home">
+        <div className="section-heading">
+          <p className="eyebrow">ECOUTER CELESTE</p>
+          <h2>Mes humeurs en musique</h2>
+          <p className="muted">
+            Lance le vinyle, choisis <strong>Album 1</strong> ou <strong>Singles</strong>, chaque
+            morceau, c&apos;est l&apos;humeur du jour figee en son.
+          </p>
+        </div>
+        <AudioPlayer
+          albums={albums}
+          defaultAlbumId="album-1"
+          defaultTrackId={latestRelease.trackId}
+          latestRelease={latestRelease}
+        />
       </section>
 
       <section className="content-start">
@@ -165,25 +182,6 @@ export default function Home() {
               </article>
             ))}
           </div>
-        </section>
-
-        <section className="section-block player-section">
-          <div className="section-heading">
-            <p className="eyebrow">ECOUTER CELESTE</p>
-            <h2>Mes humeurs en musique</h2>
-            <p className="muted">
-              Choisis <strong>Album 1</strong> ou <strong>Singles</strong>, chaque morceau, c'est
-              l'humeur du jour figee en son.
-            </p>
-          </div>
-          <AudioPlayer
-            albums={albums}
-            defaultAlbumId="album-1"
-            sceneImage={{
-              src: "/image/celestesurscene.png",
-              alt: "Celeste Fard sur scene",
-            }}
-          />
         </section>
 
         <section className="section-block story-closing">
