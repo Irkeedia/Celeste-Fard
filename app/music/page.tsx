@@ -11,8 +11,8 @@ export default function MusicPage() {
         <p className="hero-copy">
           Chaque morceau est un instant fige. Joyeux, sombre, colerique, ironique, je choisis la
           langue selon ce que je ressens, pas selon une strategie. Parfois je joue un personnage
-          ambitieux ou egocentrique : c est une exploration, pas ma vie reelle. Ecoute et tu
-          comprendras ou j en suis.
+          ambitieux ou egocentrique : c'est une exploration, pas ma vie reelle. Ecoute et tu
+          comprendras ou j'en suis.
         </p>
       </section>
 

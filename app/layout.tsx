@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Nunito } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
 import { InteractiveEffects } from "./shared/interactive-effects";
+import { LEGAL } from "./shared/legal-info";
 import { MainNav } from "./shared/main-nav";
 
 const nunito = Nunito({
@@ -46,8 +47,17 @@ export default function RootLayout({
         </header>
         <main className="site-main">{children}</main>
         <footer className="site-footer">
-          <p>France, Racines FR / IT / EN, Pop couture sincere</p>
-          <p>© {new Date().getFullYear()} Celeste Fard. Tous droits reserves.</p>
+          <div className="site-footer-copy">
+            <p>France, Racines FR / IT / EN, Pop couture sincère</p>
+            <p>
+              © {new Date().getFullYear()} {LEGAL.editor} / {LEGAL.creator}. Celeste Fard est une
+              représentation artistique assistée par intelligence artificielle.
+            </p>
+          </div>
+          <nav className="site-footer-nav" aria-label="Informations légales">
+            <Link href="/mentions-legales">Mentions légales</Link>
+            <Link href="/cgu">CGU</Link>
+          </nav>
         </footer>
       </body>
     </html>

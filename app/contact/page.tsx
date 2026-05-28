@@ -5,7 +5,7 @@ export default function ContactPage() {
         <p className="eyebrow">CONTACT</p>
         <h1>Ecris moi, je lis ce qui est sincere</h1>
         <p className="hero-copy">
-          Booking, collab, presse, ou juste un message parce qu un morceau t a touche : mon equipe
+          Booking, collab, presse, ou juste un message parce qu'un morceau t'a touche : mon equipe
           filtre, et je repasse derriere quand ca me parle vraiment. Pas de blabla corporate, sois
           direct, comme moi.
         </p>

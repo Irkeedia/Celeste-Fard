@@ -15,7 +15,7 @@ const products: ShopProduct[] = [
     price: "17",
     badge: "Edition debut",
     image: "/image/shopcdok.png",
-    note: "Album signe, pochette mate, le debut de l era.",
+    note: "Album signe, pochette mate, le debut de l'era.",
   },
   {
     title: "T shirt Celeste Club",
@@ -46,7 +46,7 @@ export default function ShopPage() {
     <div className="page-wrap">
       <section className="section-block">
         <p className="eyebrow">SHOP</p>
-        <h1>Prolonger l experience, pas le luxe</h1>
+        <h1>Prolonger l'experience, pas le luxe</h1>
         <p className="hero-copy">
           CD, t shirt, mug : des objets sinceres pour garder un morceau de mon univers chez toi. Pas
           de bling, juste de la musique et du style accessible. Comme moi.

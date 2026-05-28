@@ -324,7 +324,7 @@ export const albums: Album[] = [
     year: "2024 et 2026",
     mood: "Singles, doubles prises",
     description:
-      "Mes premieres musiques, demos, doubles prises, humeurs d avant que je sache expliquer ce que je faisais.",
+      "Mes premieres musiques, demos, doubles prises, humeurs d'avant que je sache expliquer ce que je faisais.",
     cover: "/image/celestesurscene.png",
     tracks: buildAlbumTracks("singles", ARCHIVES_RAW, { coverOffset: 3 }),
   },
@@ -346,14 +346,14 @@ export const releases: Release[] = [
     kind: "Single",
     year: "2026",
     mood: "Pop nocturne",
-    description: "Colere nocturne en francais, le morceau que j ai ecrit un soir ou rien ne passait.",
+    description: "Colere nocturne en francais, le morceau que j'ai ecrit un soir ou rien ne passait.",
   },
   {
     title: "Prima Donna",
     kind: "Single",
     year: "2025",
     mood: "Italo disco moderne",
-    description: "Humeur italienne, egocentrique assumee, spoiler : c est un masque d exploration, pas ma facture EDF.",
+    description: "Humeur italienne, egocentrique assumee, spoiler : c'est un masque d'exploration, pas ma facture EDF.",
   },
 ];
 
@@ -365,7 +365,7 @@ export const homeVideos: VideoClip[] = [
   {
     id: "remerciement",
     title: "Remerciement",
-    caption: "Merci d etre la, message direct, sans script.",
+    caption: "Merci d'etre la, message direct, sans script.",
     src: "/video/celestevideoderemerciement.mp4",
     poster: "/image/miniaturevideomercie.png",
   },
@@ -379,7 +379,7 @@ export const homeVideos: VideoClip[] = [
   {
     id: "bateau",
     title: "Sur le bateau",
-    caption: "Pas un yacht, juste l Italie quand j en ai besoin pour respirer.",
+    caption: "Pas un yacht, juste l'Italie quand j'en ai besoin pour respirer.",
     src: "/video/celestesitewebbateau.mp4",
     poster: "/image/miniaturebateau.png",
   },
@@ -407,11 +407,11 @@ export const galleryPhotos2: Photo[] = [
     src: "/image/celestelematin.png",
   },
   {
-    title: "Autographes, j adore ca, je deteste les photos",
+    title: "Autographes, j'adore ca, je deteste les photos",
     src: "/image/celesteautographe.png",
   },
   {
-    title: "Portrait #47, oui, j en ai trop (paradoxe assume)",
+    title: "Portrait #47, oui, j'en ai trop (paradoxe assume)",
     src: "/image/celesteencoreunportrait.png",
   },
 ];
@@ -420,17 +420,17 @@ export const fanMoments: FanMoment[] = [
   {
     title: "Concert en foret",
     image: "/image/celestefeteforet.png",
-    stat: "Magie d ete, Jenny etait dans le public",
+    stat: "Magie d'ete, Jenny etait dans le public",
   },
   {
     title: "Au bar (je ne bois presque pas)",
     image: "/image/celestealcool.png",
-    stat: "Une biere pour la photo. C est tout. Promis.",
+    stat: "Une biere pour la photo. C'est tout. Promis.",
   },
   {
     title: "Sur le bateau, survie mentale",
     image: "/image/celestebateauok.png",
-    stat: "Pas un yacht. Juste l Italie quand j en ai besoin pour respirer.",
+    stat: "Pas un yacht. Juste l'Italie quand j'en ai besoin pour respirer.",
   },
   {
     title: "Evenement sportif",
