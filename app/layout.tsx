@@ -5,6 +5,7 @@ import "./globals.css";
 import { InteractiveEffects } from "./shared/interactive-effects";
 import { LEGAL } from "./shared/legal-info";
 import { MainNav } from "./shared/main-nav";
+import { ViewportStable } from "./shared/viewport-stable";
 
 const nunito = Nunito({
   variable: "--font-body",
@@ -39,8 +40,17 @@ export default function RootLayout({
     <html
       lang="fr"
       className={`${nunito.variable} ${cormorant.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(()=>{try{const h=window.innerHeight;document.documentElement.style.setProperty("--app-vh",h*0.01+"px");document.documentElement.style.setProperty("--app-height",h+"px");}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body className="site-body">
+        <ViewportStable />
         <InteractiveEffects />
         <div className="ambient-glow ambient-left" />
         <div className="ambient-glow ambient-right" />

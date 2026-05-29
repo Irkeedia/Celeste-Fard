@@ -78,12 +78,22 @@ export function MainNav() {
     };
 
     syncHeaderHeight();
+
+    const mq = window.matchMedia(MOBILE_QUERY);
+    const onOrientationChange = () => syncHeaderHeight();
+
+    window.addEventListener("orientationchange", onOrientationChange);
+
+    if (mq.matches) {
+      return () => window.removeEventListener("orientationchange", onOrientationChange);
+    }
+
     const ro = new ResizeObserver(syncHeaderHeight);
     ro.observe(header);
-    window.addEventListener("orientationchange", syncHeaderHeight);
+
     return () => {
       ro.disconnect();
-      window.removeEventListener("orientationchange", syncHeaderHeight);
+      window.removeEventListener("orientationchange", onOrientationChange);
     };
   }, []);
 
