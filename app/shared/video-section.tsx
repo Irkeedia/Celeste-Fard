@@ -16,47 +16,42 @@ type VideoSlideProps = {
 
 function VideoSlide({ video, isActive, hasError, onError }: VideoSlideProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [isReady, setIsReady] = useState(false);
-  const [isSwitching, setIsSwitching] = useState(false);
-
-  useEffect(() => {
-    const el = videoRef.current;
-    if (!el || hasError) return;
-
-    const syncReadyState = () => {
-      if (el.readyState >= HTMLMediaElement.HAVE_FUTURE_DATA) {
-        setIsReady(true);
-        setIsSwitching(false);
-      }
-    };
-
-    syncReadyState();
-    const rafId = requestAnimationFrame(syncReadyState);
-
-    el.addEventListener("loadeddata", syncReadyState);
-    el.addEventListener("canplay", syncReadyState);
-
-    return () => {
-      cancelAnimationFrame(rafId);
-      el.removeEventListener("loadeddata", syncReadyState);
-      el.removeEventListener("canplay", syncReadyState);
-    };
-  }, [video.id, hasError]);
+  const [isPaused, setIsPaused] = useState(true);
+  const [isBuffering, setIsBuffering] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
 
   useEffect(() => {
     const el = videoRef.current;
     if (!el || isActive) return;
+
     el.pause();
+    setIsPaused(true);
+    setIsBuffering(false);
   }, [isActive]);
 
-  const handlePlay = () => {
-    if (!isActive) videoRef.current?.pause();
-  };
+  useEffect(() => {
+    setIsPaused(true);
+    setIsBuffering(false);
+    setHasStarted(false);
+  }, [video.id]);
 
-  const showPoster = video.poster && (!isReady || isSwitching);
+  const handlePlayRequest = useCallback(() => {
+    const el = videoRef.current;
+    if (!el || hasError) return;
+
+    setHasStarted(true);
+    void el.play().catch(() => {
+      setIsPaused(true);
+      setHasStarted(false);
+    });
+  }, [hasError]);
+
+  const showPoster = Boolean(video.poster) && isPaused;
+  const showPlayOverlay = isActive && isPaused && !hasError;
+  const showBuffering = isActive && isBuffering && hasStarted && !isPaused;
 
   return (
-    <div className={`video-feature-frame ${isSwitching ? "is-switching" : ""} ${isReady ? "is-ready" : ""}`}>
+    <div className="video-feature-frame is-ready">
       {!hasError ? (
         <>
           {video.poster ? (
@@ -68,33 +63,58 @@ function VideoSlide({ video, isActive, hasError, onError }: VideoSlideProps) {
               aria-hidden
             />
           ) : null}
-          <div className={`video-loading ${isReady ? "" : "is-visible"}`} aria-hidden>
-            <span className="video-loading-ring" />
-          </div>
+          {showBuffering ? (
+            <div className="video-loading is-visible" aria-hidden>
+              <span className="video-loading-ring" />
+            </div>
+          ) : null}
+          {showPlayOverlay ? (
+            <button
+              type="button"
+              className="video-play-overlay"
+              aria-label={`Lire ${video.title}`}
+              onClick={handlePlayRequest}
+            >
+              <span className="video-play-button" aria-hidden>
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8 5.14v13.72c0 .79.87 1.27 1.54.84l10.04-6.86c.65-.44.65-1.4 0-1.84L9.54 4.3C8.87 3.87 8 4.35 8 5.14z" />
+                </svg>
+              </span>
+              <span className="video-play-label">Lire la video</span>
+            </button>
+          ) : null}
           <video
             ref={videoRef}
             className="video-player"
             src={video.src}
-            controls
+            controls={hasStarted}
             playsInline
-            preload={isActive ? "auto" : "metadata"}
+            preload={isActive ? "metadata" : "none"}
             poster={video.poster}
-            onLoadStart={() => {
-              setIsReady(false);
-              setIsSwitching(true);
+            onPlay={() => {
+              if (!isActive) {
+                videoRef.current?.pause();
+                return;
+              }
+              setHasStarted(true);
+              setIsPaused(false);
+              setIsBuffering(false);
             }}
-            onCanPlay={() => {
-              setIsReady(true);
-              setIsSwitching(false);
+            onPause={() => {
+              setIsPaused(true);
+              setIsBuffering(false);
             }}
             onWaiting={() => {
-              if (isReady) setIsSwitching(true);
+              if (hasStarted && !videoRef.current?.paused) {
+                setIsBuffering(true);
+              }
             }}
-            onPlaying={() => {
-              setIsReady(true);
-              setIsSwitching(false);
+            onPlaying={() => setIsBuffering(false)}
+            onCanPlay={() => setIsBuffering(false)}
+            onEnded={() => {
+              setIsPaused(true);
+              setIsBuffering(false);
             }}
-            onPlay={handlePlay}
             onError={onError}
           />
         </>

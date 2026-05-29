@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Nunito } from "next/font/google";
 import Link from "next/link";
 import "./globals.css";
@@ -16,6 +16,13 @@ const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
   weight: ["500", "600", "700"],
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  interactiveWidget: "overlays-content",
+};
 
 export const metadata: Metadata = {
   title: "Celeste Fard | Pop Couture",
