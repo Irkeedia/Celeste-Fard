@@ -61,7 +61,7 @@ body.site-body {
   left: 0;
   top: 0;
   pointer-events: none;
-  z-index: 80;
+  z-index: 500;
   opacity: 0;
   --cursor-x: -200px;
   --cursor-y: -200px;
