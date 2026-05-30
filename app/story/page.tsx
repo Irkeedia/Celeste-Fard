@@ -12,6 +12,7 @@ const chapters = [
     body: "Le matin, j'analyse des systemes. Le soir, j'enregistre ce que je ressens. Pour moi, un axiome et un refrain obeissent a la meme logique : ils decrivent une verite provisoire sur l'instant present. Ma musique, c'est ma facon de cartographier mes humeurs.",
     image: "/image/celesteprofilvert.png",
     alt: "Celeste en mode etudiante",
+    portrait: true,
   },
   {
     id: "jenny",
@@ -103,7 +104,7 @@ export default function StoryPage() {
         {chapters.map((chapter, index) => (
           <article
             key={chapter.id}
-            className={`story-chapter ${index % 2 === 1 ? "is-reverse" : ""}`}
+            className={`story-chapter ${index % 2 === 1 ? "is-reverse" : ""}${"portrait" in chapter && chapter.portrait ? " is-portrait" : ""}`}
           >
             <div className="story-chapter-visual">
               <span className="story-chapter-index" aria-hidden="true">

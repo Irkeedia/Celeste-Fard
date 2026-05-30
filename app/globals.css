@@ -2722,8 +2722,25 @@ h3 {
   transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+.story-chapter.is-portrait {
+  min-height: clamp(400px, 70vw, 560px);
+}
+
+.story-chapter.is-portrait .story-chapter-visual {
+  min-height: clamp(360px, 65vw, 520px);
+}
+
+.story-chapter.is-portrait .story-chapter-image img {
+  object-fit: contain;
+  object-position: center;
+}
+
 .story-chapter:hover .story-chapter-image img {
   transform: scale(1.04);
+}
+
+.story-chapter.is-portrait:hover .story-chapter-image img {
+  transform: none;
 }
 
 .story-chapter-copy {
