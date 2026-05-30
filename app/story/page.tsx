@@ -3,17 +3,18 @@ import { galleryPhotos2 } from "../shared/content";
 
 const storyImage = (file: string) => `/image/page story/${file}`;
 
+const chapterOne = {
+  index: "01",
+  eyebrow: "Chapitre 01",
+  title: "La science et la voix",
+  body: "Le matin, j'analyse des systemes. Le soir, j'enregistre ce que je ressens. Pour moi, un axiome et un refrain obeissent a la meme logique : ils decrivent une verite provisoire sur l'instant present. Ma musique, c'est ma facon de cartographier mes humeurs.",
+  image: "/image/celesteprofilvert.png",
+  alt: "Celeste en mode etudiante",
+  caption: "Sciences · voix · etudiante",
+  tags: ["Sciences", "Musique", "Voix"],
+} as const;
+
 const chapters = [
-  {
-    id: "science",
-    index: "01",
-    eyebrow: "Chapitre 01",
-    title: "La science et la voix",
-    body: "Le matin, j'analyse des systemes. Le soir, j'enregistre ce que je ressens. Pour moi, un axiome et un refrain obeissent a la meme logique : ils decrivent une verite provisoire sur l'instant present. Ma musique, c'est ma facon de cartographier mes humeurs.",
-    image: "/image/celesteprofilvert.png",
-    alt: "Celeste en mode etudiante",
-    portrait: true,
-  },
   {
     id: "jenny",
     index: "02",
@@ -101,10 +102,40 @@ export default function StoryPage() {
           </p>
         </header>
 
+        <section className="story-feature-section" aria-label={chapterOne.title}>
+          <div className="story-feature-section-inner">
+            <div className="story-feature-copy">
+              <p className="story-feature-number" aria-hidden="true">
+                {chapterOne.index}
+              </p>
+              <p className="eyebrow">{chapterOne.eyebrow}</p>
+              <h2>{chapterOne.title}</h2>
+              <p className="story-feature-lead">{chapterOne.body}</p>
+              <ul className="story-feature-list">
+                {chapterOne.tags.map((tag) => (
+                  <li key={tag}>{tag}</li>
+                ))}
+              </ul>
+            </div>
+
+            <figure className="story-feature-portrait">
+              <div className="story-feature-frame">
+                <Image
+                  src={chapterOne.image}
+                  alt={chapterOne.alt}
+                  fill
+                  sizes="(max-width: 860px) 72vw, 280px"
+                />
+              </div>
+              <figcaption>{chapterOne.caption}</figcaption>
+            </figure>
+          </div>
+        </section>
+
         {chapters.map((chapter, index) => (
           <article
             key={chapter.id}
-            className={`story-chapter ${index % 2 === 1 ? "is-reverse" : ""}${"portrait" in chapter && chapter.portrait ? " is-portrait" : ""}`}
+            className={`story-chapter ${index % 2 === 1 ? "is-reverse" : ""}`}
           >
             <div className="story-chapter-visual">
               <span className="story-chapter-index" aria-hidden="true">
@@ -123,15 +154,15 @@ export default function StoryPage() {
         ))}
       </section>
 
-      <section className="story-sisters-sport" aria-label="Sport avec Jenny">
-        <div className="story-sisters-sport-inner">
-          <div className="story-sisters-sport-copy">
-            <p className="story-sisters-sport-number" aria-hidden="true">
+      <section className="story-feature-section" aria-label="Sport avec Jenny">
+        <div className="story-feature-section-inner">
+          <div className="story-feature-copy">
+            <p className="story-feature-number" aria-hidden="true">
               04
             </p>
             <p className="eyebrow">Jenny &amp; moi</p>
             <h2>Le sport, notre passion commune</h2>
-            <p className="story-sisters-sport-lead">
+            <p className="story-feature-lead">
               Ma soeur et moi, on ne partage pas que les gâteaux et les fous rires. On partage aussi
               le sport : courir, bouger, se challenger. C&apos;est notre rituel a deux, sans audience,
               sans filtre.
@@ -141,15 +172,15 @@ export default function StoryPage() {
               nos baskets. La foret, le sentier, le souffle : c&apos;est la ou on se retrouve vraiment.
               Pas besoin de parler longtemps, le rythme suffit.
             </p>
-            <ul className="story-sisters-sport-list">
+            <ul className="story-feature-list">
               <li>Course &amp; cardio</li>
               <li>Defis a deux</li>
               <li>Deconnexion totale</li>
             </ul>
           </div>
 
-          <figure className="story-sisters-sport-portrait">
-            <div className="story-sisters-sport-frame">
+          <figure className="story-feature-portrait">
+            <div className="story-feature-frame">
               <Image
                 src={storyImage("celestejogsforet.png")}
                 alt="Celeste en course en foret"

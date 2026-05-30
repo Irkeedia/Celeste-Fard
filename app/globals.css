@@ -2722,25 +2722,8 @@ h3 {
   transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.story-chapter.is-portrait {
-  min-height: clamp(400px, 70vw, 560px);
-}
-
-.story-chapter.is-portrait .story-chapter-visual {
-  min-height: clamp(360px, 65vw, 520px);
-}
-
-.story-chapter.is-portrait .story-chapter-image img {
-  object-fit: contain;
-  object-position: center;
-}
-
 .story-chapter:hover .story-chapter-image img {
   transform: scale(1.04);
-}
-
-.story-chapter.is-portrait:hover .story-chapter-image img {
-  transform: none;
 }
 
 .story-chapter-copy {
@@ -2756,7 +2739,7 @@ h3 {
   line-height: 1.65;
 }
 
-.story-sisters-sport {
+.story-feature-section {
   position: relative;
   padding: clamp(1.5rem, 3.5vw, 2.25rem);
   border-radius: 1.75rem;
@@ -2769,7 +2752,7 @@ h3 {
   box-shadow: 0 20px 48px rgba(31, 21, 45, 0.1);
 }
 
-.story-sisters-sport::before {
+.story-feature-section::before {
   content: "";
   position: absolute;
   left: 0;
@@ -2780,7 +2763,7 @@ h3 {
   background: linear-gradient(180deg, var(--accent), var(--accent-2));
 }
 
-.story-sisters-sport-inner {
+.story-feature-section-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -2788,7 +2771,7 @@ h3 {
   min-width: 0;
 }
 
-.story-sisters-sport-copy {
+.story-feature-copy {
   flex: 1 1 0;
   min-width: 0;
   display: grid;
@@ -2796,7 +2779,7 @@ h3 {
   padding-left: clamp(0.75rem, 2vw, 1.25rem);
 }
 
-.story-sisters-sport-number {
+.story-feature-number {
   margin: 0;
   font-family: var(--font-title), serif;
   font-size: clamp(3rem, 8vw, 4.5rem);
@@ -2808,12 +2791,12 @@ h3 {
   color: transparent;
 }
 
-.story-sisters-sport-copy h2 {
+.story-feature-copy h2 {
   margin-bottom: 0.15rem;
   max-width: 18ch;
 }
 
-.story-sisters-sport-lead {
+.story-feature-lead {
   margin: 0;
   font-size: clamp(1rem, 2.2vw, 1.08rem);
   line-height: 1.65;
@@ -2822,14 +2805,14 @@ h3 {
   max-width: 42ch;
 }
 
-.story-sisters-sport-copy p:not(.story-sisters-sport-lead):not(.story-sisters-sport-number):not(.eyebrow) {
+.story-feature-copy p:not(.story-feature-lead):not(.story-feature-number):not(.eyebrow) {
   margin: 0;
   color: var(--muted);
   line-height: 1.65;
   max-width: 44ch;
 }
 
-.story-sisters-sport-list {
+.story-feature-list {
   display: flex;
   flex-wrap: wrap;
   gap: 0.45rem;
@@ -2838,7 +2821,7 @@ h3 {
   list-style: none;
 }
 
-.story-sisters-sport-list li {
+.story-feature-list li {
   padding: 0.35rem 0.7rem;
   border-radius: 999px;
   font-size: 0.72rem;
@@ -2850,7 +2833,7 @@ h3 {
   border: 1px solid rgba(160, 107, 255, 0.22);
 }
 
-.story-sisters-sport-portrait {
+.story-feature-portrait {
   flex: 0 0 auto;
   display: grid;
   gap: 0.55rem;
@@ -2858,7 +2841,7 @@ h3 {
   margin: 0;
 }
 
-.story-sisters-sport-frame {
+.story-feature-frame {
   position: relative;
   width: min(100%, 280px);
   aspect-ratio: 9 / 16;
@@ -2874,16 +2857,16 @@ h3 {
   transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.story-sisters-sport:hover .story-sisters-sport-frame {
+.story-feature-section:hover .story-feature-frame {
   transform: rotate(0deg) translateY(-4px);
 }
 
-.story-sisters-sport-frame img {
+.story-feature-frame img {
   object-fit: cover;
   object-position: center top;
 }
 
-.story-sisters-sport-portrait figcaption {
+.story-feature-portrait figcaption {
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.14em;
@@ -3726,22 +3709,22 @@ h3 {
     min-height: 220px;
   }
 
-  .story-sisters-sport-inner {
+  .story-feature-section-inner {
     flex-direction: column-reverse;
     align-items: stretch;
   }
 
-  .story-sisters-sport-frame {
+  .story-feature-frame {
     width: min(100%, 260px);
     margin-inline: auto;
     transform: none;
   }
 
-  .story-sisters-sport:hover .story-sisters-sport-frame {
+  .story-feature-section:hover .story-feature-frame {
     transform: none;
   }
 
-  .story-sisters-sport-copy h2 {
+  .story-feature-copy h2 {
     max-width: none;
   }
 
