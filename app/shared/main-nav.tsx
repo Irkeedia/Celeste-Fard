@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
@@ -137,6 +138,13 @@ export function MainNav() {
           className="site-nav site-nav--mobile is-open"
         >
           <div className="site-nav-head">
+            <Image
+              src="/logo_celeste.png"
+              alt=""
+              width={56}
+              height={56}
+              className="brand-logo brand-logo--drawer"
+            />
             <span className="site-nav-kicker">Explorer</span>
             <span className="site-nav-display">Celeste Fard</span>
           </div>

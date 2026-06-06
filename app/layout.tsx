@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Nunito } from "next/font/google";
+import Image from "next/image";
 import Link from "next/link";
 import "./globals.css";
 import { InteractiveEffects } from "./shared/interactive-effects";
@@ -29,6 +30,13 @@ export const metadata: Metadata = {
   title: "Celeste Fard | Pop Couture",
   description:
     "Celeste Fard, 25 ans, etudiante en sciences et chanteuse. Rap pop sombre, humeurs en FR/IT/EN, transparence radicale et humanite imparfaite.",
+  icons: {
+    icon: "/logo_celeste.png",
+    apple: "/logo_celeste.png",
+  },
+  openGraph: {
+    images: [{ url: "/logo_celeste.png", width: 512, height: 512, alt: "Celeste Fard" }],
+  },
 };
 
 export default function RootLayout({
@@ -57,19 +65,38 @@ export default function RootLayout({
         <header className="site-header">
           <div className="site-header-inner">
             <Link href="/" className="brand-link">
-              CELESTE FARD
+              <Image
+                src="/logo_celeste.png"
+                alt=""
+                width={44}
+                height={44}
+                className="brand-logo"
+                priority
+              />
+              <span className="brand-link-text">CELESTE FARD</span>
             </Link>
             <MainNav />
           </div>
         </header>
         <main className="site-main">{children}</main>
         <footer className="site-footer">
-          <div className="site-footer-copy">
-            <p>France, Racines FR / IT / EN, Pop couture sincère</p>
-            <p>
-              © {new Date().getFullYear()} {LEGAL.editor} / {LEGAL.creator}. Celeste Fard est une
-              représentation artistique assistée par intelligence artificielle.
-            </p>
+          <div className="site-footer-brand">
+            <Link href="/" className="site-footer-logo-link" aria-label="Retour à l'accueil">
+              <Image
+                src="/logo_celeste.png"
+                alt="Celeste Fard"
+                width={52}
+                height={52}
+                className="brand-logo brand-logo--footer"
+              />
+            </Link>
+            <div className="site-footer-copy">
+              <p>France, Racines FR / IT / EN, Pop couture sincère</p>
+              <p>
+                © {new Date().getFullYear()} {LEGAL.editor} / {LEGAL.creator}. Celeste Fard est une
+                représentation artistique assistée par intelligence artificielle.
+              </p>
+            </div>
           </div>
           <nav className="site-footer-nav" aria-label="Informations légales">
             <Link href="/mentions-legales">Mentions légales</Link>
