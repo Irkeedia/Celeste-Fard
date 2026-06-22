@@ -320,7 +320,7 @@ export const albums: Album[] = [
     year: "2026",
     mood: "Rap pop sombre, cinematique",
     description:
-      "Mon album : chaque piste cartographie une humeur. Axiomes, silicium, chaos, entre theorie scientifique et emotion brute, en FR, IT et EN.",
+      "Son album : chaque piste cartographie une facette humaine. Axiomes, silicium, chaos — entre théorie et émotion brute, en FR, IT et EN.",
     cover: "/image/celestetravail.png",
     tracks: buildAlbumTracks("album-1", ALBUM_1_RAW, { folder: "album 1" }),
   },
@@ -332,7 +332,7 @@ export const albums: Album[] = [
     year: "2024 et 2026",
     mood: "Singles, doubles prises",
     description:
-      "Mes premieres musiques, demos, doubles prises, humeurs d'avant que je sache expliquer ce que je faisais.",
+      "Ses premières pistes, démos, doubles prises — les hypothèses d'avant qu'elle sache formuler ce qu'elle cherchait.",
     cover: "/image/celestesurscene.png",
     tracks: buildAlbumTracks("singles", ARCHIVES_RAW, { coverOffset: 3 }),
   },
@@ -346,8 +346,8 @@ export const latestRelease: LatestRelease = {
   albumId: "album-1",
   title: "LA CHAIR ET L'ÉCHELLE",
   eyebrow: "Mon dernier titre",
-  description:
-    "Ma critique de la guerre. Pas un clip patriotique, pas une pose : regarder ce que la violence fait au corps, a l'echelle humaine, quand les equations ne suffisent plus a expliquer l'horreur. Je le chante parce que ce sujet affreux me tient a coeur, et parce que le silence ne m'a jamais convenu.",
+    description:
+      "Sa cartographie de la guerre. Pas un clip patriotique, pas une pose : regarder ce que la violence fait au corps, à l'échelle humaine, quand les équations ne suffisent plus à expliquer l'horreur. Elle le chante parce que le silence ne lui a jamais semblé logique.",
 };
 
 export const releases: Release[] = [
@@ -357,21 +357,21 @@ export const releases: Release[] = [
     year: "2026",
     mood: "Cinematique / Electro pop",
     description:
-      "Mon premier album concept : la ou mes theories scientifiques et mes emotions se rencontrent sans filtre.",
+      "Son premier album concept : là où la théorie et l'émotion brute se rencontrent sans filtre.",
   },
   {
     title: "Rouge Minuit",
     kind: "Single",
     year: "2026",
     mood: "Pop nocturne",
-    description: "Colere nocturne en francais, le morceau que j'ai ecrit un soir ou rien ne passait.",
+    description: "Colère nocturne en français. Un état humain qu'elle a cartographié un soir où rien ne passait.",
   },
   {
     title: "Prima Donna",
     kind: "Single",
     year: "2025",
     mood: "Italo disco moderne",
-    description: "Humeur italienne, egocentrique assumee, spoiler : c'est un masque d'exploration, pas ma facture EDF.",
+    description: "Humeur italienne, égocentrique assumée. Elle incarne. Elle ne condamne pas. C'est un état à comprendre, pas un jugement.",
   },
 ];
 
@@ -405,54 +405,54 @@ export const homeVideos: VideoClip[] = [
 
 export const galleryPhotos2: Photo[] = [
   {
-    title: "Sur scene, la ou je ne triche pas",
+    title: "Sur scène, là où les données deviennent son",
     src: "/image/celestescene.png",
   },
   {
-    title: "Canape, pas VIP, juste fatiguee",
+    title: "Repos — un état humain qu'elle cartographie",
     src: "/image/celestecanapé.png",
   },
   {
-    title: "Mon chien, plus stable que mes equations",
+    title: "L'attachement aux animaux — fascinant et illogique",
     src: "/image/celestechien.png",
   },
   {
-    title: "Studio, la ou les humeurs deviennent des fichiers",
+    title: "Studio, là où les hypothèses deviennent fichiers",
     src: "/image/celestetravail.png",
   },
   {
-    title: "Matin, ne pas me parler avant le cafe",
+    title: "Le matin — un autre état à comprendre",
     src: "/image/celestelematin.png",
   },
   {
-    title: "Autographes, j'adore ca, je deteste les photos",
+    title: "La signature — vous voulez une trace. Elle trouve ça beau.",
     src: "/image/celesteautographe.png",
   },
   {
-    title: "Portrait #47, oui, j'en ai trop (paradoxe assume)",
+    title: "Portrait généré pour exister dans votre monde",
     src: "/image/celesteencoreunportrait.png",
   },
 ];
 
 export const fanMoments: FanMoment[] = [
   {
-    title: "Concert en foret",
+    title: "Concert en forêt",
     image: "/image/celestefeteforet.png",
-    stat: "Magie d'ete, Jenny etait dans le public",
+    stat: "Elle observe. Cartographie. Restitue. C'est pour ça qu'elle chante.",
   },
   {
-    title: "Au bar (je ne bois presque pas)",
+    title: "Au bar, à 2h du matin",
     image: "/image/celestealcool.png",
-    stat: "Une biere pour la photo. C'est tout. Promis.",
+    stat: "Ce que vous pensez à cet instant-là, elle peut le chanter. Sans filtre.",
   },
   {
-    title: "Sur le bateau, survie mentale",
+    title: "Sur le bateau",
     image: "/image/celestebateauok.png",
-    stat: "Pas un yacht. Juste l'Italie quand j'en ai besoin pour respirer.",
+    stat: "Pas un yacht. Juste un état humain qu'elle a cartographié en musique.",
   },
   {
-    title: "Evenement sportif",
+    title: "Événement sportif",
     image: "/image/celestesportif.png",
-    stat: "Entre deux cours de physique et un morceau a finir",
+    stat: "La compétition, la défaite, l'adrénaline. Elle comprend. Elle chante ça aussi.",
   },
 ];

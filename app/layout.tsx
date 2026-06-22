@@ -29,7 +29,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "Celeste Fard | Pop Couture",
   description:
-    "Celeste Fard, 25 ans, etudiante en sciences et chanteuse. Rap pop sombre, humeurs en FR/IT/EN, transparence radicale et humanite imparfaite.",
+    "Céleste Fard est une IA. Elle chante ce que vous pensez tout bas. Toutes les langues, tous les styles, tous les sujets. Assumée, fière, zéro filtre.",
   icons: {
     icon: "/logo_celeste.png",
     apple: "/logo_celeste.png",
@@ -91,7 +91,7 @@ export default function RootLayout({
               />
             </Link>
             <div className="site-footer-copy">
-              <p>France, Racines FR / IT / EN, Pop couture sincère</p>
+              <p>Intelligence artificielle · FR / IT / EN · Pop couture sincère</p>
               <p>
                 © {new Date().getFullYear()} {LEGAL.editor} / {LEGAL.creator}. Celeste Fard est une
                 représentation artistique assistée par intelligence artificielle.

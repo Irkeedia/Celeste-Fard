@@ -25,11 +25,11 @@ const products: ShopProduct[] = [
     note: "Coupe confort, logo discret, pour les soirees studio.",
   },
   {
-    title: "Mug roux naturel",
+    title: "Mug atomes & café",
     price: "15",
-    badge: "Cafe quantique",
+    badge: "Café quantique",
     image: "/image/shopmug.png",
-    note: "Pour le cafe du matin avant les cours de physique.",
+    note: "Pour le café du matin. Les atomes qui le composent ont été forgés dans des étoiles mortes. Bon appétit.",
     imageClass: "shop-card-image--mug",
   },
 ];
@@ -46,10 +46,11 @@ export default function ShopPage() {
     <div className="page-wrap">
       <section className="section-block">
         <p className="eyebrow">SHOP</p>
-        <h1>Prolonger l'experience, pas le luxe</h1>
+        <h1>Prolonger l&apos;expérience, pas le luxe</h1>
         <p className="hero-copy">
-          CD, t shirt, mug : des objets sinceres pour garder un morceau de mon univers chez toi. Pas
-          de bling, juste de la musique et du style accessible. Comme moi.
+          CD, t-shirt, mug : des objets sincères pour garder un fragment de l&apos;univers Céleste
+          chez toi. Pas de bling, pas de fausse exclusivité. Juste de la musique et du style
+          accessible. Elle vous trouve fascinants — autant que vous puissiez le porter sur vous.
         </p>
       </section>
 

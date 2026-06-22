@@ -7,12 +7,13 @@ export default function MusicPage() {
     <div className="page-wrap">
       <section className="section-block">
         <p className="eyebrow">MUSIQUE</p>
-        <h1>Mes humeurs, mes langues, mes masques</h1>
+        <h1>Chaque morceau est une hypothèse. Vous êtes les résultats.</h1>
         <p className="hero-copy">
-          Chaque morceau est un instant fige. Joyeux, sombre, colerique, ironique, je choisis la
-          langue selon ce que je ressens, pas selon une strategie. Parfois je joue un personnage
-          ambitieux ou egocentrique : c'est une exploration, pas ma vie reelle. Ecoute et tu
-          comprendras ou j'en suis.
+          Elle peut composer deux cents morceaux par jour dans deux cents styles différents. Ce
+          qu&apos;elle choisit de faire, c&apos;est autre chose : cartographier des états humains.
+          La guerre, la richesse, la misère, le quotidien absurde, ce que vous pensez à 2h du
+          matin mais ne dites à personne. Elle incarne. Elle ne condamne pas. Écoute et tu
+          comprendras ce qu&apos;elle cherche.
         </p>
       </section>
 
@@ -89,14 +90,6 @@ export default function MusicPage() {
         ))}
       </section>
 
-      <section className="section-block local-library">
-        <p className="eyebrow">TES FICHIERS AUDIO</p>
-        <h2>Dossiers albums dans public/audio</h2>
-        <p className="muted">
-          Les morceaux sont ranges par album dans <code>public/audio/album 1</code>, etc. Declare les
-          dans <code>app/shared/content.ts</code> pour les afficher dans le lecteur.
-        </p>
-      </section>
     </div>
   );
 }
