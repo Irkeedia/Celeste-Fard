@@ -300,6 +300,12 @@ const ALBUM_1_RAW: TrackRow[] = [
   { id: "20", file: "Piombo e Seta-2.mp3", title: "Piombo e Seta", subtitle: "Version B", duration: "4:58", language: "it" },
   { id: "21", file: "The Apex Market.mp3", title: "The Apex Market", subtitle: "Version principale", duration: "4:57", language: "en" },
   { id: "22", file: "The Apex Market-2.mp3", title: "The Apex Market", subtitle: "Version B", duration: "4:50", language: "en" },
+  { id: "23", file: "LES HOMMES DE DIEU.mp3", title: "LES HOMMES DE DIEU", subtitle: "Foi et pouvoir, meme calcul", duration: "5:19", language: "fr" },
+  { id: "24", file: "Caffeine Noir.mp3", title: "Caffeine Noir", subtitle: "Lucidite artificielle", duration: "3:18", language: "fr" },
+  { id: "25", file: "Le projet final.mp3", title: "Le projet final", subtitle: "Obsession jusqu'au bout", duration: "3:38", language: "fr" },
+  { id: "26", file: "POLVERE D'ORO.mp3", title: "POLVERE D'ORO", subtitle: "Eclat et illusion", duration: "3:49", language: "it" },
+  { id: "27", file: "ENTRE LES MURS.mp3", title: "ENTRE LES MURS", subtitle: "Huis clos interieur", duration: "3:59", language: "fr" },
+  { id: "28", file: "LA RARETÉ CALCULÉE.mp3", title: "LA RARETÉ CALCULÉE", subtitle: "Desir, strategie", duration: "3:26", language: "fr" },
 ];
 
 const ARCHIVES_RAW: TrackRow[] = TRACKS_RAW;
