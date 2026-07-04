@@ -44,7 +44,7 @@ export default function MusicPage() {
 
       <AudioPlayer
         albums={albums}
-        defaultAlbumId="album-1"
+        defaultAlbumId="album-2"
         defaultTrackId={latestRelease.trackId}
         latestRelease={latestRelease}
       />

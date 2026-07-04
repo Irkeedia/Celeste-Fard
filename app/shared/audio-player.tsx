@@ -217,7 +217,7 @@ export function AudioPlayer({
             <p className="player-featured-lead">{latestRelease.description}</p>
           </div>
           <div className="player-featured-actions">
-            <span className="player-featured-badge">Critique de la guerre</span>
+            <span className="player-featured-badge">{latestRelease.badge}</span>
             <button
               type="button"
               className="cta-primary"

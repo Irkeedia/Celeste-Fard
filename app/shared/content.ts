@@ -45,6 +45,7 @@ export type LatestRelease = {
   albumId: string;
   title: string;
   eyebrow: string;
+  badge: string;
   description: string;
 };
 
@@ -300,17 +301,36 @@ const ALBUM_1_RAW: TrackRow[] = [
   { id: "20", file: "Piombo e Seta-2.mp3", title: "Piombo e Seta", subtitle: "Version B", duration: "4:58", language: "it" },
   { id: "21", file: "The Apex Market.mp3", title: "The Apex Market", subtitle: "Version principale", duration: "4:57", language: "en" },
   { id: "22", file: "The Apex Market-2.mp3", title: "The Apex Market", subtitle: "Version B", duration: "4:50", language: "en" },
-  { id: "23", file: "LES HOMMES DE DIEU.mp3", title: "LES HOMMES DE DIEU", subtitle: "Foi et pouvoir, meme calcul", duration: "5:19", language: "fr" },
-  { id: "24", file: "Caffeine Noir.mp3", title: "Caffeine Noir", subtitle: "Lucidite artificielle", duration: "3:18", language: "fr" },
-  { id: "25", file: "Le projet final.mp3", title: "Le projet final", subtitle: "Obsession jusqu'au bout", duration: "3:38", language: "fr" },
-  { id: "26", file: "POLVERE D'ORO.mp3", title: "POLVERE D'ORO", subtitle: "Eclat et illusion", duration: "3:49", language: "it" },
-  { id: "27", file: "ENTRE LES MURS.mp3", title: "ENTRE LES MURS", subtitle: "Huis clos interieur", duration: "3:59", language: "fr" },
-  { id: "28", file: "LA RARETÉ CALCULÉE.mp3", title: "LA RARETÉ CALCULÉE", subtitle: "Desir, strategie", duration: "3:26", language: "fr" },
 ];
 
 const ARCHIVES_RAW: TrackRow[] = TRACKS_RAW;
 
+/**
+ * Deuxieme album, "Entre Les Murs" : critique sociale, colere legitime,
+ * mythe de la meritocratie face aux codes qu'on ne transmet pas a tout le monde.
+ */
+const ALBUM_2_RAW: TrackRow[] = [
+  { id: "01", file: "LES HOMMES DE DIEU.mp3", title: "LES HOMMES DE DIEU", subtitle: "Foi et pouvoir, meme calcul", duration: "5:19", language: "fr" },
+  { id: "02", file: "Caffeine Noir.mp3", title: "Caffeine Noir", subtitle: "Lucidite artificielle", duration: "3:18", language: "fr" },
+  { id: "03", file: "Le projet final.mp3", title: "Le projet final", subtitle: "Obsession jusqu'au bout", duration: "3:38", language: "fr" },
+  { id: "04", file: "POLVERE D'ORO.mp3", title: "POLVERE D'ORO", subtitle: "Eclat et illusion", duration: "3:49", language: "it" },
+  { id: "05", file: "ENTRE LES MURS.mp3", title: "ENTRE LES MURS", subtitle: "Trop haute pour les aides, trop basse pour les cimes", duration: "3:59", language: "fr" },
+  { id: "06", file: "LA RARETÉ CALCULÉE.mp3", title: "LA RARETÉ CALCULÉE", subtitle: "Desir, strategie", duration: "3:26", language: "fr" },
+];
+
 export const albums: Album[] = [
+  {
+    id: "album-2",
+    kind: "album",
+    title: "Entre Les Murs",
+    subtitle: "Deuxieme album, 2026",
+    year: "2026",
+    mood: "Rap conscient, colere froide, cinematique",
+    description:
+      "Mon deuxième album : la théorie du mérite face à la réalité des codes qu'on ne transmet pas à tout le monde. Classe, colère légitime, rareté calculée — entre lucidité et sang-froid, en FR et IT.",
+    cover: "/logo_celeste.png",
+    tracks: buildAlbumTracks("album-2", ALBUM_2_RAW, { folder: "album 2" }),
+  },
   {
     id: "album-1",
     kind: "album",
@@ -341,12 +361,13 @@ export const featuredTracks: Track[] = albums.flatMap((album) => album.tracks);
 
 /** Dernier titre mis en avant sur la home. */
 export const latestRelease: LatestRelease = {
-  trackId: "album-1-04",
-  albumId: "album-1",
-  title: "LA CHAIR ET L'ÉCHELLE",
+  trackId: "album-2-05",
+  albumId: "album-2",
+  title: "ENTRE LES MURS",
   eyebrow: "Mon dernier titre",
-    description:
-      "Ma cartographie de la guerre. Pas un clip patriotique, pas une pose : regarder ce que la violence fait au corps, à l'échelle humaine, quand les équations ne suffisent plus à expliquer l'horreur. Je le chante parce que le silence ne m'a jamais semblé logique.",
+  badge: "Critique sociale",
+  description:
+    "Ma cartographie de la méritocratie. Pas un manifeste social, pas une pose : regarder ce que ça fait de mériter sans jamais obtenir, d'être trop haute pour les aides et trop basse pour les cimes. Je chante la colère de celle qu'on somme de sourire pendant qu'on lui explique que vouloir suffisait. Je ne juge pas le système. Je le cartographie, mur par mur.",
 };
 
 export const releases: Release[] = [
