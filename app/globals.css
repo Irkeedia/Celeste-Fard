@@ -1436,7 +1436,7 @@ h3 {
   margin-bottom: 0.2rem;
 }
 
-.vinyl-player-wrap {
+.audio-player-wrap {
   display: grid;
   gap: 1rem;
   min-width: 0;
@@ -1488,229 +1488,233 @@ h3 {
   border: 1px solid rgba(160, 107, 255, 0.24);
 }
 
-.vinyl-player {
+.mini-player {
   display: grid;
-  gap: 1.25rem;
-  padding: 1.35rem;
+  gap: 1rem;
+  padding: 1.15rem 1.25rem;
   min-width: 0;
 }
 
-.vinyl-player-top {
-  display: grid;
-  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
-  gap: 1.5rem;
+.mp-head {
+  display: flex;
   align-items: center;
+  gap: 0.9rem;
+  min-width: 0;
 }
 
-.vinyl-stage {
+.mp-cover {
   position: relative;
-  width: min(100%, 280px);
-  aspect-ratio: 1;
-  margin-inline: auto;
-}
-
-.vinyl-disc {
-  position: absolute;
-  inset: 8%;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 50% 50%, rgba(18, 12, 28, 0.98) 0 18%, rgba(28, 18, 38, 1) 18% 100%),
-    repeating-radial-gradient(
-      circle at 50% 50%,
-      rgba(255, 255, 255, 0.05) 0 1px,
-      rgba(0, 0, 0, 0.12) 1px 2px
-    );
-  box-shadow:
-    0 18px 40px rgba(31, 21, 45, 0.22),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.06);
-  transform-origin: 50% 50%;
-}
-
-.vinyl-disc.is-spinning {
-  animation: vinyl-spin 3.8s linear infinite;
-}
-
-.vinyl-grooves {
-  position: absolute;
-  inset: 6%;
-  border-radius: 50%;
-  background: repeating-radial-gradient(
-    circle at 50% 50%,
-    rgba(255, 255, 255, 0.035) 0 1px,
-    transparent 1px 3px
-  );
-  opacity: 0.9;
-}
-
-.vinyl-shine {
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.16), transparent 42%, transparent 68%, rgba(255, 255, 255, 0.08));
-  pointer-events: none;
-}
-
-.vinyl-label {
-  position: absolute;
-  inset: 31%;
-  border-radius: 50%;
+  flex-shrink: 0;
+  width: 4.75rem;
+  height: 4.75rem;
+  border-radius: 0.95rem;
   overflow: hidden;
-  border: 3px solid rgba(255, 255, 255, 0.92);
-  box-shadow: 0 0 0 1px rgba(124, 98, 155, 0.18);
-  background: #fff;
+  border: 1px solid rgba(124, 98, 155, 0.22);
+  box-shadow: 0 8px 22px rgba(31, 21, 45, 0.14);
 }
 
-.vinyl-label-art {
+.mp-cover img {
   object-fit: cover;
 }
 
-.vinyl-arm {
+.mp-eq {
   position: absolute;
-  top: 8%;
-  right: 12%;
-  width: 42%;
+  inset: auto 0 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 2px;
   height: 42%;
-  transform-origin: 82% 18%;
-  transform: rotate(-24deg);
-  transition: transform 0.45s ease;
-  pointer-events: none;
+  padding-bottom: 0.3rem;
+  background: linear-gradient(180deg, transparent, rgba(13, 10, 18, 0.6));
+  opacity: 0;
+  transition: opacity 0.3s ease;
 }
 
-.vinyl-arm.is-playing {
-  transform: rotate(-8deg);
+.mp-eq.is-live {
+  opacity: 1;
 }
 
-.vinyl-arm-head {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 1.1rem;
-  height: 1.1rem;
-  border-radius: 50%;
-  background: linear-gradient(145deg, #d8c8ea, #9b79b8);
-  box-shadow: 0 2px 8px rgba(31, 21, 45, 0.18);
-}
-
-.vinyl-arm-body {
-  position: absolute;
-  top: 0.45rem;
-  right: 0.45rem;
-  width: 72%;
-  height: 0.28rem;
-  border-radius: 999px;
-  background: linear-gradient(90deg, #cdbbe0, #f7f2fb);
-  transform: rotate(28deg);
-  transform-origin: right center;
-}
-
-.vinyl-arm-body::after {
-  content: "";
-  position: absolute;
-  left: -0.35rem;
-  top: 50%;
-  width: 0.55rem;
-  height: 0.55rem;
+.mp-eq i {
+  width: 3px;
+  height: 35%;
   border-radius: 2px;
-  background: #2a1838;
-  transform: translateY(-50%) rotate(12deg);
+  background: linear-gradient(180deg, #fff, var(--accent));
 }
 
-.vinyl-now-playing {
+.mp-eq.is-live i {
+  animation: mp-eq-bounce 0.9s ease-in-out infinite;
+}
+
+.mp-eq i:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.mp-eq i:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.mp-eq i:nth-child(4) {
+  animation-delay: 0.45s;
+}
+
+@keyframes mp-eq-bounce {
+  0%,
+  100% {
+    height: 25%;
+  }
+  50% {
+    height: 90%;
+  }
+}
+
+.mp-now {
   min-width: 0;
+  display: grid;
+  gap: 0.12rem;
 }
 
-.vinyl-now-playing h3 {
-  margin: 0.35rem 0;
-  font-size: clamp(1.2rem, 3vw, 1.75rem);
+.mp-now .eyebrow {
+  margin-bottom: 0.12rem;
+}
+
+.mp-now h3 {
+  margin: 0;
+  font-size: clamp(1.05rem, 2.6vw, 1.4rem);
+  line-height: 1.15;
   overflow-wrap: anywhere;
 }
 
-.vinyl-controls {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  margin: 1rem 0 0.85rem;
+.mp-now .muted {
+  margin: 0;
+  font-size: 0.86rem;
 }
 
-.vinyl-control-btn {
-  width: 2.75rem;
-  height: 2.75rem;
-  border: 0;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.88);
+.mp-now .player-track-badges {
+  margin-top: 0.35rem;
+}
+
+.mp-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.mp-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.mp-btn {
+  width: 2.5rem;
+  height: 2.5rem;
   border: 1px solid rgba(139, 117, 159, 0.24);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
   color: var(--text);
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   font-weight: 700;
   cursor: pointer;
   transition:
     transform 0.15s ease,
-    background 0.15s ease,
-    box-shadow 0.15s ease;
+    background 0.15s ease;
 }
 
-.vinyl-control-btn:hover {
-  background: rgba(255, 255, 255, 0.98);
+.mp-btn:hover {
+  background: #fff;
 }
 
-.vinyl-control-btn:active {
-  transform: scale(0.96);
+.mp-btn:active {
+  transform: scale(0.95);
 }
 
-.vinyl-control-btn--main {
-  width: 3.6rem;
-  height: 3.6rem;
-  font-size: 1rem;
-  color: #fff;
-  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+.mp-btn--main {
+  width: 3.1rem;
+  height: 3.1rem;
   border: 0;
-  box-shadow: 0 10px 28px rgba(243, 90, 184, 0.28);
-}
-
-.vinyl-control-btn--main:hover,
-.vinyl-control-btn--main:focus,
-.vinyl-control-btn--main:focus-visible,
-.vinyl-control-btn--main:active {
   color: #fff;
+  font-size: 1rem;
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
-  border-color: transparent;
-  box-shadow: 0 10px 28px rgba(243, 90, 184, 0.28);
+  box-shadow: 0 8px 22px rgba(243, 90, 184, 0.3);
 }
 
-.vinyl-control-btn--main:focus-visible {
+.mp-btn--main:hover {
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+}
+
+.mp-btn--main:focus-visible {
   outline: 2px solid rgba(160, 107, 255, 0.45);
   outline-offset: 3px;
 }
 
-.vinyl-player-bottom {
+.mp-bar .player-progress-row {
+  flex: 1;
+  min-width: min(100%, 200px);
+}
+
+.mp-bottom {
   display: grid;
-  gap: 1rem;
-  padding-top: 0.35rem;
+  gap: 0.85rem;
+  padding-top: 0.9rem;
   border-top: 1px solid rgba(124, 98, 155, 0.14);
 }
 
-.track-list--vinyl {
-  max-height: min(42svh, 420px);
-  overflow: auto;
+.mp-source {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 }
 
-@keyframes vinyl-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.mp-source-btn {
+  flex: 1;
+  min-width: min(100%, 180px);
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(139, 117, 159, 0.24);
+  background: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.mp-source-btn:hover {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.mp-source-btn.active {
+  border-color: rgba(243, 90, 184, 0.55);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 0 0 1px rgba(243, 90, 184, 0.22) inset;
+}
+
+.mp-source-name {
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--text);
+}
+
+.mp-source-meta {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.mini-player .track-list {
+  max-height: min(38svh, 320px);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .vinyl-disc.is-spinning {
+  .mp-eq.is-live i {
     animation: none;
-  }
-
-  .vinyl-arm {
-    transition: none;
+    height: 55%;
   }
 }
 
@@ -3915,10 +3919,6 @@ h3 {
   }
 
   .player-block--with-scene {
-    grid-template-columns: 1fr;
-  }
-
-  .vinyl-player-top {
     grid-template-columns: 1fr;
   }
 

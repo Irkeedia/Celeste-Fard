@@ -64,12 +64,12 @@ export default function Home() {
         </section>
       </section>
 
-      <section className="section-block player-section player-section--home">
+      <section className="player-section player-section--home">
         <div className="section-heading">
           <p className="eyebrow">ECOUTER CELESTE</p>
           <h2>Mes humeurs en musique</h2>
           <p className="muted">
-            Lance le vinyle, choisis <strong>Album 1</strong> ou <strong>Singles</strong>, chaque
+            Lance le lecteur, choisis <strong>Album 1</strong> ou <strong>Singles</strong>, chaque
             morceau, c&apos;est l&apos;humeur du jour figee en son.
           </p>
         </div>

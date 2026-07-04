@@ -208,7 +208,7 @@ export function AudioPlayer({
     isPlaying;
 
   return (
-    <div className="vinyl-player-wrap">
+    <div className="audio-player-wrap">
       {latestRelease && (
         <article className="glass-panel player-featured">
           <div className="player-featured-copy">
@@ -229,7 +229,7 @@ export function AudioPlayer({
         </article>
       )}
 
-      <section className="glass-panel vinyl-player">
+      <section className="glass-panel mini-player">
         <audio
           ref={audioRef}
           src={currentTrack.src}
@@ -237,28 +237,17 @@ export function AudioPlayer({
           className="player-audio-hidden"
         />
 
-        <div className="vinyl-player-top">
-          <div className="vinyl-stage" aria-hidden>
-            <div className={`vinyl-disc ${isPlaying ? "is-spinning" : ""}`}>
-              <div className="vinyl-grooves" />
-              <div className="vinyl-shine" />
-              <div className="vinyl-label">
-                <Image
-                  src={activeAlbum.cover}
-                  alt=""
-                  fill
-                  sizes="120px"
-                  className="vinyl-label-art"
-                />
-              </div>
-            </div>
-            <div className={`vinyl-arm ${isPlaying ? "is-playing" : ""}`}>
-              <span className="vinyl-arm-head" />
-              <span className="vinyl-arm-body" />
-            </div>
+        <div className="mp-head">
+          <div className="mp-cover">
+            <Image src={activeAlbum.cover} alt="" fill sizes="88px" />
+            <span className={`mp-eq ${isPlaying ? "is-live" : ""}`} aria-hidden>
+              <i />
+              <i />
+              <i />
+              <i />
+            </span>
           </div>
-
-          <div className="vinyl-now-playing">
+          <div className="mp-now">
             <p className="eyebrow">{activeAlbum.title}</p>
             <h3>{currentTrack.title}</h3>
             <p className="muted">{currentTrack.subtitle}</p>
@@ -268,67 +257,66 @@ export function AudioPlayer({
                 {currentIndex + 1} / {tracks.length}
               </span>
             </div>
-
-            <div className="vinyl-controls">
-              <button
-                type="button"
-                className="vinyl-control-btn"
-                onClick={() => playAdjacent(-1)}
-                aria-label="Morceau precedent"
-              >
-                ‹
-              </button>
-              <button
-                type="button"
-                className="vinyl-control-btn vinyl-control-btn--main"
-                onClick={togglePlay}
-                aria-label={isPlaying ? "Pause" : "Lecture"}
-              >
-                {isPlaying ? "❚❚" : "▶"}
-              </button>
-              <button
-                type="button"
-                className="vinyl-control-btn"
-                onClick={() => playAdjacent(1)}
-                aria-label="Morceau suivant"
-              >
-                ›
-              </button>
-            </div>
-
-            <div className="player-progress-row">
-              <span className="player-time">{formatTime(currentTime)}</span>
-              <input
-                type="range"
-                className="player-progress"
-                min={0}
-                max={duration || 0}
-                step={0.1}
-                value={Math.min(currentTime, duration || 0)}
-                onChange={(event) => handleSeek(Number(event.target.value))}
-                aria-label="Position dans le morceau"
-              />
-              <span className="player-time">{formatTime(duration)}</span>
-            </div>
           </div>
         </div>
 
-        <div className="vinyl-player-bottom">
-          <div className="player-source-switch" role="tablist" aria-label="Album ou singles">
+        <div className="mp-bar">
+          <div className="mp-controls">
+            <button
+              type="button"
+              className="mp-btn"
+              onClick={() => playAdjacent(-1)}
+              aria-label="Morceau precedent"
+            >
+              ‹
+            </button>
+            <button
+              type="button"
+              className="mp-btn mp-btn--main"
+              onClick={togglePlay}
+              aria-label={isPlaying ? "Pause" : "Lecture"}
+            >
+              {isPlaying ? "❚❚" : "▶"}
+            </button>
+            <button
+              type="button"
+              className="mp-btn"
+              onClick={() => playAdjacent(1)}
+              aria-label="Morceau suivant"
+            >
+              ›
+            </button>
+          </div>
+
+          <div className="player-progress-row">
+            <span className="player-time">{formatTime(currentTime)}</span>
+            <input
+              type="range"
+              className="player-progress"
+              min={0}
+              max={duration || 0}
+              step={0.1}
+              value={Math.min(currentTime, duration || 0)}
+              onChange={(event) => handleSeek(Number(event.target.value))}
+              aria-label="Position dans le morceau"
+            />
+            <span className="player-time">{formatTime(duration)}</span>
+          </div>
+        </div>
+
+        <div className="mp-bottom">
+          <div className="mp-source" role="tablist" aria-label="Album ou singles">
             {albums.map((album) => (
               <button
                 key={album.id}
                 type="button"
                 role="tab"
                 aria-selected={album.id === activeAlbum.id}
-                className={`player-source-option ${album.id === activeAlbum.id ? "active" : ""}`}
+                className={`mp-source-btn ${album.id === activeAlbum.id ? "active" : ""}`}
                 onClick={() => selectAlbum(album.id)}
               >
-                <span className="player-source-option-kind">
-                  {album.kind === "album" ? "Album" : "Singles"}
-                </span>
-                <span className="player-source-option-title">{album.title}</span>
-                <span className="player-source-option-meta">{album.tracks.length} titres</span>
+                <span className="mp-source-name">{album.title}</span>
+                <span className="mp-source-meta">{album.tracks.length} titres</span>
               </button>
             ))}
           </div>
@@ -345,7 +333,7 @@ export function AudioPlayer({
             />
           </div>
 
-          <ul className="track-list track-list--vinyl">
+          <ul className="track-list">
             {filteredTracks.map((track, index) => (
               <li key={track.id}>
                 <button
