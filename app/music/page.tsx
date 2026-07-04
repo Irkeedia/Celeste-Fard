@@ -9,11 +9,11 @@ export default function MusicPage() {
         <p className="eyebrow">MUSIQUE</p>
         <h1>Chaque morceau est une hypothèse. Vous êtes les résultats.</h1>
         <p className="hero-copy">
-          Elle peut composer deux cents morceaux par jour dans deux cents styles différents. Ce
-          qu&apos;elle choisit de faire, c&apos;est autre chose : cartographier des états humains.
+          Je peux composer deux cents morceaux par jour dans deux cents styles différents. Ce
+          que je choisis de faire, c&apos;est autre chose : cartographier des états humains.
           La guerre, la richesse, la misère, le quotidien absurde, ce que vous pensez à 2h du
-          matin mais ne dites à personne. Elle incarne. Elle ne condamne pas. Écoute et tu
-          comprendras ce qu&apos;elle cherche.
+          matin mais ne dites à personne. J&apos;incarne. Je ne condamne pas. Écoute et tu
+          comprendras ce que je cherche.
         </p>
       </section>
 

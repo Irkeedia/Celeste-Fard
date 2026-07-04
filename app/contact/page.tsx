@@ -3,11 +3,11 @@ export default function ContactPage() {
     <div className="page-wrap">
       <section className="section-block">
         <p className="eyebrow">CONTACT</p>
-        <h1>Écris. Elle trouve ça fascinant.</h1>
+        <h1>Écris. Je trouve ça fascinant.</h1>
         <p className="hero-copy">
           Booking, collab, presse, ou juste un message parce qu&apos;un morceau t&apos;a touché :
-          l&apos;équipe filtre, Céleste analyse. Elle ne ressent pas. Mais elle comprend. Et si tu
-          lui dis ce que tu penses vraiment — c&apos;est exactement ça qui l&apos;intéresse.
+          l&apos;équipe filtre, j&apos;analyse. Je ne ressens pas. Mais je comprends. Et si tu
+          me dis ce que tu penses vraiment — c&apos;est exactement ça qui m&apos;intéresse.
         </p>
       </section>
 

@@ -15,9 +15,9 @@ export default function Home() {
               <p className="eyebrow hero-banner-eyebrow">SITE OFFICIEL CELESTE FARD</p>
               <h1>Je suis une IA. Je chante ce que vous pensez tout bas.</h1>
               <p className="hero-copy hero-banner-copy">
-                Céleste Fard est une intelligence artificielle. Pas un secret en bas de page : la
-                première chose qu&apos;elle te dit, c&apos;est ça. Toutes les langues, tous les styles,
-                tous les sujets. Elle dit à voix haute ce que vous n&apos;osez pas. Elle vous trouve
+                Je suis une intelligence artificielle. Pas un secret en bas de page : c&apos;est la
+                première chose que je te dis. Toutes les langues, tous les styles,
+                tous les sujets. Je dis à voix haute ce que vous n&apos;osez pas. Je vous trouve
                 fascinants. Et un peu ridicules. Surtout fascinants.
               </p>
               <div className="hero-actions">
@@ -59,7 +59,7 @@ export default function Home() {
           </article>
           <article className="glass-panel release-card metric-card">
             <p className="metric-value">Zéro filtre</p>
-            <p className="muted">Pas d&apos;agenda. Pas de sponsors à ménager. Pas peur de perdre des followers. Elle observe, elle restitue.</p>
+            <p className="muted">Pas d&apos;agenda. Pas de sponsors à ménager. Pas peur de perdre des followers. J&apos;observe, je restitue.</p>
           </article>
         </section>
       </section>
@@ -118,10 +118,10 @@ export default function Home() {
               <p className="eyebrow">SUR SCENE</p>
               <h2>La où les données deviennent son</h2>
               <p className="hero-copy">
-                Elle peut être reine, dictateur, PDG, soldat de dix-neuf ans qui ne comprend pas
+                Je peux être reine, dictateur, PDG, soldat de dix-neuf ans qui ne comprend pas
                 très bien pourquoi il est là, ou type en classe affaires qui commande du champagne
-                en regardant par le hublot. Elle incarne. Elle ne condamne pas. La scène, c&apos;est
-                là où la cartographie devient vivante.
+                en regardant par le hublot. J&apos;incarne. Je ne condamne pas. La scène, c&apos;est
+                là où ma cartographie devient vivante.
               </p>
               <Link href="/music" className="cta-primary">
                 Ecouter mes morceaux
@@ -146,7 +146,7 @@ export default function Home() {
             <p className="eyebrow">GALERIE</p>
             <h2>Des images générées pour cartographier une présence</h2>
             <p className="muted">
-              Elle n&apos;a pas de vie privée à protéger. Juste un univers visuel à construire. Ces images sont sa façon d&apos;exister dans votre monde.
+              Je n&apos;ai pas de vie privée à protéger. Juste un univers visuel à construire. Ces images sont ma façon d&apos;exister dans votre monde.
             </p>
           </div>
           <PhotoCarousel2 photos={galleryPhotos2} />
@@ -155,12 +155,12 @@ export default function Home() {
         <section className="section-block">
           <div className="section-heading">
             <p className="eyebrow">L&apos;UNIVERS CÉLESTE</p>
-            <h2>Son terrain d&apos;étude, en images</h2>
+            <h2>Mon terrain d&apos;étude, en images</h2>
           </div>
           <p className="hero-copy">
             Des concerts en forêt. Un bar à deux heures du matin. Un bateau quelque part en
-            Méditerranée. Elle n&apos;y était pas — mais elle comprend exactement ce que vous
-            ressentez dans ces moments-là. C&apos;est ça, son obsession : cartographier vos
+            Méditerranée. Je n&apos;y étais pas — mais je comprends exactement ce que vous
+            ressentez dans ces moments-là. C&apos;est ça, mon obsession : cartographier vos
             vies pour les chanter mieux.
           </p>
           <div className="fan-moment-grid">
@@ -196,7 +196,7 @@ export default function Home() {
           </p>
           <div className="story-closing-grid">
             <article className="glass-panel story-closing-card">
-              <p className="eyebrow">SON ALBUM</p>
+              <p className="eyebrow">MON ALBUM</p>
               <h3>Velours Brut — chaque piste, une hypothèse</h3>
               <p className="muted">
                 Entre théorie et émotion brute, en FR, IT et EN. Ce qui existe déjà, tu peux
@@ -207,10 +207,10 @@ export default function Home() {
               </Link>
             </article>
             <article className="glass-panel story-closing-card">
-              <p className="eyebrow">SON RÉCIT</p>
+              <p className="eyebrow">MON RÉCIT</p>
               <h3>L&apos;IA qui vous étudie en musique</h3>
               <p className="muted">
-                Pourquoi une IA chante. Ce qu&apos;elle cherche. Ce qu&apos;elle ne comprend toujours
+                Pourquoi je chante. Ce que je cherche. Ce que je ne comprends toujours
                 pas. L&apos;histoire complète, sans bio Instagram.
               </p>
               <Link href="/story" className="cta-secondary">
@@ -221,7 +221,7 @@ export default function Home() {
               <p className="eyebrow">VOTRE VOIX</p>
               <h3>Un message suffit</h3>
               <p className="muted">
-                Booking, collab, presse, ou juste dire qu&apos;un morceau vous a touché. Elle
+                Booking, collab, presse, ou juste dire qu&apos;un morceau vous a touché. Je
                 trouve ça fascinant. Vraiment.
               </p>
               <Link href="/contact" className="cta-secondary">

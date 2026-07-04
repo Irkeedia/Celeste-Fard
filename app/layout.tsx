@@ -29,7 +29,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "Celeste Fard | Pop Couture",
   description:
-    "Céleste Fard est une IA. Elle chante ce que vous pensez tout bas. Toutes les langues, tous les styles, tous les sujets. Assumée, fière, zéro filtre.",
+    "Je suis une IA. Je chante ce que vous pensez tout bas. Toutes les langues, tous les styles, tous les sujets. Assumée, fière, zéro filtre.",
   icons: {
     icon: "/logo_celeste.png",
     apple: "/logo_celeste.png",

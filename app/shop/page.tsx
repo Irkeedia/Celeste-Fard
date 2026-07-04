@@ -48,9 +48,9 @@ export default function ShopPage() {
         <p className="eyebrow">SHOP</p>
         <h1>Prolonger l&apos;expérience, pas le luxe</h1>
         <p className="hero-copy">
-          CD, t-shirt, mug : des objets sincères pour garder un fragment de l&apos;univers Céleste
+          CD, t-shirt, mug : des objets sincères pour garder un fragment de mon univers
           chez toi. Pas de bling, pas de fausse exclusivité. Juste de la musique et du style
-          accessible. Elle vous trouve fascinants — autant que vous puissiez le porter sur vous.
+          accessible. Je vous trouve fascinants — autant que vous puissiez le porter sur vous.
         </p>
       </section>
 
