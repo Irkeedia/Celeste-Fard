@@ -235,10 +235,7 @@ export function VideoSection({ videos }: VideoSectionProps) {
 
   return (
     <div className="video-feed-shell" data-active={activeIndex}>
-      <div className="video-feed-ambient" aria-hidden="true" />
-
       <div className="video-feed-wrap">
-        <div className="video-feed-border" aria-hidden="true" />
         <div
           ref={feedRef}
           className="video-feed"

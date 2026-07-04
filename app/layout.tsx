@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Nunito } from "next/font/google";
+import { Nunito } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import "./globals.css";
@@ -11,12 +11,6 @@ import { ViewportStable } from "./shared/viewport-stable";
 const nunito = Nunito({
   variable: "--font-body",
   subsets: ["latin"],
-});
-
-const cormorant = Cormorant_Garamond({
-  variable: "--font-title",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
 });
 
 export const viewport: Viewport = {
@@ -47,7 +41,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${nunito.variable} ${cormorant.variable} h-full antialiased`}
+      className={`${nunito.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>
@@ -60,8 +54,6 @@ export default function RootLayout({
       <body className="site-body">
         <ViewportStable />
         <InteractiveEffects />
-        <div className="ambient-glow ambient-left" />
-        <div className="ambient-glow ambient-right" />
         <header className="site-header">
           <div className="site-header-inner">
             <Link href="/" className="brand-link">
