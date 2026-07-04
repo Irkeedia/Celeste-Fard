@@ -1308,21 +1308,27 @@ h3 {
   display: grid;
   gap: 1.25rem;
   padding: 1.35rem 1.5rem;
-  border-color: var(--line);
-  background: var(--card);
+  border-color: transparent;
+  background: #0c0c0d;
+  color: #fff;
+}
+
+.player-featured-copy .eyebrow {
+  color: rgba(255, 255, 255, 0.56);
 }
 
 .player-featured-copy h2 {
   margin: 0.35rem 0 0.85rem;
   font-size: clamp(1.6rem, 4vw, 2.35rem);
   line-height: 1.05;
+  color: #fff;
 }
 
 .player-featured-lead {
   margin: 0;
   max-width: 62ch;
   line-height: 1.65;
-  color: var(--text);
+  color: rgba(255, 255, 255, 0.72);
 }
 
 .player-featured-actions {
@@ -1330,6 +1336,12 @@ h3 {
   flex-wrap: wrap;
   align-items: center;
   gap: 0.75rem 1rem;
+}
+
+.player-featured-actions .cta-primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 8px 22px rgba(243, 90, 184, 0.35);
 }
 
 .player-featured-badge {
@@ -1341,9 +1353,9 @@ h3 {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--text);
-  background: var(--surface);
-  border: 1px solid var(--line);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .mini-player {
@@ -2810,9 +2822,13 @@ h3 {
   text-align: center;
   padding: clamp(2rem, 5vw, 3.25rem) clamp(1.25rem, 4vw, 2.5rem);
   border-radius: 1.5rem;
-  border: 1px solid var(--line);
-  background: var(--surface);
+  border: 1px solid transparent;
+  background: #0c0c0d;
   overflow: hidden;
+}
+
+.story-manifesto .eyebrow {
+  color: rgba(255, 255, 255, 0.56);
 }
 
 .story-manifesto-quote {
@@ -2824,7 +2840,7 @@ h3 {
   font-family: var(--font-body), Arial, sans-serif;
   font-size: clamp(5rem, 14vw, 8rem);
   line-height: 1;
-  color: rgba(0, 0, 0, 0.06);
+  color: rgba(255, 255, 255, 0.06);
   pointer-events: none;
   user-select: none;
 }
@@ -2834,13 +2850,14 @@ h3 {
   max-width: 16ch;
   margin-bottom: 0.15rem;
   font-size: clamp(1.55rem, 4vw, 2.45rem);
+  color: #fff;
 }
 
 .story-manifesto p {
   position: relative;
   margin: 0;
   max-width: 52ch;
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.72);
   line-height: 1.7;
   font-size: clamp(0.96rem, 2vw, 1.05rem);
 }
@@ -2851,7 +2868,7 @@ h3 {
   font-family: var(--font-body), Arial, sans-serif;
   font-size: 1.05rem;
   font-style: italic;
-  color: var(--text);
+  color: #fff;
 }
 
 .story-moodboard {
@@ -2949,17 +2966,18 @@ h3 {
 }
 
 .waveform-panel {
-  min-height: 120px;
+  min-height: 140px;
   display: flex;
   align-items: end;
-  gap: 0.35rem;
-  padding: 1rem;
+  gap: 0.3rem;
+  padding: 1.5rem 1.25rem;
 }
 
 .wave-bar {
   flex: 1;
   border-radius: 999px;
-  background: rgba(29, 29, 31, 0.14);
+  background: var(--text);
+  opacity: 0.85;
 }
 
 .short-highlight {
