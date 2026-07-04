@@ -2628,6 +2628,12 @@ h3 {
   transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Photo source en format portrait dans une case pensee pour du paysage :
+   on redescend le cadrage pour garder le visage visible. */
+.story-chapter-image--portrait img {
+  object-position: center 20%;
+}
+
 .story-chapter:hover .story-chapter-image img {
   transform: scale(1.04);
 }

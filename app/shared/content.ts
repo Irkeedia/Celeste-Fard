@@ -87,17 +87,10 @@ function buildAlbumTracks(
   });
 }
 
-const TRACK_COVERS = [
-  "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1487180144351-b8472da7d491?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1511379938547-c1f69419868d?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1508700119012-35966822bbf1?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?auto=format&fit=crop&w=900&q=80",
-] as const;
+const DEFAULT_COVER = "/image/celesteroses.png";
 
-function coverForIndex(index: number): string {
-  return TRACK_COVERS[index % TRACK_COVERS.length];
+function coverForIndex(_index: number): string {
+  return DEFAULT_COVER;
 }
 
 /**
@@ -321,7 +314,7 @@ export const albums: Album[] = [
     mood: "Rap pop sombre, cinematique",
     description:
       "Mon album : chaque piste cartographie une facette humaine. Axiomes, silicium, chaos — entre théorie et émotion brute, en FR, IT et EN.",
-    cover: "/image/celestetravail.png",
+    cover: "/image/celesteroses.png",
     tracks: buildAlbumTracks("album-1", ALBUM_1_RAW, { folder: "album 1" }),
   },
   {
@@ -333,7 +326,7 @@ export const albums: Album[] = [
     mood: "Singles, doubles prises",
     description:
       "Mes premières pistes, démos, doubles prises — les hypothèses d'avant que je sache formuler ce que je cherchais.",
-    cover: "/image/celestesurscene.png",
+    cover: "/image/celesteroses.png",
     tracks: buildAlbumTracks("singles", ARCHIVES_RAW, { coverOffset: 3 }),
   },
 ];

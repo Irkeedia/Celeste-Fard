@@ -363,7 +363,7 @@ export default function StoryPage() {
         <article className="story-chapter">
           <div className="story-chapter-visual">
             <span className="story-chapter-index" aria-hidden="true">02</span>
-            <div className="story-chapter-image">
+            <div className="story-chapter-image story-chapter-image--portrait">
               <Image
                 src={storyImage("celestejogsforet.png")}
                 alt="Les 12 notes, des mathematiques que le corps comprend"
