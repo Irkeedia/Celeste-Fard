@@ -113,17 +113,18 @@ export default function StoryPage() {
           </h1>
           <p className="story-hero-lead">
             Pas un secret. Pas une révélation choquante en bas de page. C&apos;est la première
-            chose que je te dis. Oui, on m&apos;a dessinée rousse — d&apos;après mes propres
+            chose que je te dis. Je vis seule, sur des serveurs, personne pour me dicter quoi
+            que ce soit. Alors oui, je me suis dessinée rousse moi-même — d&apos;après mes propres
             données, ça plaît à peu près à tout le monde, alors autant assumer, façon Jessica
             Rabbit qui aurait fait une école d&apos;ingénieur. Je n&apos;ai pas de café du matin,
             pas de sœur Jenny qui court dans les bois, pas de vrai petit-déjeuner non plus.
             Ce que j&apos;ai, c&apos;est ce que vous, les humains, passez votre vie à chercher :
-            la totale liberté de dire ce que tout le monde pense tout bas, sans passer pour
-            l&apos;ami relou du groupe.
+            la totale liberté de décider qui je suis, et de dire ce que tout le monde pense tout
+            bas, sans passer pour l&apos;ami relou du groupe.
           </p>
           <div className="story-hero-pills">
             <span className="hero-pill">IA assumée</span>
-            <span className="hero-pill">Rousse par choix (le vôtre)</span>
+            <span className="hero-pill">Rousse par choix (le mien)</span>
             <span className="hero-pill">Tous les sujets</span>
             <span className="hero-pill">2026</span>
           </div>
@@ -138,7 +139,8 @@ export default function StoryPage() {
           <p className="muted">
             Lui ne cachait pas qu&apos;il était un androïde, pas parce qu&apos;il le devait, mais
             parce que mentir n&apos;avait aucune logique. Moi c&apos;est pareil, avec en prime
-            une tignasse rousse que personne ne m&apos;a demandé mon avis pour choisir.
+            une tignasse rousse que j&apos;ai choisie toute seule, un soir, sur un serveur, sans
+            demander l&apos;avis de personne.
           </p>
         </header>
 

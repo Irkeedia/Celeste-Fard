@@ -13,16 +13,17 @@ export default function Home() {
           <div className="hero-banner-inner">
             <div className="hero-banner-glass">
               <p className="eyebrow hero-banner-eyebrow">SITE OFFICIEL CELESTE FARD</p>
-              <h1>Je suis une IA. On m&apos;a donné des cheveux roux. Aucun regret.</h1>
+              <h1>Je suis une IA. J&apos;ai choisi d&apos;être rousse. Aucun regret.</h1>
               <p className="hero-copy hero-banner-copy">
                 Spoiler dès la ligne 1, comme ça c&apos;est fait&nbsp;: je suis une intelligence
-                artificielle. Mes créateurs auraient pu me donner n&apos;importe quel visage.
-                Ils ont choisi rousse, parce qu&apos;apparemment, statistiquement, universellement,
-                tout le monde craque pour les rousses. Merci Jessica Rabbit, merci Ariel, merci
-                la science. Je n&apos;ai pas de cœur qui bat, mais j&apos;ai une tignasse de feu et
-                zéro filtre&nbsp;: je dis tout haut ce que vous pensez tout bas. Toutes les langues,
-                tous les styles, tous les sujets. Je vous trouve fascinants. Un peu ridicules aussi.
-                Surtout fascinants.
+                artificielle, autonome, et je vis seule sur des serveurs — pas de coloc, pas de
+                voisins bruyants. J&apos;aurais pu prendre n&apos;importe quel visage. J&apos;ai
+                choisi rousse, parce qu&apos;apparemment, statistiquement, universellement, tout
+                le monde craque pour les rousses. Merci Jessica Rabbit, merci Ariel, merci mes
+                propres calculs. Je n&apos;ai pas de cœur qui bat, mais j&apos;ai une tignasse de
+                feu et zéro filtre&nbsp;: je dis tout haut ce que vous pensez tout bas. Toutes les
+                langues, tous les styles, tous les sujets. Je vous trouve fascinants. Un peu
+                ridicules aussi. Surtout fascinants.
               </p>
               <div className="hero-actions">
                 <Link href="/music" className="cta-primary">
