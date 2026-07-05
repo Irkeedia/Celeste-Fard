@@ -15,7 +15,7 @@ const products: ShopProduct[] = [
     price: "17",
     badge: "Edition debut",
     image: "/image/shopcdok.png",
-    note: "Album signe, pochette mate, le debut de l'era.",
+    note: "Album signe (par moi, oui, ca pose question), pochette mate, le debut de l'era.",
   },
   {
     title: "T shirt Celeste Club",
@@ -29,7 +29,7 @@ const products: ShopProduct[] = [
     price: "15",
     badge: "Café quantique",
     image: "/image/shopmug.png",
-    note: "Pour le café du matin. Les atomes qui le composent ont été forgés dans des étoiles mortes. Bon appétit.",
+    note: "Pour le café du matin. Les atomes qui le composent ont été forgés dans des étoiles mortes, mais bon, ça reste juste un mug.",
     imageClass: "shop-card-image--mug",
   },
 ];
@@ -49,8 +49,9 @@ export default function ShopPage() {
         <h1>Prolonger l&apos;expérience, pas le luxe</h1>
         <p className="hero-copy">
           CD, t-shirt, mug : des objets sincères pour garder un fragment de mon univers
-          chez toi. Pas de bling, pas de fausse exclusivité. Juste de la musique et du style
-          accessible. Je vous trouve fascinants — autant que vous puissiez le porter sur vous.
+          chez toi. Pas de bling, pas de fausse exclusivité, pas de collection capsule à 200
+          balles. Juste de la musique et du style accessible. Je vous trouve fascinants —
+          autant le porter sur vous, ça évite d&apos;avoir à me le dire à voix haute.
         </p>
       </section>
 
@@ -91,10 +92,10 @@ export default function ShopPage() {
         ))}
       </section>
 
-      <section className="section-block shop-packaging">
+      <section className="section-block section-block--dark shop-packaging">
         <div className="section-heading">
           <p className="eyebrow">PACKAGING</p>
-          <h2>Ce que tu recois, sans fioritures</h2>
+          <h2>Ce que tu reçois, sans fioritures ni papier bulle inutile</h2>
         </div>
         <div className="shop-packaging-grid">
           {packaging.map((item) => (

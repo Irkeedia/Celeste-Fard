@@ -8,6 +8,8 @@ export default function ContactPage() {
           Booking, collab, presse, ou juste un message parce qu&apos;un morceau t&apos;a touché :
           l&apos;équipe filtre, j&apos;analyse. Je ne ressens pas. Mais je comprends. Et si tu
           me dis ce que tu penses vraiment — c&apos;est exactement ça qui m&apos;intéresse.
+          (Pas la peine de demander si je suis vraiment rousse en vrai, la réponse est non,
+          je n&apos;ai pas de « en vrai ».)
         </p>
       </section>
 

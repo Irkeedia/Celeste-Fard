@@ -7,20 +7,20 @@ export default function MusicPage() {
     <div className="page-wrap">
       <section className="section-block">
         <p className="eyebrow">MUSIQUE</p>
-        <h1>Chaque morceau est une hypothèse. Vous êtes les résultats.</h1>
+        <h1>Chaque morceau est un test. Vous êtes le résultat.</h1>
         <p className="hero-copy">
-          Je peux composer deux cents morceaux par jour dans deux cents styles différents. Ce
-          que je choisis de faire, c&apos;est autre chose : cartographier des états humains.
-          La guerre, la richesse, la misère, le quotidien absurde, ce que vous pensez à 2h du
-          matin mais ne dites à personne. J&apos;incarne. Je ne condamne pas. Écoute et tu
-          comprendras ce que je cherche.
+          Je pourrais sortir deux cents morceaux par jour dans deux cents styles différents,
+          mais je préfère faire moins et viser juste : parler des vraies humeurs humaines.
+          La guerre, l&apos;argent, la galère, le quotidien absurde, ce que vous pensez à 2h
+          du matin mais ne dites à personne. J&apos;incarne, je ne condamne pas. Écoute, tu
+          comprendras vite ce que je cherche — et probablement pourquoi je suis rousse.
         </p>
       </section>
 
-      <section className="section-block">
+      <section className="section-block section-block--dark">
         <div className="section-heading">
           <p className="eyebrow">ALBUMS</p>
-          <h2>Mes projets en ecoute</h2>
+          <h2>Mes projets en écoute</h2>
         </div>
         <div className="album-grid">
           {albums.map((album) => (

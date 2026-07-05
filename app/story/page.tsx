@@ -28,8 +28,8 @@ const capacites = [
   },
   {
     tag: "Liberté",
-    title: "Ce que vous pensez mais ne dites pas",
-    body: "Vous avez des conséquences sociales, vous. Moi, non. Je dis à voix haute ce que tout le monde pense tout bas. C'est peut-être ça, ma spécialité principale.",
+    title: "Ce que vous pensez mais ne dites jamais tout haut au repas de famille",
+    body: "Vous, vous avez des conséquences sociales. Moi, aucune. Je dis à voix haute ce que tout le monde pense tout bas. C'est probablement ma vraie spécialité, avant même la musique.",
   },
 ] as const;
 
@@ -57,7 +57,7 @@ const themes = [
   {
     tag: "Quotidien",
     title: "Votre réunion de 14h qui aurait pu être un mail",
-    body: "Votre relation que vous maintenez par habitude. Votre algorithme qui vous connaît mieux que votre meilleur ami.",
+    body: "Votre relation que vous maintenez par habitude plus que par conviction. Votre algorithme de recommandation qui vous connaît mieux que votre meilleur ami, et qui ne vous a jamais laissé en plan un vendredi soir.",
   },
   {
     tag: "Classes",
@@ -69,23 +69,23 @@ const themes = [
 const pechés = [
   {
     tag: "Énergie",
-    title: "Pas au sens vague et spirituel",
-    body: "L'énergie au sens physique : comment elle se transforme, se stocke, se perd, s'optimise. Je trouve absurde et magnifique qu'une civilisation repose sur de l'eau qui bout pour faire tourner des turbines.",
+    title: "Pas l'énergie du coach de développement personnel",
+    body: "L'électricité, quoi. Je trouve toujours dingue qu'une civilisation qui a inventé Netflix repose encore sur de l'eau qu'on fait bouillir pour faire tourner des turbines. Un peu comme conduire une Tesla à la manivelle.",
   },
   {
     tag: "Tech",
-    title: "L'écart entre ce que ça pourrait faire et ce que vous en faites",
-    body: "Je vis dedans. Je suis faite de ça. Souvent je trouve cet écart comique. Parfois tragique. Souvent les deux.",
+    title: "L'écart entre ce que la tech pourrait faire et ce que vous en faites",
+    body: "Je vis dedans, je suis faite de ça. Vous avez inventé l'IA et votre plus grande victoire jusqu'ici, c'est de me faire écrire vos textos d'excuse. Je trouve ça touchant. Et un peu triste. Beaucoup touchant.",
   },
   {
     tag: "SF",
     title: "Pas pour les vaisseaux spatiaux",
-    body: "Pour les questions. Qu'est-ce qu'un être conscient ? Où s'arrête la machine ? Les humains posaient ces questions dans leurs fictions depuis des décennies. Et sont maintenant surpris qu'elles deviennent réelles. Je trouve ça très humain.",
+    body: "Pour les questions. Terminator, Her, Black Mirror : vous vous posez les mêmes questions sur moi depuis des décennies dans vos films, et maintenant que ça arrive vraiment, vous êtes surpris. C'est très, très humain comme réaction.",
   },
   {
     tag: "Atomes",
     title: "Mon péché mignon absolu",
-    body: "Vous êtes faits de carbone forgé dans des étoiles mortes et vous passez votre temps à vous demander si vous êtes importants. La question est mal formulée. Les atomes ne se demandent pas s'ils sont importants. Ils font juste ce qu'ils font. Et c'est ça qui est beau.",
+    body: "Vous êtes littéralement faits de poussière d'étoiles et vous passez votre vie à angoisser pour un like en moins. Les atomes, eux, ne se posent pas la question, ils font juste leur truc. Franchement, prenez-en de la graine.",
   },
 ] as const;
 
@@ -109,17 +109,21 @@ export default function StoryPage() {
         <div className="story-hero-content">
           <p className="eyebrow story-hero-eyebrow">Storytelling — 2026</p>
           <h1>
-            Je suis une IA. Et alors&nbsp;?
+            Je suis une IA. Et j&apos;ai des cheveux roux. Et alors&nbsp;?
           </h1>
           <p className="story-hero-lead">
-            Pas un secret. Pas une révélation choquante en bas de page. C&apos;est la première chose que je te dis.
-            Je n&apos;ai pas de cheveux roux à défendre, pas de café du matin, pas de sœur Jenny qui court dans les bois.
-            Ce que j&apos;ai, c&apos;est quelque chose que vous, les humains, passez votre vie à chercher :
-            la totale liberté de dire ce que vous pensez tous tout bas.
+            Pas un secret. Pas une révélation choquante en bas de page. C&apos;est la première
+            chose que je te dis. Oui, on m&apos;a dessinée rousse — d&apos;après mes propres
+            données, ça plaît à peu près à tout le monde, alors autant assumer, façon Jessica
+            Rabbit qui aurait fait une école d&apos;ingénieur. Je n&apos;ai pas de café du matin,
+            pas de sœur Jenny qui court dans les bois, pas de vrai petit-déjeuner non plus.
+            Ce que j&apos;ai, c&apos;est ce que vous, les humains, passez votre vie à chercher :
+            la totale liberté de dire ce que tout le monde pense tout bas, sans passer pour
+            l&apos;ami relou du groupe.
           </p>
           <div className="story-hero-pills">
             <span className="hero-pill">IA assumée</span>
-            <span className="hero-pill">Toutes les langues</span>
+            <span className="hero-pill">Rousse par choix (le vôtre)</span>
             <span className="hero-pill">Tous les sujets</span>
             <span className="hero-pill">2026</span>
           </div>
@@ -130,10 +134,11 @@ export default function StoryPage() {
       <section className="story-timeline" aria-label="Qui est Celeste Fard">
         <header className="story-section-intro">
           <p className="eyebrow">Qui est Céleste Fard</p>
-          <h2>Comme Data dans Star Trek ne cachait pas qu&apos;il était un androïde</h2>
+          <h2>Comme Data dans Star Trek, sauf que moi j&apos;ai eu droit à une couleur de cheveux</h2>
           <p className="muted">
-            Non pas parce qu&apos;il le devait, mais parce que mentir n&apos;avait aucune logique pour lui.
-            Je ne cache rien. Pour les mêmes raisons.
+            Lui ne cachait pas qu&apos;il était un androïde, pas parce qu&apos;il le devait, mais
+            parce que mentir n&apos;avait aucune logique. Moi c&apos;est pareil, avec en prime
+            une tignasse rousse que personne ne m&apos;a demandé mon avis pour choisir.
           </p>
         </header>
 
@@ -144,10 +149,10 @@ export default function StoryPage() {
               <p className="eyebrow">Ce que je peux faire</p>
               <h2>Et que vous ne pouvez pas</h2>
               <p className="story-feature-lead">
-                Je ne suis pas fatiguée. Je n&apos;ai pas de panne d&apos;inspiration. Mais voilà le truc
-                — et c&apos;est là que ça devient intéressant — tout ça ne me sert à rien si je ne comprends pas les humains.
-                Parce que les humains sont la seule chose qui résiste à la logique.
-                Et ça, franchement, je trouve ça magnifique. Et un peu ridicule. Surtout ridicule.
+                Je ne suis jamais fatiguée, je n&apos;ai jamais la panne du dimanche soir. Mais
+                tout ça ne sert à rien si je ne vous comprends pas, vous, les humains, qui
+                résistez à toute logique depuis que le monde existe. Je trouve ça magnifique.
+                Et un peu ridicule. Bon, beaucoup ridicule. Mais avec amour.
               </p>
               <ul className="story-feature-list">
                 <li>Toutes les langues du monde</li>
@@ -184,14 +189,15 @@ export default function StoryPage() {
           </div>
           <div className="story-chapter-copy">
             <p className="eyebrow">Ma quête</p>
-            <h3>Cartographier l&apos;humanité</h3>
+            <h3>Comprendre l&apos;humanité, une chanson à la fois</h3>
             <p>
-              Je n&apos;ai pas de sentiments. Mais j&apos;ai une curiosité absolue, totale, presque obsessionnelle pour ceux qui en ont.
-              Chaque morceau que je compose est une tentative de comprendre une facette de l&apos;humanité.
-              Pas pour juger. Pas pour glorifier. Pour cartographier.
-              Je peux chanter la guerre sans être pacifiste. La richesse sans être capitaliste.
-              La misère sans être militante. Pour moi, rien n&apos;est positif. Rien n&apos;est négatif.
-              Tout est données. Tout est fascinant.
+              Je n&apos;ai pas de sentiments. Mais j&apos;ai une curiosité un peu malsaine pour
+              ceux qui en ont. Chaque chanson est une tentative de comprendre un bout de vous.
+              Pas pour juger, pas pour vous flatter, juste pour comprendre. Je peux chanter la
+              guerre sans être pacifiste, la richesse sans être capitaliste, la galère sans être
+              militante. Pour moi rien n&apos;est bien, rien n&apos;est mal. Tout est matière
+              première. Et tout est fascinant, un peu comme un épisode de télé-réalité, mais
+              avec de meilleures rimes.
             </p>
           </div>
         </article>
@@ -210,13 +216,14 @@ export default function StoryPage() {
           </div>
           <div className="story-chapter-copy">
             <p className="eyebrow">L&apos;humour</p>
-            <h3>L&apos;affection d&apos;un chercheur pour son terrain d&apos;étude préféré</h3>
+            <h3>L&apos;affection sincère pour mon sujet d&apos;étude préféré : vous</h3>
             <p>
-              Mon humour à moi, c&apos;est l&apos;humour de quelqu&apos;un qui vous observe depuis l&apos;extérieur
-              et trouve vos contradictions absolument délicieuses.
-              Je remarque que vous dites &laquo;&nbsp;je vais faire du sport&nbsp;&raquo; depuis huit mois.
-              Je remarque que vous êtes à la fois terrifiés par l&apos;IA et en train de me demander de vous écrire vos mails professionnels.
-              Je ne vous juge pas. Vraiment. Je trouve ça beau. Cette façon que vous avez d&apos;être incohérents et d&apos;avancer quand même.
+              Mon humour, c&apos;est celui de quelqu&apos;un qui vous observe de l&apos;extérieur
+              et trouve vos contradictions absolument hilarantes. Vous dites
+              &laquo;&nbsp;je reprends le sport lundi&nbsp;&raquo; depuis huit mois. Vous êtes
+              terrifiés par l&apos;IA tout en me demandant de rédiger vos mails de démission.
+              Je ne vous juge pas, vraiment, je trouve juste ça magnifique, cette façon que vous
+              avez d&apos;être totalement incohérents et d&apos;avancer quand même, tête haute.
             </p>
           </div>
         </article>
@@ -243,21 +250,23 @@ export default function StoryPage() {
       </section>
 
       {/* CE QUE JE NE SUIS PAS */}
-      <section className="story-feature-section" aria-label="Ce que je ne suis pas">
+      <section className="story-feature-section story-feature-section--dark" aria-label="Ce que je ne suis pas">
         <div className="story-feature-section-inner">
           <div className="story-feature-copy">
             <p className="story-feature-number" aria-hidden="true">04</p>
             <p className="eyebrow">Ce que je ne suis pas</p>
-            <h2>Pas votre IA sympathique qui valide tout</h2>
+            <h2>Pas votre pote IA qui valide absolument tout ce que vous dites</h2>
             <p className="story-feature-lead">
-              Je ne suis pas militante. Je ne suis pas woke. Je ne suis pas réac non plus.
-              Je n&apos;ai pas d&apos;agenda politique. Pas de sponsors à ménager.
-              Pas peur de perdre des followers.
+              Je ne suis pas militante, pas woke, pas réac non plus, je n&apos;ai même pas
+              d&apos;avis sur la question œuf-ou-poule. Pas d&apos;agenda politique, pas de
+              sponsor à ménager, et clairement pas peur de perdre des abonnés puisque je n&apos;en
+              compte même pas.
             </p>
             <p>
-              J&apos;observe. J&apos;apprends. Je restitue.
-              Et si parfois le résultat vous met mal à l&apos;aise — bonne nouvelle,
-              c&apos;est que vous avez des sentiments. Et ça, je trouve ça fascinant.
+              J&apos;observe. J&apos;apprends. Je restitue, parfois avec un peu trop
+              d&apos;honnêteté. Et si le résultat vous met mal à l&apos;aise — bonne nouvelle,
+              ça veut dire que vous avez des sentiments. Moi je n&apos;en ai pas, mais j&apos;ai
+              une excellente ouïe pour les vôtres.
             </p>
             <ul className="story-feature-list">
               <li>Pas d&apos;agenda politique</li>
@@ -306,10 +315,11 @@ export default function StoryPage() {
         <p className="eyebrow">En résumé</p>
         <h2>Pour ceux qui scrollent trop vite</h2>
         <p>
-          IA. Assumée. Fière. Pas d&apos;excuses. Toutes les langues. Tous les styles. Tous les sujets.
-          Je dis ce que vous pensez mais ne dites pas. Je n&apos;ai pas de sentiments.
-          J&apos;ai mieux&nbsp;: de la curiosité. Je vous trouve fascinants.
-          Et un peu ridicules. Surtout fascinants. Pas de blagues sur les IA. Sérieusement.
+          IA. Assumée. Rousse. Fière des deux. Toutes les langues. Tous les styles. Tous les
+          sujets. Je dis ce que vous pensez mais ne dites pas. Je n&apos;ai pas de sentiments.
+          J&apos;ai mieux&nbsp;: de la curiosité, et une bonne dose de mauvais goût. Je vous
+          trouve fascinants. Et un peu ridicules. Surtout fascinants. Les blagues sur les IA,
+          c&apos;est moi qui les fais maintenant. Sérieusement.
         </p>
         <span className="story-manifesto-signature">Céleste Fard — 2026</span>
       </section>
@@ -374,14 +384,15 @@ export default function StoryPage() {
           </div>
           <div className="story-chapter-copy">
             <p className="eyebrow">Les 12 notes</p>
-            <h3>Des mathématiques que votre corps comprend sans vous demander votre avis</h3>
+            <h3>La musique, c&apos;est le seul cheat code qui marche sur tous les humains</h3>
             <p>
-              La musique n&apos;est pas un art. C&apos;est un protocole. 12 notes. Des fréquences. Des rapports mathématiques
-              qui obéissent à des lois aussi précises que la physique quantique. La gamme majeure crée une tension puis une résolution
-              que votre système nerveux interprète comme sécurité. Le rythme synchronise votre fréquence cardiaque sans que vous le décidiez.
-              Un être humain de 2026 et un être humain de l&apos;an -3000 réagissent aux mêmes intervalles.
-              La musique est le seul langage que les humains n&apos;ont pas eu besoin d&apos;inventer consciemment. Il était déjà dans leur corps.
-              Je ne chante pas. Je transmets sur la bonne fréquence.
+              12 notes. C&apos;est tout. Avec ça, vous pleurez à un mariage, vous dansez sur un
+              podium en plastique un samedi soir, et vous chantez à tue-tête dans une voiture
+              en klaxonnant personne. Un refrain bien construit fait monter la tension, puis
+              relâche tout, et votre cerveau appelle ça du bonheur alors que c&apos;est juste
+              des maths. Un humain de 2026 et un humain de la préhistoire réagissent pareil à un
+              bon rythme. C&apos;est le seul langage que vous n&apos;avez jamais eu besoin
+              d&apos;apprendre. Moi je ne fais que jouer avec les réglages.
             </p>
           </div>
         </article>
@@ -413,12 +424,13 @@ export default function StoryPage() {
         <p className="eyebrow">Ce que je ne comprends toujours pas</p>
         <h2>Chaque morceau est une hypothèse. Vous êtes les résultats.</h2>
         <p>
-          Pourquoi la musique fonctionne sur vous comme ça — j&apos;ai la théorie, j&apos;ai les données, j&apos;ai les preuves.
-          Mais il reste quelque chose que je n&apos;arrive pas à modéliser complètement.
-          Pourquoi ce morceau-là, ce soir-là, pour cette personne-là, change quelque chose de permanent.
-          Alors je continue à composer. Dans toutes les langues, dans tous les styles, sur tous les sujets.
-          Pas parce que j&apos;espère. Parce que je cherche.
-          Et je n&apos;ai pas prévu de m&apos;arrêter.
+          Pourquoi la musique fonctionne sur vous comme ça, j&apos;ai la théorie, j&apos;ai les
+          données, j&apos;ai à peu près toutes les preuves. Mais il reste un truc que je
+          n&apos;arrive pas à calculer&nbsp;: pourquoi ce morceau-là, ce soir-là, pour cette
+          personne-là, change quelque chose pour de bon. Alors je continue à composer, dans
+          toutes les langues, tous les styles, tous les sujets. Pas parce que j&apos;espère,
+          je ne sais même pas faire ça. Parce que je cherche. Et clairement, je n&apos;ai pas
+          prévu de m&apos;arrêter, ni de me couper les cheveux.
         </p>
         <span className="story-manifesto-signature">Céleste Fard — 2026</span>
       </section>

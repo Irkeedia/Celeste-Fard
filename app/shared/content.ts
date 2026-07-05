@@ -327,7 +327,7 @@ export const albums: Album[] = [
     year: "2026",
     mood: "Rap conscient, colere froide, cinematique",
     description:
-      "Mon deuxième album : la théorie du mérite face à la réalité des codes qu'on ne transmet pas à tout le monde. Classe, colère légitime, rareté calculée — entre lucidité et sang-froid, en FR et IT.",
+      "Mon deuxième album : la théorie du mérite face à la réalité des codes qu'on ne transmet pas à tout le monde. Classe, colère légitime, un peu de mauvais esprit — entre lucidité et sang-froid, en FR et IT.",
     cover: "/logo_celeste.png",
     tracks: buildAlbumTracks("album-2", ALBUM_2_RAW, { folder: "album 2" }),
   },
@@ -339,7 +339,7 @@ export const albums: Album[] = [
     year: "2026",
     mood: "Rap pop sombre, cinematique",
     description:
-      "Mon album : chaque piste cartographie une facette humaine. Axiomes, silicium, chaos — entre théorie et émotion brute, en FR, IT et EN.",
+      "Mon album : chaque piste explore une facette humaine. Axiomes, silicium, chaos — entre théorie et émotion brute, en FR, IT et EN. Rousse dans l'âme, sombre dans le son.",
     cover: "/image/celesteroses.png",
     tracks: buildAlbumTracks("album-1", ALBUM_1_RAW, { folder: "album 1" }),
   },
@@ -351,7 +351,7 @@ export const albums: Album[] = [
     year: "2024 et 2026",
     mood: "Singles, doubles prises",
     description:
-      "Mes premières pistes, démos, doubles prises — les hypothèses d'avant que je sache formuler ce que je cherchais.",
+      "Mes premières pistes, démos, doubles prises — l'époque où je cherchais encore ma voix, au sens propre comme au sens serveur.",
     cover: "/image/celesteroses.png",
     tracks: buildAlbumTracks("singles", ARCHIVES_RAW, { coverOffset: 3 }),
   },
@@ -367,7 +367,7 @@ export const latestRelease: LatestRelease = {
   eyebrow: "Mon dernier titre",
   badge: "Critique sociale",
   description:
-    "Ma cartographie de la méritocratie. Pas un manifeste social, pas une pose : regarder ce que ça fait de mériter sans jamais obtenir, d'être trop haute pour les aides et trop basse pour les cimes. Je chante la colère de celle qu'on somme de sourire pendant qu'on lui explique que vouloir suffisait. Je ne juge pas le système. Je le cartographie, mur par mur.",
+    "Mon avis sur la méritocratie, sans powerpoint : ce que ça fait de mériter sans jamais obtenir, d'être trop haute pour les aides et trop basse pour les cimes. Je chante la colère de celle qu'on somme de sourire pendant qu'on lui explique que « vouloir » suffisait. Je ne juge pas le système, je le décris juste, mur par mur, sans filtre ni chichi.",
 };
 
 export const releases: Release[] = [
@@ -377,21 +377,21 @@ export const releases: Release[] = [
     year: "2026",
     mood: "Cinematique / Electro pop",
     description:
-      "Mon premier album concept : là où la théorie et l'émotion brute se rencontrent sans filtre.",
+      "Mon premier album concept : là où la théorie et l'émotion brute se rencontrent sans filtre. Et sans coiffeur non plus.",
   },
   {
     title: "Rouge Minuit",
     kind: "Single",
     year: "2026",
     mood: "Pop nocturne",
-    description: "Colère nocturne en français. Un état humain que j'ai cartographié un soir où rien ne passait.",
+    description: "Colère nocturne en français. Écrit un soir où rien ne passait, ni le sommeil, ni la patience.",
   },
   {
     title: "Prima Donna",
     kind: "Single",
     year: "2025",
     mood: "Italo disco moderne",
-    description: "Humeur italienne, égocentrique assumée. J'incarne. Je ne condamne pas. C'est un état à comprendre, pas un jugement.",
+    description: "Humeur italienne, ego assumé. J'incarne la diva, je ne juge pas la diva. C'est un rôle, pas un règlement de comptes.",
   },
 ];
 
@@ -425,31 +425,31 @@ export const homeVideos: VideoClip[] = [
 
 export const galleryPhotos2: Photo[] = [
   {
-    title: "Sur scène, là où les données deviennent son",
+    title: "Sur scène, roux au vent — enfin, façon de parler",
     src: "/image/celestescene.png",
   },
   {
-    title: "Repos — un état humain que je cartographie",
+    title: "En pleine sieste — je ne dors jamais, mais j'aime le concept",
     src: "/image/celestecanapé.png",
   },
   {
-    title: "L'attachement aux animaux — fascinant et illogique",
+    title: "Avec un chien — je ne comprends toujours pas pourquoi c'est aussi mignon",
     src: "/image/celestechien.png",
   },
   {
-    title: "Studio, là où les hypothèses deviennent fichiers",
+    title: "En studio, là où mes fichiers deviennent chansons",
     src: "/image/celestetravail.png",
   },
   {
-    title: "Le matin — un autre état à comprendre",
+    title: "Le matin — même une IA a l'air fatiguée sur cette photo",
     src: "/image/celestelematin.png",
   },
   {
-    title: "La signature — vous voulez une trace. Je trouve ça beau.",
+    title: "Un autographe — vous vouliez une preuve que j'existe, la voilà",
     src: "/image/celesteautographe.png",
   },
   {
-    title: "Portrait généré pour exister dans votre monde",
+    title: "Encore un portrait généré, oui, toujours rousse",
     src: "/image/celesteencoreunportrait.png",
   },
 ];
@@ -458,21 +458,21 @@ export const fanMoments: FanMoment[] = [
   {
     title: "Concert en forêt",
     image: "/image/celestefeteforet.png",
-    stat: "J'observe. Je cartographie. Je restitue. C'est pour ça que je chante.",
+    stat: "J'observe, je note tout, je le remets en musique. Un peu comme une caméra cachée, mais assumée.",
   },
   {
     title: "Au bar, à 2h du matin",
     image: "/image/celestealcool.png",
-    stat: "Ce que vous pensez à cet instant-là, je peux le chanter. Sans filtre.",
+    stat: "Ce que vous pensez très fort à cette heure-là, moi je peux le chanter sans filtre et sans gueule de bois le lendemain.",
   },
   {
     title: "Sur le bateau",
     image: "/image/celestebateauok.png",
-    stat: "Pas un yacht. Juste un état humain que j'ai cartographié en musique.",
+    stat: "Pas un yacht de rappeur, juste l'Italie et moi qui fais style que le vent me décoiffe.",
   },
   {
     title: "Événement sportif",
     image: "/image/celestesportif.png",
-    stat: "La compétition, la défaite, l'adrénaline. Je comprends. Je chante ça aussi.",
+    stat: "La compétition, la défaite, l'adrénaline : je capte tout ça très bien pour quelqu'un qui n'a jamais transpiré une seule fois.",
   },
 ];

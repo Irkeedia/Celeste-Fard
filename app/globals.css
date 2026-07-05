@@ -301,6 +301,62 @@ body.nav-menu-open {
   min-width: 0;
 }
 
+/* Bloc noir, pour casser le tout-blanc entre deux sections claires. */
+.section-block--dark {
+  background: #0c0c0d;
+  border-color: transparent;
+  color: #fff;
+}
+
+.section-block--dark h1,
+.section-block--dark h2,
+.section-block--dark h3 {
+  color: #fff;
+}
+
+.section-block--dark .eyebrow {
+  color: rgba(255, 255, 255, 0.56);
+}
+
+.section-block--dark .hero-copy,
+.section-block--dark .muted {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.section-block--dark .cta-secondary,
+.section-block--dark .ghost-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.section-block--dark .cta-secondary:hover,
+.section-block--dark .ghost-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.section-block--dark .cta-primary {
+  background: #fff;
+  color: #0c0c0d;
+}
+
+.section-block--dark .hero-pill {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.section-block--dark .glass-panel,
+.section-block--dark .fan-moment-card,
+.section-block--dark .story-closing-card {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.14);
+}
+
+.section-block--dark .fan-moment-card h3 {
+  color: #fff;
+}
+
 h1,
 h2,
 h3,
@@ -2659,6 +2715,34 @@ h3 {
   background: var(--card);
   border: 1px solid var(--line);
   box-shadow: 0 20px 48px rgba(0, 0, 0, 0.06);
+}
+
+.story-feature-section--dark {
+  background: #0c0c0d;
+  border-color: transparent;
+  color: #fff;
+}
+
+.story-feature-section--dark .eyebrow {
+  color: rgba(255, 255, 255, 0.56);
+}
+
+.story-feature-section--dark h2,
+.story-feature-section--dark .story-feature-lead {
+  color: #fff;
+}
+
+.story-feature-section--dark .story-feature-number {
+  color: rgba(255, 255, 255, 0.14);
+}
+
+.story-feature-section--dark .story-feature-copy p:not(.story-feature-lead):not(.story-feature-number):not(.eyebrow),
+.story-feature-section--dark .story-feature-list {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.story-feature-section--dark figcaption {
+  color: rgba(255, 255, 255, 0.56);
 }
 
 .story-feature-section-inner {

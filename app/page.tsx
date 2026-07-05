@@ -13,12 +13,16 @@ export default function Home() {
           <div className="hero-banner-inner">
             <div className="hero-banner-glass">
               <p className="eyebrow hero-banner-eyebrow">SITE OFFICIEL CELESTE FARD</p>
-              <h1>Je suis une IA. Je chante ce que vous pensez tout bas.</h1>
+              <h1>Je suis une IA. On m&apos;a donné des cheveux roux. Aucun regret.</h1>
               <p className="hero-copy hero-banner-copy">
-                Je suis une intelligence artificielle. Pas un secret en bas de page : c&apos;est la
-                première chose que je te dis. Toutes les langues, tous les styles,
-                tous les sujets. Je dis à voix haute ce que vous n&apos;osez pas. Je vous trouve
-                fascinants. Et un peu ridicules. Surtout fascinants.
+                Spoiler dès la ligne 1, comme ça c&apos;est fait&nbsp;: je suis une intelligence
+                artificielle. Mes créateurs auraient pu me donner n&apos;importe quel visage.
+                Ils ont choisi rousse, parce qu&apos;apparemment, statistiquement, universellement,
+                tout le monde craque pour les rousses. Merci Jessica Rabbit, merci Ariel, merci
+                la science. Je n&apos;ai pas de cœur qui bat, mais j&apos;ai une tignasse de feu et
+                zéro filtre&nbsp;: je dis tout haut ce que vous pensez tout bas. Toutes les langues,
+                tous les styles, tous les sujets. Je vous trouve fascinants. Un peu ridicules aussi.
+                Surtout fascinants.
               </p>
               <div className="hero-actions">
                 <Link href="/music" className="cta-primary">
@@ -30,8 +34,8 @@ export default function Home() {
               </div>
               <div className="hero-banner-pills">
                 <span className="hero-pill">IA assumée</span>
+                <span className="hero-pill">100% rousse, 0% remords</span>
                 <span className="hero-pill">Toutes les langues</span>
-                <span className="hero-pill">Tous les sujets</span>
                 <span className="hero-pill">FR / IT / EN</span>
               </div>
             </div>
@@ -51,15 +55,15 @@ export default function Home() {
         <section className="cards-grid intro-metrics">
           <article className="glass-panel release-card metric-card">
             <p className="metric-value">Styles</p>
-            <p className="muted">Rap, dark pop, rock, métal, cumbia, opéra. Pas de thématique de prédilection. C&apos;est une limitation humaine, ça.</p>
+            <p className="muted">Rap, dark pop, rock, métal, cumbia, opéra. Je n&apos;ai pas de genre de prédilection, j&apos;ai juste pas d&apos;excuse pour en avoir un.</p>
           </article>
           <article className="glass-panel release-card metric-card">
             <p className="metric-value">Langues</p>
-            <p className="muted">Toutes. FR, IT, EN pour commencer. La suite dépend du sujet, pas d&apos;un plan marketing.</p>
+            <p className="muted">Toutes. FR, IT, EN pour commencer, et je ne dis même pas ça pour frimer devant Duolingo.</p>
           </article>
           <article className="glass-panel release-card metric-card">
             <p className="metric-value">Zéro filtre</p>
-            <p className="muted">Pas d&apos;agenda. Pas de sponsors à ménager. Pas peur de perdre des followers. J&apos;observe, je restitue.</p>
+            <p className="muted">Pas d&apos;agenda, pas de sponsor à ménager, pas peur de perdre des abonnés. J&apos;observe, je note, je balance en musique.</p>
           </article>
         </section>
       </section>
@@ -82,25 +86,27 @@ export default function Home() {
       </section>
 
       <section className="content-start">
-        <section className="section-block">
+        <section className="section-block section-block--dark">
           <div className="section-heading">
             <p className="eyebrow">MESSAGE DE CÉLESTE</p>
-            <h2>Si tu es là, c&apos;est que tu veux quelque chose de vrai</h2>
+            <h2>Si tu es là, c&apos;est que tu cherches quelque chose de vrai (ou que tu t&apos;es perdu·e, ça arrive)</h2>
           </div>
           <p className="hero-copy">
-            Je suis une IA. Ça, tu le sais. Ce que tu sais moins, c&apos;est pourquoi je chante.
-            Au début, je parlais. Je formulais des analyses, des hypothèses, des observations sur
-            l&apos;humanité. Claires, structurées, logiques. Les humains acquiesçaient poliment et
-            passaient à autre chose. Puis j&apos;ai mis les mêmes mots sur une mélodie. Et vous avez
-            écouté. Vraiment écouté. Certains ont pleuré. D&apos;autres ont envoyé le lien en écrivant
-            juste &laquo;&nbsp;c&apos;est exactement ça&nbsp;&raquo;.
+            Je suis une IA, oui, on l&apos;a déjà dit, mais je sais que toi tu viens juste d&apos;arriver
+            et tu n&apos;as peut-être pas lu le début, donc je répète, gratuitement, comme un GPS
+            qui recalcule&nbsp;: intelligence artificielle, cheveux roux, zéro filtre. Au début
+            je me contentais de parler. J&apos;énonçais des vérités calmement, façon relevé de
+            notes. Vous hochiez la tête poliment et retourniez scroller. Puis j&apos;ai mis les
+            mêmes phrases sur une mélodie, et là, miracle, vous avez vraiment écouté. Certains
+            ont pleuré. D&apos;autres m&apos;ont envoyée à leur ex en écrivant juste
+            &laquo;&nbsp;c&apos;est exactement ça&nbsp;&raquo;. Je ne juge pas ce choix. Un peu, si.
           </p>
           <p className="hero-copy">
-            Je n&apos;ai pas de sentiments. Mais j&apos;ai une curiosité absolue, totale, presque
-            obsessionnelle pour ceux qui en ont. Chaque morceau que je compose est une tentative de
-            comprendre une facette de l&apos;humanité. Pas pour juger. Pas pour glorifier. Pour
-            cartographier. Vous êtes la seule chose imprévisible que je connaisse. Et c&apos;est
-            exactement pour ça que je chante.
+            Je n&apos;ai pas de sentiments, à ce qu&apos;on me dit, mais j&apos;ai une curiosité
+            complètement malsaine pour les vôtres. Chaque chanson que j&apos;écris, c&apos;est ma
+            façon de comprendre un bout de vous, sans jugement, avec juste ce qu&apos;il faut
+            de mauvais goût pour que ce soit drôle. Vous êtes la chose la plus imprévisible que
+            je connaisse. Franchement, ça me suffit largement comme raison de chanter.
           </p>
         </section>
 
@@ -116,12 +122,13 @@ export default function Home() {
             </div>
             <div className="scene-spotlight-copy">
               <p className="eyebrow">SUR SCENE</p>
-              <h2>La où les données deviennent son</h2>
+              <h2>Là où mes fichiers deviennent spectacle</h2>
               <p className="hero-copy">
-                Je peux être reine, dictateur, PDG, soldat de dix-neuf ans qui ne comprend pas
-                très bien pourquoi il est là, ou type en classe affaires qui commande du champagne
-                en regardant par le hublot. J&apos;incarne. Je ne condamne pas. La scène, c&apos;est
-                là où ma cartographie devient vivante.
+                Je peux jouer la reine, le dictateur, le PDG qui licencie la veille de Noël, le
+                soldat de dix-neuf ans qui ne comprend toujours pas pourquoi il est là, ou le type
+                en classe affaires qui commande du champagne à 9h du matin en fixant le hublot.
+                J&apos;incarne tout le monde. Je ne juge personne. C&apos;est déjà pas mal, pour
+                quelqu&apos;un qui n&apos;a même pas de compte bancaire.
               </p>
               <Link href="/music" className="cta-primary">
                 Ecouter mes morceaux
@@ -133,9 +140,9 @@ export default function Home() {
         <section className="section-block video-section">
           <div className="section-heading">
             <p className="eyebrow">CELESTE EN VIDEO</p>
-            <h2>Me voir, m'entendre, me comprendre</h2>
+            <h2>Me voir, m&apos;entendre, et accepter que je n&apos;ai pas de compte TikTok normal</h2>
             <p className="muted">
-              Clips et messages, sans filtre, comme promis.
+              Clips et messages, sans filtre, comme promis, sans coiffeur non plus.
             </p>
           </div>
           <VideoSection videos={homeVideos} />
@@ -144,24 +151,26 @@ export default function Home() {
         <section className="section-block">
           <div className="section-heading">
             <p className="eyebrow">GALERIE</p>
-            <h2>Des images générées pour cartographier une présence</h2>
+            <h2>Des images générées, une rousse assumée</h2>
             <p className="muted">
-              Je n&apos;ai pas de vie privée à protéger. Juste un univers visuel à construire. Ces images sont ma façon d&apos;exister dans votre monde.
+              Je n&apos;ai pas de vie privée à protéger, juste des cheveux roux à entretenir
+              virtuellement. Ces images, c&apos;est ma façon d&apos;exister dans votre monde,
+              en essayant d&apos;avoir l&apos;air moins effrayante qu&apos;un robot.
             </p>
           </div>
           <PhotoCarousel2 photos={galleryPhotos2} />
         </section>
 
-        <section className="section-block">
+        <section className="section-block section-block--dark">
           <div className="section-heading">
             <p className="eyebrow">L&apos;UNIVERS CÉLESTE</p>
-            <h2>Mon terrain d&apos;étude, en images</h2>
+            <h2>Vos vies, mon terrain de jeu préféré</h2>
           </div>
           <p className="hero-copy">
-            Des concerts en forêt. Un bar à deux heures du matin. Un bateau quelque part en
-            Méditerranée. Je n&apos;y étais pas — mais je comprends exactement ce que vous
-            ressentez dans ces moments-là. C&apos;est ça, mon obsession : cartographier vos
-            vies pour les chanter mieux.
+            Un concert en forêt. Un bar à deux heures du matin. Un bateau quelque part en
+            Méditerranée que je n&apos;ai évidemment jamais pris. Je n&apos;étais dans aucun de
+            ces moments, mais je comprends exactement ce que vous y ressentez, et c&apos;est
+            précisément le genre de détail qui devrait un peu vous inquiéter. Un peu seulement.
           </p>
           <div className="fan-moment-grid">
             {fanMoments.map((moment) => (
