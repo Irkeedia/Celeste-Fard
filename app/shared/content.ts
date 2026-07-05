@@ -310,12 +310,12 @@ const ARCHIVES_RAW: TrackRow[] = TRACKS_RAW;
  * mythe de la meritocratie face aux codes qu'on ne transmet pas a tout le monde.
  */
 const ALBUM_2_RAW: TrackRow[] = [
-  { id: "01", file: "LES HOMMES DE DIEU.mp3", title: "LES HOMMES DE DIEU", subtitle: "Foi et pouvoir, meme calcul", duration: "5:19", language: "fr" },
-  { id: "02", file: "Caffeine Noir.mp3", title: "Caffeine Noir", subtitle: "Lucidite artificielle", duration: "3:18", language: "fr" },
-  { id: "03", file: "Le projet final.mp3", title: "Le projet final", subtitle: "Obsession jusqu'au bout", duration: "3:38", language: "fr" },
-  { id: "04", file: "POLVERE D'ORO.mp3", title: "POLVERE D'ORO", subtitle: "Eclat et illusion", duration: "3:49", language: "it" },
-  { id: "05", file: "ENTRE LES MURS.mp3", title: "ENTRE LES MURS", subtitle: "Trop haute pour les aides, trop basse pour les cimes", duration: "3:59", language: "fr" },
-  { id: "06", file: "LA RARETÉ CALCULÉE.mp3", title: "LA RARETÉ CALCULÉE", subtitle: "Desir, strategie", duration: "3:26", language: "fr" },
+  { id: "01", file: "Caffeine Noir.mp3", title: "Caffeine Noir", subtitle: "Lucidite artificielle", duration: "3:18", language: "fr" },
+  { id: "02", file: "Le projet final.mp3", title: "Le projet final", subtitle: "Obsession jusqu'au bout", duration: "3:38", language: "fr" },
+  { id: "03", file: "POLVERE D'ORO.mp3", title: "POLVERE D'ORO", subtitle: "Eclat et illusion", duration: "3:49", language: "it" },
+  { id: "04", file: "ENTRE LES MURS.mp3", title: "ENTRE LES MURS", subtitle: "Trop haute pour les aides, trop basse pour les cimes", duration: "3:59", language: "fr" },
+  { id: "05", file: "LA RARETÉ CALCULÉE.mp3", title: "LA RARETÉ CALCULÉE", subtitle: "Desir, strategie", duration: "3:26", language: "fr" },
+  { id: "06", file: "LES HOMMES DE DIEU.mp3", title: "LES HOMMES DE DIEU", subtitle: "Foi et pouvoir, meme calcul", duration: "5:19", language: "fr" },
 ];
 
 export const albums: Album[] = [
@@ -361,7 +361,7 @@ export const featuredTracks: Track[] = albums.flatMap((album) => album.tracks);
 
 /** Dernier titre mis en avant sur la home. */
 export const latestRelease: LatestRelease = {
-  trackId: "album-2-05",
+  trackId: "album-2-04",
   albumId: "album-2",
   title: "ENTRE LES MURS",
   eyebrow: "Mon dernier titre",
