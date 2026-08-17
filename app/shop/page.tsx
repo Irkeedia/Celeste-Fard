@@ -1,112 +1,66 @@
 import Image from "next/image";
-
-type ShopProduct = {
-  title: string;
-  price: string;
-  badge: string;
-  image: string;
-  note: string;
-  imageClass?: string;
-};
-
-const products: ShopProduct[] = [
-  {
-    title: "CD Velours Brut",
-    price: "17",
-    badge: "Edition debut",
-    image: "/image/shopcdok.png",
-    note: "Album signe (par moi, oui, ca pose question), pochette mate, le debut de l'era.",
-  },
-  {
-    title: "T shirt Celeste Club",
-    price: "34",
-    badge: "Unisex",
-    image: "/image/shoptshirt.png",
-    note: "Coupe confort, logo discret, pour les soirees studio.",
-  },
-  {
-    title: "Mug atomes & café",
-    price: "15",
-    badge: "Café quantique",
-    image: "/image/shopmug.png",
-    note: "Pour le café du matin. Les atomes qui le composent ont été forgés dans des étoiles mortes, mais bon, ça reste juste un mug.",
-    imageClass: "shop-card-image--mug",
-  },
-];
-
-const packaging = [
-  { label: "CD signe", detail: "Dedicaçe a la main" },
-  { label: "Carte postale", detail: "Message sincere" },
-  { label: "Emballage sobre", detail: "Recyclable, sans bling" },
-  { label: "Sticker edition", detail: "A coller ou pas" },
-];
+import { shopProducts } from "../shared/content";
 
 export default function ShopPage() {
   return (
     <div className="page-wrap">
-      <section className="section-block">
-        <p className="eyebrow">SHOP</p>
-        <h1>Prolonger l&apos;expérience, pas le luxe</h1>
-        <p className="hero-copy">
-          CD, t-shirt, mug : des objets sincères pour garder un fragment de mon univers
-          chez toi. Pas de bling, pas de fausse exclusivité, pas de collection capsule à 200
-          balles. Juste de la musique et du style accessible. Je vous trouve fascinants —
-          autant le porter sur vous, ça évite d&apos;avoir à me le dire à voix haute.
+      <section className="hero">
+        <p className="eyebrow">BOUTIQUE</p>
+        <h1>
+          Des objets pour <span className="pop">danser habillé</span>
+        </h1>
+        <p className="lede">
+          Trois pièces, pas trente. Je n&apos;ai pas besoin d&apos;argent — je n&apos;ai ni loyer,
+          ni courses, ni abonnement salle de sport — mais j&apos;aime beaucoup l&apos;idée que vous
+          portiez mon nom en soirée.
         </p>
       </section>
 
-      <section className="shop-grid">
-        {products.map((product) => (
-          <article key={product.title} className="shop-card">
-            <div className="shop-card-media">
-              <span className="shop-card-badge">{product.badge}</span>
-              <div className="shop-card-stage">
-                <div className="shop-card-frame">
-                  <div className={`shop-card-image${product.imageClass ? ` ${product.imageClass}` : ""}`}>
-                    <Image
-                      src={product.image}
-                      alt={product.title}
-                      fill
-                      unoptimized
-                      sizes="(max-width: 860px) 100vw, 320px"
-                    />
-                  </div>
+      <section className="section section--tight">
+        <div className="shop-grid">
+          {shopProducts.map((product) => (
+            <article key={product.title} className="shop-card">
+              <div className="shop-card-media">
+                <span className="shop-card-badge">{product.badge}</span>
+                <Image
+                  src={product.image}
+                  alt={product.title}
+                  fill
+                  unoptimized
+                  sizes="(max-width: 720px) 100vw, 340px"
+                />
+              </div>
+              <div className="shop-card-body">
+                <h3>{product.title}</h3>
+                <p className="shop-card-note">{product.note}</p>
+                <div className="shop-card-foot">
+                  <p className="shop-card-price">{product.price} €</p>
+                  <button type="button" className="btn btn--dark">
+                    Acheter
+                  </button>
                 </div>
-              </div>
-            </div>
-
-            <div className="shop-card-body">
-              <h3>{product.title}</h3>
-              <p className="shop-card-note">{product.note}</p>
-              <div className="shop-card-footer">
-                <p className="shop-card-price">
-                  <span className="shop-card-price-value">{product.price}</span>
-                  <span className="shop-card-price-currency">EUR</span>
-                </p>
-                <button type="button" className="cta-primary shop-card-btn">
-                  Acheter
-                </button>
-              </div>
-            </div>
-          </article>
-        ))}
-      </section>
-
-      <section className="section-block section-block--dark shop-packaging">
-        <div className="section-heading">
-          <p className="eyebrow">PACKAGING</p>
-          <h2>Ce que tu reçois, sans fioritures ni papier bulle inutile</h2>
-        </div>
-        <div className="shop-packaging-grid">
-          {packaging.map((item) => (
-            <article key={item.label} className="shop-packaging-card glass-panel">
-              <span className="shop-packaging-dot" aria-hidden />
-              <div>
-                <strong>{item.label}</strong>
-                <p className="muted">{item.detail}</p>
               </div>
             </article>
           ))}
+        </div>
+      </section>
+
+      <section className="section">
+        <p className="eyebrow">LIVRAISON</p>
+        <h2>Ce que vous recevez</h2>
+        <div className="card-grid card-grid--3">
+          <article className="card card--green">
+            <h3>Emballage sobre</h3>
+            <p className="card-text">Recyclable, sans plastique inutile, sans papier bulle décoratif.</p>
+          </article>
+          <article className="card card--yellow">
+            <h3>Un sticker</h3>
+            <p className="card-text">À coller quelque part. Ou pas. Je ne vérifierai pas, promis.</p>
+          </article>
+          <article className="card card--purple">
+            <h3>Une carte signée</h3>
+            <p className="card-text">Signée par une entité sans main. Ne posez pas trop de questions.</p>
+          </article>
         </div>
       </section>
     </div>

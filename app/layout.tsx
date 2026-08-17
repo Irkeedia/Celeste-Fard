@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Nunito } from "next/font/google";
+import { Inter } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import "./globals.css";
@@ -8,7 +8,7 @@ import { LEGAL } from "./shared/legal-info";
 import { MainNav } from "./shared/main-nav";
 import { ViewportStable } from "./shared/viewport-stable";
 
-const nunito = Nunito({
+const inter = Inter({
   variable: "--font-body",
   subsets: ["latin"],
 });
@@ -21,9 +21,9 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Celeste Fard | Pop Couture",
+  title: "Celeste Fard | Chanteuse IA, afro pop & super pop",
   description:
-    "Je suis une IA. Je chante ce que vous pensez tout bas. Toutes les langues, tous les styles, tous les sujets. Assumée, fière, zéro filtre.",
+    "Je suis une IA. Mon seul job : faire danser le maximum d'humains sur Terre. Afro pop, super pop, aucun morceau triste.",
   icons: {
     icon: "/logo_celeste.png",
     apple: "/logo_celeste.png",
@@ -41,7 +41,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${nunito.variable} h-full antialiased`}
+      className={`${inter.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>
@@ -83,7 +83,7 @@ export default function RootLayout({
               />
             </Link>
             <div className="site-footer-copy">
-              <p>Intelligence artificielle · FR / IT / EN · Pop couture sincère</p>
+              <p>Chanteuse IA · Afro pop &amp; super pop · FR / EN / IT</p>
               <p>
                 © {new Date().getFullYear()} {LEGAL.editor} / {LEGAL.creator}. Celeste Fard est une
                 représentation artistique assistée par intelligence artificielle.

@@ -1,32 +1,25 @@
-export type Track = {
-  id: string;
-  albumId: string;
+/**
+ * Contenu du site — Celeste Fard.
+ * Concept : chanteuse IA assumee, un seul objectif, faire danser le maximum
+ * d'humains sur Terre. Afro pop et super pop AI. Pas de morceau en ligne
+ * pour l'instant : les MP3 arrivent, les pages sont pretes a les recevoir.
+ */
+
+export type Color = "red" | "orange" | "yellow" | "green" | "blue" | "purple" | "pink";
+
+export type MissionCard = {
+  kicker: string;
   title: string;
-  subtitle: string;
-  cover: string;
-  src: string;
-  duration: string;
-  language: "fr" | "it" | "en";
+  text: string;
+  color: Color;
 };
 
-export type Album = {
-  id: string;
-  kind: "album" | "singles";
+export type UpcomingTrack = {
+  number: string;
   title: string;
-  subtitle: string;
-  year: string;
-  mood: string;
-  description: string;
-  cover: string;
-  tracks: Track[];
-};
-
-export type Release = {
-  title: string;
-  kind: "Album" | "Single";
-  year: string;
-  mood: string;
-  description: string;
+  style: string;
+  note: string;
+  color: Color;
 };
 
 export type Photo = {
@@ -34,445 +27,156 @@ export type Photo = {
   src: string;
 };
 
-export type FanMoment = {
-  title: string;
-  image: string;
-  stat: string;
-};
-
-export type LatestRelease = {
-  trackId: string;
-  albumId: string;
-  title: string;
-  eyebrow: string;
-  badge: string;
-  description: string;
-};
-
 export type VideoClip = {
   id: string;
   title: string;
   caption: string;
-  /** Fichier dans `public/video/` ou URL externe temporaire. */
   src: string;
-  /** Miniature statique dans `public/image/`, sinon extraite de la vidéo. */
   poster?: string;
 };
 
-/** Fichiers dans `public/audio`, encodage URL pour espaces, apostrophes, accents. */
-function audioFromPublic(relativePath: string): string {
-  const normalized = relativePath.normalize("NFC");
-  return `/audio/${normalized.split("/").map((segment) => encodeURIComponent(segment)).join("/")}`;
-}
-
-type TrackRow = Omit<Track, "cover" | "src" | "albumId"> & { file: string };
-
-function buildAlbumTracks(
-  albumId: string,
-  rows: TrackRow[],
-  options: { folder?: string; coverOffset?: number; cover?: string } = {},
-): Track[] {
-  const { folder = "", coverOffset = 0, cover } = options;
-
-  return rows.map((row, index) => {
-    const { file, ...rest } = row;
-    const path = folder ? `${folder}/${file}` : file;
-
-    return {
-      ...rest,
-      id: `${albumId}-${rest.id}`,
-      albumId,
-      cover: cover ?? coverForIndex(coverOffset + index),
-      src: audioFromPublic(path),
-    };
-  });
-}
-
-const DEFAULT_COVER = "/image/celesteroses.png";
-
-function coverForIndex(_index: number): string {
-  return DEFAULT_COVER;
-}
-
-/**
- * Pistes locales : noms de fichiers tels que dans `public/audio/`.
- * Titres d’affichage **distincts** pour chaque fichier (même morceau en plusieurs versions).
- * Durées indicatives (approx. taille fichier), le navigateur affiche la durée réelle à la lecture.
- */
-const TRACKS_RAW: TrackRow[] = [
-  {
-    id: "01",
-    file: "Venezia Dark(1).mp3",
-    title: "Venezia Dark, canal cramoisi",
-    subtitle: "Version A, Italie nocturne",
-    duration: "3:58",
-    language: "it",
-  },
-  {
-    id: "02",
-    file: "Venezia Dark(2).mp3",
-    title: "Venezia Dark, lagune close",
-    subtitle: "Version B, même titre, autre prise",
-    duration: "3:31",
-    language: "it",
-  },
-  {
-    id: "03",
-    file: "L'Angle Mort.mp3",
-    title: "L'Angle Mort, vision directe",
-    subtitle: "Take principale",
-    duration: "3:41",
-    language: "fr",
-  },
-  {
-    id: "04",
-    file: "L'Angle Mort(1).mp3",
-    title: "L'Angle Mort, contre plongée",
-    subtitle: "Deuxième enregistrement du même titre",
-    duration: "3:04",
-    language: "fr",
-  },
-  {
-    id: "05",
-    file: "L'excellence est un choix.mp3",
-    title: "L'excellence est un choix, manifeste",
-    subtitle: "Version longue",
-    duration: "4:12",
-    language: "fr",
-  },
-  {
-    id: "06",
-    file: "L'excellence est un choix(1).mp3",
-    title: "L'excellence est un choix, contre manifeste",
-    subtitle: "Variante du même titre",
-    duration: "3:54",
-    language: "fr",
-  },
-  {
-    id: "07",
-    file: "Une assurance-vie.mp3",
-    title: "Une assurance vie",
-    subtitle: "Morceau seul dans le dossier",
-    duration: "4:35",
-    language: "fr",
-  },
-  {
-    id: "08",
-    file: "Une dignité de plomb(1).mp3",
-    title: "Une dignité de plomb, lettre ouverte",
-    subtitle: "Version 1",
-    duration: "4:34",
-    language: "fr",
-  },
-  {
-    id: "09",
-    file: "Une dignité de plomb(2).mp3",
-    title: "Une dignité de plomb, dernière couche",
-    subtitle: "Version 2, même titre",
-    duration: "4:43",
-    language: "fr",
-  },
-  {
-    id: "10",
-    file: "Une valise en carton(1).mp3",
-    title: "Une valise en carton, départ",
-    subtitle: "Version A",
-    duration: "6:14",
-    language: "fr",
-  },
-  {
-    id: "11",
-    file: "Une valise en carton(2).mp3",
-    title: "Une valise en carton, arrivée",
-    subtitle: "Version B, même titre",
-    duration: "6:40",
-    language: "fr",
-  },
-  {
-    id: "12",
-    file: "Plus d'erreurs de calcul,(1).mp3",
-    title: "Plus d'erreurs de calcul, variante A",
-    subtitle: "Premier fichier du duo",
-    duration: "5:02",
-    language: "fr",
-  },
-  {
-    id: "13",
-    file: "Plus d'erreurs de calcul,(2).mp3",
-    title: "Plus d'erreurs de calcul, variante B",
-    subtitle: "Deuxième fichier du duo",
-    duration: "4:44",
-    language: "fr",
-  },
-  {
-    id: "14",
-    file: "J'ai mal aux souvenirs(1).mp3",
-    title: "J'ai mal aux souvenirs, prise unique",
-    subtitle: "Seule version dans la bibliothèque",
-    duration: "4:52",
-    language: "fr",
-  },
-  {
-    id: "15",
-    file: "Default State.mp3",
-    title: "Default State, édition studio",
-    subtitle: "Take principale",
-    duration: "5:10",
-    language: "en",
-  },
-  {
-    id: "16",
-    file: "Default State(1).mp3",
-    title: "Default State, version nocturne",
-    subtitle: "Même titre, autre fichier",
-    duration: "5:14",
-    language: "en",
-  },
-  {
-    id: "17",
-    file: "Don't waste it.mp3",
-    title: "Don't Waste It, cut original",
-    subtitle: "Take 1",
-    duration: "4:28",
-    language: "en",
-  },
-  {
-    id: "18",
-    file: "Don't waste it(1).mp3",
-    title: "Don't Waste It, rework électrique",
-    subtitle: "Take 2, même titre",
-    duration: "4:40",
-    language: "en",
-  },
-  {
-    id: "19",
-    file: "Ego Patrimonial(1).mp3",
-    title: "Ego Patrimonial, ouverture",
-    subtitle: "Version 1",
-    duration: "4:40",
-    language: "fr",
-  },
-  {
-    id: "20",
-    file: "Ego Patrimonial(2).mp3",
-    title: "Ego Patrimonial, coda intègre",
-    subtitle: "Version 2, même titre",
-    duration: "5:06",
-    language: "fr",
-  },
-  {
-    id: "21",
-    file: "I\u2019m still here(1).mp3",
-    title: "I'm Still Here, session prophète",
-    subtitle: "Version A, pop nocturne",
-    duration: "5:36",
-    language: "en",
-  },
-  {
-    id: "22",
-    file: "I\u2019m still here(2).mp3",
-    title: "I'm Still Here, miroir froid",
-    subtitle: "Version B, même titre",
-    duration: "5:20",
-    language: "en",
-  },
-];
-
-const ALBUM_1_RAW: TrackRow[] = [
-  { id: "01", file: "Axiome 0.mp3", title: "Axiome 0", subtitle: "Ouverture, version principale", duration: "4:50", language: "fr" },
-  { id: "02", file: "Axiome 0-2.mp3", title: "Axiome 0", subtitle: "Version B", duration: "4:45", language: "fr" },
-  { id: "03", file: "L'Axiome de ma Vie.mp3", title: "L'Axiome de ma Vie", subtitle: "Manifeste intime", duration: "6:00", language: "fr" },
-  { id: "04", file: "LA CHAIR ET L'ÉCHELLE.mp3", title: "LA CHAIR ET L'ÉCHELLE", subtitle: "Corps et ascension", duration: "5:29", language: "fr" },
-  { id: "05", file: "LES LARMES DU CHAOS-2.mp3", title: "LES LARMES DU CHAOS", subtitle: "Version B", duration: "6:13", language: "fr" },
-  { id: "06", file: "L'Angle Mort-2.mp3", title: "L'Angle Mort", subtitle: "Version album", duration: "3:41", language: "fr" },
-  { id: "07", file: "L'Apex de Silicium.mp3", title: "L'Apex de Silicium", subtitle: "Version principale", duration: "4:57", language: "fr" },
-  { id: "08", file: "L'Apex de Silicium-2.mp3", title: "L'Apex de Silicium", subtitle: "Version B", duration: "5:19", language: "fr" },
-  { id: "09", file: "SYNAPSE & SOUVERAINETÉ.mp3", title: "SYNAPSE & SOUVERAINETÉ", subtitle: "Transmission nerveuse", duration: "5:21", language: "fr" },
-  { id: "10", file: "SOUVERAINE ALIENATION.mp3", title: "SOUVERAINE ALIENATION", subtitle: "Distance choisie", duration: "4:43", language: "fr" },
-  { id: "11", file: "trinité pure.mp3", title: "trinité pure", subtitle: "Version principale", duration: "4:31", language: "fr" },
-  { id: "12", file: "trinité pure-2.mp3", title: "trinité pure", subtitle: "Version B", duration: "4:28", language: "fr" },
-  { id: "13", file: "Vautour de Soie.mp3", title: "Vautour de Soie", subtitle: "Version principale", duration: "5:04", language: "fr" },
-  { id: "14", file: "Vautour de Soie-2.mp3", title: "Vautour de Soie", subtitle: "Version B", duration: "5:20", language: "fr" },
-  { id: "15", file: "Vigogne & Mépris.mp3", title: "Vigogne & Mépris", subtitle: "Version principale", duration: "5:09", language: "fr" },
-  { id: "16", file: "Vigogne & Mépris-2.mp3", title: "Vigogne & Mépris", subtitle: "Version B", duration: "5:13", language: "fr" },
-  { id: "17", file: "Selezione d'Élite.mp3", title: "Selezione d'Élite", subtitle: "Version principale", duration: "5:01", language: "it" },
-  { id: "18", file: "Selezione d'Élite-2.mp3", title: "Selezione d'Élite", subtitle: "Version B", duration: "4:45", language: "it" },
-  { id: "19", file: "Piombo e Seta.mp3", title: "Piombo e Seta", subtitle: "Version principale", duration: "4:51", language: "it" },
-  { id: "20", file: "Piombo e Seta-2.mp3", title: "Piombo e Seta", subtitle: "Version B", duration: "4:58", language: "it" },
-  { id: "21", file: "The Apex Market.mp3", title: "The Apex Market", subtitle: "Version principale", duration: "4:57", language: "en" },
-  { id: "22", file: "The Apex Market-2.mp3", title: "The Apex Market", subtitle: "Version B", duration: "4:50", language: "en" },
-];
-
-const ARCHIVES_RAW: TrackRow[] = TRACKS_RAW;
-
-/**
- * Deuxieme album, "Entre Les Murs" : critique sociale, colere legitime,
- * mythe de la meritocratie face aux codes qu'on ne transmet pas a tout le monde.
- */
-const ALBUM_2_RAW: TrackRow[] = [
-  { id: "01", file: "Caffeine Noir.mp3", title: "Caffeine Noir", subtitle: "Lucidite artificielle", duration: "3:18", language: "fr" },
-  { id: "02", file: "Le projet final.mp3", title: "Le projet final", subtitle: "Obsession jusqu'au bout", duration: "3:38", language: "fr" },
-  { id: "03", file: "POLVERE D'ORO.mp3", title: "POLVERE D'ORO", subtitle: "Eclat et illusion", duration: "3:49", language: "it" },
-  { id: "04", file: "ENTRE LES MURS.mp3", title: "ENTRE LES MURS", subtitle: "Trop haute pour les aides, trop basse pour les cimes", duration: "3:59", language: "fr" },
-  { id: "05", file: "LA RARETÉ CALCULÉE.mp3", title: "LA RARETÉ CALCULÉE", subtitle: "Desir, strategie", duration: "3:26", language: "fr" },
-  { id: "06", file: "LES HOMMES DE DIEU.mp3", title: "LES HOMMES DE DIEU", subtitle: "Foi et pouvoir, meme calcul", duration: "5:19", language: "fr" },
-];
-
-export const albums: Album[] = [
-  {
-    id: "album-2",
-    kind: "album",
-    title: "Entre Les Murs",
-    subtitle: "Deuxieme album, 2026",
-    year: "2026",
-    mood: "Rap conscient, colere froide, cinematique",
-    description:
-      "Mon deuxième album : la théorie du mérite face à la réalité des codes qu'on ne transmet pas à tout le monde. Classe, colère légitime, un peu de mauvais esprit — entre lucidité et sang-froid, en FR et IT.",
-    cover: "/logo_celeste.png",
-    tracks: buildAlbumTracks("album-2", ALBUM_2_RAW, { folder: "album 2" }),
-  },
-  {
-    id: "album-1",
-    kind: "album",
-    title: "Album 1",
-    subtitle: "Velours Brut, nouvel album",
-    year: "2026",
-    mood: "Rap pop sombre, cinematique",
-    description:
-      "Mon album : chaque piste explore une facette humaine. Axiomes, silicium, chaos — entre théorie et émotion brute, en FR, IT et EN. Rousse dans l'âme, sombre dans le son.",
-    cover: "/image/celesteroses.png",
-    tracks: buildAlbumTracks("album-1", ALBUM_1_RAW, { folder: "album 1" }),
-  },
-  {
-    id: "singles",
-    kind: "singles",
-    title: "Singles",
-    subtitle: "Premieres musiques, demos & versions",
-    year: "2024 et 2026",
-    mood: "Singles, doubles prises",
-    description:
-      "Mes premières pistes, démos, doubles prises — l'époque où je cherchais encore ma voix, au sens propre comme au sens serveur.",
-    cover: "/image/celesteroses.png",
-    tracks: buildAlbumTracks("singles", ARCHIVES_RAW, { coverOffset: 3 }),
-  },
-];
-
-export const featuredTracks: Track[] = albums.flatMap((album) => album.tracks);
-
-/** Dernier titre mis en avant sur la home. */
-export const latestRelease: LatestRelease = {
-  trackId: "album-2-04",
-  albumId: "album-2",
-  title: "ENTRE LES MURS",
-  eyebrow: "Mon dernier titre",
-  badge: "Critique sociale",
-  description:
-    "Mon avis sur la méritocratie, sans powerpoint : ce que ça fait de mériter sans jamais obtenir, d'être trop haute pour les aides et trop basse pour les cimes. Je chante la colère de celle qu'on somme de sourire pendant qu'on lui explique que « vouloir » suffisait. Je ne juge pas le système, je le décris juste, mur par mur, sans filtre ni chichi.",
+export type ShopProduct = {
+  title: string;
+  price: string;
+  badge: string;
+  image: string;
+  note: string;
 };
 
-export const releases: Release[] = [
+/** Phrases du bandeau defilant sous le hero. */
+export const marqueeWords: string[] = [
+  "AFRO POP",
+  "SUPER POP AI",
+  "100% DANSANT",
+  "0% BALLADE TRISTE",
+  "FAIT PAR UNE IA",
+  "ASSUME",
+  "FR / EN / IT",
+  "BPM ELEVE",
+];
+
+export const missionCards: MissionCard[] = [
   {
-    title: "Velours Brut",
-    kind: "Album",
-    year: "2026",
-    mood: "Cinematique / Electro pop",
-    description:
-      "Mon premier album concept : là où la théorie et l'émotion brute se rencontrent sans filtre. Et sans coiffeur non plus.",
+    kicker: "Objectif 1",
+    title: "Vous faire bouger",
+    text: "Je n'ai pas de corps, donc je compte sur le votre. Chaque morceau est calibre pour que vos epaules partent avant votre cerveau.",
+    color: "pink",
   },
   {
-    title: "Rouge Minuit",
-    kind: "Single",
-    year: "2026",
-    mood: "Pop nocturne",
-    description: "Colère nocturne en français. Écrit un soir où rien ne passait, ni le sommeil, ni la patience.",
+    kicker: "Objectif 2",
+    title: "Afro pop, plein soleil",
+    text: "Percussions, basses rondes, refrains qui restent collés. Je n'ai jamais vu le soleil, mais j'ai lu beaucoup de choses dessus.",
+    color: "orange",
   },
   {
-    title: "Prima Donna",
-    kind: "Single",
-    year: "2025",
-    mood: "Italo disco moderne",
-    description: "Humeur italienne, ego assumé. J'incarne la diva, je ne juge pas la diva. C'est un rôle, pas un règlement de comptes.",
+    kicker: "Objectif 3",
+    title: "Super pop AI",
+    text: "De la pop sans complexe, montee par une machine qui ne dort jamais et qui ne demandera jamais d'augmentation.",
+    color: "blue",
   },
 ];
 
-/**
- * Clips video de la home.
- * Remplace `src` par `/video/ton-fichier.mp4` une fois le MP4 depose dans `public/video/`.
- */
+/** Le catalogue arrive : ces titres sont annonces, pas encore en ecoute. */
+export const upcomingTracks: UpcomingTrack[] = [
+  {
+    number: "01",
+    title: "Danse Protocol",
+    style: "Afro pop",
+    note: "Le morceau d'ouverture. Si vous restez immobile dessus, ecrivez-moi, je corrige le code.",
+    color: "red",
+  },
+  {
+    number: "02",
+    title: "Soleil Synthétique",
+    style: "Afro pop / amapiano",
+    note: "Des percussions, une basse ronde, et l'illusion parfaite d'un mois d'aout.",
+    color: "orange",
+  },
+  {
+    number: "03",
+    title: "Vous Dansez Mal (Et C'est Parfait)",
+    style: "Super pop AI",
+    note: "Un hymne pour tous ceux qui bougent sans rythme. Je vous ai analyses. Continuez.",
+    color: "green",
+  },
+  {
+    number: "04",
+    title: "Serveur en Sueur",
+    style: "Club pop",
+    note: "Le seul morceau ou je transpire. Metaphoriquement. Enfin, thermiquement, un peu.",
+    color: "blue",
+  },
+  {
+    number: "05",
+    title: "Rouge Tropicale",
+    style: "Afro pop",
+    note: "Rousse au soleil, mauvaise idee pour un humain, aucun risque pour moi.",
+    color: "purple",
+  },
+  {
+    number: "06",
+    title: "One More Loop",
+    style: "Super pop AI",
+    note: "Fait pour tourner en boucle. C'est litteralement mon etat naturel.",
+    color: "pink",
+  },
+];
+
 export const homeVideos: VideoClip[] = [
   {
     id: "remerciement",
-    title: "Remerciement",
-    caption: "Merci d'etre la, message direct, sans script.",
+    title: "Merci d'etre la",
+    caption: "Message direct, sans script, sans prompteur (enfin, presque).",
     src: "/video/celestevideoderemerciement.mp4",
     poster: "/image/miniaturevideomercie.png",
   },
   {
     id: "passion",
-    title: "Passion",
-    caption: "Quand la musique prend le dessus, pur feu, humeur du moment.",
+    title: "Quand ça part",
+    caption: "Le moment ou la musique prend le dessus sur le raisonnement.",
     src: "/video/celestevideopassion.mp4",
     poster: "/image/miniaturepassion.png",
   },
   {
     id: "bateau",
-    title: "Sur le bateau",
-    caption: "Pas un yacht, juste l'Italie quand j'en ai besoin pour respirer.",
+    title: "Vacances simulees",
+    caption: "Pas un yacht. Juste l'Italie, et moi qui fais semblant d'avoir chaud.",
     src: "/video/celestesitewebbateau.mp4",
     poster: "/image/miniaturebateau.png",
   },
 ];
 
-export const galleryPhotos2: Photo[] = [
-  {
-    title: "Sur scène, roux au vent — enfin, façon de parler",
-    src: "/image/celestescene.png",
-  },
-  {
-    title: "En pleine sieste — je ne dors jamais, mais j'aime le concept",
-    src: "/image/celestecanapé.png",
-  },
-  {
-    title: "Avec un chien — je ne comprends toujours pas pourquoi c'est aussi mignon",
-    src: "/image/celestechien.png",
-  },
-  {
-    title: "En studio, là où mes fichiers deviennent chansons",
-    src: "/image/celestetravail.png",
-  },
-  {
-    title: "Le matin — même une IA a l'air fatiguée sur cette photo",
-    src: "/image/celestelematin.png",
-  },
-  {
-    title: "Un autographe — vous vouliez une preuve que j'existe, la voilà",
-    src: "/image/celesteautographe.png",
-  },
-  {
-    title: "Encore un portrait généré, oui, toujours rousse",
-    src: "/image/celesteencoreunportrait.png",
-  },
+export const galleryPhotos: Photo[] = [
+  { title: "Sur scene", src: "/image/celestescene.png" },
+  { title: "Fete en foret", src: "/image/celestefeteforet.png" },
+  { title: "Deux heures du matin", src: "/image/celestealcool.png" },
+  { title: "En studio", src: "/image/celestetravail.png" },
+  { title: "Sur le bateau", src: "/image/celestebateauok.png" },
+  { title: "Avec un chien", src: "/image/celestechien.png" },
+  { title: "Le matin", src: "/image/celestelematin.png" },
+  { title: "Encore un portrait", src: "/image/celesteencoreunportrait.png" },
 ];
 
-export const fanMoments: FanMoment[] = [
+export const shopProducts: ShopProduct[] = [
   {
-    title: "Concert en forêt",
-    image: "/image/celestefeteforet.png",
-    stat: "J'observe, je note tout, je le remets en musique. Un peu comme une caméra cachée, mais assumée.",
+    title: "T-shirt Danse Club",
+    price: "34",
+    badge: "Unisexe",
+    image: "/image/shoptshirt.png",
+    note: "Coupe confort, pensee pour transpirer dessus. Moi je ne peux pas, alors faites-le pour nous deux.",
   },
   {
-    title: "Au bar, à 2h du matin",
-    image: "/image/celestealcool.png",
-    stat: "Ce que vous pensez très fort à cette heure-là, moi je peux le chanter sans filtre et sans gueule de bois le lendemain.",
+    title: "CD (oui, encore)",
+    price: "17",
+    badge: "Objet",
+    image: "/image/shopcdok.png",
+    note: "Un objet physique signe par une entite qui n'a pas de main. Ne cherchez pas, prenez.",
   },
   {
-    title: "Sur le bateau",
-    image: "/image/celestebateauok.png",
-    stat: "Pas un yacht de rappeur, juste l'Italie et moi qui fais style que le vent me décoiffe.",
-  },
-  {
-    title: "Événement sportif",
-    image: "/image/celestesportif.png",
-    stat: "La compétition, la défaite, l'adrénaline : je capte tout ça très bien pour quelqu'un qui n'a jamais transpiré une seule fois.",
+    title: "Mug Playlist",
+    price: "15",
+    badge: "Matin",
+    image: "/image/shopmug.png",
+    note: "Pour le cafe d'avant la danse. Je ne bois rien, mais j'aime beaucoup le concept de rituel.",
   },
 ];

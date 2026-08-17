@@ -13,7 +13,7 @@ export function InteractiveEffects() {
 
     const revealTargets = Array.from(
       document.querySelectorAll<HTMLElement>(
-        ".hero-banner, .section-block, .glass-panel, .photo-tile, .story-gallery-card, .story-hero, .story-chapter, .story-feature-section, .story-paradox-card, .story-manifesto, .cover-card, .fan-moment-card, .video-picker-card",
+        ".section, .card, .tile, .video-card, .shop-card, .split-media, .stat, .legal-section",
       ),
     );
 
