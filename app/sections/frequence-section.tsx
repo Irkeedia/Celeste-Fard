@@ -14,10 +14,9 @@
  * - le bouton lit le VRAI fichier /audio/nouvelle-generation/frequence.mp3 ;
  * - les phrases s'allument au fil de la lecture, via LYRICS[].at.
  *
- * ATTENTION — les timings de LYRICS sont ESTIMES a partir de la structure
- * du morceau (couplet / refrain / pont), pas mesures sur la forme d'onde.
- * Ils sont volontairement regroupes ici, en secondes, pour etre ajustes a
- * l'oreille sans toucher au reste du composant.
+ * Les timings de LYRICS sont MESURES : ils viennent d'une transcription
+ * mot-a-mot de l'extrait (hyperframes transcribe), pas d'une estimation.
+ * Ils restent regroupes en un seul endroit pour rester ajustables.
  */
 
 import Image from "next/image";
@@ -56,18 +55,21 @@ type Line = {
 
 /**
  * Phrases tirees des paroles, placees comme les citations de l'affiche.
- * `at` est en secondes ABSOLUES dans le morceau : les valeurs tiennent
- * donc dans la fenetre [EXTRACT_START, EXTRACT_END].
+ *
+ * Les `at` ne sont PAS estimes : ils viennent d'une transcription
+ * mot-a-mot de l'extrait (hyperframes transcribe), donc chaque phrase
+ * s'allume exactement quand elle est chantee. Valeurs en secondes
+ * absolues dans le morceau, dans la fenetre [EXTRACT_START, EXTRACT_END].
  */
 const LYRICS: readonly Line[] = [
-  { at: 27, before: "« Juste le tempo, la nuit qui ", strong: "s’accélère", after: " »", top: "12%", left: "6%" },
-  { at: 33, before: "« Rien dans la tête, je prends mon ", strong: "envol", after: " »", top: "26%", right: "6%", align: "right" },
-  { at: 39, before: "« Je veux juste la basse qui tourne en ", strong: "boucle", after: " »", top: "44%", left: "5%" },
-  { at: 45, before: "« Le son qui tape et le cœur qui ", strong: "touche", after: " »", top: "58%", right: "7%", align: "right" },
-  { at: 51, before: "« L’onde est lourde, elle glisse dans les ", strong: "veines", after: " »", top: "70%", left: "6%" },
-  { at: 57, before: "« Plus besoin de mots, la musique m’", strong: "entraîne", after: " »", top: "34%", left: "8%" },
-  { at: 63, before: "« Juste la ", strong: "fréquence", after: "… laisse tourner »", top: "52%", right: "6%", align: "right" },
-  { at: 67, before: "« C’est ça le feeling. Rien que la ", strong: "basse", after: " »", top: "80%", left: "7%" },
+  { at: 25.5, before: "« Pas de superflu, je reste dans ma ", strong: "lumière", after: " »", top: "10%", left: "6%" },
+  { at: 27.1, before: "« Un battement lourd qui fait vibrer le ", strong: "sol", after: " »", top: "24%", right: "6%", align: "right" },
+  { at: 29, before: "« Rien dans la tête, je prends mon ", strong: "envol", after: " »", top: "38%", left: "5%" },
+  { at: 31.2, before: "« Le rythme est fluide, ça glisse sous mes ", strong: "pas", after: " »", top: "52%", right: "7%", align: "right" },
+  { at: 33, before: "« Tout est plus simple quand la basse est ", strong: "là", after: " »", top: "66%", left: "6%" },
+  { at: 35.2, before: "« Je veux juste la basse qui tourne en ", strong: "boucle", after: " »", top: "16%", left: "8%" },
+  { at: 38.7, before: "« Le son qui tape et le cœur qui ", strong: "touche", after: " »", top: "44%", right: "6%", align: "right" },
+  { at: 43, before: "« C’est ça le feeling, ", strong: "zéro détour", after: " »", top: "78%", left: "7%" },
 ];
 
 function formatTime(s: number): string {

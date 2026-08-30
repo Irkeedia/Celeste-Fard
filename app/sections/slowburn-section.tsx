@@ -9,9 +9,10 @@
  * une combustion — d'ou le degrade anime sur le texte plutot qu'une simple
  * apparition en opacite.
  *
- * ATTENTION — comme pour "Frequence", les `at` de LYRICS sont ESTIMES a
- * partir de la structure du morceau, pas mesures sur la forme d'onde.
- * Ils sont regroupes ici pour etre ajustes a l'oreille.
+ * Les `at` de LYRICS proviennent d'une transcription mot-a-mot de
+ * l'extrait (hyperframes transcribe) : ils sont mesures, pas estimes.
+ * Pour les regenerer apres un changement de fenetre d'extrait, voir le
+ * commentaire au-dessus de LYRICS.
  */
 
 import Link from "next/link";
@@ -33,16 +34,24 @@ type Line = {
   hook?: boolean;
 };
 
-/** Paroles anglaises du titre, dans l'ordre. */
+/**
+ * Paroles du titre, calees sur une transcription mot-a-mot de l'extrait
+ * (hyperframes transcribe) : chaque ligne s'allume exactement quand elle
+ * est chantee. Valeurs en secondes absolues dans le morceau.
+ *
+ * A noter : la fenetre d'extrait tombe sur le HOOK, pas sur le couplet —
+ * d'ou l'absence de "Shadows move across the wall", qui arrive plus tot
+ * dans le morceau.
+ */
 const LYRICS: readonly Line[] = [
-  { at: 31, text: "Shadows move across the wall" },
-  { at: 36, text: "Nothing here, nothing at all" },
-  { at: 41, text: "Just this feeling, just this sound" },
-  { at: 46, text: "Pulling me, pulling me down" },
-  { at: 52, text: "Slow burn, slow burn", hook: true },
-  { at: 57, text: "Take your time, it’s your turn", hook: true },
-  { at: 63, text: "Watch the whole world turn", hook: true },
-  { at: 69, text: "Ooh… mmm…" },
+  { at: 30.3, text: "Slow burn, slow burn", hook: true },
+  { at: 32.5, text: "Take your time, it’s your turn", hook: true },
+  { at: 36, text: "Slow burn, slow burn", hook: true },
+  { at: 39.6, text: "Watch the whole world turn", hook: true },
+  { at: 44.8, text: "Ooh… mmm…" },
+  { at: 49.4, text: "Ooh… yeah…" },
+  { at: 57.1, text: "Slow burn… slow burn…", hook: true },
+  { at: 59.2, text: "It’s your turn…" },
 ];
 
 function formatTime(s: number): string {
