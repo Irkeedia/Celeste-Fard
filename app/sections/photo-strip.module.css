@@ -99,11 +99,8 @@
   animation-direction: reverse;
 }
 
-/* Au survol on ralentit fortement plutot que de figer net :
-   l'arret brutal donne l'impression d'un bug. */
-.strip:hover .track {
-  animation-duration: 190s;
-}
+/* Aucun ralentissement au survol : la cadence doit rester rigoureusement
+   constante, sinon le ruban semble sauter quand la souris le traverse. */
 
 @keyframes strip-scroll {
   from {
@@ -124,27 +121,18 @@
   border-radius: var(--radius-md);
   overflow: hidden;
   background: var(--ink-2);
-  transition:
-    border-color var(--dur-fast) ease,
-    box-shadow var(--dur-fast) ease;
 }
 
-.item:hover {
-  border-color: rgb(var(--red-rgb) / 0.55);
-  box-shadow: var(--glow-red-sm);
-}
+/* Volontairement aucun etat :hover sur les vignettes : elles defilent en
+   continu, un effet declenche au passage de la souris se lit comme un
+   accroc plutot que comme une intention. */
 
 .img {
   object-fit: cover;
-  /* Les visuels sont volontairement desatures au repos : le ruban ne doit
-     pas rivaliser avec le hero et la galerie, qui portent la couleur. */
-  filter: saturate(0.72) contrast(1.06);
-  transition: filter var(--dur-slow) var(--ease-out), scale var(--dur-slow) var(--ease-out);
-}
-
-.item:hover .img {
-  filter: saturate(1) contrast(1);
-  scale: 1.05;
+  /* Les visuels sont legerement desatures : le ruban ne doit pas rivaliser
+     avec le hero et la galerie, qui portent la couleur. Valeur fixe, sans
+     transition : rien ne doit changer au passage de la souris. */
+  filter: saturate(0.78) contrast(1.06);
 }
 
 /* --- Accessibilite / petits ecrans --------------------- */

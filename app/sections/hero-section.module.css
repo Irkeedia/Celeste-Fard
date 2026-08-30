@@ -318,6 +318,18 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* Le fond du fichier est noir quasi pur, donc invisible en `screen` SUR
+     DU NOIR. Mais la ou le halo rouge passe derriere l'image, le vignettage
+     sombre des bords du fichier assombrit le halo et dessine un rectangle.
+     Ce masque estompe les bords : plus de limite franche, quelle que soit
+     la largeur d'ecran. Il porte sur l'image elle-meme et non sur un
+     ancetre, pour ne pas recreer de groupe de fusion (cf. en-tete). */
+  mask-image: radial-gradient(
+    118% 108% at 50% 44%,
+    #000 58%,
+    rgb(0 0 0 / 0.65) 78%,
+    transparent 100%
+  );
 }
 
 .mediaFade {
@@ -337,7 +349,10 @@
   position: absolute;
   top: 47%;
   left: 50%;
-  width: min(124%, 44rem);
+  /* L'arc doit deborder franchement du portrait, sinon sa courbe s'arrete
+     dans le rectangle de l'image et la limite se voit. Sur les tres larges
+     ecrans la colonne est deja large, d'ou le plafond en rem. */
+  width: min(158%, 52rem);
   aspect-ratio: 1;
   border-radius: 50%;
   transform: translate(-50%, -50%);

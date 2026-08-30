@@ -7,6 +7,7 @@ import { MarqueeBand } from "./sections/marquee-band";
 import { PhotoStrip } from "./sections/photo-strip";
 import { PlayerSection } from "./sections/player-section";
 import { ShopTeaser } from "./sections/shop-teaser";
+import { SlowBurnSection } from "./sections/slowburn-section";
 import { VideoSection } from "./sections/video-section";
 
 /**
@@ -17,11 +18,12 @@ import { VideoSection } from "./sections/video-section";
  * On n'enveloppe donc PAS dans `.page-wrap` : cela ajouterait une
  * seconde gouttiere et casserait les sections pleine largeur.
  *
- * Ordre : hero -> marquee -> manifesto -> player -> frequence -> gallery
- * -> photo strip -> video -> shop -> cta.
+ * Ordre : hero -> marquee -> manifesto -> player -> frequence -> slow burn
+ * -> gallery -> photo strip -> video -> shop -> cta.
  *
- * "Frequence" suit le lecteur : on vient de parcourir le catalogue, la
- * section met en avant un seul titre, en plein ecran.
+ * "Frequence" puis "Slow Burn" suivent le lecteur : apres le catalogue,
+ * deux titres mis en avant plein ecran, l'un frontal et rouge vif,
+ * l'autre nocturne — le contraste evite l'effet de repetition.
  *
  * Le ruban de photos est place APRES la galerie : la galerie pose le
  * regard sur quelques images choisies, le ruban enchaine sur le volume.
@@ -35,6 +37,7 @@ export default function Home() {
       <ManifestoSection />
       <PlayerSection />
       <FrequenceSection />
+      <SlowBurnSection />
       <GallerySection />
       <PhotoStrip />
       <VideoSection />

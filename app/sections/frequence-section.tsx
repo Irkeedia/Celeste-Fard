@@ -29,6 +29,14 @@ import styles from "./frequence-section.module.css";
 const TRACK_SRC = "/audio/nouvelle-generation/frequence.mp3";
 const TRACK_SECONDS = 174;
 
+/* La section ne diffuse qu'un EXTRAIT : on entre dans le morceau une fois
+   l'intro passee, et on s'arrete avant la fin. Le titre complet s'ecoute
+   depuis le lecteur de la page ou la page Musique. */
+const EXTRACT_START = 25;
+const EXTRACT_END = 70;
+/** Fondu de sortie, pour ne pas couper net sur la derniere seconde. */
+const FADE_SECONDS = 2.5;
+
 type Line = {
   /** Seconde a laquelle la phrase s'allume. */
   at: number;
@@ -46,16 +54,20 @@ type Line = {
   align?: "left" | "right";
 };
 
-/** Phrases tirees des paroles, placees comme les citations de l'affiche. */
+/**
+ * Phrases tirees des paroles, placees comme les citations de l'affiche.
+ * `at` est en secondes ABSOLUES dans le morceau : les valeurs tiennent
+ * donc dans la fenetre [EXTRACT_START, EXTRACT_END].
+ */
 const LYRICS: readonly Line[] = [
-  { at: 6, before: "« Juste le tempo, la nuit qui ", strong: "s’accélère", after: " »", top: "12%", left: "6%" },
-  { at: 20, before: "« Rien dans la tête, je prends mon ", strong: "envol", after: " »", top: "26%", right: "6%", align: "right" },
-  { at: 34, before: "« Je veux juste la basse qui tourne en ", strong: "boucle", after: " »", top: "44%", left: "5%" },
-  { at: 48, before: "« Le son qui tape et le cœur qui ", strong: "touche", after: " »", top: "58%", right: "7%", align: "right" },
-  { at: 76, before: "« L’onde est lourde, elle glisse dans les ", strong: "veines", after: " »", top: "70%", left: "6%" },
-  { at: 96, before: "« Plus besoin de mots, la musique m’", strong: "entraîne", after: " »", top: "34%", left: "8%" },
-  { at: 124, before: "« Juste la ", strong: "fréquence", after: "… laisse tourner »", top: "52%", right: "6%", align: "right" },
-  { at: 164, before: "« C’est ça le feeling. Rien que la ", strong: "basse", after: " »", top: "80%", left: "7%" },
+  { at: 27, before: "« Juste le tempo, la nuit qui ", strong: "s’accélère", after: " »", top: "12%", left: "6%" },
+  { at: 33, before: "« Rien dans la tête, je prends mon ", strong: "envol", after: " »", top: "26%", right: "6%", align: "right" },
+  { at: 39, before: "« Je veux juste la basse qui tourne en ", strong: "boucle", after: " »", top: "44%", left: "5%" },
+  { at: 45, before: "« Le son qui tape et le cœur qui ", strong: "touche", after: " »", top: "58%", right: "7%", align: "right" },
+  { at: 51, before: "« L’onde est lourde, elle glisse dans les ", strong: "veines", after: " »", top: "70%", left: "6%" },
+  { at: 57, before: "« Plus besoin de mots, la musique m’", strong: "entraîne", after: " »", top: "34%", left: "8%" },
+  { at: 63, before: "« Juste la ", strong: "fréquence", after: "… laisse tourner »", top: "52%", right: "6%", align: "right" },
+  { at: 67, before: "« C’est ça le feeling. Rien que la ", strong: "basse", after: " »", top: "80%", left: "7%" },
 ];
 
 function formatTime(s: number): string {
@@ -67,13 +79,20 @@ function formatTime(s: number): string {
 export function FrequenceSection() {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [playing, setPlaying] = useState(false);
+  /** Vrai une fois l'extrait termine : declenche l'appel vers le titre complet. */
+  const [ended, setEnded] = useState(false);
   const [time, setTime] = useState(0);
-  const [duration, setDuration] = useState(TRACK_SECONDS);
 
   const toggle = useCallback(async () => {
     const a = audioRef.current;
     if (!a) return;
     if (a.paused) {
+      // On (re)entre toujours dans l'extrait par son debut : relancer au
+      // milieu apres une fin d'extrait n'aurait aucun sens.
+      if (a.currentTime < EXTRACT_START || a.currentTime >= EXTRACT_END - 0.3) {
+        a.currentTime = EXTRACT_START;
+      }
+      a.volume = 1;
       try {
         await a.play();
       } catch {
@@ -88,29 +107,43 @@ export function FrequenceSection() {
   useEffect(() => {
     const a = audioRef.current;
     if (!a) return;
-    const onTime = () => setTime(a.currentTime);
-    const onMeta = () => setDuration(a.duration || TRACK_SECONDS);
-    const onPlay = () => setPlaying(true);
+    const onTime = () => {
+      setTime(a.currentTime);
+      const restant = EXTRACT_END - a.currentTime;
+      if (restant <= 0) {
+        // Fin de l'extrait : on arrete et on propose le titre complet.
+        a.pause();
+        a.volume = 1;
+        setEnded(true);
+        return;
+      }
+      // Fondu de sortie : couper net sur une basse serait desagreable.
+      a.volume = restant < FADE_SECONDS ? Math.max(0, restant / FADE_SECONDS) : 1;
+    };
+    const onPlay = () => {
+      setPlaying(true);
+      setEnded(false);
+    };
     const onPause = () => setPlaying(false);
     const onEnd = () => {
       setPlaying(false);
-      setTime(0);
+      setEnded(true);
     };
     a.addEventListener("timeupdate", onTime);
-    a.addEventListener("loadedmetadata", onMeta);
     a.addEventListener("play", onPlay);
     a.addEventListener("pause", onPause);
     a.addEventListener("ended", onEnd);
     return () => {
       a.removeEventListener("timeupdate", onTime);
-      a.removeEventListener("loadedmetadata", onMeta);
       a.removeEventListener("play", onPlay);
       a.removeEventListener("pause", onPause);
       a.removeEventListener("ended", onEnd);
     };
   }, []);
 
-  const progress = duration ? (time / duration) * 100 : 0;
+  const extractLength = EXTRACT_END - EXTRACT_START;
+  const elapsed = Math.min(Math.max(time - EXTRACT_START, 0), extractLength);
+  const progress = (elapsed / extractLength) * 100;
 
   return (
     <section className={styles.section} aria-labelledby="frequence-title">
@@ -200,18 +233,24 @@ export function FrequenceSection() {
 
           <div className={styles.meta}>
             <span className={`${styles.metaTop} u-micro`}>
-              {playing ? "En lecture" : "Écouter le titre"}
+              {ended ? "Fin de l’extrait" : playing ? "En lecture" : "Écouter l’extrait"}
             </span>
             <div className={styles.bar}>
               <span className={styles.barFill} style={{ width: `${progress}%` }} />
             </div>
             <span className={styles.metaTime}>
-              {formatTime(time)} / {formatTime(duration)}
+              {formatTime(elapsed)} / {formatTime(extractLength)} · extrait
             </span>
           </div>
         </div>
 
-        <footer className={styles.foot}>
+        {/* Appel vers le titre complet — visible en permanence, mais mis en
+            avant une fois l'extrait termine. */}
+        <footer className={`${styles.foot} ${ended ? styles.footOn : ""}`}>
+          <Link href="/#player" className={styles.cta}>
+            Écouter le titre en entier
+            <span aria-hidden="true">→</span>
+          </Link>
           <Link href="/music" className={styles.badge}>
             <Image
               src="/logo_celeste.png"

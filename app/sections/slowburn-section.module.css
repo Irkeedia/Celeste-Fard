@@ -1,0 +1,307 @@
+/* =========================================================
+   SLOW BURN — pendant nocturne de "Frequence".
+
+   Parti pris inverse : la ou Frequence est frontale et rouge
+   vif, tout est ici plus sombre, plus lent, plus braise.
+   Les paroles ne "surgissent" pas : elles s'allument par un
+   degrade qui traverse le texte, comme une combustion.
+   ========================================================= */
+
+.section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: min(155svh, 64rem);
+  display: grid;
+  place-items: center;
+  padding-block: var(--sp-9);
+  background: #050306;
+}
+
+/* --- Fond --------------------------------------------- */
+
+.bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Plus sombre que Frequence : la danse doit rester une presence,
+     pas capter le regard avant les mots. */
+  filter: saturate(0.6) contrast(1.12) brightness(0.38);
+}
+
+.veil {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, #050306 0%, transparent 24%, transparent 62%, #050306 96%),
+    radial-gradient(120% 80% at 50% 50%, transparent 30%, rgb(5 3 6 / 0.85) 100%);
+}
+
+/* Braise : halo chaud, bas et large, qui monte du sol. */
+.ember {
+  position: absolute;
+  right: 0;
+  bottom: -18%;
+  left: 0;
+  height: 70%;
+  background: radial-gradient(
+    58% 100% at 50% 100%,
+    rgb(var(--red-rgb) / 0.34),
+    rgb(var(--magenta-rgb) / 0.16) 42%,
+    transparent 72%
+  );
+  filter: blur(46px);
+}
+
+/* --- Contenu ------------------------------------------ */
+
+.inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 46rem;
+  min-height: min(138svh, 56rem);
+  padding-inline: clamp(1.4rem, 5vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.head {
+  margin-top: var(--sp-4);
+}
+
+.kicker {
+  color: rgb(var(--red-soft-rgb) / 0.9);
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05em;
+  margin-block: var(--sp-3) var(--sp-2);
+  font-family: var(--font-serif), Georgia, serif;
+  font-weight: 300;
+  font-size: clamp(3rem, 11vw, 8rem);
+  line-height: 0.9;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--paper);
+}
+
+.titleWord {
+  display: block;
+}
+
+/* "Burn" est rempli d'un degrade de braise qui respire lentement. */
+.titleBurn {
+  background: linear-gradient(
+    100deg,
+    var(--red-deep),
+    var(--red) 35%,
+    var(--red-soft) 55%,
+    var(--magenta) 80%
+  );
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: burn 9s ease-in-out infinite;
+}
+
+@keyframes burn {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.sub {
+  font-family: var(--font-serif), Georgia, serif;
+  font-style: italic;
+  font-size: var(--fs-body);
+  color: var(--text-muted);
+}
+
+/* --- Paroles ------------------------------------------ */
+
+.lyrics {
+  margin: var(--sp-7) 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: clamp(0.7rem, 1.6vw, 1.15rem);
+  width: 100%;
+}
+
+.lyric {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(1rem, 2.1vw, 1.5rem);
+  line-height: 1.35;
+  /* Etat de repos : presque eteint, mais lisible — une ligne totalement
+     invisible laisserait un trou dans la grille. */
+  color: rgb(var(--paper-rgb) / 0.22);
+  transition: color 1600ms var(--ease-out), text-shadow 1600ms var(--ease-out);
+}
+
+.lyricOn {
+  color: rgb(var(--paper-rgb) / 0.96);
+  text-shadow: 0 0 26px rgb(var(--red-rgb) / 0.5);
+}
+
+/* Le refrain est plus grand et plus chaud. */
+.lyricHook {
+  font-size: clamp(1.3rem, 3.4vw, 2.4rem);
+  letter-spacing: 0.04em;
+}
+
+.lyricHook.lyricOn {
+  color: var(--red-soft);
+  text-shadow: 0 0 34px rgb(var(--red-rgb) / 0.7);
+}
+
+/* --- Lecteur ------------------------------------------ */
+
+.player {
+  margin-top: auto;
+  margin-bottom: var(--sp-4);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  width: min(26rem, 100%);
+  padding: var(--sp-3);
+  border: 1px solid rgb(var(--paper-rgb) / 0.12);
+  border-radius: var(--radius-pill);
+  background: rgb(5 3 6 / 0.6);
+  backdrop-filter: blur(12px);
+}
+
+.play {
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgb(var(--red-rgb) / 0.5);
+  border-radius: 50%;
+  background: rgb(var(--red-rgb) / 0.14);
+  color: var(--paper);
+  cursor: pointer;
+  transition:
+    background var(--dur-fast) ease,
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.play:hover,
+.play:focus-visible {
+  background: rgb(var(--red-rgb) / 0.3);
+  transform: scale(1.05);
+}
+
+.meta {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: grid;
+  gap: 0.4rem;
+  text-align: left;
+}
+
+.metaTop {
+  color: rgb(var(--red-soft-rgb) / 0.85);
+}
+
+.bar {
+  height: 2px;
+  border-radius: 2px;
+  background: rgb(var(--paper-rgb) / 0.14);
+  overflow: hidden;
+}
+
+.barFill {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--red-deep), var(--red-soft));
+  transition: width 250ms linear;
+}
+
+.metaTime {
+  font-size: var(--fs-micro);
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Appel ------------------------------------------- */
+
+.foot {
+  margin-bottom: var(--sp-3);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.7rem 1.4rem;
+  border: 1px solid rgb(var(--red-rgb) / 0.45);
+  border-radius: var(--radius-pill);
+  background: rgb(5 3 6 / 0.55);
+  font-size: var(--fs-small);
+  color: rgb(var(--paper-rgb) / 0.9);
+  text-decoration: none;
+  transition:
+    background var(--dur-fast) ease,
+    border-color var(--dur-fast) ease;
+}
+
+.cta:hover,
+.cta:focus-visible {
+  border-color: var(--red);
+  color: var(--paper);
+}
+
+.footOn .cta {
+  background: linear-gradient(140deg, var(--red-deep), var(--red) 60%, var(--magenta));
+  border-color: transparent;
+  box-shadow: var(--glow-red-md);
+  color: var(--paper);
+}
+
+/* --- Accessibilite ------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  .titleBurn {
+    animation: none;
+  }
+
+  .lyric {
+    transition: none;
+  }
+
+  .video {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .lyrics {
+    margin-top: var(--sp-6);
+  }
+
+  /* Huit lignes tiennent mal sur un petit ecran : on garde le couplet
+     et le refrain, on coupe la vocalise finale. */
+  .lyric:last-child {
+    display: none;
+  }
+}

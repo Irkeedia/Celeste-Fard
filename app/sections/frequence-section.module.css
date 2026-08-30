@@ -306,6 +306,45 @@
 
 .foot {
   margin-bottom: var(--sp-3);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+/* Appel vers le titre complet. Toujours present (donc atteignable au
+   clavier des le depart), mais il s'allume a la fin de l'extrait. */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 44px;
+  padding: 0.7rem 1.4rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgb(var(--red-rgb) / 0.55);
+  background: rgb(var(--ink-rgb) / 0.55);
+  backdrop-filter: blur(10px);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-bold);
+  color: var(--paper);
+  text-decoration: none;
+  transition:
+    background var(--dur-fast) ease,
+    border-color var(--dur-fast) ease,
+    box-shadow var(--dur-fast) ease;
+}
+
+.cta:hover,
+.cta:focus-visible {
+  border-color: var(--red);
+  box-shadow: var(--glow-red-sm);
+}
+
+.footOn .cta {
+  background: linear-gradient(140deg, var(--red-soft), var(--red) 55%, var(--magenta));
+  border-color: transparent;
+  box-shadow: var(--glow-red-md);
 }
 
 .badge {
