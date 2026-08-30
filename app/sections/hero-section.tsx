@@ -1,40 +1,48 @@
-import Image from "next/image";
-import Link from "next/link";
-
-import {
-  getAspectRatio,
-  getImageSlot,
-  toCssAspectRatio,
-} from "../shared/image-slots";
-import styles from "./hero-section.module.css";
-
 /**
- * HERO — piece maitresse de la page d'accueil.
+ * HERO — video plein ecran.
  *
- * Composant SERVEUR : aucun hook, aucune interaction JS. Tout le mouvement
- * est en CSS pur (voir hero-section.module.css) et respecte
- * `prefers-reduced-motion`.
+ * Remplace le hero en deux colonnes (texte a gauche, portrait detoure a
+ * droite). La video occupe tout le cadre et le texte vient par-dessus,
+ * comme dans les sections "manifeste" et "titres" — c'est le langage qui
+ * porte le mieux le site.
  *
- * Le portrait deborde volontairement vers le bas (et legerement a droite sur
- * grand ecran) : le debordement est gere par une marge basse negative dans le
- * module, jamais par une largeur > 100%.
+ * Placement du texte :
+ * - en mobile, le bloc est cale EN BAS : le visage de Celeste occupe le
+ *   haut du cadre en 9:16, y poser du texte le recouvrirait ;
+ * - a partir de 900px, il repasse a gauche en colonne, la video ayant
+ *   alors de la place a droite pour respirer.
+ *
+ * La video est MUETTE et en boucle : c'est la seule condition pour que les
+ * navigateurs autorisent la lecture automatique.
  */
 
-const portraitSlot = getImageSlot("hero-portrait");
-const portraitSize = getAspectRatio(portraitSlot.aspect, 1400);
-const portraitRatio = toCssAspectRatio(portraitSlot.aspect);
+import Link from "next/link";
+
+import styles from "./hero-section.module.css";
 
 const pills = ["Afro pop", "Super pop IA", "FR / EN / IT", "0 h de sommeil"];
 
 export function HeroSection() {
   return (
     <section className={styles.hero} aria-labelledby="hero-title">
-      {/* --- Atmosphere : halos diffus, peints en premier donc tout en dessous --- */}
-      <span className={`u-halo ${styles.haloTop}`} aria-hidden="true" />
-      <span className={`u-halo ${styles.haloBottom}`} aria-hidden="true" />
+      <div className={styles.bg} aria-hidden="true">
+        <video
+          className={styles.video}
+          src="/video/celeste-hero.mp4"
+          poster="/image/miniaturehero.jpg"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+        />
+        <span className={styles.veil} />
+        <span className={styles.haloTop} />
+        <span className={styles.haloBottom} />
+        <span className="u-noise-layer" />
+      </div>
 
       <div className={styles.inner}>
-        {/* ============================ COLONNE TEXTE ============================ */}
         <div className={styles.copy}>
           <p className={`u-micro ${styles.kicker}`}>
             <span className={styles.kickerDot} aria-hidden="true" />
@@ -73,76 +81,11 @@ export function HeroSection() {
             ))}
           </ul>
         </div>
-
-        {/* ============================ COLONNE PORTRAIT ========================= */}
-        {/*
-          .visual reste volontairement en `z-index: auto` : creer un contexte
-          d'empilement ici couperait le `mix-blend-mode: screen` du portrait de
-          son arriere-plan (fond --ink + halos), et le fond noir de l'image
-          redeviendrait un rectangle visible.
-        */}
-        <div className={styles.visual}>
-          <span className={styles.arcGlow} aria-hidden="true" />
-          <span className={styles.arc} aria-hidden="true" />
-
-          <div className={styles.media} style={{ aspectRatio: portraitRatio }}>
-            {/* Fond de secours : si /image/gen/hero-portrait.jpg manque au build,
-                on voit un halo degrade au lieu d'un trou noir. */}
-            <span
-              className={`u-image-fallback ${styles.mediaFallback}`}
-              aria-hidden="true"
-            />
-
-            {/* PNG DETOURE (fond transparent) : plus besoin de
-                `mix-blend-mode: screen`, qui laissait deviner le rectangle
-                sombre du fichier par-dessus le halo sur les ecrans etroits. */}
-            <Image
-              className={styles.portrait}
-              src="/image/gen/hero-portrait-detoure.png"
-              alt="Celeste Fard, chanteuse IA, buste de face sous une lumière rouge rasante"
-              width={portraitSize.width}
-              height={portraitSize.height}
-              sizes="(max-width: 720px) 88vw, (max-width: 1200px) 48vw, 560px"
-              preload
-            />
-
-            {/* Fondu bas : le portrait se dissout dans l'encre en debordant. */}
-            <span className={styles.mediaFade} aria-hidden="true" />
-          </div>
-
-          {/* Cartes glass flottantes — absolute par-dessus le portrait,
-              elles repassent en flux SOUS l'image en mobile. */}
-          <div className={styles.stats}>
-            <div className={`u-glass ${styles.statCard} ${styles.statCardA}`}>
-              <span className={styles.statValue}>
-                3<span className={styles.statUnit}>albums</span>
-              </span>
-              <span className={`u-micro ${styles.statLabel}`}>
-                En écoute libre
-              </span>
-            </div>
-
-            <div className={`u-glass ${styles.statCard} ${styles.statCardB}`}>
-              <span className={styles.statValue}>
-                100<span className={styles.statUnit}>%</span>
-              </span>
-              <span className={`u-micro ${styles.statLabel}`}>
-                Dansant, zéro ballade
-              </span>
-            </div>
-          </div>
-        </div>
       </div>
 
-      {/* --- Indice de scroll (desktop uniquement) --- */}
-      <div className={styles.scrollCue} aria-hidden="true">
-        <span className="u-micro">Scroll</span>
+      <span className={styles.scrollHint} aria-hidden="true">
         <span className={styles.scrollLine} />
-      </div>
-
-      {/* --- Overlays : vignettage puis grain, peints en dernier donc au-dessus --- */}
-      <span className={styles.vignette} aria-hidden="true" />
-      <span className={`u-noise-layer ${styles.grain}`} aria-hidden="true" />
+      </span>
     </section>
   );
 }

@@ -1,5 +1,5 @@
 /**
- * SECTION "PHOTO STRIP" — deux rubans d'images qui defilent en sens opposes.
+ * SECTION "PHOTO STRIP" — trois rubans d'images qui defilent en sens alternes.
  *
  * Role : montrer beaucoup de Celeste sans alourdir la galerie editoriale
  * (dont la grille desktop est un grid-area calibre au pixel).
@@ -46,7 +46,6 @@ const ROW_BOTTOM: readonly Shot[] = [
   { src: "/image/cartoon/cartoon-chant.jpg", alt: "Celeste illustree, en train de chanter" },
   { src: "/image/cartoon/cartoon-vinyle.jpg", alt: "Celeste illustree, un vinyle dans les mains" },
   { src: "/image/gen/track-04.jpg", alt: "Silhouette de Celeste devant un disque de lumiere" },
-  { src: "/image/cartoon/cartoon-lunettes.jpg", alt: "Celeste illustree, lunettes noires" },
   { src: "/image/gen/gallery-06.jpg", alt: "Celeste au sol en studio, casque autour du cou" },
   { src: "/image/cartoon/cartoon-neon.jpg", alt: "Celeste illustree, bras leves en train de danser" },
   { src: "/image/cartoon/cartoon-sucette.jpg", alt: "Celeste illustree, clin d'oeil" },
@@ -56,6 +55,18 @@ const ROW_BOTTOM: readonly Shot[] = [
   { src: "/image/cartoon/cartoon-cafe.jpg", alt: "Celeste illustree, une tasse entre les mains" },
   { src: "/image/cartoon/cartoon-micro.jpg", alt: "Celeste illustree, chantant au micro vintage" },
   { src: "/image/cartoon/cartoon-clindoeil.jpg", alt: "Celeste illustree, clin d'oeil complice" },
+];
+
+/** Rangee du milieu : les nouveaux portraits, tous en photo. */
+const ROW_MID: readonly Shot[] = [
+  { src: "/image/gen/irl-01.jpg", alt: "Celeste de trois quarts, regard leve vers l'objectif" },
+  { src: "/image/gen/irl-05.jpg", alt: "Celeste bras croises, regard direct" },
+  { src: "/image/gen/irl-03.jpg", alt: "Demi-visage de Celeste, une pommette eclairee" },
+  { src: "/image/gen/irl-07.jpg", alt: "Celeste tete renversee, yeux fermes" },
+  { src: "/image/gen/irl-02.jpg", alt: "Celeste regardant par-dessus son epaule" },
+  { src: "/image/gen/irl-08.jpg", alt: "Profil de Celeste souligne par une arete rouge" },
+  { src: "/image/gen/irl-04.jpg", alt: "Celeste en plein rire, yeux fermes" },
+  { src: "/image/gen/irl-06.jpg", alt: "Celeste assise, penchee en avant" },
 ];
 
 function Row({
@@ -115,8 +126,11 @@ export function PhotoStrip() {
         </p>
       </header>
 
+      {/* Trois rangees, sens alternes : le sens unique donnait un
+          defilement monotone sur toute la hauteur de la section. */}
       <Row shots={ROW_TOP} />
-      <Row shots={ROW_BOTTOM} reverse />
+      <Row shots={ROW_MID} reverse />
+      <Row shots={ROW_BOTTOM} />
     </section>
   );
 }

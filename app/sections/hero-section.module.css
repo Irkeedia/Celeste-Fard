@@ -1,57 +1,88 @@
 /* =========================================================
-   HERO — CELESTE FARD
-   Fond quasi-noir, halos rouges diffus, portrait qui deborde
-   sur la section suivante.
+   HERO — video plein ecran, texte par-dessus.
 
-   Le portrait est un PNG A FOND TRANSPARENT (detoure hors ligne).
-   Il n'y a donc plus de `mix-blend-mode: screen` a menager : la
-   version precedente fusionnait un JPEG a fond noir avec le fond
-   de la section, ce qui laissait deviner le rectangle de l'image
-   partout ou le halo rouge passait derriere — visible sur les
-   ecrans etroits, invisible sur les tres larges.
+   Le portrait detoure et sa fusion `mix-blend-mode` ont disparu
+   avec l'ancienne mise en page en deux colonnes : il n'y a plus
+   aucune contrainte d'empilement a menager ici.
 
-   Consequence : les contraintes d'empilement liees a la fusion
-   n'ont plus lieu d'etre. `.hero` garde `z-index: 1` pour que le
-   debordement passe au-dessus de la section suivante, et c'est
-   tout.
+   Placement du texte (la seule vraie difficulte de cette section) :
+   la video est en 9:16 et le visage occupe le HAUT du cadre. En
+   mobile le texte est donc cale en bas ; a partir de 900px il
+   repasse a gauche, ou la video a de la place.
    ========================================================= */
 
 .hero {
   position: relative;
-  z-index: 1; /* le debordement doit passer AU-DESSUS de la section suivante */
-  isolation: isolate; /* groupe de fusion du `screen` (cf. en-tete) */
+  isolation: isolate;
+  overflow: hidden;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   width: 100%;
-  min-height: 100vh;
+  /* Le header occupe le haut du flux : sans le soustraire, le hero
+     depasse du premier ecran de la hauteur exacte du header, et le bas
+     du contenu se retrouve sous la ligne de flottaison.
+     `--site-header-h` est tenu a jour par MainNav (ResizeObserver). */
   min-height: calc(100svh - var(--site-header-h));
   padding-block: var(--sp-8) var(--sp-9);
-  /* `viewportFit: cover` est actif dans layout.tsx : en paysage sur iPhone
-     le contenu passerait sous l'encoche sans ce max(). */
+  /* `viewportFit: cover` est actif : sans ce max(), le contenu passerait
+     sous l'encoche en paysage sur iPhone. */
   padding-inline: max(var(--gutter), env(safe-area-inset-left))
     max(var(--gutter), env(safe-area-inset-right));
   background: var(--ink);
-  overflow: visible; /* indispensable au debordement du portrait */
 }
 
-/* ---------------------------------------------------------
-   Halos d'ambiance
-   --------------------------------------------------------- */
+/* --- Fond video ---------------------------------------- */
 
-.hero .haloTop {
-  top: -20%;
-  right: -6%;
-  width: min(112%, 54rem);
+.bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* En 9:16 sur un ecran large, le cadrage se recentre sur le sujet
+     plutot que sur le milieu geometrique. */
+  object-position: 50% 28%;
+  filter: saturate(0.85) contrast(1.06) brightness(0.62);
+}
+
+/* Voile : sombre en bas pour ancrer le texte, plus clair en haut pour
+   laisser vivre le mur de graffitis. */
+.veil {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgb(var(--ink-rgb) / 0.72) 0%, rgb(var(--ink-rgb) / 0.25) 32%, rgb(var(--ink-rgb) / 0.88) 78%, var(--ink) 100%),
+    linear-gradient(90deg, rgb(var(--ink-rgb) / 0.8) 0%, transparent 62%);
+}
+
+.haloTop,
+.haloBottom {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.haloTop {
+  top: -18%;
+  right: -8%;
+  width: min(100%, 46rem);
   aspect-ratio: 1;
+  background: radial-gradient(circle, rgb(var(--red-rgb) / 0.3), transparent 66%);
+  filter: blur(70px);
   animation: heroHaloPulse 15s var(--ease-in-out) infinite alternate;
 }
 
-.hero .haloBottom {
-  bottom: -28%;
-  left: -12%;
-  width: min(92%, 42rem);
+.haloBottom {
+  bottom: -22%;
+  left: -14%;
+  width: min(88%, 38rem);
   aspect-ratio: 1;
-  background: var(--grad-radial-glow-soft);
+  background: radial-gradient(circle, rgb(var(--magenta-rgb) / 0.24), transparent 68%);
   filter: blur(60px);
   animation: heroHaloPulse 21s var(--ease-in-out) infinite alternate-reverse;
 }
@@ -59,43 +90,28 @@
 @keyframes heroHaloPulse {
   from {
     transform: scale(1);
-    opacity: 0.62;
+    opacity: 0.6;
   }
   to {
-    transform: scale(1.14);
+    transform: scale(1.12);
     opacity: 1;
   }
 }
 
-/* ---------------------------------------------------------
-   Grille
-   --------------------------------------------------------- */
+/* --- Contenu ------------------------------------------- */
 
 .inner {
-  position: relative; /* z-index: auto — VOLONTAIRE (cf. en-tete) */
-  display: grid;
-  gap: var(--sp-6);
+  position: relative;
   width: 100%;
   max-width: var(--maxw);
   margin-inline: auto;
 }
 
-@media (min-width: 960px) {
-  .inner {
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-    align-items: center;
-    gap: var(--sp-5);
-  }
-}
-
-/* ---------------------------------------------------------
-   Colonne texte
-   --------------------------------------------------------- */
-
 .copy {
   display: grid;
   justify-items: start;
   gap: var(--sp-4);
+  max-width: 34rem;
 }
 
 .kicker,
@@ -164,16 +180,14 @@
   }
 }
 
-/* --- Titre display ENORME --- */
+/* --- Titre --------------------------------------------- */
 
 .title {
   display: grid;
   justify-items: start;
   margin: 0;
   font-family: var(--font-display);
-  /* Volontairement plus contenu que --fs-display : le titre vit dans une
-     colonne de grille, pas sur toute la largeur de page. */
-  font-size: clamp(3.4rem, 9.2vw, 8.4rem);
+  font-size: clamp(3rem, 11vw, 7.6rem);
   font-weight: var(--fw-black);
   line-height: var(--lh-display);
   letter-spacing: var(--ls-display);
@@ -183,32 +197,32 @@
 .titleLine {
   display: block;
   color: var(--paper);
-  /* Glow de titre standard du site (cf. gallery, shop, player, marquee). */
-  text-shadow: var(--glow-text-md);
+  /* Le texte passe sur une video : l'ombre porte la lisibilite autant
+     que l'esthetique, elle est plus dense qu'ailleurs sur le site. */
+  text-shadow:
+    0 2px 30px rgb(var(--ink-rgb) / 0.95),
+    var(--glow-text-md);
 }
 
 /* Le glow du mot en degrade passe par `drop-shadow` : `text-shadow` serait
-   masque par le `background-clip: text` de `.u-grad-text`.
-   Les valeurs reproduisent EXACTEMENT --glow-text-md (impossible de brancher
-   un token multi-ombres dans `drop-shadow()`), pour que le mot en degrade
-   rayonne comme les lignes pleines. Meme recette dans cta-section. */
+   masque par le `background-clip: text` de `.u-grad-text`. */
 .titleAccent {
   text-shadow: none;
-  filter: drop-shadow(0 0 24px rgb(var(--red-rgb) / 0.45))
+  filter: drop-shadow(0 2px 22px rgb(var(--ink-rgb) / 0.95))
+    drop-shadow(0 0 24px rgb(var(--red-rgb) / 0.45))
     drop-shadow(0 0 60px rgb(var(--magenta-rgb) / 0.32));
 }
 
-/* --- Paragraphe --- */
-
 .lede {
-  max-width: 42ch;
+  max-width: 38ch;
   margin: 0;
   font-size: var(--fs-lede);
   line-height: var(--lh-body);
-  color: var(--text-dim);
+  color: rgb(var(--paper-rgb) / 0.86);
+  text-shadow: 0 2px 20px rgb(var(--ink-rgb) / 0.95);
 }
 
-/* --- Boutons --- */
+/* --- Boutons ------------------------------------------- */
 
 .ctaRow {
   display: flex;
@@ -221,12 +235,12 @@
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
+  min-height: 48px;
   padding: 0.95rem 1.85rem;
   border: 1px solid transparent;
   border-radius: var(--radius-pill);
   font-weight: var(--fw-bold);
   font-size: var(--fs-small);
-  letter-spacing: 0.01em;
   text-decoration: none;
   white-space: nowrap;
   color: var(--paper);
@@ -255,18 +269,18 @@
 }
 
 .ctaGhost {
-  background: rgb(var(--paper-rgb) / 0.04);
+  background: rgb(var(--ink-rgb) / 0.55);
+  backdrop-filter: blur(10px);
   border-color: var(--line-strong);
   color: var(--text);
 }
 
 .ctaGhost:hover {
-  background: rgb(var(--paper-rgb) / 0.09);
   border-color: rgb(var(--red-rgb) / 0.65);
   box-shadow: var(--glow-red-sm);
 }
 
-/* --- Pastilles glass --- */
+/* --- Pastilles ----------------------------------------- */
 
 .pills {
   display: flex;
@@ -277,7 +291,6 @@
   list-style: none;
 }
 
-/* 2 classes : bat les valeurs de `.u-glass` / `.u-micro` sans !important. */
 .pills .pill {
   padding: 0.58rem 1.05rem;
   border-radius: var(--radius-pill);
@@ -285,356 +298,116 @@
   color: var(--text-dim);
 }
 
-/* ---------------------------------------------------------
-   Colonne portrait
-   --------------------------------------------------------- */
+/* --- Indice de defilement ------------------------------ */
 
-.visual {
-  --hero-bleed: clamp(3rem, 15vh, 12rem);
-
-  position: relative; /* z-index: auto — VOLONTAIRE (cf. en-tete) */
-  /* Le debordement se fait EN HAUTEUR : la marge negative tire la section
-     suivante vers le haut, l'image reste dans les 100% de largeur. */
-  margin-bottom: calc(var(--hero-bleed) * -1);
-}
-
-.media {
-  position: relative;
-  width: 100%;
-  /* `aspect-ratio` est aussi pose en style inline depuis le slot (4 / 5) :
-     le cadre tient meme si le fichier .jpg manque. */
-  aspect-ratio: 4 / 5;
-}
-
-.mediaFallback {
+.scrollHint {
   position: absolute;
-  inset: 5% 4% 12%;
-  border-radius: 48% 52% 42% 58% / 58% 54% 46% 42%;
-  opacity: 0.55;
-  filter: blur(22px);
-}
-
-.portrait {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* L'image est un PNG a fond transparent : il n'y a plus ni rectangle
-     sombre a masquer, ni fusion `screen` a menager. Le halo passe
-     naturellement autour du sujet, sur toutes les largeurs d'ecran. */
-}
-
-.mediaFade {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: 30%;
-  background: var(--grad-fade-down);
-  pointer-events: none;
-}
-
-/* --- Arc lumineux (ref NeonMorphic) --- */
-
-.arc,
-.arcGlow {
-  position: absolute;
-  top: 47%;
+  bottom: var(--sp-4);
   left: 50%;
-  /* L'arc doit deborder franchement du portrait, sinon sa courbe s'arrete
-     dans le rectangle de l'image et la limite se voit. Sur les tres larges
-     ecrans la colonne est deja large, d'ou le plafond en rem. */
-  width: min(158%, 52rem);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  background: conic-gradient(
-    from 205deg,
-    transparent 0deg,
-    rgb(var(--red-rgb) / 0) 34deg,
-    rgb(var(--red-soft-rgb) / 0.85) 96deg,
-    var(--red) 142deg,
-    var(--magenta) 196deg,
-    rgb(var(--violet-rgb) / 0) 262deg,
-    transparent 360deg
-  );
-  -webkit-mask: radial-gradient(
-    closest-side,
-    transparent 0 98.4%,
-    #000 98.7% 100%
-  );
-  mask: radial-gradient(closest-side, transparent 0 98.4%, #000 98.7% 100%);
-  animation: heroArcSpin 42s linear infinite;
-}
-
-.arc {
-  opacity: 0.9;
-}
-
-.arcGlow {
-  opacity: 0.5;
-  filter: blur(18px);
-}
-
-@keyframes heroArcSpin {
-  from {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  to {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
-
-/* --- Cartes glass flottantes --- */
-
-.stats {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
-.stats .statCard {
-  position: absolute;
-  display: grid;
-  gap: 0.3rem;
-  min-width: 9.5rem;
-  padding: var(--sp-3) var(--sp-4);
-  border-radius: var(--radius-md);
-  animation: heroFloat 9s var(--ease-in-out) infinite alternate;
-}
-
-.stats .statCardA {
-  top: 9%;
-  left: -8%;
-}
-
-.stats .statCardB {
-  right: 1%;
-  bottom: 20%;
-  animation-duration: 11s;
-  animation-direction: alternate-reverse;
-}
-
-@keyframes heroFloat {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(0, -12px, 0);
-  }
-}
-
-.statValue {
-  display: flex;
-  align-items: baseline;
-  gap: 0.35rem;
-  font-family: var(--font-display);
-  font-size: clamp(1.6rem, 2.6vw, 2.25rem);
-  font-weight: var(--fw-black);
-  line-height: 1;
-  letter-spacing: var(--ls-title);
-  color: var(--paper);
-  text-shadow: var(--glow-text-sm);
-}
-
-.statUnit {
-  font-size: 0.42em;
-  font-weight: var(--fw-bold);
-  letter-spacing: 0.02em;
-  color: var(--red-soft);
-  text-shadow: none;
-}
-
-.stats .statLabel {
-  color: var(--text-muted);
-}
-
-/* ---------------------------------------------------------
-   Indice de scroll
-   --------------------------------------------------------- */
-
-.scrollCue {
-  position: absolute;
-  bottom: var(--sp-5);
-  left: var(--gutter);
-  display: none;
-  align-items: center;
-  gap: 0.9rem;
-  pointer-events: none;
-}
-
-@media (min-width: 960px) {
-  .scrollCue {
-    display: flex;
-  }
+  translate: -50% 0;
+  width: 1px;
+  height: 3.4rem;
+  overflow: hidden;
+  background: rgb(var(--paper-rgb) / 0.16);
 }
 
 .scrollLine {
-  position: relative;
   display: block;
-  width: 4.5rem;
-  height: 1px;
-  overflow: hidden;
-  background: var(--line-strong);
+  width: 100%;
+  height: 45%;
+  background: linear-gradient(var(--red), transparent);
+  animation: scrollDrop 2.6s var(--ease-in-out) infinite;
 }
 
-.scrollLine::after {
-  content: "";
-  position: absolute;
-  inset-block: 0;
-  left: -45%;
-  width: 45%;
-  background: var(--red);
-  box-shadow: var(--glow-red-sm);
-  animation: heroScrollSweep 2.8s var(--ease-in-out) infinite;
-}
-
-@keyframes heroScrollSweep {
+@keyframes scrollDrop {
   0% {
-    transform: translateX(0);
+    transform: translateY(-110%);
   }
-  70%,
   100% {
-    transform: translateX(340%);
+    transform: translateY(240%);
   }
 }
 
-/* ---------------------------------------------------------
-   Overlays : vignettage + grain
-   --------------------------------------------------------- */
+/* --- Desktop ------------------------------------------- */
 
-.vignette {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(
-    128% 92% at 52% 40%,
-    transparent 42%,
-    rgb(var(--ink-rgb) / 0.34) 76%,
-    rgb(var(--ink-rgb) / 0.72) 100%
-  );
-}
-
-/* 2 classes : passe devant la valeur de `.u-noise-layer` quel que soit
-   l'ordre de chargement des feuilles. */
-.hero .grain {
-  opacity: 0.06;
-}
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
-
-/* Grand ecran : le portrait mord legerement hors du conteneur a droite.
-   Valeur bornee pour rester DANS la gouttiere : zero scroll horizontal. */
-@media (min-width: 1080px) {
-  .visual {
-    margin-right: clamp(-4.5rem, -3.2vw, 0rem);
-  }
-}
-
-@media (max-width: 1080px) {
-  .stats .statCardA {
-    left: -4%;
-  }
-}
-
-/* Sous 960px la grille repasse en UNE colonne : sans plafond, le portrait
-   occuperait toute la largeur (828px de large, 1035px de haut a 900px de
-   viewport). On borne la colonne visuelle et on la centre. Le plafond est
-   pose sur .visual (et non sur .media) pour que les cartes flottantes,
-   positionnees en absolute par rapport a .visual, restent collees a
-   l'image. */
-@media (max-width: 959px) {
-  .visual {
-    max-width: 34rem;
-    margin-inline: auto;
-  }
-
-  /* Les cartes glass repassent SOUS l'image des la tablette : au-dessus
-     elles mordent sur le visage sur une colonne unique et etroite. */
-  .stats {
-    position: static;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--sp-3);
-    margin-top: var(--sp-4);
-    pointer-events: auto;
-  }
-
-  .stats .statCard {
-    position: static;
-    min-width: 0;
-    animation: none;
-  }
-}
-
-/* Tablette : debordement reduit. */
-@media (max-width: 900px) {
-  .visual {
-    margin-bottom: calc(var(--hero-bleed) * -0.4);
-  }
-}
-
-/* Mobile : plus de debordement du tout. */
-@media (max-width: 720px) {
+@media (min-width: 900px) {
   .hero {
-    padding-block: var(--sp-7) var(--sp-8);
-    min-height: 100vh;
-    min-height: 100svh;
+    /* Le texte n'a plus besoin d'etre colle en bas : la video est large,
+       le sujet est a droite, la colonne gauche est libre. */
+    align-items: center;
   }
 
-  .visual {
-    margin-bottom: 0;
-    margin-right: 0;
-    max-width: 30rem;
+  .video {
+    object-position: 62% 30%;
   }
 
-  .arc,
-  .arcGlow {
-    width: min(118%, 26rem);
-    opacity: 0.6;
+  .veil {
+    background:
+      linear-gradient(90deg, rgb(var(--ink-rgb) / 0.94) 0%, rgb(var(--ink-rgb) / 0.62) 46%, transparent 82%),
+      linear-gradient(180deg, rgb(var(--ink-rgb) / 0.5) 0%, transparent 26%, transparent 72%, var(--ink) 100%);
+  }
+}
+
+@media (max-width: 899px) {
+  /* Le visage occupe le haut du cadre : on lui reserve de la place et on
+     pousse le texte vers le bas. La reserve est plafonnee en rem : a 46svh
+     le bloc depassait et le premier bouton sortait de l'ecran sur un
+     telephone standard. */
+  .hero {
+    /* Reserve haute pour le visage. Valeur calee a la mesure : au-dela,
+       les boutons sortaient du premier ecran sur un telephone standard
+       (375 x 812). Le plafond en rem protege les grands telephones. */
+    padding-top: min(16svh, 8rem);
+    padding-bottom: var(--sp-5);
+  }
+
+  .copy {
+    gap: var(--sp-3);
+    max-width: none;
   }
 
   .title {
-    /* Sur tres petit ecran, on autorise le retour a la ligne plutot que
-       la coupe : aucun debordement horizontal possible. */
-    text-wrap: balance;
+    font-size: clamp(2.6rem, 12vw, 4rem);
   }
 
-  .cta {
-    flex: 1 1 100%;
+  .lede {
+    font-size: var(--fs-body);
+  }
+
+  .ctaRow .cta {
+    /* Deux boutons cote a cote passent mal sous 380px. */
+    flex: 1 1 auto;
     justify-content: center;
+  }
+
+  /* Les pastilles faisaient depasser le bloc hors de l'ecran, et elles
+     repetent mot pour mot le bandeau defilant placé juste en dessous. */
+  .pills {
+    display: none;
+  }
+
+  .scrollHint {
+    display: none;
   }
 }
 
-/* =========================================================
-   ACCESSIBILITE — mouvement reduit
-   ========================================================= */
-
 @media (prefers-reduced-motion: reduce) {
+  .video {
+    display: none;
+  }
+
   .kicker,
   .title,
   .lede,
   .ctaRow,
   .pills {
     animation: none;
-    opacity: 1;
-    transform: none;
   }
 
-  .hero .haloTop,
-  .hero .haloBottom,
   .kickerDot,
-  .arc,
-  .arcGlow,
-  .stats .statCard,
-  .scrollLine::after {
+  .scrollLine,
+  .haloTop,
+  .haloBottom {
     animation: none;
-  }
-
-  .cta:hover {
-    transform: none;
   }
 }
