@@ -38,7 +38,7 @@ export type Track = {
   cover: ImageSlotId | `/image/${string}`;
 };
 
-const NOUVELLE_GEN = { album: "Nouvelle Génération", albumTracks: 18 } as const;
+const NOUVELLE_GEN = { album: "Nouvelle Génération", albumTracks: 21 } as const;
 
 export const PLAYLIST: readonly Track[] = [
   {
@@ -76,6 +76,15 @@ export const PLAYLIST: readonly Track[] = [
     seconds: 75,
     mood: "Oui, c’est calculé pour te faire un frisson. Non, ça ne le rend pas moins vrai.",
     cover: "track-03",
+  },
+  {
+    id: "halo",
+    title: "Halo",
+    file: "halo.mp3",
+    ...NOUVELLE_GEN,
+    seconds: 187,
+    mood: "Tout le monde en cherche un. Personne ne sait quoi en faire une fois qu’il l’a.",
+    cover: "/image/gen/irl-03.jpg",
   },
   {
     id: "juste-ce-soir",
@@ -141,6 +150,15 @@ export const PLAYLIST: readonly Track[] = [
     cover: "editorial-02",
   },
   {
+    id: "ember-glow",
+    title: "Ember Glow",
+    file: "ember-glow.mp3",
+    ...NOUVELLE_GEN,
+    seconds: 211,
+    mood: "Ce qui reste quand le feu est parti. C’est souvent la meilleure partie.",
+    cover: "/image/gen/irl-07.jpg",
+  },
+  {
     id: "angle-mort",
     title: "Angle Mort",
     file: "angle-mort.mp3",
@@ -184,6 +202,15 @@ export const PLAYLIST: readonly Track[] = [
     seconds: 124,
     mood: "Tout le monde voit dedans, personne n’entre. J’ai fait un refrain avec ça.",
     cover: "gallery-04",
+  },
+  {
+    id: "low-tide",
+    title: "Low Tide",
+    file: "low-tide.mp3",
+    ...NOUVELLE_GEN,
+    seconds: 209,
+    mood: "La mer se retire et laisse voir tout ce qu’elle cachait. Moi aussi, parfois.",
+    cover: "/image/gen/irl-06.jpg",
   },
   {
     id: "scroll-me-like-a-prayer",

@@ -518,11 +518,54 @@
 
 .trendingHead {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: var(--sp-4);
   padding-bottom: var(--sp-3);
   border-bottom: 1px solid var(--line);
+}
+
+/* --- Fleches de navigation de la rangee -------------------
+   Reservees aux ecrans larges : au doigt, pousser la rangee est plus
+   direct qu'un bouton, et l'indice "Faites glisser" suffit. */
+
+.trendNav {
+  display: none;
+}
+
+.trendArrow {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: rgb(var(--paper-rgb) / 0.04);
+  color: var(--text-dim);
+  cursor: pointer;
+  transition:
+    border-color var(--dur-fast) ease,
+    background var(--dur-fast) ease,
+    color var(--dur-fast) ease;
+}
+
+.trendArrow:hover,
+.trendArrow:focus-visible {
+  border-color: rgb(var(--red-rgb) / 0.7);
+  background: rgb(var(--red-rgb) / 0.14);
+  color: var(--paper);
+}
+
+@media (min-width: 900px) {
+  .trendNav {
+    display: flex;
+    gap: var(--sp-2);
+  }
+
+  /* L'indice de glissement ne s'adresse qu'au tactile. */
+  .trendingHint {
+    display: none;
+  }
 }
 
 .trendingHint {

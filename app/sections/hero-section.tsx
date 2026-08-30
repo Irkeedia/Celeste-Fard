@@ -26,16 +26,28 @@ export function HeroSection() {
   return (
     <section className={styles.hero} aria-labelledby="hero-title">
       <div className={styles.bg} aria-hidden="true">
+        {/*
+          Deux montages du meme plan plutot qu'un seul recadre :
+          - en paysage, la version 16:9 evite de rogner 60% de la hauteur
+            d'un 9:16 et d'agrandir l'image 2x, ce qui la rendait floue ;
+          - en portrait, la version 9:16 remplit l'ecran sans rognage.
+          Le navigateur retient la PREMIERE source dont le `media` accroche
+          et ne telecharge que celle-la. Il ne re-evalue pas au
+          redimensionnement : c'est sans consequence ici, personne ne passe
+          d'un telephone a un ecran large en cours de visite.
+        */}
         <video
           className={styles.video}
-          src="/video/celeste-hero.mp4"
           poster="/image/miniaturehero.jpg"
           autoPlay
           muted
           loop
           playsInline
           preload="metadata"
-        />
+        >
+          <source src="/video/celeste-hero-pc.mp4" media="(min-width: 900px)" type="video/mp4" />
+          <source src="/video/celeste-hero-mobile.mp4" type="video/mp4" />
+        </video>
         <span className={styles.veil} />
         <span className={styles.haloTop} />
         <span className={styles.haloBottom} />

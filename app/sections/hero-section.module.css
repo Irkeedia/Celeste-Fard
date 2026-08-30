@@ -44,10 +44,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* En portrait, le conteneur est plus etroit que le 9:16 de la video :
-     c'est la LARGEUR qui est rognee, le Y n'a donc quasiment aucun effet.
-     On reste centre. */
-  object-position: 50% 30%;
+  /* Chaque montage est deja cadre pour son orientation : il ne reste
+     qu'un rognage marginal, donc un centrage suffit. */
+  object-position: 50% 32%;
   filter: saturate(0.85) contrast(1.06) brightness(0.62);
 }
 
@@ -339,12 +338,11 @@
   }
 
   .video {
-    /* Cadrage verifie par simulation sur le poster : a 1440x900 la zone
-       visible couvre 20% - 53% de la video, ce qui centre le visage et
-       garde le regard dans le cadre. Remonter davantage (8%) coupait au
-       niveau des yeux — le visage est au centre du plan, pas en haut.
-       Le X n'agit pas en paysage (aucun debordement horizontal). */
-    object-position: 50% 30%;
+    /* La source 16:9 a le meme ratio que la plupart des ecrans : le
+       rognage devient negligeable et le sujet, deja compose a droite
+       dans le plan, tombe naturellement en face de l'espace laisse
+       libre par le texte. */
+    object-position: 50% 50%;
   }
 
   .veil {

@@ -104,6 +104,8 @@ function SlotImage({
 
 export function PlayerSection() {
   const audioRef = useRef<HTMLAudioElement>(null);
+  /** Rangee de titres : pilotee par les fleches sur grand ecran. */
+  const trendRowRef = useRef<HTMLUListElement>(null);
   /** Passe a true quand un changement de piste doit enchainer la lecture. */
   const autoPlayNext = useRef(false);
 
@@ -120,6 +122,17 @@ export function PlayerSection() {
   const [scrubbing, setScrubbing] = useState(false);
   const [shuffle, setShuffle] = useState(false);
   const [repeat, setRepeat] = useState<RepeatMode>("all");
+
+  /**
+   * Defile la rangee d'une "page" quasi complete. On mesure la largeur
+   * visible plutot que de coder un nombre de cartes en dur : la taille des
+   * vignettes est fluide (clamp), un pas fixe deraperait selon l'ecran.
+   */
+  const scrollTrend = useCallback((direction: 1 | -1) => {
+    const row = trendRowRef.current;
+    if (!row) return;
+    row.scrollBy({ left: direction * row.clientWidth * 0.8, behavior: "smooth" });
+  }, []);
 
   const track = PLAYLIST[index];
   const src = useMemo(() => audioSrc(track), [track]);
@@ -399,12 +412,52 @@ export function PlayerSection() {
         <div className={styles.trending}>
           <div className={styles.trendingHead}>
             <p className="u-micro">Trending · dans mes circuits</p>
+
+            {/* Fleches reservees aux ecrans larges : au doigt, le defilement
+                direct est plus rapide qu'un bouton. */}
+            <div className={styles.trendNav}>
+              <button
+                type="button"
+                className={styles.trendArrow}
+                onClick={() => scrollTrend(-1)}
+                aria-label="Titres précédents"
+              >
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                  <path
+                    d="M15 5l-7 7 7 7"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.9"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+              <button
+                type="button"
+                className={styles.trendArrow}
+                onClick={() => scrollTrend(1)}
+                aria-label="Titres suivants"
+              >
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                  <path
+                    d="M9 5l7 7-7 7"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.9"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+
             <p className={styles.trendingHint} aria-hidden="true">
               Faites glisser →
             </p>
           </div>
 
-          <ul className={styles.trendRow}>
+          <ul className={styles.trendRow} ref={trendRowRef}>
             {PLAYLIST.map((item, i) => {
               const active = i === index;
               return (
