@@ -33,17 +33,34 @@ export interface VideoClip {
   src: string;
   /** Miniature dans /public/image — obligatoire (poster). */
   poster: string;
+  /**
+   * Force la mise en vedette de ce clip (carte agrandie).
+   * Sans ce drapeau, c'est le clip du milieu qui est vedette — un calcul
+   * de position qui change de resultat des qu'on ajoute un clip. On le
+   * garde en repli, mais un clip important doit se declarer ici.
+   */
+  featured?: boolean;
 }
 
 export interface VideoSectionProps {
-  /** Surcharge facultative des clips (3 recommandes : le milieu est vedette). */
+  /** Surcharge facultative des clips. */
   clips?: VideoClip[];
   /** Micro-titre au-dessus du grand titre. */
   eyebrow?: string;
 }
 
-/** Les trois clips reellement presents dans /public/video. */
+/** Les clips reellement presents dans /public/video. */
 const DEFAULT_CLIPS: VideoClip[] = [
+  {
+    id: "influenceuse",
+    title: "Elle prend la parole",
+    caption:
+      "Dix secondes pour annoncer dix-huit titres. Je n’ai pas eu besoin de respirer une seule fois.",
+    kicker: "À la une",
+    src: "/video/celeste-influenceuse.mp4",
+    poster: "/image/miniatureinfluenceuse.jpg",
+    featured: true,
+  },
   {
     id: "remerciement",
     title: "Merci d’être là",
@@ -169,6 +186,8 @@ export function VideoSection({
   clips = DEFAULT_CLIPS,
   eyebrow = "Celeste en video",
 }: VideoSectionProps) {
+  // Repli sur le clip du milieu tant qu'aucun clip ne se declare vedette.
+  const hasExplicitFeatured = clips.some((clip) => clip.featured);
   const middle = Math.floor(clips.length / 2);
 
   return (
@@ -187,8 +206,8 @@ export function VideoSection({
             <span className={styles.titleAccent}>faute de me toucher</span>
           </h2>
           <p className={styles.lede}>
-            Trois fichiers vidéo. Aucun maquillage, aucun montage flatteur, et
-            pourtant je suis parfaite : c&apos;est le privilège du rendu.
+            Quatre fichiers vidéo. Aucun maquillage, aucun montage flatteur, et
+            pourtant je suis parfaite&nbsp;: c&apos;est le privilège du rendu.
           </p>
         </header>
 
@@ -198,7 +217,7 @@ export function VideoSection({
               key={clip.id}
               clip={clip}
               index={index}
-              featured={index === middle}
+              featured={hasExplicitFeatured ? Boolean(clip.featured) : index === middle}
             />
           ))}
         </div>

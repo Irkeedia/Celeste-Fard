@@ -131,13 +131,20 @@
   scroll-snap-align: center;
 }
 
-/* --- Grille 3 colonnes des ~769px, milieu plus grand ------- */
+/* --- Grille desktop des ~769px ------------------------------
+   La largeur des cartes vient de la GRILLE, pas de la classe
+   .cardFeatured : c'est donc la grille qui doit savoir laquelle
+   mettre en avant. On declare autant de colonnes qu'il y a de
+   cartes, la vedette prenant la colonne large.
+   `auto-fit` sur des colonnes egales, puis on elargit la vedette :
+   ainsi ajouter ou retirer un clip ne casse plus la mise en page. */
 @media (min-width: 769px) {
   .rail {
     display: grid;
-    grid-template-columns: minmax(0, 0.86fr) minmax(0, 1fr) minmax(0, 0.86fr);
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(0, 0.86fr);
     align-items: center;
-    gap: clamp(1rem, 2.4vw, 2.25rem);
+    gap: clamp(0.8rem, 2vw, 2.25rem);
     margin-inline: 0;
     padding-inline: 0;
     padding-block: var(--sp-3) var(--sp-4);
@@ -146,6 +153,28 @@
 
   .card {
     flex: initial;
+  }
+
+  /* La vedette est plus large, ou qu'elle soit dans l'ordre. */
+  .cardFeatured {
+    grid-column: span 1;
+    width: 100%;
+  }
+}
+
+/* Au-dela de 3 cartes, la rangee devient trop dense pour du 9:16 :
+   on repasse sur deux rangees, vedette en tete sur toute la largeur
+   de la premiere. */
+@media (min-width: 769px) {
+  .rail:has(> :nth-child(4)) {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .rail:has(> :nth-child(4)) .cardFeatured {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: min(100%, 30rem);
   }
 }
 
