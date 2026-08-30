@@ -1,0 +1,10 @@
+[
+  {
+    "prompt": "Cinematic couture portrait of THIS EXACT WOMAN — preserve her identity with absolute precision: her long wavy vivid orange-red hair, her pale freckled skin, her light blue-green eyes, her exact facial bone structure. She wears a minimal sculptural black couture piece. Restrained crimson rim light from behind, soft magenta key on the face, deep shadows. Dignified and serious, ZERO superficiality, no heavy makeup. Hyperrealistic skin with visible freckles, 85mm lens. BACKGROUND MUST BE PURE SOLID BLACK, completely empty.",
+    "refs": ["Celestefardhero", "celesteencoreunportrait", "celesteprofilblanc", "celestecontratserieuse"],
+    "aspect": "4:5",
+    "size": "2K",
+    "model": "gemini-3-pro-image",
+    "out": "public/image/gen/exemple-portrait.jpg"
+  }
+]
