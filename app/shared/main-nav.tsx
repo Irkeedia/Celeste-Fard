@@ -136,6 +136,35 @@ export function MainNav() {
           aria-label="Navigation principale"
           className="site-nav site-nav--mobile is-open"
         >
+          {/* Silhouette en filigrane : donne du fond au panneau plein ecran,
+              qui etait sinon un simple aplat noir. */}
+          <Image
+            src="/image/silhouette-celeste.png"
+            alt=""
+            width={502}
+            height={900}
+            className="site-nav-silhouette"
+            aria-hidden
+          />
+
+          {/* Le burger est recouvert par le panneau : sans cette croix, il
+              n'y avait aucun moyen visible de refermer le menu. */}
+          <button
+            type="button"
+            className="site-nav-close"
+            onClick={closeMenu}
+            aria-label="Fermer le menu"
+          >
+            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+              <path
+                d="M6 6l12 12M18 6L6 18"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+              />
+            </svg>
+          </button>
+
           <div className="site-nav-head">
             <Image
               src="/logo_celeste.png"

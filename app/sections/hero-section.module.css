@@ -1,18 +1,19 @@
 /* =========================================================
    HERO — CELESTE FARD
-   Fond quasi-noir, halos rouges diffus, portrait detoure au
-   `mix-blend-mode: screen` qui deborde sur la section suivante.
+   Fond quasi-noir, halos rouges diffus, portrait qui deborde
+   sur la section suivante.
 
-   REGLES D'EMPILEMENT (a ne pas casser) :
-   - `.hero` est le SEUL contexte d'empilement de la section
-     (`isolation: isolate` + `z-index: 1`). Son fond `--ink` sert
-     d'arriere-plan de fusion au portrait : c'est ce qui fait
-     disparaitre le fond noir pur de l'image.
-   - Aucun ancetre du portrait (`.inner`, `.visual`, `.media`) ne doit
-     recevoir `z-index`, `filter`, `opacity < 1`, `transform` ou `mask` :
-     cela recreerait un groupe isole et le rectangle noir reapparaitrait.
-   - L'ordre de peinture se joue donc en ORDRE DU DOM :
-     halos → contenu → vignette → grain.
+   Le portrait est un PNG A FOND TRANSPARENT (detoure hors ligne).
+   Il n'y a donc plus de `mix-blend-mode: screen` a menager : la
+   version precedente fusionnait un JPEG a fond noir avec le fond
+   de la section, ce qui laissait deviner le rectangle de l'image
+   partout ou le halo rouge passait derriere — visible sur les
+   ecrans etroits, invisible sur les tres larges.
+
+   Consequence : les contraintes d'empilement liees a la fusion
+   n'ont plus lieu d'etre. `.hero` garde `z-index: 1` pour que le
+   debordement passe au-dessus de la section suivante, et c'est
+   tout.
    ========================================================= */
 
 .hero {
@@ -318,18 +319,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Le fond du fichier est noir quasi pur, donc invisible en `screen` SUR
-     DU NOIR. Mais la ou le halo rouge passe derriere l'image, le vignettage
-     sombre des bords du fichier assombrit le halo et dessine un rectangle.
-     Ce masque estompe les bords : plus de limite franche, quelle que soit
-     la largeur d'ecran. Il porte sur l'image elle-meme et non sur un
-     ancetre, pour ne pas recreer de groupe de fusion (cf. en-tete). */
-  mask-image: radial-gradient(
-    118% 108% at 50% 44%,
-    #000 58%,
-    rgb(0 0 0 / 0.65) 78%,
-    transparent 100%
-  );
+  /* L'image est un PNG a fond transparent : il n'y a plus ni rectangle
+     sombre a masquer, ni fusion `screen` a menager. Le halo passe
+     naturellement autour du sujet, sur toutes les largeurs d'ecran. */
 }
 
 .mediaFade {

@@ -342,8 +342,24 @@
 /* --- Detourage des images a fond noir ------------------- */
 /* Les images generees ont un fond NOIR PUR : `screen` le fait
    disparaitre sur fond sombre, sans halo de detourage. */
+/**
+ * Fait disparaitre le fond NOIR d'une image posee sur un fond sombre.
+ *
+ * `mix-blend-mode` seul est fragile : des qu'un `transform`, un `filter` ou
+ * une `opacity` est applique a l'image ou a un ancetre (au survol par
+ * exemple), le groupe de composition change et le rectangle noir reapparait.
+ * On double donc la fusion d'un masque radial : meme si le blend est
+ * neutralise, les bords de l'image restent fondus dans le fond au lieu de
+ * dessiner un rectangle net.
+ */
 .u-screen {
   mix-blend-mode: screen;
+  mask-image: radial-gradient(
+    116% 106% at 50% 46%,
+    #000 60%,
+    rgb(0 0 0 / 0.7) 80%,
+    transparent 100%
+  );
 }
 
 .u-lighten {

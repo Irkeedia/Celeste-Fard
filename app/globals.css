@@ -438,19 +438,72 @@ html[data-scrolled="true"] .site-header-inner::before {
   backdrop-filter: blur(6px);
 }
 
+/* Panneau PLEIN ECRAN : le tiroir partiel laissait voir la page derriere et
+   recouvrait le burger sans offrir de bouton de fermeture. */
 .site-nav--mobile {
   position: fixed;
   z-index: var(--z-overlay);
-  top: var(--site-header-h);
-  left: 0;
-  right: 0;
-  max-height: calc(var(--app-height) - var(--site-header-h));
-  overflow-y: auto;
-  background: var(--ink-2);
-  border-bottom: 1px solid var(--line);
-  border-radius: 0 0 26px 26px;
-  padding: 1.4rem 1.2rem 1.8rem;
-  box-shadow: var(--shadow-deep);
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden auto;
+  padding: max(4.5rem, env(safe-area-inset-top)) 1.6rem
+    max(2.5rem, env(safe-area-inset-bottom));
+  background:
+    radial-gradient(120% 70% at 50% 0%, rgb(var(--red-rgb) / 0.22), transparent 60%),
+    linear-gradient(180deg, var(--ink-2), var(--ink) 60%);
+  animation: navPanelIn var(--dur-mid) var(--ease-out) both;
+}
+
+@keyframes navPanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(-1.2rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Silhouette en filigrane, calee a droite, volontairement tres discrete. */
+.site-nav-silhouette {
+  position: absolute;
+  right: -12%;
+  bottom: 0;
+  z-index: -1;
+  width: auto;
+  height: 76%;
+  opacity: 0.09;
+  /* Le PNG est blanc : on le teinte en rouge sans toucher au fichier. */
+  filter: drop-shadow(0 0 0 var(--red)) sepia(1) saturate(6) hue-rotate(-18deg);
+  pointer-events: none;
+  user-select: none;
+}
+
+.site-nav-close {
+  position: absolute;
+  top: max(1.1rem, env(safe-area-inset-top));
+  right: 1.2rem;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: rgb(var(--paper-rgb) / 0.05);
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    border-color var(--dur-fast) ease,
+    background var(--dur-fast) ease;
+}
+
+.site-nav-close:hover,
+.site-nav-close:focus-visible {
+  border-color: rgb(var(--red-rgb) / 0.7);
+  background: rgb(var(--red-rgb) / 0.14);
 }
 
 .site-nav-head {

@@ -107,7 +107,13 @@ export function PlayerSection() {
   /** Passe a true quand un changement de piste doit enchainer la lecture. */
   const autoPlayNext = useRef(false);
 
-  const [index, setIndex] = useState(0);
+  /* Le lecteur s'ouvre sur "Frequence" plutot que sur le premier titre :
+     c'est le morceau mis en avant sur la page. On le retrouve par son id
+     pour que l'ordre de la playlist reste libre de changer. */
+  const [index, setIndex] = useState(() => {
+    const i = PLAYLIST.findIndex((t) => t.id === "frequence");
+    return i === -1 ? 0 : i;
+  });
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);

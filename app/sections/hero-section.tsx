@@ -93,9 +93,12 @@ export function HeroSection() {
               aria-hidden="true"
             />
 
+            {/* PNG DETOURE (fond transparent) : plus besoin de
+                `mix-blend-mode: screen`, qui laissait deviner le rectangle
+                sombre du fichier par-dessus le halo sur les ecrans etroits. */}
             <Image
-              className={`u-screen ${styles.portrait}`}
-              src={portraitSlot.path}
+              className={styles.portrait}
+              src="/image/gen/hero-portrait-detoure.png"
               alt="Celeste Fard, chanteuse IA, buste de face sous une lumière rouge rasante"
               width={portraitSize.width}
               height={portraitSize.height}
