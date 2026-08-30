@@ -32,18 +32,30 @@ const ROW_TOP: readonly Shot[] = [
   { src: "/image/gen/track-06.jpg", alt: "Celeste vue a travers une vitre de pluie" },
 ];
 
-/** Rangee du bas : scene, details, illustrations. */
+/**
+ * Rangee du bas : scene, details, et surtout les illustrations vectorielles.
+ * Elles sont volontairement majoritaires ici — leur fond clair fait respirer
+ * le ruban, qui serait sinon un bloc noir uniforme.
+ */
 const ROW_BOTTOM: readonly Shot[] = [
   { src: "/image/gen/gallery-01.jpg", alt: "Celeste sur scene, micro a la main" },
   { src: "/image/cartoon/cartoon-dance.jpg", alt: "Celeste illustree, en mouvement" },
   { src: "/image/gen/editorial-02.jpg", alt: "Celeste marchant hors de l'obscurite" },
+  { src: "/image/cartoon/cartoon-casque.jpg", alt: "Celeste illustree, casque sur les oreilles" },
   { src: "/image/gen/detail-hands.jpg", alt: "Detail des mains de Celeste" },
   { src: "/image/cartoon/cartoon-chant.jpg", alt: "Celeste illustree, en train de chanter" },
+  { src: "/image/cartoon/cartoon-vinyle.jpg", alt: "Celeste illustree, un vinyle dans les mains" },
   { src: "/image/gen/track-04.jpg", alt: "Silhouette de Celeste devant un disque de lumiere" },
+  { src: "/image/cartoon/cartoon-lunettes.jpg", alt: "Celeste illustree, lunettes noires" },
   { src: "/image/gen/gallery-06.jpg", alt: "Celeste au sol en studio, casque autour du cou" },
+  { src: "/image/cartoon/cartoon-neon.jpg", alt: "Celeste illustree, bras leves en train de danser" },
   { src: "/image/cartoon/cartoon-sucette.jpg", alt: "Celeste illustree, clin d'oeil" },
   { src: "/image/gen/track-03.jpg", alt: "Celeste eclairee par en dessous" },
+  { src: "/image/cartoon/cartoon-repos.jpg", alt: "Celeste illustree, allongee en robe rouge" },
   { src: "/image/cartoon/cartoon-chill.jpg", alt: "Celeste illustree, assise avec un micro" },
+  { src: "/image/cartoon/cartoon-cafe.jpg", alt: "Celeste illustree, une tasse entre les mains" },
+  { src: "/image/cartoon/cartoon-micro.jpg", alt: "Celeste illustree, chantant au micro vintage" },
+  { src: "/image/cartoon/cartoon-clindoeil.jpg", alt: "Celeste illustree, clin d'oeil complice" },
 ];
 
 function Row({
