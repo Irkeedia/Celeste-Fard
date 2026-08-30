@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Anton, Inter } from "next/font/google";
+import { Anton, Cormorant_Garamond, Inter } from "next/font/google";
 import Image from "next/image";
 import Link from "next/link";
 import "./globals.css";
@@ -27,6 +27,18 @@ const anton = Anton({
   weight: "400",
   display: "swap",
   fallback: ["Impact", "Haettenschweiler", "Arial Narrow", "sans-serif"],
+});
+
+/* Serif editoriale — reservee a la section "Frequence", qui reprend le
+   langage des affiches de poesie : titre tres fin, tres espace, en
+   contraste total avec Anton. Ne pas l'etendre au reste du site. */
+const cormorant = Cormorant_Garamond({
+  variable: "--font-serif",
+  subsets: ["latin"],
+  weight: ["300", "400"],
+  style: ["normal", "italic"],
+  display: "swap",
+  fallback: ["Georgia", "Times New Roman", "serif"],
 });
 
 export const viewport: Viewport = {
@@ -87,7 +99,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${inter.variable} ${anton.variable} h-full antialiased`}
+      className={`${inter.variable} ${anton.variable} ${cormorant.variable} h-full antialiased`}
       suppressHydrationWarning
     >
       <head>

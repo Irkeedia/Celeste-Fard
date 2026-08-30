@@ -1,0 +1,231 @@
+"use client";
+
+/**
+ * SECTION "FREQUENCE" — affiche editoriale animee, dediee a un seul titre.
+ *
+ * Langage visuel repris d'une affiche fournie par le client : titre serif
+ * tres fin et tres espace, citations flottantes dont un mot est souligne,
+ * mots geants en filigrane derriere le sujet, cadre fin en retrait.
+ * Ici le "sujet" n'est pas une statue mais la video cinematique de Celeste,
+ * en boucle et muette : c'est le morceau qui porte le son.
+ *
+ * Fonctionnement :
+ * - la video tourne en boucle, muette, en fond (donc autoplay autorise) ;
+ * - le bouton lit le VRAI fichier /audio/nouvelle-generation/frequence.mp3 ;
+ * - les phrases s'allument au fil de la lecture, via LYRICS[].at.
+ *
+ * ATTENTION — les timings de LYRICS sont ESTIMES a partir de la structure
+ * du morceau (couplet / refrain / pont), pas mesures sur la forme d'onde.
+ * Ils sont volontairement regroupes ici, en secondes, pour etre ajustes a
+ * l'oreille sans toucher au reste du composant.
+ */
+
+import Image from "next/image";
+import Link from "next/link";
+import { useCallback, useEffect, useRef, useState } from "react";
+
+import styles from "./frequence-section.module.css";
+
+const TRACK_SRC = "/audio/nouvelle-generation/frequence.mp3";
+const TRACK_SECONDS = 174;
+
+type Line = {
+  /** Seconde a laquelle la phrase s'allume. */
+  at: number;
+  /** Debut de la phrase. */
+  before: string;
+  /** Mot mis en avant (souligne, comme sur l'affiche). */
+  strong: string;
+  /** Fin de la phrase. */
+  after: string;
+  /** Position dans le cadre, en pourcentage. */
+  top: string;
+  left?: string;
+  right?: string;
+  /** Alignement du bloc de texte. */
+  align?: "left" | "right";
+};
+
+/** Phrases tirees des paroles, placees comme les citations de l'affiche. */
+const LYRICS: readonly Line[] = [
+  { at: 6, before: "« Juste le tempo, la nuit qui ", strong: "s’accélère", after: " »", top: "12%", left: "6%" },
+  { at: 20, before: "« Rien dans la tête, je prends mon ", strong: "envol", after: " »", top: "26%", right: "6%", align: "right" },
+  { at: 34, before: "« Je veux juste la basse qui tourne en ", strong: "boucle", after: " »", top: "44%", left: "5%" },
+  { at: 48, before: "« Le son qui tape et le cœur qui ", strong: "touche", after: " »", top: "58%", right: "7%", align: "right" },
+  { at: 76, before: "« L’onde est lourde, elle glisse dans les ", strong: "veines", after: " »", top: "70%", left: "6%" },
+  { at: 96, before: "« Plus besoin de mots, la musique m’", strong: "entraîne", after: " »", top: "34%", left: "8%" },
+  { at: 124, before: "« Juste la ", strong: "fréquence", after: "… laisse tourner »", top: "52%", right: "6%", align: "right" },
+  { at: 164, before: "« C’est ça le feeling. Rien que la ", strong: "basse", after: " »", top: "80%", left: "7%" },
+];
+
+function formatTime(s: number): string {
+  if (!Number.isFinite(s)) return "0:00";
+  const m = Math.floor(s / 60);
+  return `${m}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+}
+
+export function FrequenceSection() {
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [playing, setPlaying] = useState(false);
+  const [time, setTime] = useState(0);
+  const [duration, setDuration] = useState(TRACK_SECONDS);
+
+  const toggle = useCallback(async () => {
+    const a = audioRef.current;
+    if (!a) return;
+    if (a.paused) {
+      try {
+        await a.play();
+      } catch {
+        // Lecture refusee par le navigateur : on reste simplement en pause.
+        setPlaying(false);
+      }
+    } else {
+      a.pause();
+    }
+  }, []);
+
+  useEffect(() => {
+    const a = audioRef.current;
+    if (!a) return;
+    const onTime = () => setTime(a.currentTime);
+    const onMeta = () => setDuration(a.duration || TRACK_SECONDS);
+    const onPlay = () => setPlaying(true);
+    const onPause = () => setPlaying(false);
+    const onEnd = () => {
+      setPlaying(false);
+      setTime(0);
+    };
+    a.addEventListener("timeupdate", onTime);
+    a.addEventListener("loadedmetadata", onMeta);
+    a.addEventListener("play", onPlay);
+    a.addEventListener("pause", onPause);
+    a.addEventListener("ended", onEnd);
+    return () => {
+      a.removeEventListener("timeupdate", onTime);
+      a.removeEventListener("loadedmetadata", onMeta);
+      a.removeEventListener("play", onPlay);
+      a.removeEventListener("pause", onPause);
+      a.removeEventListener("ended", onEnd);
+    };
+  }, []);
+
+  const progress = duration ? (time / duration) * 100 : 0;
+
+  return (
+    <section className={styles.section} aria-labelledby="frequence-title">
+      {/* --- Fond : video en boucle + voiles --- */}
+      <div className={styles.bg} aria-hidden="true">
+        <video
+          className={styles.video}
+          src="/video/celeste-cinematique.mp4"
+          poster="/image/miniaturecinematique.jpg"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+        />
+        <span className={styles.veil} />
+        <span className={styles.glowA} />
+        <span className={styles.glowB} />
+        <span className="u-noise-layer" />
+      </div>
+
+      {/* --- Mots geants en filigrane, comme sur l'affiche --- */}
+      <div className={styles.ghosts} aria-hidden="true">
+        <span className={styles.ghostA}>LA BASSE</span>
+        <span className={styles.ghostB}>EN BOUCLE</span>
+      </div>
+
+      <div className={styles.frame} aria-hidden="true" />
+
+      <div className={styles.inner}>
+        <header className={styles.head}>
+          <p className={`${styles.kicker} u-micro`}>Le titre · Nouvelle Génération</p>
+          <h2 id="frequence-title" className={styles.title}>
+            Fréquence
+          </h2>
+          <p className={styles.sub}>afrobeat · 808 · {formatTime(TRACK_SECONDS)}</p>
+        </header>
+
+        {/* --- Citations qui s'allument au fil du morceau --- */}
+        <ul className={styles.lines}>
+          {LYRICS.map((line) => {
+            /* On se base sur le temps ecoule, pas sur `playing` : mettre en
+               pause ferait autrement disparaitre d'un coup toutes les phrases
+               deja passees. Elles restent donc affichees, et ne se remettent a
+               zero qu'en fin de morceau (time repasse a 0). */
+            const active = time > 0 && time >= line.at;
+            return (
+              <li
+                key={line.at}
+                className={`${styles.line} ${active ? styles.lineOn : ""} ${
+                  line.align === "right" ? styles.lineRight : ""
+                }`}
+                style={{ top: line.top, left: line.left, right: line.right }}
+              >
+                <span className={styles.lineText}>
+                  {line.before}
+                  <strong className={styles.lineStrong}>{line.strong}</strong>
+                  {line.after}
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+
+        {/* --- Commande de lecture --- */}
+        <div className={styles.player}>
+          <button
+            type="button"
+            className={styles.play}
+            onClick={toggle}
+            aria-label={playing ? "Mettre Fréquence en pause" : "Écouter Fréquence"}
+          >
+            <span className={styles.playRing} aria-hidden="true" />
+            <span className={styles.playIcon} aria-hidden="true">
+              {playing ? (
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                  <rect x="6" y="4" width="4" height="16" rx="1" />
+                  <rect x="14" y="4" width="4" height="16" rx="1" />
+                </svg>
+              ) : (
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                  <path d="M8 5.5v13a1 1 0 0 0 1.54.84l10-6.5a1 1 0 0 0 0-1.68l-10-6.5A1 1 0 0 0 8 5.5Z" />
+                </svg>
+              )}
+            </span>
+          </button>
+
+          <div className={styles.meta}>
+            <span className={`${styles.metaTop} u-micro`}>
+              {playing ? "En lecture" : "Écouter le titre"}
+            </span>
+            <div className={styles.bar}>
+              <span className={styles.barFill} style={{ width: `${progress}%` }} />
+            </div>
+            <span className={styles.metaTime}>
+              {formatTime(time)} / {formatTime(duration)}
+            </span>
+          </div>
+        </div>
+
+        <footer className={styles.foot}>
+          <Link href="/music" className={styles.badge}>
+            <Image
+              src="/logo_celeste.png"
+              alt=""
+              width={22}
+              height={22}
+              className={styles.badgeLogo}
+            />
+            <span>L’art de la fréquence</span>
+          </Link>
+        </footer>
+      </div>
+
+      <audio ref={audioRef} src={TRACK_SRC} preload="none" />
+    </section>
+  );
+}

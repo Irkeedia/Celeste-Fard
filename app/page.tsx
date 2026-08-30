@@ -1,4 +1,5 @@
 import { CtaSection } from "./sections/cta-section";
+import { FrequenceSection } from "./sections/frequence-section";
 import { GallerySection } from "./sections/gallery-section";
 import { HeroSection } from "./sections/hero-section";
 import { ManifestoSection } from "./sections/manifesto-section";
@@ -16,8 +17,11 @@ import { VideoSection } from "./sections/video-section";
  * On n'enveloppe donc PAS dans `.page-wrap` : cela ajouterait une
  * seconde gouttiere et casserait les sections pleine largeur.
  *
- * Ordre : hero -> marquee -> manifesto -> player -> gallery -> photo strip
- * -> video -> shop -> cta.
+ * Ordre : hero -> marquee -> manifesto -> player -> frequence -> gallery
+ * -> photo strip -> video -> shop -> cta.
+ *
+ * "Frequence" suit le lecteur : on vient de parcourir le catalogue, la
+ * section met en avant un seul titre, en plein ecran.
  *
  * Le ruban de photos est place APRES la galerie : la galerie pose le
  * regard sur quelques images choisies, le ruban enchaine sur le volume.
@@ -30,6 +34,7 @@ export default function Home() {
       <MarqueeBand />
       <ManifestoSection />
       <PlayerSection />
+      <FrequenceSection />
       <GallerySection />
       <PhotoStrip />
       <VideoSection />
