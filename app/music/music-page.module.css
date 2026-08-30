@@ -1,0 +1,602 @@
+/* =========================================================
+   PAGE MUSIQUE — le catalogue "Nouvelle Génération"
+
+   Meme langage visuel que la landing : fond quasi-noir, halos
+   rouges diffus, typo display enorme, cartes glass.
+
+   Tous les tokens viennent de app/styles/tokens.css et ne sont
+   JAMAIS redefinis ici. Aucune variable inventee.
+   ========================================================= */
+
+.page {
+  position: relative;
+  /* clip (et non hidden) : pas de conteneur de defilement parasite,
+     donc aucun scroll horizontal possible malgre les halos qui
+     debordent de chaque cote. */
+  overflow: clip;
+  padding-block: var(--sp-9) var(--sp-10);
+  background:
+    radial-gradient(
+      120% 70% at 50% 0%,
+      rgb(var(--violet-rgb) / 0.34) 0%,
+      transparent 62%
+    ),
+    var(--ink);
+  color: var(--text);
+}
+
+/* --- Halos rouges diffus -------------------------------- */
+
+.haloTop,
+.haloBottom {
+  position: absolute;
+  z-index: var(--z-bg);
+  pointer-events: none;
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+  filter: blur(60px);
+}
+
+.haloTop {
+  top: -16%;
+  right: -20%;
+  width: min(720px, 86vw);
+  background: var(--grad-radial-glow);
+  opacity: 0.5;
+}
+
+.haloBottom {
+  left: -22%;
+  bottom: -18%;
+  width: min(660px, 80vw);
+  background: var(--grad-radial-glow-soft);
+  opacity: 0.8;
+}
+
+.inner {
+  position: relative;
+  z-index: var(--z-content);
+  max-width: var(--maxw);
+  margin-inline: auto;
+  /* `viewportFit: cover` (layout.tsx) : on protege l'encoche en paysage. */
+  padding-inline: max(var(--gutter), env(safe-area-inset-left))
+    max(var(--gutter), env(safe-area-inset-right));
+}
+
+/* =========================================================
+   HERO DE PAGE
+   ========================================================= */
+
+.hero {
+  text-align: center;
+  padding-bottom: var(--sp-8);
+}
+
+.kicker {
+  margin-block: 0;
+  color: var(--red-soft);
+}
+
+.title {
+  margin: var(--sp-4) 0 0;
+  font-family: var(--font-display);
+  font-weight: var(--fw-black);
+  font-size: var(--fs-display);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+  text-transform: uppercase;
+  /* les deux mots s'empilent : jamais de cesure hasardeuse */
+  overflow-wrap: break-word;
+}
+
+.title > span {
+  display: block;
+}
+
+/* Meme recette "outline" que le lecteur et la galerie : un seul
+   effet de contour sur tout le site. */
+.titleGhost {
+  color: rgb(var(--paper-rgb) / 0.16);
+}
+
+@supports (-webkit-text-stroke: 1px red) {
+  .titleGhost {
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgb(var(--paper-rgb) / 0.55);
+  }
+}
+
+.lede {
+  max-width: 52ch;
+  margin: var(--sp-5) auto 0;
+  font-size: var(--fs-lede);
+  line-height: var(--lh-body);
+  color: var(--text-dim);
+}
+
+/* =========================================================
+   FICHE ALBUM
+   ========================================================= */
+
+.album {
+  display: grid;
+  gap: var(--sp-6);
+  padding: clamp(1.1rem, 2.6vw, 2rem);
+  border-radius: var(--radius-lg);
+}
+
+@media (min-width: 820px) {
+  .album {
+    grid-template-columns: minmax(0, clamp(220px, 26vw, 320px)) minmax(0, 1fr);
+    align-items: center;
+    column-gap: var(--sp-7);
+  }
+}
+
+.albumArtWrap {
+  width: 100%;
+  max-width: 320px;
+  min-width: 0;
+  margin-inline: auto;
+}
+
+.albumArt {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  box-shadow:
+    var(--glow-red-md),
+    var(--shadow-soft);
+}
+
+.albumImg {
+  object-fit: cover;
+}
+
+/* Reflet diagonal + lisere interne, comme la pochette du lecteur. */
+.albumShine {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    linear-gradient(
+      132deg,
+      rgb(var(--paper-rgb) / 0.26) 0%,
+      rgb(var(--paper-rgb) / 0.04) 26%,
+      transparent 48%
+    ),
+    linear-gradient(0deg, rgb(var(--ink-rgb) / 0.55) 0%, transparent 46%);
+  box-shadow: inset 0 0 0 1px rgb(var(--paper-rgb) / 0.1);
+}
+
+.albumBody {
+  min-width: 0;
+  text-align: center;
+}
+
+@media (min-width: 820px) {
+  .albumBody {
+    text-align: left;
+  }
+}
+
+.albumKicker {
+  margin-block: 0;
+  color: var(--red-soft);
+}
+
+.albumTitle {
+  margin: var(--sp-3) 0 0;
+  font-size: var(--fs-h2);
+  line-height: var(--lh-title);
+  letter-spacing: var(--ls-display);
+  text-transform: uppercase;
+  color: var(--paper);
+  text-shadow: var(--glow-text-sm);
+  overflow-wrap: break-word;
+}
+
+.albumText {
+  margin: var(--sp-4) 0 0;
+  max-width: 52ch;
+  margin-inline: auto;
+  font-size: var(--fs-small);
+  line-height: var(--lh-body);
+  color: var(--text-dim);
+}
+
+@media (min-width: 820px) {
+  .albumText {
+    margin-inline: 0;
+  }
+}
+
+/* --- Chiffres cles -------------------------------------- */
+
+.albumFacts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin: var(--sp-5) 0 0;
+}
+
+.fact {
+  position: relative;
+  display: grid;
+  gap: var(--sp-1);
+  padding-inline: var(--sp-3);
+}
+
+.fact:first-child {
+  padding-left: 0;
+}
+
+/* Filets verticaux incandescents entre les chiffres. */
+.fact + .fact::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6%;
+  bottom: 6%;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--red-soft) 42%,
+    var(--red) 58%,
+    transparent 100%
+  );
+  box-shadow: var(--glow-red-sm);
+}
+
+.factLabel {
+  margin-block: 0;
+}
+
+.factValue {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--fw-black);
+  font-size: var(--fs-h3);
+  line-height: 1.05;
+  letter-spacing: var(--ls-title);
+  color: var(--paper);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Pastilles ------------------------------------------ */
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--sp-2);
+  margin: var(--sp-5) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 820px) {
+  .tags {
+    justify-content: flex-start;
+  }
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border: 1px solid rgb(var(--red-rgb) / 0.35);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  font-size: var(--fs-micro);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-micro);
+  text-transform: uppercase;
+  color: var(--red-soft);
+  /* le letter-spacing ajoute un vide a droite : on le compense */
+  padding-right: calc(1rem - var(--ls-micro));
+}
+
+/* =========================================================
+   TRACKLIST
+   ========================================================= */
+
+.list {
+  margin-top: var(--sp-9);
+}
+
+.listHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-2) var(--sp-5);
+  padding-bottom: var(--sp-3);
+  border-bottom: 1px solid var(--line);
+}
+
+.listTitle {
+  margin: 0;
+  font-size: var(--fs-h3);
+  letter-spacing: var(--ls-title);
+  text-transform: uppercase;
+  color: var(--paper);
+}
+
+.listHint {
+  margin: 0;
+  font-size: var(--fs-small);
+  color: var(--text-muted);
+}
+
+.tracks {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trackItem + .trackItem {
+  border-top: 1px solid var(--line);
+}
+
+.track {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    "num title time"
+    "num mood  mood";
+  align-items: center;
+  column-gap: var(--sp-3);
+  row-gap: var(--sp-1);
+  /* zone tactile confortable : la ligne fait au moins 56px de haut */
+  min-height: 56px;
+  padding: var(--sp-3) var(--sp-3) var(--sp-3) var(--sp-2);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  color: inherit;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+
+/* Filet incandescent qui s'allume a gauche de la ligne survolee. */
+.track::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 14%;
+  bottom: 14%;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--grad-signature);
+  opacity: 0;
+  transform: scaleY(0.35);
+  transition:
+    opacity var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out);
+}
+
+.track:hover,
+.track:focus-visible {
+  background: var(--surface);
+}
+
+.track:hover::before,
+.track:focus-visible::before {
+  opacity: 1;
+  transform: scaleY(1);
+}
+
+.trackNum {
+  grid-area: num;
+  min-width: 2.2ch;
+  font-family: var(--font-display);
+  font-weight: var(--fw-black);
+  font-size: var(--fs-h3);
+  line-height: 1;
+  letter-spacing: var(--ls-title);
+  font-variant-numeric: tabular-nums;
+  color: rgb(var(--paper-rgb) / 0.28);
+  transition: color var(--dur-fast) ease;
+}
+
+.track:hover .trackNum,
+.track:focus-visible .trackNum {
+  color: var(--red-soft);
+}
+
+.trackTitle {
+  grid-area: title;
+  min-width: 0;
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-body);
+  line-height: 1.25;
+  color: var(--paper);
+  overflow-wrap: break-word;
+  transition: text-shadow var(--dur-fast) ease;
+}
+
+.track:hover .trackTitle,
+.track:focus-visible .trackTitle {
+  text-shadow: var(--glow-text-sm);
+}
+
+.trackMood {
+  grid-area: mood;
+  min-width: 0;
+  max-width: 68ch;
+  font-size: var(--fs-small);
+  line-height: 1.45;
+  color: var(--text-muted);
+}
+
+.trackTime {
+  grid-area: time;
+  align-self: center;
+  font-size: var(--fs-small);
+  font-weight: var(--fw-medium);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+/* L'icone n'apparait qu'a partir de la tablette : au doigt, toute la
+   ligne est deja cliquable, une pastille de plus n'apporte rien. */
+.trackIcon {
+  display: none;
+}
+
+@media (min-width: 720px) {
+  .track {
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    grid-template-areas:
+      "num title time icon"
+      "num mood  mood icon";
+  }
+
+  .trackIcon {
+    grid-area: icon;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--text-dim);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition:
+      opacity var(--dur-fast) var(--ease-out),
+      transform var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) ease,
+      box-shadow var(--dur-fast) ease;
+  }
+
+  .track:hover .trackIcon,
+  .track:focus-visible .trackIcon {
+    opacity: 1;
+    transform: translateX(0);
+    color: var(--paper);
+    border-color: rgb(var(--red-rgb) / 0.55);
+    box-shadow: var(--glow-red-sm);
+  }
+}
+
+/* =========================================================
+   BAS DE PAGE
+   ========================================================= */
+
+.outro {
+  display: grid;
+  justify-items: center;
+  gap: var(--sp-2);
+  margin-top: var(--sp-9);
+  padding: clamp(1.5rem, 4vw, 3rem) clamp(1.1rem, 3vw, 2.5rem);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.outroKicker {
+  margin-block: 0;
+  color: var(--red-soft);
+}
+
+.outroTitle {
+  margin: var(--sp-2) 0 0;
+  font-size: var(--fs-h2);
+  line-height: var(--lh-title);
+  letter-spacing: var(--ls-display);
+  text-transform: uppercase;
+  color: var(--paper);
+  text-shadow: var(--glow-text-sm);
+}
+
+.outroText {
+  margin: var(--sp-3) 0 0;
+  max-width: 56ch;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--text-dim);
+}
+
+.outroActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--sp-3);
+  margin-top: var(--sp-5);
+}
+
+.btnPrimary,
+.btnGhost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* zone tactile : jamais sous 48px de haut */
+  min-height: 48px;
+  padding: 0.9rem 1.7rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font-weight: var(--fw-bold);
+  text-decoration: none;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) ease,
+    background var(--dur-fast) ease,
+    border-color var(--dur-fast) ease;
+}
+
+.btnPrimary {
+  background: var(--grad-signature-x);
+  color: var(--paper);
+  box-shadow: var(--glow-red-sm);
+}
+
+.btnPrimary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--glow-red-md);
+}
+
+.btnGhost {
+  background: var(--surface);
+  border-color: var(--line-strong);
+  color: var(--paper);
+}
+
+.btnGhost:hover {
+  transform: translateY(-2px);
+  border-color: var(--red);
+  background: rgb(var(--paper-rgb) / 0.1);
+}
+
+.btnPrimary:active,
+.btnGhost:active {
+  transform: translateY(0);
+}
+
+/* =========================================================
+   ACCESSIBILITE — mouvement reduit
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .track,
+  .track::before,
+  .trackIcon,
+  .btnPrimary,
+  .btnGhost {
+    transition: none !important;
+  }
+
+  .btnPrimary:hover,
+  .btnGhost:hover {
+    transform: none;
+  }
+}

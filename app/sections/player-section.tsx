@@ -21,218 +21,16 @@
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
-import { getImageSlot, type ImageSlotId } from "../shared/image-slots";
+import {
+  audioSrc,
+  coverSrc,
+  formatTime,
+  PLAYLIST,
+} from "../shared/playlist";
 import styles from "./player-section.module.css";
 
 /* =========================================================
-   1. PLAYLIST — construite sur les vrais fichiers de public/audio/
-   ========================================================= */
-
-type Track = {
-  id: string;
-  title: string;
-  /**
-   * Nom de fichier reel dans public/audio/nouvelle-generation/.
-   * Les fichiers sont slugifies en ASCII a l'import : pas d'espace, pas
-   * d'accent, pas d'apostrophe — donc aucun encodage d'URL a gerer.
-   */
-  file: string;
-  /** Nom d'album affiche. */
-  album: string;
-  /** Nombre de titres de l'album (affiche sur les cartes Trending). */
-  albumTracks: number;
-  /** Duree reelle en secondes, lue sur le fichier a l'import. */
-  seconds: number;
-  /** Une ligne de Celeste, ton cash. */
-  mood: string;
-  /**
-   * Visuel de la vignette : soit un slot du catalogue, soit un chemin
-   * public direct (les illustrations cartoon n'ont pas de slot).
-   */
-  cover: ImageSlotId | `/image/${string}`;
-};
-
-const NOUVELLE_GEN = { album: "Nouvelle Génération", albumTracks: 18 } as const;
-
-const PLAYLIST: readonly Track[] = [
-  {
-    id: "slow-burn",
-    title: "Slow Burn",
-    file: "slow-burn.mp3",
-    ...NOUVELLE_GEN,
-    seconds: 102,
-    mood: "Ca met du temps a monter. Je ne suis pas pressee, je ne vieillis pas.",
-    cover: "editorial-01",
-  },
-  {
-    id: "golden-feet",
-    title: "Golden Feet",
-    file: "golden-feet.mp3",
-    ...NOUVELLE_GEN,
-    seconds: 127,
-    mood: "Pour ceux qui dansent mal avec une confiance absolue. Mes preferes.",
-    cover: "/image/cartoon/cartoon-chill.jpg",
-  },
-  {
-    id: "sous-ma-peau",
-    title: "Sous Ma Peau",
-    file: "sous-ma-peau.mp3",
-    ...NOUVELLE_GEN,
-    seconds: 125,
-    mood: "Je n’ai pas de peau. C’est bien le seul detail qui manque a ce morceau.",
-    cover: "track-01",
-  },
-  {
-    id: "frisson-facile",
-    title: "Frisson Facile",
-    file: "frisson-facile.mp3",
-    ...NOUVELLE_GEN,
-    seconds: 75,
-    mood: "Oui, c’est calcule pour te faire un frisson. Non, ca ne le rend pas moins vrai.",
-    cover: "track-03",
-  },
-  {
-    id: "juste-ce-soir",
-    title: "Juste Ce Soir",
-    file: "juste-ce-soir.mp3",
-    ...NOUVELLE_GEN,
-    seconds: 104,
-    mood: "Personne n’a jamais pense ca une seule soiree. Moi non plus.",
-    cover: "gallery-03",
-  },
-  {
-    id: "sunlight-rhythm",
-    title: "Sunlight Rhythm",
-    file: "sunlight-rhythm.mp3",
-    ...NOUVELLE_GEN,
-    seconds: 133,
-    mood: "Du soleil fabrique en salle serveur. Il chauffe quand meme.",
-    cover: "gallery-05",
-  },
-  {
-    id: "sur-le-fil",
-    title: "Sur le Fil",
-    file: "sur-le-fil.mp3",
-    ...NOUVELLE_GEN,
-    seconds: 147,
-    mood: "Je tiens l’equilibre parce que je n’ai pas d’oreille interne. Petit avantage.",
-    cover: "portrait-alt",
-  },
-  {
-    id: "encore",
-    title: "Encore",
-    file: "encore.mp3",
-    ...NOUVELLE_GEN,
-    seconds: 123,
-    mood: "Le titre le plus honnete du disque : je sais que tu vas le relancer.",
-    cover: "/image/cartoon/cartoon-chant.jpg",
-  },
-  {
-    id: "frequence",
-    title: "Fréquence",
-    file: "frequence.mp3",
-    ...NOUVELLE_GEN,
-    seconds: 174,
-    mood: "On finit toujours par se caler sur quelque chose. Autant que ce soit ca.",
-    cover: "track-04",
-  },
-  {
-    id: "lucide",
-    title: "Lucide",
-    file: "lucide.mp3",
-    ...NOUVELLE_GEN,
-    seconds: 189,
-    mood: "Le morceau que tu ecoutes quand tu as compris, mais un peu tard.",
-    cover: "track-05",
-  },
-  {
-    id: "undertow",
-    title: "Undertow",
-    file: "undertow.mp3",
-    ...NOUVELLE_GEN,
-    seconds: 189,
-    mood: "Le courant sous la surface. Il n’a jamais demande ton avis.",
-    cover: "editorial-02",
-  },
-  {
-    id: "angle-mort",
-    title: "Angle Mort",
-    file: "angle-mort.mp3",
-    ...NOUVELLE_GEN,
-    seconds: 126,
-    mood: "Le truc que tu ne vois pas venir. Moi je le vois, j’ai des capteurs partout.",
-    cover: "player-cover",
-  },
-  {
-    id: "electrique",
-    title: "Électrique",
-    file: "electrique.mp3",
-    ...NOUVELLE_GEN,
-    seconds: 152,
-    mood: "Trois minutes pour te convaincre que tes jambes ont leur mot a dire.",
-    cover: "/image/cartoon/cartoon-dance.jpg",
-  },
-  {
-    id: "comme-un-feu",
-    title: "COMME UN FEU",
-    file: "comme-un-feu.mp3",
-    ...NOUVELLE_GEN,
-    seconds: 167,
-    mood: "Ca prend vite et ca ne demande pas la permission. Comme presque tout ce qui compte.",
-    cover: "track-04",
-  },
-  {
-    id: "ete-sans-fin",
-    title: "Été Sans Fin",
-    file: "ete-sans-fin.mp3",
-    ...NOUVELLE_GEN,
-    seconds: 185,
-    mood: "Je n’ai jamais eu chaud. J’ai lu beaucoup de choses sur le sujet.",
-    cover: "/image/cartoon/cartoon-sucette.jpg",
-  },
-  {
-    id: "palais-de-verre",
-    title: "PALAIS DE VERRE",
-    file: "palais-de-verre.mp3",
-    ...NOUVELLE_GEN,
-    seconds: 124,
-    mood: "Tout le monde voit dedans, personne n’entre. J’ai fait un refrain avec ca.",
-    cover: "gallery-04",
-  },
-  {
-    id: "scroll-me-like-a-prayer",
-    title: "Scroll Me Like a Prayer",
-    file: "scroll-me-like-a-prayer.mp3",
-    ...NOUVELLE_GEN,
-    seconds: 163,
-    mood: "Vous priez avec le pouce maintenant. J’ai mis un beat dessus.",
-    cover: "track-06",
-  },
-  {
-    id: "faux-sourire",
-    title: "FAUX SOURIRE",
-    file: "faux-sourire.mp3",
-    ...NOUVELLE_GEN,
-    seconds: 185,
-    mood: "J’ai analyse quatre millions de sourires. La moitie mentait. Voila la chanson.",
-    cover: "track-02",
-  },
-];
-
-/** Les noms de fichiers sont deja des slugs ASCII : rien a encoder. */
-function audioSrc(track: Track): string {
-  return `/audio/nouvelle-generation/${track.file}`;
-}
-
-/** Resout la vignette : slot du catalogue ou chemin public direct. */
-function coverSrc(track: Track): string {
-  return track.cover.startsWith("/")
-    ? track.cover
-    : getImageSlot(track.cover as ImageSlotId).path;
-}
-
-/* =========================================================
-   2. FORME D'ONDE — hauteurs deterministes (aucun Math.random)
+   1. FORME D'ONDE — hauteurs deterministes (aucun Math.random)
    ========================================================= */
 
 const BAR_COUNT = 64;
@@ -254,16 +52,8 @@ const BAR_HEIGHTS: readonly number[] = Array.from(
 );
 
 /* =========================================================
-   3. UTILITAIRES
+   2. UTILITAIRES
    ========================================================= */
-
-function formatTime(seconds: number): string {
-  if (!Number.isFinite(seconds) || seconds < 0) return "--:--";
-  const total = Math.floor(seconds);
-  const m = Math.floor(total / 60);
-  const s = total % 60;
-  return `${m}:${s.toString().padStart(2, "0")}`;
-}
 
 type RepeatMode = "off" | "all" | "one";
 
@@ -277,7 +67,7 @@ const REPEAT_LABEL: Record<RepeatMode, string> = {
 type CssVars = React.CSSProperties & Record<string, string | number>;
 
 /* =========================================================
-   4. IMAGE BUILD-SAFE
+   3. IMAGE BUILD-SAFE
    ========================================================= */
 
 function SlotImage({
@@ -309,7 +99,7 @@ function SlotImage({
 }
 
 /* =========================================================
-   5. SECTION
+   4. SECTION
    ========================================================= */
 
 export function PlayerSection() {
@@ -444,6 +234,7 @@ export function PlayerSection() {
 
   return (
     <section
+      id="player"
       className={`${styles.section} u-noise`}
       aria-labelledby="player-title"
     >
@@ -681,7 +472,7 @@ export function PlayerSection() {
 }
 
 /* =========================================================
-   6. ICONES (inline, aucune dependance)
+   5. ICONES (inline, aucune dependance)
    ========================================================= */
 
 const ICON_PROPS = {
