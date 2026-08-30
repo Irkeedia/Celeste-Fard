@@ -1,0 +1,526 @@
+/* =========================================================
+   SECTION GALERIE — masonry editorial
+   Mobile-first : 1 colonne < 480px, 2 colonnes >= 480px,
+   partition asymetrique 8 x 14 >= 1024px.
+   Aucune variable de token n'est redefinie ici, uniquement
+   des variables LOCALES de layout (--gap, --row, --ar).
+   ========================================================= */
+
+.section {
+  /* Hauteur dont la tuile dominante deborde HORS de la section, en desktop.
+     Toujours < au padding-top de la section suivante (--sp-10) : le sujet
+     mord sur le vide de la section video, jamais sur son contenu. */
+  --gal-bleed: clamp(4rem, 9vw, 9rem);
+
+  position: relative;
+  /* Meme regle que le hero : sans z-index, la section suivante (plus loin
+     dans le DOM) repasserait PAR-DESSUS la tuile qui deborde. */
+  z-index: 1;
+  isolation: isolate;
+  background: var(--ink);
+  /* Rythme vertical commun a toutes les sections de contenu : sp-10 / sp-10
+     (player, video et shop sont calees pareil). */
+  padding-block: var(--sp-10);
+  /* Le parent doit rester visible : la tuile decalee sort de la grille,
+     et la tuile dominante sort carrement de la section. */
+  overflow: visible;
+}
+
+/* --- Halos rouges diffus (decor) ------------------------- */
+
+.halo {
+  position: absolute;
+  z-index: var(--z-bg);
+  pointer-events: none;
+  border-radius: 50%;
+  background: var(--grad-radial-glow);
+  filter: blur(60px);
+}
+
+.haloTop {
+  top: -6%;
+  left: -18%;
+  width: min(78vw, 780px);
+  aspect-ratio: 1;
+  opacity: 0.55;
+}
+
+.haloBottom {
+  right: -22%;
+  bottom: 2%;
+  width: min(66vw, 640px);
+  aspect-ratio: 1;
+  opacity: 0.38;
+  background: var(--grad-radial-glow-soft);
+}
+
+/* --- Conteneur ------------------------------------------- */
+
+.inner {
+  position: relative;
+  z-index: var(--z-content);
+  max-width: var(--maxw);
+  margin-inline: auto;
+  /* `viewportFit: cover` (layout.tsx) : on protege l'encoche en paysage. */
+  padding-inline: max(var(--gutter), env(safe-area-inset-left))
+    max(var(--gutter), env(safe-area-inset-right));
+}
+
+/* --- En-tete --------------------------------------------- */
+
+.head {
+  display: grid;
+  gap: var(--sp-5);
+  margin-bottom: var(--sp-8);
+}
+
+.headLeft,
+.headRight {
+  min-width: 0;
+}
+
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin: 0 0 var(--sp-4);
+  font-size: var(--fs-micro);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-micro);
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--red-soft);
+}
+
+.kickerRule {
+  display: block;
+  width: clamp(2rem, 6vw, 4.5rem);
+  height: 1px;
+  flex: 0 0 auto;
+  background: var(--grad-signature-x);
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--fw-black);
+  line-height: var(--lh-display);
+  text-transform: uppercase;
+}
+
+.titleSolid {
+  font-size: var(--fs-h2);
+  letter-spacing: var(--ls-title);
+  color: var(--text);
+  text-shadow: var(--glow-text-sm);
+}
+
+.titleOutline {
+  font-size: var(--fs-display);
+  letter-spacing: var(--ls-display);
+  /* Repli si -webkit-text-stroke n'est pas supporte : texte tres discret. */
+  color: rgb(var(--paper-rgb) / 0.16);
+}
+
+@supports (-webkit-text-stroke: 1px black) {
+  .titleOutline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgb(var(--paper-rgb) / 0.55);
+  }
+}
+
+.lede {
+  max-width: 42ch;
+  margin: 0;
+  font-size: var(--fs-lede);
+  line-height: var(--lh-body);
+  color: var(--text-dim);
+}
+
+/* Phrase longue en capitales : a 10px / 0.16em / 44% d'opacite elle etait
+   sous le seuil de contraste AA et penible a lire sur mobile. On monte
+   d'un cran en taille, on desserre moins et on remonte l'opacite. */
+.headMeta {
+  max-width: 38ch;
+  margin: var(--sp-4) 0 0;
+  font-size: clamp(0.7rem, 0.64rem + 0.28vw, 0.82rem);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.12em;
+  line-height: 1.65;
+  text-transform: uppercase;
+  color: rgb(var(--paper-rgb) / 0.6);
+}
+
+/* --- Grille : base MOBILE (1 colonne) --------------------- */
+
+.grid {
+  --gap: clamp(0.6rem, 1.4vw, 1.15rem);
+  --row: clamp(3.1rem, 5.9vw, 5.4rem);
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--gap);
+}
+
+/* --- Tuile ------------------------------------------------ */
+/* Le fond de secours vient de la classe globale `u-image-fallback` :
+   on ne declare AUCUN `background` ici pour ne pas l'ecraser. */
+
+.tile {
+  position: relative;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  box-shadow:
+    inset 0 0 0 1px var(--line),
+    var(--shadow-soft);
+  aspect-ratio: var(--ar, 4 / 5);
+}
+
+.image {
+  object-fit: cover;
+  transform: scale(1.05);
+  transform-origin: center;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+/* Voile degrade rouge — s'attenue au survol. */
+.veil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    155deg,
+    rgb(var(--red-rgb) / 0.4) 0%,
+    rgb(var(--magenta-rgb) / 0.3) 52%,
+    rgb(var(--violet-rgb) / 0.62) 100%
+  );
+  transition: opacity var(--dur-mid) var(--ease-out);
+}
+
+/* Ombre basse pour la lisibilite de la legende. */
+.tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgb(var(--ink-rgb) / 0.92) 0%,
+    rgb(var(--ink-rgb) / 0.45) 26%,
+    transparent 62%
+  );
+  transition: opacity var(--dur-mid) var(--ease-out);
+}
+
+/* --- Legende (visible par defaut sur tactile) ------------- */
+
+.caption {
+  position: absolute;
+  z-index: 3;
+  right: var(--sp-4);
+  bottom: var(--sp-4);
+  left: var(--sp-4);
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  transition:
+    transform var(--dur-mid) var(--ease-out),
+    opacity var(--dur-mid) var(--ease-out);
+}
+
+.captionIndex {
+  flex: 0 0 auto;
+  font-family: var(--font-display);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-black);
+  letter-spacing: 0.04em;
+  background: var(--grad-signature-x);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.captionText {
+  min-width: 0;
+  /* Legende toujours visible sur tactile : un cran au-dessus du micro-texte
+     et un letter-spacing plus sage, sinon elle est illisible a 375px. */
+  font-size: clamp(0.68rem, 0.62rem + 0.26vw, 0.78rem);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.14em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: var(--text);
+  text-wrap: balance;
+}
+
+/* Comportement de survol : uniquement sur pointeur fin. */
+@media (hover: hover) and (pointer: fine) {
+  .caption {
+    opacity: 0;
+    transform: translateY(115%);
+  }
+
+  .tile::after {
+    opacity: 0;
+  }
+
+  .tile:hover .caption,
+  .tile:focus-within .caption {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .tile:hover::after,
+  .tile:focus-within::after {
+    opacity: 1;
+  }
+
+  .tile:hover .image,
+  .tile:focus-within .image {
+    transform: scale(1);
+  }
+
+  .tile:hover .veil,
+  .tile:focus-within .veil {
+    opacity: 0.28;
+  }
+}
+
+/* --- Carte "note de production" --------------------------- */
+/* Le fond / la bordure / le rayon viennent de `u-glass`. */
+
+.note {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--sp-3);
+  min-width: 0;
+  padding: var(--sp-5);
+}
+
+.noteLabel {
+  margin: 0;
+  font-size: var(--fs-micro);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-micro);
+  line-height: 1.4;
+  text-transform: uppercase;
+  color: var(--red-soft);
+}
+
+.noteQuote {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-medium);
+  line-height: 1.28;
+  letter-spacing: var(--ls-title);
+  color: var(--text);
+  text-wrap: pretty;
+}
+
+.noteSign {
+  margin: 0;
+  font-size: var(--fs-micro);
+  font-weight: var(--fw-bold);
+  /* Meme chasse que `.noteLabel` juste au-dessus : la carte etait
+     incoherente avec elle-meme (0.2em vs 0.3em). */
+  letter-spacing: var(--ls-micro);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* --- Ratios mobiles par tuile ----------------------------- */
+
+.tileA {
+  --ar: 4 / 5;
+}
+
+.tileB {
+  --ar: 16 / 9;
+}
+
+.tileC {
+  --ar: 3 / 4;
+}
+
+.tileD {
+  --ar: 1 / 1;
+}
+
+.tileE {
+  --ar: 1 / 1;
+}
+
+.tileF {
+  --ar: 4 / 5;
+}
+
+/* La carte de texte n'a pas de ratio : sa hauteur suit son contenu. */
+.tileQ {
+  aspect-ratio: auto;
+}
+
+/* =========================================================
+   >= 480px — 2 colonnes
+   ========================================================= */
+
+@media (min-width: 480px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* Elle occupe les 2 colonnes : en 3/4 elle mesurait 1270px de haut a
+     1023px de large, soit un ecran et demi pour une seule vignette.
+     Le carre garde la dominante sans assommer le scroll. */
+  .tileA {
+    grid-column: span 2;
+    --ar: 1 / 1;
+  }
+
+  .tileB,
+  .tileQ {
+    grid-column: span 2;
+  }
+
+  .tileF {
+    --ar: 3 / 4;
+  }
+}
+
+/* =========================================================
+   >= 900px — en-tete sur deux colonnes
+   ========================================================= */
+
+@media (min-width: 900px) {
+  .head {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.85fr);
+    align-items: end;
+    gap: var(--sp-7);
+  }
+
+  .headRight {
+    padding-bottom: var(--sp-2);
+  }
+}
+
+/* =========================================================
+   >= 1024px — partition editoriale 8 colonnes x 14 rangees
+   ========================================================= */
+
+@media (min-width: 1024px) {
+  /* On rend une partie du padding bas : c'est ce vide-la que la tuile
+     dominante vient traverser (--gal-bleed > --sp-8 a toutes les largeurs
+     >= 1024px). En dessous, la grille n'a plus la place : pas de bleed,
+     conformement a la regle responsive. */
+  .section {
+    padding-bottom: var(--sp-8);
+  }
+
+  .grid {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    grid-template-rows: repeat(14, var(--row));
+  }
+
+  .tile {
+    border-radius: var(--radius-lg);
+  }
+
+  /* grid-area: rangee-debut / colonne-debut / rangee-fin / colonne-fin */
+
+  .tileA {
+    grid-area: 1 / 1 / 9 / 5; /* grande verticale dominante */
+    aspect-ratio: auto;
+  }
+
+  .tileB {
+    grid-area: 1 / 5 / 6 / 9; /* moyenne panoramique */
+    aspect-ratio: auto;
+  }
+
+  .tileD {
+    grid-area: 6 / 5 / 9 / 7; /* petite carree */
+    aspect-ratio: auto;
+  }
+
+  .tileE {
+    grid-area: 6 / 7 / 9 / 9; /* petite carree — DEBORDE vers le haut */
+    aspect-ratio: auto;
+    z-index: var(--z-float);
+    transform: translateY(calc(var(--row) * -1.15));
+    box-shadow:
+      inset 0 0 0 1px var(--line-strong),
+      var(--shadow-deep),
+      var(--glow-red-sm);
+  }
+
+  /* LE SUJET DEBORDE DE SA SECTION (demande client n1).
+     Marge basse negative sur un item de grille etire : sa hauteur utilisee
+     devient `rangee + --gal-bleed`, donc la tuile descend SOUS la grille,
+     traverse le padding-bas de la section et mord sur la section video.
+     La hauteur de la section ne bouge pas (les 14 rangees sont fixes) et
+     rien ne sort en LARGEUR : zero scroll horizontal. */
+  .tileC {
+    grid-area: 9 / 1 / 15 / 4; /* moyenne verticale */
+    aspect-ratio: auto;
+    margin-bottom: calc(var(--gal-bleed) * -1);
+  }
+
+  .tileF {
+    grid-area: 9 / 4 / 15 / 7; /* petite verticale */
+    aspect-ratio: auto;
+  }
+
+  .tileQ {
+    grid-area: 9 / 7 / 15 / 9;
+    padding: var(--sp-6) var(--sp-5);
+  }
+
+  .caption {
+    right: var(--sp-5);
+    bottom: var(--sp-5);
+    left: var(--sp-5);
+  }
+}
+
+/* =========================================================
+   Accessibilite — mouvement reduit
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .image {
+    transform: none;
+    transition: none;
+  }
+
+  .caption,
+  .veil,
+  .tile::after {
+    transition: none;
+  }
+}
+
+/* Sur pointeur fin ET mouvement reduit : la legende reste affichee,
+   plus rien ne glisse ni ne zoome. */
+@media (prefers-reduced-motion: reduce) and (hover: hover) and (pointer: fine) {
+  .caption {
+    opacity: 1;
+    transform: none;
+  }
+
+  .tile::after {
+    opacity: 1;
+  }
+
+  .tile:hover .image,
+  .tile:focus-within .image {
+    transform: none;
+  }
+}

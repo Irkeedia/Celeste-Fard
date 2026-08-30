@@ -119,7 +119,7 @@ export default function CguPage() {
           <p className="eyebrow">ARTICLE 7</p>
           <h2>Responsabilité</h2>
           <p>
-            Le site est fourni &laquo; en l&apos;état &raquo;. On fait de notre mieux pour une
+            Le site est fourni &laquo;&nbsp;en l&apos;état&nbsp;&raquo;. On fait de notre mieux pour une
             expérience sincère et stable, mais on ne garantit pas l&apos;absence totale de bugs,
             de liens morts, ou de morceaux qui restent en boucle dans ta tête à 2h du matin.
           </p>

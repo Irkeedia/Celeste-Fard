@@ -1,0 +1,471 @@
+/* =========================================================
+   SHOP TEASER — 3 produits traites comme du luxe.
+
+   REGLES DE CONTEXTE D'EMPILEMENT (ne pas casser) :
+   Le visuel produit utilise `mix-blend-mode: screen` (classe globale
+   `u-screen`) pour effacer son fond noir. Le blending est ISOLE des qu'un
+   ancetre cree un contexte d'empilement. Donc, entre <section> et le <img> :
+   PAS de `transform`, PAS de `filter`, PAS de `perspective`, PAS de
+   `z-index` numerique, PAS d'`isolation: isolate`.
+   Le tilt est donc pose sur `.panel` et sur `.productImg` eux-memes, avec
+   `perspective()` ecrit DANS la fonction transform.
+
+   ORDRE DE PEINTURE (tous en z-index: auto, donc ordre du DOM) :
+   itemHalo -> panel -> media -> price.
+   ========================================================= */
+
+.shop {
+  position: relative;
+  /* DEBORDEMENT (demande client n1) : c'etait la seule section de contenu en
+     `overflow: hidden`. Elle amputait a la fois ses halos et le visuel produit
+     qui doit mordre hors de sa carte. Hero, manifesto et gallery sont deja en
+     `visible` ; html/body sont en `overflow-x: clip` (globals.css), donc aucun
+     scroll horizontal n'est possible.
+     On ne pose PAS de `z-index` ici : cela creerait un groupe d'isolation et
+     casserait le `mix-blend-mode: screen` du visuel (cf. en-tete). Le halo qui
+     deborde vers le haut passe de toute facon au-dessus de la section video,
+     qui est peinte avant lui dans le DOM. */
+  overflow: visible;
+  /* Rythme vertical commun aux sections de contenu : sp-10 / sp-10. */
+  padding-block: var(--sp-10);
+  background:
+    linear-gradient(
+      180deg,
+      rgb(var(--ink-rgb) / 0) 0%,
+      var(--ink-2) 14%,
+      var(--ink-2) 86%,
+      rgb(var(--ink-rgb) / 0) 100%
+    ),
+    var(--ink);
+}
+
+/* --- Halos de lumiere rouge diffus ---------------------- */
+
+.haloTop,
+.haloBottom {
+  position: absolute;
+  display: block;
+  pointer-events: none;
+  border-radius: 50%;
+  background: var(--grad-radial-glow-soft);
+  filter: blur(50px);
+}
+
+.haloTop {
+  top: -14%;
+  left: -10%;
+  width: min(760px, 92%);
+  aspect-ratio: 1.4 / 1;
+}
+
+.haloBottom {
+  right: -14%;
+  bottom: -18%;
+  width: min(640px, 80%);
+  aspect-ratio: 1.2 / 1;
+  opacity: 0.7;
+}
+
+.inner {
+  position: relative;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  /* `viewportFit: cover` (layout.tsx) : on protege l'encoche en paysage. */
+  padding-inline: max(var(--gutter), env(safe-area-inset-left))
+    max(var(--gutter), env(safe-area-inset-right));
+}
+
+/* --- En-tete -------------------------------------------- */
+
+.head {
+  max-width: 46rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+/* `u-micro` compense le letter-spacing final par un margin-right negatif :
+   on le reconduit ici, sinon le texte centre parait decale a droite. */
+.kicker {
+  display: block;
+  margin: 0 calc(var(--ls-micro) * -1) var(--sp-4) 0;
+  color: var(--red-soft);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--font-display);
+  /* Aligne sur les autres titres de section (manifesto, player, video) :
+     --fs-h2 faisait de "Boutique" le plus petit titre du site, a rebours de
+     la DA "typo display ENORME". */
+  font-size: var(--fs-h1);
+  font-weight: var(--fw-black);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+  color: var(--paper);
+  text-shadow: var(--glow-text-sm);
+  text-wrap: balance;
+}
+
+/* Le texte en degrade est transparent : un text-shadow le rendrait sale. */
+.titleAccent {
+  text-shadow: none;
+}
+
+.lede {
+  max-width: 38rem;
+  margin: var(--sp-4) auto 0;
+  font-size: var(--fs-lede);
+  line-height: var(--lh-body);
+  color: var(--text-dim);
+  text-wrap: pretty;
+}
+
+/* --- Grille --------------------------------------------- */
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-content: center;
+  column-gap: var(--sp-5);
+  row-gap: clamp(4.5rem, 11vw, 7rem);
+  max-width: 22rem;
+  margin: clamp(4rem, 9vw, 6.5rem) auto 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* --- Une fiche produit ---------------------------------- */
+
+.item {
+  /* Largeur du visuel produit et hauteur de debordement au-dessus
+     de la carte. Le padding-top reserve la place du debordement :
+     rien ne sort donc de la grille (zero scroll horizontal).
+     Le `min(..., 78%)` borne le visuel a la largeur REELLE de la carte :
+     sans lui, entre 640 et 760px (2 colonnes de ~282px) le visuel de 240px
+     et surtout son halo (125% = 300px) debordaient de la fiche. */
+  --media-w: min(clamp(11rem, 40vw, 15rem), 78%);
+  --overhang: clamp(2.75rem, 8vw, 4.25rem);
+
+  position: relative;
+  padding-top: var(--overhang);
+}
+
+/* Halo rouge derriere le produit. Fait aussi office de fond degrade
+   de secours si /image/gen/shop-0x.jpg n'existe pas encore : volontairement
+   sombre, sinon le `screen` de l'image virerait au delave. */
+.itemHalo {
+  position: absolute;
+  top: calc(var(--media-w) * 0.06);
+  left: 50%;
+  display: block;
+  width: calc(var(--media-w) * 1.25);
+  aspect-ratio: 1 / 1;
+  margin-left: calc(var(--media-w) * -0.625);
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(
+    closest-side,
+    rgb(var(--red-rgb) / 0.34) 0%,
+    rgb(var(--magenta-rgb) / 0.2) 46%,
+    rgb(var(--violet-rgb) / 0.28) 72%,
+    rgb(var(--violet-rgb) / 0) 100%
+  );
+  filter: blur(26px);
+  transition: opacity var(--dur-mid) var(--ease-out);
+  opacity: 0.85;
+}
+
+/* --- La carte glass tres sombre ------------------------- */
+
+.panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Le visuel mord dans la carte : on degage sa hauteur visible. */
+  padding: calc(var(--media-w) - var(--overhang) + var(--sp-4))
+    var(--sp-4) var(--sp-5);
+  text-align: center;
+  transition:
+    transform var(--dur-mid) var(--ease-out),
+    box-shadow var(--dur-mid) ease,
+    border-color var(--dur-mid) ease;
+}
+
+/* Selecteurs composes : ils doivent battre `.u-glass` quel que soit
+   l'ordre de chargement des feuilles de style. */
+.item .panel {
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(
+    180deg,
+    rgb(var(--ink-rgb) / 0.5) 0%,
+    rgb(var(--ink-rgb) / 0.82) 100%
+  );
+  box-shadow: var(--shadow-soft);
+}
+
+/* Liseré lumineux interne. */
+.panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(
+    180deg,
+    rgb(var(--paper-rgb) / 0.09) 0%,
+    rgb(var(--paper-rgb) / 0) 42%
+  );
+}
+
+.index {
+  margin: 0 calc(var(--ls-micro) * -1) var(--sp-2) 0;
+  color: var(--text-muted);
+}
+
+.name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: var(--fw-bold);
+  line-height: var(--lh-title);
+  letter-spacing: var(--ls-title);
+  color: var(--paper);
+}
+
+.desc {
+  margin: var(--sp-2) 0 0;
+  max-width: 24ch;
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  color: var(--text-dim);
+  text-wrap: pretty;
+}
+
+/* --- Le visuel produit qui deborde ---------------------- */
+
+.media {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  display: block;
+  width: var(--media-w);
+  margin-left: calc(var(--media-w) / -2);
+  aspect-ratio: 1 / 1;
+  pointer-events: none;
+}
+
+.productImg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+/* --- Pastille de prix ----------------------------------- */
+
+.price {
+  position: absolute;
+  top: calc(var(--overhang) - 0.85rem);
+  right: clamp(0.5rem, 3vw, 1.35rem);
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 0.95rem;
+  border: 1px solid rgb(var(--paper-rgb) / 0.24);
+  border-radius: var(--radius-pill);
+  background: var(--grad-signature-x);
+  box-shadow: var(--glow-red-sm), var(--shadow-soft);
+  color: var(--paper);
+  font-size: var(--fs-small);
+  font-weight: var(--fw-black);
+  letter-spacing: 0.02em;
+  line-height: 1;
+  white-space: nowrap;
+  transition: transform var(--dur-mid) var(--ease-out);
+}
+
+/* --- Bouton "Voir", revele au survol / au focus --------- */
+
+.reveal {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  /* Le micro-texte (10px) donnait un bouton de ~33px de haut : sous le
+     plancher tactile de 44px. */
+  min-height: 44px;
+  margin-top: var(--sp-4);
+  padding: 0.6rem 1.4rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-pill);
+  background: rgb(var(--paper-rgb) / 0.06);
+  color: var(--paper);
+  font-size: var(--fs-micro);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-micro);
+  text-transform: uppercase;
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(0.55rem);
+  pointer-events: none;
+  transition:
+    opacity var(--dur-mid) var(--ease-out),
+    transform var(--dur-mid) var(--ease-out),
+    background var(--dur-fast) ease,
+    border-color var(--dur-fast) ease;
+}
+
+.revealIcon {
+  flex: none;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.item:hover .reveal,
+.item:focus-within .reveal,
+.reveal:focus-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.reveal:hover {
+  border-color: rgb(var(--red-rgb) / 0.6);
+  background: rgb(var(--red-rgb) / 0.16);
+}
+
+.reveal:hover .revealIcon {
+  transform: translateX(3px);
+}
+
+.reveal:focus-visible {
+  outline: 2px solid var(--red-soft);
+  outline-offset: 3px;
+}
+
+/* --- Tilt subtil au survol ------------------------------ */
+/* `perspective()` est DANS la fonction transform : aucun ancetre ne
+   devient un contexte d'empilement, le `screen` du visuel reste valide. */
+
+.item:hover .panel,
+.item:focus-within .panel {
+  transform: perspective(900px) rotate3d(1, -0.4, 0, 5deg) translateY(-6px);
+  border-color: rgb(var(--red-rgb) / 0.34);
+  box-shadow: var(--shadow-deep), var(--glow-red-sm);
+}
+
+.item:hover .productImg,
+.item:focus-within .productImg {
+  transform: perspective(900px) rotate3d(1, -0.4, 0, 5deg) translateY(-0.9rem)
+    scale(1.05);
+}
+
+.item:hover .price,
+.item:focus-within .price {
+  transform: translateY(-0.35rem);
+}
+
+.item:hover .itemHalo,
+.item:focus-within .itemHalo {
+  opacity: 1;
+}
+
+/* --- CTA ------------------------------------------------ */
+
+.cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-top: clamp(3.5rem, 7vw, 5.5rem);
+}
+
+.ctaLink {
+  padding-inline: clamp(1.6rem, 4vw, 2.6rem);
+}
+
+.ctaNote {
+  margin: 0 calc(var(--ls-micro) * -1) 0 0;
+  color: var(--text-muted);
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+/* Tablette : 2 colonnes, la 3e fiche est centree sur toute la ligne. */
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 44rem;
+  }
+
+  .grid > .item:last-child {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: 100%;
+    max-width: 21rem;
+  }
+}
+
+/* Desktop : 3 colonnes + leger decalage vertical de la fiche centrale. */
+@media (min-width: 960px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-width: none;
+    row-gap: clamp(5rem, 8vw, 7rem);
+    column-gap: var(--sp-6);
+  }
+
+  .grid > .item:last-child {
+    grid-column: auto;
+    justify-self: stretch;
+    max-width: none;
+  }
+
+  .grid > .item:nth-child(2) {
+    margin-top: calc(var(--sp-7) * -1);
+  }
+}
+
+/* Sans survol (tactile) : le bouton reste visible en permanence. */
+@media (hover: none) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+}
+
+/* =========================================================
+   ACCESSIBILITE
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .productImg,
+  .price,
+  .reveal,
+  .revealIcon,
+  .itemHalo {
+    transition: none;
+  }
+
+  .item:hover .panel,
+  .item:focus-within .panel,
+  .item:hover .productImg,
+  .item:focus-within .productImg,
+  .item:hover .price,
+  .item:focus-within .price {
+    transform: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+}

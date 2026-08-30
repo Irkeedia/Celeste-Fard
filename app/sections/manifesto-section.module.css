@@ -1,0 +1,397 @@
+/* =========================================================
+   SECTION — LE MANIFESTE
+   Split asymetrique 55/45 (texte / image) en desktop,
+   image d'abord en mobile. L'image deborde vers le HAUT et
+   mord sur la section precedente (le marquee).
+
+   Tous les tokens viennent de app/styles/tokens.css.
+   Rien n'est redefini ici en dehors des variables locales
+   de section, toutes prefixees --mf-*.
+   ========================================================= */
+
+.manifesto {
+  --mf-rise: clamp(0px, 7vw, 118px);
+  --mf-frame-border: 1.5px;
+
+  position: relative;
+  /* Rythme vertical commun : sp-10 en bas comme player / gallery / video /
+     shop (c'etait sp-9, la section respirait moins que ses voisines).
+     Le +--mf-rise en haut compense la remontee de l'image. */
+  padding-block: calc(var(--sp-10) + var(--mf-rise)) var(--sp-10);
+  background: var(--ink);
+  color: var(--text);
+  /* le debordement de l'image se fait en vertical : jamais de clip */
+  overflow: visible;
+}
+
+/* --- Halos de fond ------------------------------------- */
+
+.halo {
+  position: absolute;
+  z-index: var(--z-bg);
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(70px);
+}
+
+.haloA {
+  top: -14%;
+  right: -12%;
+  width: min(64vw, 720px);
+  aspect-ratio: 1;
+  background: var(--grad-radial-glow);
+  opacity: 0.5;
+  animation: mfDrift 26s var(--ease-in-out) infinite alternate;
+}
+
+.haloB {
+  bottom: -22%;
+  left: -18%;
+  width: min(58vw, 620px);
+  aspect-ratio: 1;
+  background: var(--grad-radial-glow-soft);
+  opacity: 0.75;
+  animation: mfDrift 34s var(--ease-in-out) infinite alternate-reverse;
+}
+
+@keyframes mfDrift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(-4%, 5%, 0) scale(1.12);
+  }
+}
+
+/* --- Grille -------------------------------------------- */
+
+.inner {
+  position: relative;
+  z-index: var(--z-content);
+  max-width: var(--maxw);
+  margin-inline: auto;
+  /* `viewportFit: cover` (layout.tsx) : on protege l'encoche en paysage. */
+  padding-inline: max(var(--gutter), env(safe-area-inset-left))
+    max(var(--gutter), env(safe-area-inset-right));
+  display: grid;
+  gap: var(--sp-7);
+}
+
+@media (min-width: 900px) {
+  .inner {
+    grid-template-columns: 55fr 45fr;
+    column-gap: var(--sp-8);
+    align-items: center;
+  }
+
+  /* DOM : image puis texte (mobile = image d'abord).
+     Desktop : on inverse, le texte reprend la colonne 1. */
+  .figure {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .copy {
+    grid-column: 1;
+    grid-row: 1;
+  }
+}
+
+/* --- Cote image ---------------------------------------- */
+
+.figure {
+  position: relative;
+  z-index: var(--z-bleed);
+  margin: calc(var(--mf-rise) * -1) 0 0;
+  align-self: start;
+  max-width: 100%;
+}
+
+.figureGlow {
+  position: absolute;
+  inset: -12% -10% -16%;
+  z-index: var(--z-bg);
+  pointer-events: none;
+  border-radius: 50%;
+  background: var(--grad-radial-glow);
+  filter: blur(52px);
+  opacity: 0.85;
+}
+
+.frame {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow:
+    var(--glow-red-md),
+    var(--shadow-deep);
+}
+
+/* Bordure en degrade rouge : anneau via mask (le fond reste libre
+   pour l'image, contrairement a un simple background). */
+.frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  border-radius: inherit;
+  padding: var(--mf-frame-border);
+  background: var(--grad-signature);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 28%;
+  display: block;
+}
+
+/* Voile bas : raccorde l'image au fond de la section. */
+.frameFade {
+  position: absolute;
+  inset: auto 0 0;
+  height: 42%;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgb(var(--ink-rgb) / 0.55) 62%,
+    rgb(var(--ink-rgb) / 0.9) 100%
+  );
+}
+
+/* Carte glass flottante — par-dessus le sujet en desktop,
+   sous l'image en mobile (exigence responsive). */
+.badge {
+  margin-top: var(--sp-4);
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--radius-md);
+  display: grid;
+  gap: 0.25rem;
+}
+
+.badgeValue {
+  font-weight: var(--fw-black);
+  font-size: var(--fs-h3);
+  letter-spacing: var(--ls-title);
+  line-height: 1.1;
+}
+
+@media (min-width: 900px) {
+  .badge {
+    position: absolute;
+    z-index: var(--z-float);
+    left: calc(var(--sp-5) * -1);
+    bottom: var(--sp-6);
+    margin-top: 0;
+    max-width: 15rem;
+  }
+}
+
+/* --- Cote texte ---------------------------------------- */
+
+.copy {
+  position: relative;
+  z-index: var(--z-content);
+  min-width: 0;
+}
+
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.kickerRule {
+  height: 1px;
+  flex: 1 1 auto;
+  max-width: 5.5rem;
+  background: linear-gradient(90deg, var(--red), transparent);
+}
+
+.title {
+  margin: var(--sp-4) 0 0;
+  font-family: var(--font-display);
+  font-weight: var(--fw-black);
+  /* Remis sur l'echelle : c'est un titre de section comme ceux de player et
+     video, qui consomment deja --fs-h1. */
+  font-size: var(--fs-h1);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+  text-wrap: balance;
+}
+
+.titleLine {
+  display: block;
+}
+
+.text {
+  margin: var(--sp-5) 0 0;
+  max-width: 46ch;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--text-dim);
+}
+
+.text strong {
+  color: var(--paper);
+  font-weight: var(--fw-bold);
+}
+
+/* --- Citation ------------------------------------------ */
+
+.quote {
+  position: relative;
+  margin: var(--sp-7) 0 0;
+  padding: var(--sp-5) 0 0 clamp(1.6rem, 4.5vw, 3.4rem);
+  border: 0;
+}
+
+/* Guillemet geant, rouge translucide, en fond. */
+.quote::before {
+  content: "\201C";
+  position: absolute;
+  top: clamp(-2.2rem, -4vw, -0.6rem);
+  left: clamp(-1.6rem, -3vw, -0.4rem);
+  font-family: var(--font-display);
+  font-weight: var(--fw-black);
+  font-size: clamp(9rem, 26vw, 17rem);
+  line-height: 0.72;
+  color: rgb(var(--red-rgb) / 0.15);
+  pointer-events: none;
+  user-select: none;
+}
+
+.quoteText {
+  position: relative;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: clamp(1.45rem, 3.4vw, 2.45rem);
+  line-height: 1.18;
+  letter-spacing: var(--ls-title);
+  color: var(--paper);
+  text-wrap: balance;
+}
+
+.quoteAttr {
+  position: relative;
+  display: block;
+  margin-top: var(--sp-4);
+  color: var(--text-muted);
+}
+
+/* --- Chiffres cles ------------------------------------- */
+
+.stats {
+  position: relative;
+  margin: var(--sp-8) 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--sp-4);
+}
+
+.stat {
+  display: grid;
+  gap: var(--sp-2);
+}
+
+/* Mobile : filets horizontaux. */
+.stat + .stat {
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--line);
+}
+
+.statValue {
+  font-family: var(--font-display);
+  font-weight: var(--fw-black);
+  font-size: clamp(2.4rem, 6vw, 3.4rem);
+  line-height: 0.92;
+  letter-spacing: var(--ls-display);
+}
+
+.statLabel {
+  max-width: 14ch;
+}
+
+/* Desktop / tablette : filets VERTICAUX lumineux. */
+@media (min-width: 560px) {
+  .stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+  }
+
+  .stat {
+    padding-inline: var(--sp-4);
+  }
+
+  .stat:first-child {
+    padding-left: 0;
+  }
+
+  .stat + .stat {
+    position: relative;
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .stat + .stat::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 4%;
+    bottom: 4%;
+    width: 1px;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      var(--red-soft) 42%,
+      var(--red) 58%,
+      transparent 100%
+    );
+    box-shadow: var(--glow-red-sm);
+  }
+}
+
+/* --- Reglages responsive du debordement ---------------- */
+
+@media (max-width: 900px) {
+  .manifesto {
+    --mf-rise: clamp(0px, 5vw, 60px);
+  }
+
+  .figure {
+    max-width: 30rem;
+    margin-inline: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .manifesto {
+    /* plus de debordement en mobile : la section respire seule */
+    --mf-rise: 0px;
+    /* Pas de padding sur-mesure ici : --sp-10 est deja un clamp() qui
+       retombe a 5rem sur mobile. Le forcer a sp-9/sp-8 cassait le rythme
+       avec player / gallery / video / shop, tous en sp-10 a 375px. */
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .haloA,
+  .haloB {
+    animation: none;
+  }
+}

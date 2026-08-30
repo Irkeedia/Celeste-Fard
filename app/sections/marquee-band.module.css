@@ -1,0 +1,259 @@
+/* =========================================================
+   MARQUEE BAND — ruban defilant infini
+   Separateur entre le hero et la suite.
+
+   Anatomie :
+     .band   section pleine largeur, fond sombre + halo + grain
+       .halo lueur rouge diffuse
+       .rail ruban incline (-2deg), borde de filets lumineux,
+             fondu par mask-image a gauche et a droite
+         .track   piste animee (2 groupes identiques, -50%)
+           .group liste de mots + losanges separateurs
+
+   Regles respectees : aucune variable redefinie (tout vient de
+   tokens.css), aucun debordement horizontal (le .band clippe),
+   animation en pause si prefers-reduced-motion.
+   ========================================================= */
+
+.band {
+  position: relative;
+  isolation: isolate;
+
+  /* Par defaut le bandeau occupe la largeur de son parent.
+     Poser --band-bleed-x (ex: var(--gutter)) lui fait manger la
+     gouttiere du .page-wrap pour un rendu bord a bord. */
+  width: calc(100% + var(--band-bleed-x, 0px) * 2);
+  margin-inline: calc(var(--band-bleed-x, 0px) * -1);
+
+  /* Marge verticale suffisante pour absorber l'inclinaison du rail
+     (a -2deg sur 1920px, les extremites montent/descendent de ~33px).
+     --sp-8 = clamp(3rem, 5.5vw, 4.5rem) : meme enveloppe que l'ancienne
+     valeur sur-mesure, mais sur l'echelle d'espacement du site. */
+  padding-block: var(--sp-8);
+
+  /* Filet de securite : la rotation ne doit JAMAIS creer de scroll. */
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      180deg,
+      transparent 0%,
+      rgb(var(--violet-rgb) / 0.22) 50%,
+      transparent 100%
+    ),
+    var(--ink);
+}
+
+/* --- Halo rouge diffus derriere le ruban ----------------- */
+.halo {
+  position: absolute;
+  inset-inline-start: 50%;
+  inset-block-start: 50%;
+  z-index: var(--z-bg);
+  width: min(150%, 1600px);
+  aspect-ratio: 3 / 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: var(--grad-radial-glow-soft);
+  filter: blur(60px);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+/* Le grain global passe par-dessus le ruban (2 classes > 1 classe,
+   on gagne donc sur le z-index de .u-noise-layer). */
+.band .grain {
+  z-index: var(--z-float);
+  opacity: 0.06;
+}
+
+/* --- Le ruban incline ------------------------------------ */
+.rail {
+  --marquee-gap: clamp(1.15rem, 3vw, 3.25rem);
+
+  position: relative;
+  z-index: var(--z-content);
+
+  /* Largeur exactement egale a celle du .band : le fondu du masque
+     tombe donc pile sur les bords visibles, et la rotation ne peut
+     pas deborder lateralement. */
+  width: 100%;
+  padding-block: clamp(0.7rem, 1.7vw, 1.3rem);
+  overflow: hidden;
+
+  /* Legere rotation pour casser la grille */
+  transform: rotate(-2deg);
+
+  /* Filets fins lumineux en haut et en bas */
+  border-top: 1px solid rgb(var(--red-rgb) / 0.4);
+  border-bottom: 1px solid rgb(var(--red-rgb) / 0.4);
+
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgb(var(--red-deep-rgb) / 0.18) 28%,
+    rgb(var(--magenta-rgb) / 0.16) 72%,
+    transparent 100%
+  );
+
+  /* Glow exterieur = token du site ; seule la lueur INTERNE reste
+     sur-mesure (aucun token de glow inset dans tokens.css). */
+  box-shadow:
+    var(--glow-red-sm),
+    inset 0 0 70px rgb(var(--magenta-rgb) / 0.12);
+
+  /* Le texte s'evanouit a gauche et a droite */
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 13%,
+    #000 87%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 13%,
+    #000 87%,
+    transparent 100%
+  );
+}
+
+/* --- Pistes animees -------------------------------------- */
+.track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: marqueeScroll var(--marquee-duration, 44s) linear infinite;
+}
+
+.trackMain {
+  align-items: center;
+}
+
+/* Seconde voie, plus petite et a contresens : donne de la profondeur
+   sans alourdir la lecture. */
+.trackMicro {
+  align-items: center;
+  margin-top: clamp(0.45rem, 1vw, 0.8rem);
+  animation-duration: calc(var(--marquee-duration, 44s) * 0.66);
+  animation-direction: reverse;
+}
+
+@keyframes marqueeScroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* --- Groupe de mots (rendu 2x pour la boucle) ------------- */
+.group {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: var(--marquee-gap);
+  /* meme respiration entre le dernier separateur et le groupe suivant */
+  padding-inline-end: var(--marquee-gap);
+}
+
+/* --- Mots ------------------------------------------------ */
+.wordSolid,
+.wordOutline {
+  flex: 0 0 auto;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 5.2vw, 4.25rem);
+  font-weight: var(--fw-black);
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.wordSolid {
+  color: var(--paper);
+  text-shadow: var(--glow-text-sm);
+}
+
+.wordOutline {
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 1px rgb(var(--paper-rgb) / 0.55);
+  /* Valeur de --glow-text-sm (non branchable dans `drop-shadow()`) :
+     le mot ajoure rayonne comme les mots pleins juste a cote. */
+  filter: drop-shadow(0 0 14px rgb(var(--red-rgb) / 0.45));
+}
+
+/* Sans -webkit-text-stroke, le mot serait invisible : on retombe
+   sur un remplissage translucide. */
+@supports not (-webkit-text-stroke: 1px #fff) {
+  .wordOutline {
+    color: rgb(var(--paper-rgb) / 0.34);
+    -webkit-text-fill-color: currentColor;
+  }
+}
+
+.wordMicro {
+  flex: 0 0 auto;
+  font-size: var(--fs-micro);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-micro);
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--text-muted);
+}
+
+/* --- Separateur : losange degrade ------------------------ */
+.sep {
+  flex: 0 0 auto;
+  width: clamp(6px, 0.7vw, 10px);
+  height: clamp(6px, 0.7vw, 10px);
+  border-radius: 2px;
+  transform: rotate(45deg);
+  background: var(--grad-signature);
+  box-shadow: var(--glow-red-sm);
+}
+
+.sepMicro {
+  width: 4px;
+  height: 4px;
+  border-radius: 1px;
+  box-shadow: none;
+  background: rgb(var(--red-rgb) / 0.65);
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+/* Sous 640px la seconde voie devient du bruit : on la retire et on
+   resserre le ruban. */
+@media (max-width: 640px) {
+  .band {
+    /* --sp-7 = clamp(2.25rem, 4vw, 3.25rem), soit la meme respiration que
+       l'ancien sur-mesure, mais sur l'echelle. */
+    padding-block: var(--sp-7);
+  }
+
+  .rail {
+    transform: rotate(-1.5deg);
+  }
+
+  .trackMicro {
+    display: none;
+  }
+}
+
+/* =========================================================
+   ACCESSIBILITE
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation-play-state: paused;
+    will-change: auto;
+  }
+}

@@ -1,0 +1,452 @@
+/* =========================================================
+   CELESTE FARD — SECTION VIDEO (le feed)
+   3 cartes verticales 9:16, celle du milieu mise en avant.
+   Mobile : carrousel horizontal scroll-snap.
+   Aucun token redefini ici : on consomme app/styles/tokens.css.
+   ========================================================= */
+
+.section {
+  position: relative;
+  isolation: isolate;
+  padding-block: var(--sp-10);
+  /* `viewportFit: cover` (layout.tsx) : on protege l'encoche en paysage.
+     Le rail ne recule que de --gutter : il s'arrete juste avant l'encoche. */
+  padding-inline: max(var(--gutter), env(safe-area-inset-left))
+    max(var(--gutter), env(safe-area-inset-right));
+  color: var(--text);
+}
+
+/* --- Halos de fond, contenus (zero debordement horizontal) --- */
+.bg {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-bg);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.haloA,
+.haloB {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.haloA {
+  top: -12%;
+  left: 50%;
+  width: min(1100px, 130%);
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  background: var(--grad-radial-glow);
+  filter: blur(70px);
+  opacity: 0.5;
+}
+
+.haloB {
+  right: -18%;
+  bottom: -22%;
+  width: min(720px, 90%);
+  aspect-ratio: 1;
+  background: var(--grad-radial-glow-soft);
+  filter: blur(90px);
+  opacity: 0.75;
+}
+
+/* --- Entete ------------------------------------------------ */
+.inner {
+  position: relative;
+  z-index: var(--z-content);
+  max-width: var(--maxw);
+  margin-inline: auto;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-8);
+}
+
+.title {
+  /* 20ch a la taille du titre : le titre garde 2 lignes a toutes
+     les largeurs, sans media query. */
+  max-width: 20ch;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-h1);
+  font-weight: var(--fw-black);
+  /* Regle du site : a l'echelle --fs-h1 on passe en interlignage/chasse
+     display (comme player et manifesto), pas en reglages de --fs-h2. */
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+}
+
+/* Degrade signature resserre : on s'arrete au magenta pour que la fin
+   du mot reste lisible sur fond noir (le violet s'y noierait). */
+.titleAccent {
+  display: block;
+  background-image: linear-gradient(
+    96deg,
+    var(--red-soft) 0%,
+    var(--red) 34%,
+    var(--magenta) 96%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.lede {
+  margin: 0;
+  max-width: 42ch;
+  font-size: var(--fs-lede);
+  line-height: var(--lh-body);
+  color: var(--text-dim);
+}
+
+/* --- Rail : carrousel snap en mobile ----------------------- */
+.rail {
+  display: flex;
+  gap: var(--sp-4);
+  /* le rail file jusqu'aux bords de l'ecran sur mobile */
+  margin-inline: calc(var(--gutter) * -1);
+  padding-inline: var(--gutter);
+  padding-block: var(--sp-2) var(--sp-5);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.rail::-webkit-scrollbar {
+  display: none;
+}
+
+.card {
+  position: relative;
+  flex: 0 0 min(78%, 320px);
+  scroll-snap-align: center;
+}
+
+/* --- Grille 3 colonnes des ~769px, milieu plus grand ------- */
+@media (min-width: 769px) {
+  .rail {
+    display: grid;
+    grid-template-columns: minmax(0, 0.86fr) minmax(0, 1fr) minmax(0, 0.86fr);
+    align-items: center;
+    gap: clamp(1rem, 2.4vw, 2.25rem);
+    margin-inline: 0;
+    padding-inline: 0;
+    padding-block: var(--sp-3) var(--sp-4);
+    overflow: visible;
+  }
+
+  .card {
+    flex: initial;
+  }
+}
+
+/* --- Cadre a bordure degradee ------------------------------ */
+.frame {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 1px; /* epaisseur de la bordure degradee */
+  /* Remis sur l'echelle de rayons : c'etait le seul rayon fluide du site
+     (toutes les autres grandes cartes sont en --radius-lg). */
+  border-radius: var(--radius-lg);
+  background: linear-gradient(
+    150deg,
+    rgb(var(--red-rgb) / 0.85) 0%,
+    rgb(var(--magenta-rgb) / 0.55) 45%,
+    rgb(var(--violet-rgb) / 0.65) 72%,
+    rgb(var(--paper-rgb) / 0.14) 100%
+  );
+  box-shadow: var(--shadow-soft);
+  transition:
+    transform var(--dur-mid) var(--ease-out),
+    box-shadow var(--dur-mid) ease;
+}
+
+.cardFeatured {
+  z-index: var(--z-float);
+}
+
+.cardFeatured .frame {
+  box-shadow: var(--shadow-deep), var(--glow-red-md);
+}
+
+@media (min-width: 769px) {
+  .cardFeatured .frame {
+    transform: translateY(-1.5%);
+  }
+
+  .card:hover .frame,
+  .card:focus-within .frame {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-deep), var(--glow-red-lg);
+  }
+
+  .cardFeatured:hover .frame,
+  .cardFeatured:focus-within .frame {
+    transform: translateY(calc(-1.5% - 8px));
+  }
+}
+
+/* --- Media 9:16 -------------------------------------------- */
+.media {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  border-radius: inherit;
+  overflow: hidden;
+  background-color: var(--ink-2);
+}
+
+.poster {
+  object-fit: cover;
+  transition: transform var(--dur-slow) var(--ease-out);
+}
+
+@media (min-width: 769px) {
+  .card:hover .poster,
+  .card:focus-within .poster {
+    transform: scale(1.045);
+  }
+}
+
+.video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: var(--ink);
+}
+
+/* Voile degrade bas + leger assombrissement haut */
+.veil {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      180deg,
+      rgb(var(--ink-rgb) / 0.55) 0%,
+      transparent 26%,
+      transparent 46%,
+      rgb(var(--ink-rgb) / 0.72) 78%,
+      rgb(var(--ink-rgb) / 0.94) 100%
+    ),
+    linear-gradient(
+      200deg,
+      rgb(var(--red-rgb) / 0.14) 0%,
+      transparent 55%
+    );
+}
+
+/* --- Badge index ------------------------------------------- */
+.badge {
+  position: absolute;
+  top: var(--sp-3);
+  left: var(--sp-3);
+  z-index: 2;
+  padding: 0.35rem 0.7rem;
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-micro);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-micro);
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+/* --- Bouton play glass + anneaux qui pulsent --------------- */
+.playWrap {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  font: inherit;
+}
+
+.playDisc {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: clamp(58px, 9vw, 84px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgb(var(--paper-rgb) / 0.28);
+  background: rgb(var(--paper-rgb) / 0.1);
+  box-shadow: var(--glow-red-sm);
+  /* box-shadow en --dur-mid : c'est la duree d'allumage des glows partout
+     ailleurs (hero, shop, player). En --dur-fast le glow claquait. */
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    background var(--dur-fast) ease,
+    box-shadow var(--dur-mid) ease;
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .playDisc {
+    -webkit-backdrop-filter: blur(12px) saturate(150%);
+    backdrop-filter: blur(12px) saturate(150%);
+  }
+}
+
+.playWrap:hover .playDisc,
+.playWrap:focus-visible .playDisc {
+  transform: scale(1.08);
+  background: rgb(var(--paper-rgb) / 0.16);
+  box-shadow: var(--glow-red-md);
+}
+
+.playWrap:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: -6px;
+  border-radius: inherit;
+}
+
+/* Deux anneaux lumineux decales */
+.playDisc::before,
+.playDisc::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 1px solid rgb(var(--red-rgb) / 0.7);
+  opacity: 0;
+  animation: ringPulse 3s var(--ease-out) infinite;
+  pointer-events: none;
+}
+
+.playDisc::after {
+  animation-delay: 1.5s;
+}
+
+@keyframes ringPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+  70% {
+    opacity: 0.12;
+  }
+  100% {
+    transform: scale(1.85);
+    opacity: 0;
+  }
+}
+
+.playIcon {
+  width: 34%;
+  height: auto;
+  margin-left: 8%; /* recentre optiquement le triangle */
+  fill: var(--paper);
+  filter: drop-shadow(0 0 10px rgb(var(--red-rgb) / 0.7));
+}
+
+/* --- Titre / sous-titre en bas ----------------------------- */
+.meta {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: var(--sp-4);
+  pointer-events: none;
+}
+
+.metaKicker {
+  color: rgb(var(--red-soft-rgb) / 0.92);
+}
+
+.metaTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1.9vw, 1.6rem);
+  font-weight: var(--fw-bold);
+  line-height: 1.12;
+  letter-spacing: var(--ls-title);
+  color: var(--paper);
+  text-shadow: var(--glow-text-sm);
+}
+
+.metaCaption {
+  margin: 0;
+  font-size: var(--fs-small);
+  line-height: 1.45;
+  color: var(--text-dim);
+}
+
+/* Entre 769 et 1023px les 3 colonnes tombent a ~210px de large : la
+   legende partait sur 5-6 lignes et remontait par-dessus le bouton play.
+   On la borne a 2 lignes, le titre reste la vraie information. */
+@media (min-width: 769px) and (max-width: 1023px) {
+  .metaCaption {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+  }
+}
+
+/* --- Pied de section --------------------------------------- */
+.foot {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-top: var(--sp-4);
+}
+
+.footLine {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgb(var(--red-rgb) / 0.6) 0%,
+    rgb(var(--magenta-rgb) / 0.3) 40%,
+    transparent 100%
+  );
+}
+
+.hint {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .hint {
+    display: block;
+  }
+}
+
+/* --- Accessibilite : mouvement reduit ---------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .playDisc::before,
+  .playDisc::after {
+    animation: none;
+    opacity: 0.35;
+  }
+
+  .frame,
+  .poster,
+  .playDisc {
+    transition: none;
+  }
+
+  .rail {
+    scroll-behavior: auto;
+  }
+}

@@ -1,0 +1,395 @@
+/* =========================================================
+   CELESTE FARD — DESIGN TOKENS
+   Source unique de verite pour les couleurs, la typo, les
+   espacements, les degrades, les glows et les utilitaires.
+
+   REGLES POUR LES AGENTS :
+   - Ce fichier est importe une seule fois, en premier, par
+     app/globals.css. Ne l'importe pas depuis un module CSS.
+   - Tu CONSOMMES ces variables (var(--red), var(--sp-8)...).
+     Tu ne les redefinis JAMAIS dans ta section.
+   - Aucun style de section ici. Uniquement des tokens et des
+     utilitaires globaux prefixes `u-`.
+   - Les classes `u-*` sont GLOBALES : utilise-les directement
+     dans className="u-glass", pas via ton module CSS.
+   ========================================================= */
+
+:root {
+  /* -------------------------------------------------------
+     1. PALETTE (validee client — ne pas devier)
+     ------------------------------------------------------- */
+  --ink: #08050a;        /* fond quasi-noir */
+  --ink-2: #120810;      /* fond alternatif (sections paires) */
+  --ink-3: #1c0d18;      /* surface sombre elevee (cartes pleines) */
+  --red: #ff1e3c;        /* primaire incandescent */
+  --red-soft: #ff4d6d;   /* secondaire */
+  --red-deep: #b3003c;   /* accent profond */
+  --magenta: #d9007a;    /* pour les degrades */
+  --violet: #3a0b4a;     /* fin de degrade */
+  --paper: #fff5f6;      /* texte clair */
+
+  /* Triplets RGB — pour composer des alphas :
+     rgb(var(--red-rgb) / 0.4) */
+  --ink-rgb: 8 5 10;
+  --red-rgb: 255 30 60;
+  --red-soft-rgb: 255 77 109;
+  --red-deep-rgb: 179 0 60;
+  --magenta-rgb: 217 0 122;
+  --violet-rgb: 58 11 74;
+  --paper-rgb: 255 245 246;
+
+  /* Derives semantiques (toujours issus de la palette) */
+  --text: var(--paper);
+  --text-dim: rgb(var(--paper-rgb) / 0.68);   /* paragraphes */
+  --text-muted: rgb(var(--paper-rgb) / 0.44); /* legendes, micro */
+  --line: rgb(var(--paper-rgb) / 0.12);       /* filets 1px */
+  --line-strong: rgb(var(--paper-rgb) / 0.22);
+  --surface: rgb(var(--paper-rgb) / 0.04);    /* fond de carte discret */
+
+  /* -------------------------------------------------------
+     2. TYPOGRAPHIE
+     Deux faces sont injectees par next/font dans layout.tsx :
+       --font-body         -> Inter (variable 100-900), corps de texte
+       --font-display-face -> Anton (grotesque condensee, une graisse)
+     On ne consomme JAMAIS ces deux variables directement : on passe
+     par les piles ci-dessous, qui portent les fallbacks systeme.
+     ------------------------------------------------------- */
+  --font-sans: var(--font-body), -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  --font-display: var(--font-display-face, var(--font-body)), "Haettenschweiler",
+    "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+
+  /* Echelle fluide — 375px -> 1920px */
+  --fs-display: clamp(3.4rem, 12.5vw, 11rem);
+  --fs-h1: clamp(2.6rem, 8vw, 6rem);
+  --fs-h2: clamp(1.95rem, 5.4vw, 3.75rem);
+  --fs-h3: clamp(1.2rem, 2.4vw, 1.75rem);
+  --fs-lede: clamp(1.05rem, 1.6vw, 1.35rem);
+  --fs-body: clamp(1rem, 0.95rem + 0.35vw, 1.15rem);
+  --fs-small: clamp(0.85rem, 0.82rem + 0.2vw, 0.95rem);
+  --fs-micro: clamp(0.62rem, 0.58rem + 0.18vw, 0.75rem);
+
+  --lh-display: 0.88;
+  --lh-title: 1.02;
+  --lh-body: 1.6;
+
+  --ls-display: -0.045em;
+  --ls-title: -0.03em;
+  --ls-micro: 0.3em;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+  --fw-black: 900;
+
+  /* -------------------------------------------------------
+     3. ESPACEMENTS (fluides)
+     ------------------------------------------------------- */
+  --sp-1: clamp(0.25rem, 0.5vw, 0.375rem);
+  --sp-2: clamp(0.5rem, 0.8vw, 0.625rem);
+  --sp-3: clamp(0.75rem, 1.2vw, 1rem);
+  --sp-4: clamp(1rem, 1.6vw, 1.35rem);
+  --sp-5: clamp(1.35rem, 2.2vw, 1.85rem);
+  --sp-6: clamp(1.75rem, 3vw, 2.5rem);
+  --sp-7: clamp(2.25rem, 4vw, 3.25rem);
+  --sp-8: clamp(3rem, 5.5vw, 4.5rem);
+  --sp-9: clamp(4rem, 7vw, 6rem);
+  --sp-10: clamp(5rem, 9vw, 8rem);
+  --sp-11: clamp(6.5rem, 12vw, 11rem);
+  --sp-12: clamp(8rem, 16vw, 15rem);
+
+  /* Gouttiere laterale de page — respecte les encoches iOS */
+  --gutter: clamp(1.1rem, 4vw, 3rem);
+
+  /* -------------------------------------------------------
+     4. DEGRADES
+     ------------------------------------------------------- */
+  /* Signature : crimson -> magenta -> violet sombre */
+  --grad-signature: linear-gradient(
+    135deg,
+    var(--red) 0%,
+    var(--magenta) 52%,
+    var(--violet) 100%
+  );
+  --grad-signature-x: linear-gradient(
+    90deg,
+    var(--red-soft) 0%,
+    var(--red) 26%,
+    var(--magenta) 62%,
+    var(--violet) 100%
+  );
+
+  /* Halo lumineux diffus — a poser en pseudo-element tres large */
+  --grad-radial-glow: radial-gradient(
+    closest-side,
+    rgb(var(--red-rgb) / 0.42) 0%,
+    rgb(var(--magenta-rgb) / 0.22) 42%,
+    rgb(var(--violet-rgb) / 0.1) 68%,
+    transparent 100%
+  );
+  --grad-radial-glow-soft: radial-gradient(
+    closest-side,
+    rgb(var(--red-rgb) / 0.18) 0%,
+    rgb(var(--magenta-rgb) / 0.1) 45%,
+    transparent 100%
+  );
+
+  /* Fondus vers le fond — pour raccorder une image qui deborde */
+  --grad-fade-down: linear-gradient(180deg, transparent 0%, var(--ink) 100%);
+  --grad-fade-up: linear-gradient(0deg, transparent 0%, var(--ink) 100%);
+
+  /* Fond de secours si une image /image/gen/*.jpg manque */
+  --grad-image-fallback: linear-gradient(
+      160deg,
+      rgb(var(--red-rgb) / 0.28) 0%,
+      rgb(var(--magenta-rgb) / 0.18) 45%,
+      rgb(var(--violet-rgb) / 0.55) 100%
+    ),
+    var(--ink-2);
+
+  /* -------------------------------------------------------
+     5. OMBRES / GLOWS (larges et diffus, jamais nets)
+     ------------------------------------------------------- */
+  --glow-red-sm: 0 0 18px rgb(var(--red-rgb) / 0.35);
+  --glow-red-md:
+    0 0 40px rgb(var(--red-rgb) / 0.32),
+    0 0 90px rgb(var(--magenta-rgb) / 0.2);
+  --glow-red-lg:
+    0 0 70px rgb(var(--red-rgb) / 0.3),
+    0 0 170px rgb(var(--magenta-rgb) / 0.24),
+    0 0 300px rgb(var(--violet-rgb) / 0.4);
+
+  /* Variantes text-shadow (memes valeurs, sans offset de spread) */
+  --glow-text-sm: 0 0 14px rgb(var(--red-rgb) / 0.45);
+  --glow-text-md:
+    0 0 24px rgb(var(--red-rgb) / 0.45),
+    0 0 60px rgb(var(--magenta-rgb) / 0.32);
+  --glow-text-lg:
+    0 0 30px rgb(var(--red-rgb) / 0.5),
+    0 0 80px rgb(var(--magenta-rgb) / 0.38),
+    0 0 160px rgb(var(--violet-rgb) / 0.5);
+
+  /* Elevation neutre (profondeur, pas de couleur) */
+  --shadow-soft: 0 24px 70px rgb(var(--ink-rgb) / 0.6);
+  --shadow-deep: 0 40px 120px rgb(var(--ink-rgb) / 0.8);
+
+  /* -------------------------------------------------------
+     6. RAYONS
+     ------------------------------------------------------- */
+  --radius-sm: 12px;
+  --radius-md: 20px;
+  --radius-lg: 32px;
+  --radius-pill: 999px;
+
+  /* -------------------------------------------------------
+     7. GLASSMORPHISM (cartes flottantes)
+     ------------------------------------------------------- */
+  --glass-bg: rgb(var(--paper-rgb) / 0.06);
+  --glass-bg-strong: rgb(var(--paper-rgb) / 0.1);
+  --glass-border: rgb(var(--paper-rgb) / 0.12);
+  --glass-blur: 18px;
+
+  /* -------------------------------------------------------
+     8. MOUVEMENT
+     ------------------------------------------------------- */
+  --ease-out: cubic-bezier(0.2, 0.8, 0.22, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 180ms;
+  --dur-mid: 380ms;
+  --dur-slow: 720ms;
+
+  /* -------------------------------------------------------
+     9. PROFONDEUR (z-index partages)
+     Evite que le portrait qui deborde passe sous/sur le mauvais
+     element quand 9 sections cohabitent.
+     ------------------------------------------------------- */
+  --z-bg: 0;        /* halos, grain de fond */
+  --z-bleed: 1;     /* image sujet qui deborde */
+  --z-content: 2;   /* texte de section */
+  --z-float: 3;     /* cartes glass par-dessus le sujet */
+  --z-header: 100;
+  --z-overlay: 200; /* drawer, modales */
+}
+
+/* =========================================================
+   UTILITAIRES GLOBAUX
+   ========================================================= */
+
+/* --- Carte glassmorphism flottante ---------------------- */
+.u-glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  color: var(--text);
+}
+
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .u-glass {
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+    backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  }
+}
+
+/* Le blur coute cher sur mobile : on retombe sur un fond opaque. */
+@media (max-width: 640px) {
+  .u-glass {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: rgb(var(--ink-rgb) / 0.72);
+  }
+}
+
+/* --- Texte incandescent --------------------------------- */
+.u-glow-text {
+  color: var(--paper);
+  text-shadow: var(--glow-text-md);
+}
+
+.u-glow-text--sm {
+  text-shadow: var(--glow-text-sm);
+}
+
+.u-glow-text--lg {
+  text-shadow: var(--glow-text-lg);
+}
+
+/* Titre rempli par le degrade signature */
+.u-grad-text {
+  background: var(--grad-signature-x);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* --- Micro-texte majuscule tres espace ------------------ */
+.u-micro {
+  font-size: var(--fs-micro);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-micro);
+  text-transform: uppercase;
+  line-height: 1.4;
+  color: var(--text-muted);
+  /* le letter-spacing ajoute un vide a droite : on le compense */
+  margin-right: calc(var(--ls-micro) * -1);
+}
+
+/* --- Grain / bruit cinema ------------------------------- */
+/* Se pose sur n'importe quel conteneur : <section class="u-noise"> */
+.u-noise {
+  position: relative;
+}
+
+.u-noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-bg);
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 140px 140px;
+}
+
+/* Variante element autonome, quand ::after est deja pris. */
+.u-noise-layer {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-bg);
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 140px 140px;
+}
+
+/* --- Debordement du sujet hors de sa section ------------ */
+/*
+   Usage :
+   <div class="u-bleed" style="--bleed: 18vh"> <Image ... /> </div>
+   - deborde vers le BAS uniquement (jamais en largeur : zero scroll
+     horizontal),
+   - passe au-dessus de la section suivante,
+   - sur mobile le debordement est reduit puis annule.
+   Le parent de section doit avoir `overflow: visible`.
+*/
+.u-bleed {
+  position: relative;
+  z-index: var(--z-bleed);
+  margin-bottom: calc(var(--bleed, 14vh) * -1);
+  max-width: 100%;
+  pointer-events: none;
+}
+
+.u-bleed > * {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 900px) {
+  .u-bleed {
+    margin-bottom: calc(var(--bleed, 14vh) * -0.45);
+  }
+}
+
+@media (max-width: 640px) {
+  .u-bleed {
+    margin-bottom: 0;
+  }
+}
+
+/* --- Detourage des images a fond noir ------------------- */
+/* Les images generees ont un fond NOIR PUR : `screen` le fait
+   disparaitre sur fond sombre, sans halo de detourage. */
+.u-screen {
+  mix-blend-mode: screen;
+}
+
+.u-lighten {
+  mix-blend-mode: lighten;
+}
+
+/* --- Fond de secours sous une image (build-safe) -------- */
+/* A poser sur le conteneur de l'image : si le .jpg manque,
+   on voit un degrade au lieu d'un trou noir. */
+.u-image-fallback {
+  background: var(--grad-image-fallback);
+  background-size: cover;
+  background-position: center;
+}
+
+/* --- Halo lumineux diffus ------------------------------- */
+/* Element decoratif a positionner en absolute par la section. */
+.u-halo {
+  position: absolute;
+  z-index: var(--z-bg);
+  pointer-events: none;
+  border-radius: 50%;
+  background: var(--grad-radial-glow);
+  filter: blur(40px);
+  opacity: 0.9;
+}
+
+/* --- Divers -------------------------------------------- */
+.u-center {
+  margin-inline: auto;
+}
+
+.u-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .u-halo {
+    animation: none !important;
+  }
+}

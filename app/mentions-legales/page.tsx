@@ -66,7 +66,7 @@ export default function MentionsLegalesPage() {
             l&apos;expérimentation.
           </p>
           <p>
-            <strong>Intelligence artificielle</strong>, ça veut dire quoi ici ? C&apos;est un
+            <strong>Intelligence artificielle</strong>, ça veut dire quoi ici&nbsp;? C&apos;est un
             ensemble de programmes informatiques capables d&apos;imiter certaines tâches humaines
             (écrire, composer, générer des images, structurer un récit...) sans avoir besoin de
             dormir, de café, ou de se demander si ses cheveux roux sont naturels. En bref :
@@ -145,7 +145,7 @@ export default function MentionsLegalesPage() {
       </section>
 
       <p className="legal-back muted">
-        Tu veux aussi les règles du jeu ? Lis les{" "}
+        Tu veux aussi les règles du jeu&nbsp;? Lis les{" "}
         <Link href="/cgu">conditions générales d&apos;utilisation</Link>.
       </p>
     </div>

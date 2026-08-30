@@ -1,0 +1,458 @@
+/* =========================================================
+   CTA SECTION — le dernier ecran avant le footer.
+
+   Regles respectees :
+   - aucune variable de tokens.css n'est redefinie, uniquement consommee ;
+   - les variables locales sont prefixees --cta-* pour eviter toute collision ;
+   - `overflow: hidden` sur la section => zero scroll horizontal possible,
+     meme avec les cercles decoratifs qui debordent largement ;
+   - toutes les tailles et espacements sont en clamp().
+   ========================================================= */
+
+.cta {
+  /* --- variables locales (portee = .cta) --- */
+  --cta-height: clamp(34rem, 92svh, 56rem);
+  /* C'est LE titre display du site : il consomme directement l'echelle,
+     il ne la re-invente pas (c'etait clamp(3.6rem, 15vw, 11rem), la seule
+     taille de typo du site hors de --fs-*). */
+  --cta-display: var(--fs-display);
+  --cta-horizon: 61%;
+
+  position: relative;
+  isolation: isolate;
+
+  /* Pleine largeur SANS 100vw : sur desktop `100vw` inclut la largeur de la
+     barre de defilement verticale, la section depassait donc de ~8-17px et
+     se retrouvait rognee de travers par le `overflow-x: clip` de <html>.
+     La section est montee directement dans <main> (display: block) : une
+     largeur de 100% suffit et reste exacte a toutes les tailles. */
+  width: 100%;
+  max-width: 100%;
+
+  /* Le decor deborde volontairement : on le coupe ici. */
+  overflow: hidden;
+
+  display: grid;
+  place-items: center;
+  min-height: var(--cta-height);
+  /* Meme rythme vertical que les autres sections (l'ampleur du bloc vient
+     de --cta-height, pas d'un padding hors echelle en vh). */
+  padding-block: var(--sp-10);
+  background: var(--ink);
+  color: var(--text);
+}
+
+/* =========================================================
+   1. DECOR
+   ========================================================= */
+
+.backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-bg);
+  pointer-events: none;
+  /* Confine les mix-blend-mode des couches au decor. */
+  isolation: isolate;
+  background: var(--ink);
+}
+
+/* Degrade de secours : visible si /image/gen/cta-wide.jpg manque. */
+.fallback {
+  position: absolute;
+  inset: 0;
+  opacity: 0.4;
+}
+
+/* Le bandeau a un fond noir pur : `screen` (classe globale u-screen)
+   le fait disparaitre et ne laisse que la lumiere. */
+.image {
+  object-fit: cover;
+  object-position: 50% 42%;
+  opacity: 0.75;
+}
+
+/* Voile sombre : la photo doit rester tres assombrie. */
+.scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgb(var(--ink-rgb) / 0.72) 0%,
+    rgb(var(--ink-rgb) / 0.42) 38%,
+    rgb(var(--ink-rgb) / 0.66) 74%,
+    rgb(var(--ink-rgb) / 0.94) 100%
+  );
+}
+
+/* Teinte du degrade signature par-dessus l'image. */
+.tint {
+  position: absolute;
+  inset: 0;
+  background: var(--grad-signature);
+  opacity: 0.34;
+  mix-blend-mode: soft-light;
+}
+
+/* Halo rouge diffus, tres large, centre derriere le titre. */
+.glow {
+  position: absolute;
+  left: 50%;
+  top: var(--cta-horizon);
+  width: min(150vw, 90rem);
+  aspect-ratio: 1.6 / 1;
+  transform: translate(-50%, -55%);
+  background: var(--grad-radial-glow);
+  filter: blur(60px);
+  opacity: 0.85;
+  animation: ctaBreathe 16s var(--ease-in-out) infinite;
+}
+
+/* --- Cercles concentriques ------------------------------ */
+
+.rings {
+  position: absolute;
+  inset: -25%;
+  /* Trame fine de cercles, en plus des 4 anneaux explicites. */
+  background: repeating-radial-gradient(
+    circle at 50% 50%,
+    transparent 0 5.4rem,
+    rgb(var(--red-rgb) / 0.09) 5.4rem calc(5.4rem + 1px)
+  );
+  -webkit-mask-image: radial-gradient(
+    circle at 50% 50%,
+    #000 0%,
+    rgb(0 0 0 / 0.55) 40%,
+    transparent 70%
+  );
+  mask-image: radial-gradient(
+    circle at 50% 50%,
+    #000 0%,
+    rgb(0 0 0 / 0.55) 40%,
+    transparent 70%
+  );
+}
+
+.rings span {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgb(var(--red-rgb) / 0.18);
+  transform: translate(-50%, -50%);
+  animation: ctaRing 22s var(--ease-in-out) infinite;
+}
+
+.rings span:nth-child(1) {
+  width: clamp(13rem, 26vw, 26rem);
+  animation-delay: 0s;
+}
+
+.rings span:nth-child(2) {
+  width: clamp(20rem, 40vw, 40rem);
+  border-color: rgb(var(--red-soft-rgb) / 0.14);
+  animation-delay: -5.5s;
+}
+
+.rings span:nth-child(3) {
+  width: clamp(29rem, 58vw, 58rem);
+  border-color: rgb(var(--magenta-rgb) / 0.16);
+  animation-delay: -11s;
+}
+
+.rings span:nth-child(4) {
+  width: clamp(40rem, 82vw, 82rem);
+  border-color: rgb(var(--violet-rgb) / 0.4);
+  animation-delay: -16.5s;
+}
+
+/* --- Ligne d'horizon lumineuse -------------------------- */
+
+.horizon {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--cta-horizon);
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgb(var(--red-rgb) / 0.35) 16%,
+    var(--red-soft) 38%,
+    var(--paper) 50%,
+    var(--magenta) 64%,
+    rgb(var(--violet-rgb) / 0.5) 86%,
+    transparent 100%
+  );
+  opacity: 0.6;
+  animation: ctaHorizon 11s var(--ease-in-out) infinite;
+}
+
+/* Le renflement lumineux sous la ligne. */
+.horizon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: clamp(6rem, 14vh, 11rem);
+  transform: translateY(-50%);
+  background: radial-gradient(
+    60% 50% at 50% 50%,
+    rgb(var(--red-rgb) / 0.3) 0%,
+    rgb(var(--magenta-rgb) / 0.16) 45%,
+    transparent 78%
+  );
+  filter: blur(28px);
+}
+
+/* Fondu final vers --ink : la section se dissout dans le footer. */
+.fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: clamp(9rem, 26vh, 20rem);
+  background: var(--grad-fade-down);
+}
+
+/* =========================================================
+   2. REPERES DE COIN
+   ========================================================= */
+
+.corner {
+  position: absolute;
+  top: clamp(1.5rem, 4vh, 3rem);
+  z-index: var(--z-content);
+  color: var(--text-muted);
+  display: none;
+}
+
+.corner::before {
+  content: "";
+  display: inline-block;
+  width: clamp(1.5rem, 3vw, 3rem);
+  height: 1px;
+  margin-right: 0.85rem;
+  vertical-align: middle;
+  background: rgb(var(--red-rgb) / 0.5);
+}
+
+.cornerStart {
+  left: var(--gutter);
+}
+
+.cornerEnd {
+  right: var(--gutter);
+}
+
+@media (min-width: 900px) {
+  .corner {
+    display: block;
+  }
+}
+
+/* =========================================================
+   3. CONTENU
+   ========================================================= */
+
+.inner {
+  position: relative;
+  z-index: var(--z-content);
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  /* `viewportFit: cover` (layout.tsx) : on protege l'encoche en paysage. */
+  padding-inline: max(var(--gutter), env(safe-area-inset-left))
+    max(var(--gutter), env(safe-area-inset-right));
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  gap: clamp(1rem, 2.4vh, 1.9rem);
+}
+
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin: 0;
+  /* Comme tous les autres kickers du site (hero, gallery, shop, player). */
+  color: var(--red-soft);
+}
+
+.kickerDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: var(--glow-red-sm);
+  animation: ctaPulse 2.6s var(--ease-in-out) infinite;
+}
+
+/* --- Le titre le plus gros du site ---------------------- */
+
+.title {
+  display: grid;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--fw-black);
+  font-size: var(--cta-display);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.line {
+  display: block;
+}
+
+/* Deuxieme ligne remplie par le degrade signature.
+   `drop-shadow` plutot que `text-shadow` : sur un texte dont la couleur
+   est transparente (background-clip: text), text-shadow deborderait.
+   Valeurs = celles de --glow-text-md (un token multi-ombres ne peut pas
+   etre branche dans `drop-shadow()`). Strictement identiques a
+   `.titleAccent` du hero : les deux mots en degrade du site rayonnaient
+   avec deux recettes differentes. */
+.lineAccent {
+  background: var(--grad-signature-x);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 24px rgb(var(--red-rgb) / 0.45))
+    drop-shadow(0 0 60px rgb(var(--magenta-rgb) / 0.32));
+}
+
+.lede {
+  max-width: 44ch;
+  margin: 0;
+  font-size: var(--fs-lede);
+  line-height: var(--lh-body);
+  color: var(--text-dim);
+}
+
+/* --- Boutons -------------------------------------------- */
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--sp-3);
+  margin-top: var(--sp-2);
+  width: 100%;
+}
+
+.action {
+  padding-inline: clamp(1.4rem, 3vw, 2.4rem);
+}
+
+/* Sur les tres petits ecrans, les CTA s'empilent en pleine largeur. */
+@media (max-width: 520px) {
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+    max-width: 22rem;
+    margin-inline: auto;
+  }
+}
+
+.footnote {
+  margin: var(--sp-2) 0 0;
+  color: var(--text-muted);
+}
+
+/* =========================================================
+   4. ANIMATIONS
+   ========================================================= */
+
+@keyframes ctaBreathe {
+  0%,
+  100% {
+    opacity: 0.7;
+    transform: translate(-50%, -55%) scale(0.96);
+  }
+  50% {
+    opacity: 0.95;
+    transform: translate(-50%, -55%) scale(1.06);
+  }
+}
+
+@keyframes ctaRing {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: translate(-50%, -50%) scale(0.94);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+}
+
+@keyframes ctaHorizon {
+  0%,
+  100% {
+    opacity: 0.42;
+  }
+  50% {
+    opacity: 0.78;
+  }
+}
+
+@keyframes ctaPulse {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .glow,
+  .rings span,
+  .horizon,
+  .kickerDot {
+    animation: none;
+  }
+
+  .rings span {
+    opacity: 0.6;
+  }
+}
+
+/* =========================================================
+   5. AJUSTEMENTS RESPONSIVE
+   ========================================================= */
+
+/* Mobile : moins de hauteur, halo plus contenu, trame de cercles
+   resserree pour rester lisible sur 375px. */
+@media (max-width: 640px) {
+  .cta {
+    --cta-height: clamp(30rem, 88svh, 44rem);
+    --cta-horizon: 56%;
+  }
+
+  .rings {
+    background: repeating-radial-gradient(
+      circle at 50% 50%,
+      transparent 0 3.6rem,
+      rgb(var(--red-rgb) / 0.1) 3.6rem calc(3.6rem + 1px)
+    );
+  }
+
+  .image {
+    opacity: 0.6;
+  }
+}
+
+/* Tres grands ecrans : on evite que le titre devienne ridicule
+   par rapport a la largeur disponible. */
+@media (min-width: 1600px) {
+  .cta {
+    --cta-height: clamp(40rem, 88svh, 60rem);
+  }
+}

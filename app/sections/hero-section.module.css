@@ -1,0 +1,633 @@
+/* =========================================================
+   HERO — CELESTE FARD
+   Fond quasi-noir, halos rouges diffus, portrait detoure au
+   `mix-blend-mode: screen` qui deborde sur la section suivante.
+
+   REGLES D'EMPILEMENT (a ne pas casser) :
+   - `.hero` est le SEUL contexte d'empilement de la section
+     (`isolation: isolate` + `z-index: 1`). Son fond `--ink` sert
+     d'arriere-plan de fusion au portrait : c'est ce qui fait
+     disparaitre le fond noir pur de l'image.
+   - Aucun ancetre du portrait (`.inner`, `.visual`, `.media`) ne doit
+     recevoir `z-index`, `filter`, `opacity < 1`, `transform` ou `mask` :
+     cela recreerait un groupe isole et le rectangle noir reapparaitrait.
+   - L'ordre de peinture se joue donc en ORDRE DU DOM :
+     halos → contenu → vignette → grain.
+   ========================================================= */
+
+.hero {
+  position: relative;
+  z-index: 1; /* le debordement doit passer AU-DESSUS de la section suivante */
+  isolation: isolate; /* groupe de fusion du `screen` (cf. en-tete) */
+  display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+  min-height: calc(100svh - var(--site-header-h));
+  padding-block: var(--sp-8) var(--sp-9);
+  /* `viewportFit: cover` est actif dans layout.tsx : en paysage sur iPhone
+     le contenu passerait sous l'encoche sans ce max(). */
+  padding-inline: max(var(--gutter), env(safe-area-inset-left))
+    max(var(--gutter), env(safe-area-inset-right));
+  background: var(--ink);
+  overflow: visible; /* indispensable au debordement du portrait */
+}
+
+/* ---------------------------------------------------------
+   Halos d'ambiance
+   --------------------------------------------------------- */
+
+.hero .haloTop {
+  top: -20%;
+  right: -6%;
+  width: min(112%, 54rem);
+  aspect-ratio: 1;
+  animation: heroHaloPulse 15s var(--ease-in-out) infinite alternate;
+}
+
+.hero .haloBottom {
+  bottom: -28%;
+  left: -12%;
+  width: min(92%, 42rem);
+  aspect-ratio: 1;
+  background: var(--grad-radial-glow-soft);
+  filter: blur(60px);
+  animation: heroHaloPulse 21s var(--ease-in-out) infinite alternate-reverse;
+}
+
+@keyframes heroHaloPulse {
+  from {
+    transform: scale(1);
+    opacity: 0.62;
+  }
+  to {
+    transform: scale(1.14);
+    opacity: 1;
+  }
+}
+
+/* ---------------------------------------------------------
+   Grille
+   --------------------------------------------------------- */
+
+.inner {
+  position: relative; /* z-index: auto — VOLONTAIRE (cf. en-tete) */
+  display: grid;
+  gap: var(--sp-6);
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+}
+
+@media (min-width: 960px) {
+  .inner {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    align-items: center;
+    gap: var(--sp-5);
+  }
+}
+
+/* ---------------------------------------------------------
+   Colonne texte
+   --------------------------------------------------------- */
+
+.copy {
+  display: grid;
+  justify-items: start;
+  gap: var(--sp-4);
+}
+
+.kicker,
+.title,
+.lede,
+.ctaRow,
+.pills {
+  animation: heroRise var(--dur-slow) var(--ease-out) both;
+}
+
+.kicker {
+  animation-delay: 60ms;
+}
+.title {
+  animation-delay: 150ms;
+}
+.lede {
+  animation-delay: 280ms;
+}
+.ctaRow {
+  animation-delay: 380ms;
+}
+.pills {
+  animation-delay: 480ms;
+}
+
+@keyframes heroRise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 26px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin: 0;
+  color: var(--red-soft);
+}
+
+.kickerDot {
+  display: block;
+  width: 7px;
+  height: 7px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: var(--glow-red-sm);
+  animation: heroPulseDot 2.8s var(--ease-in-out) infinite;
+}
+
+@keyframes heroPulseDot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(0.72);
+  }
+}
+
+/* --- Titre display ENORME --- */
+
+.title {
+  display: grid;
+  justify-items: start;
+  margin: 0;
+  font-family: var(--font-display);
+  /* Volontairement plus contenu que --fs-display : le titre vit dans une
+     colonne de grille, pas sur toute la largeur de page. */
+  font-size: clamp(3.4rem, 9.2vw, 8.4rem);
+  font-weight: var(--fw-black);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+  text-wrap: nowrap;
+}
+
+.titleLine {
+  display: block;
+  color: var(--paper);
+  /* Glow de titre standard du site (cf. gallery, shop, player, marquee). */
+  text-shadow: var(--glow-text-md);
+}
+
+/* Le glow du mot en degrade passe par `drop-shadow` : `text-shadow` serait
+   masque par le `background-clip: text` de `.u-grad-text`.
+   Les valeurs reproduisent EXACTEMENT --glow-text-md (impossible de brancher
+   un token multi-ombres dans `drop-shadow()`), pour que le mot en degrade
+   rayonne comme les lignes pleines. Meme recette dans cta-section. */
+.titleAccent {
+  text-shadow: none;
+  filter: drop-shadow(0 0 24px rgb(var(--red-rgb) / 0.45))
+    drop-shadow(0 0 60px rgb(var(--magenta-rgb) / 0.32));
+}
+
+/* --- Paragraphe --- */
+
+.lede {
+  max-width: 42ch;
+  margin: 0;
+  font-size: var(--fs-lede);
+  line-height: var(--lh-body);
+  color: var(--text-dim);
+}
+
+/* --- Boutons --- */
+
+.ctaRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  margin-top: var(--sp-1);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.95rem 1.85rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-small);
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  white-space: nowrap;
+  color: var(--paper);
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-mid) ease,
+    background var(--dur-fast) ease,
+    border-color var(--dur-fast) ease;
+}
+
+.cta:hover {
+  transform: translateY(-2px);
+}
+
+.cta:active {
+  transform: translateY(0);
+}
+
+.ctaPrimary {
+  background: var(--grad-signature-x);
+  box-shadow: var(--glow-red-md);
+}
+
+.ctaPrimary:hover {
+  box-shadow: var(--glow-red-lg);
+}
+
+.ctaGhost {
+  background: rgb(var(--paper-rgb) / 0.04);
+  border-color: var(--line-strong);
+  color: var(--text);
+}
+
+.ctaGhost:hover {
+  background: rgb(var(--paper-rgb) / 0.09);
+  border-color: rgb(var(--red-rgb) / 0.65);
+  box-shadow: var(--glow-red-sm);
+}
+
+/* --- Pastilles glass --- */
+
+.pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin: var(--sp-1) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 2 classes : bat les valeurs de `.u-glass` / `.u-micro` sans !important. */
+.pills .pill {
+  padding: 0.58rem 1.05rem;
+  border-radius: var(--radius-pill);
+  box-shadow: none;
+  color: var(--text-dim);
+}
+
+/* ---------------------------------------------------------
+   Colonne portrait
+   --------------------------------------------------------- */
+
+.visual {
+  --hero-bleed: clamp(3rem, 15vh, 12rem);
+
+  position: relative; /* z-index: auto — VOLONTAIRE (cf. en-tete) */
+  /* Le debordement se fait EN HAUTEUR : la marge negative tire la section
+     suivante vers le haut, l'image reste dans les 100% de largeur. */
+  margin-bottom: calc(var(--hero-bleed) * -1);
+}
+
+.media {
+  position: relative;
+  width: 100%;
+  /* `aspect-ratio` est aussi pose en style inline depuis le slot (4 / 5) :
+     le cadre tient meme si le fichier .jpg manque. */
+  aspect-ratio: 4 / 5;
+}
+
+.mediaFallback {
+  position: absolute;
+  inset: 5% 4% 12%;
+  border-radius: 48% 52% 42% 58% / 58% 54% 46% 42%;
+  opacity: 0.55;
+  filter: blur(22px);
+}
+
+.portrait {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mediaFade {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 30%;
+  background: var(--grad-fade-down);
+  pointer-events: none;
+}
+
+/* --- Arc lumineux (ref NeonMorphic) --- */
+
+.arc,
+.arcGlow {
+  position: absolute;
+  top: 47%;
+  left: 50%;
+  width: min(124%, 44rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  background: conic-gradient(
+    from 205deg,
+    transparent 0deg,
+    rgb(var(--red-rgb) / 0) 34deg,
+    rgb(var(--red-soft-rgb) / 0.85) 96deg,
+    var(--red) 142deg,
+    var(--magenta) 196deg,
+    rgb(var(--violet-rgb) / 0) 262deg,
+    transparent 360deg
+  );
+  -webkit-mask: radial-gradient(
+    closest-side,
+    transparent 0 98.4%,
+    #000 98.7% 100%
+  );
+  mask: radial-gradient(closest-side, transparent 0 98.4%, #000 98.7% 100%);
+  animation: heroArcSpin 42s linear infinite;
+}
+
+.arc {
+  opacity: 0.9;
+}
+
+.arcGlow {
+  opacity: 0.5;
+  filter: blur(18px);
+}
+
+@keyframes heroArcSpin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* --- Cartes glass flottantes --- */
+
+.stats {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.stats .statCard {
+  position: absolute;
+  display: grid;
+  gap: 0.3rem;
+  min-width: 9.5rem;
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--radius-md);
+  animation: heroFloat 9s var(--ease-in-out) infinite alternate;
+}
+
+.stats .statCardA {
+  top: 9%;
+  left: -8%;
+}
+
+.stats .statCardB {
+  right: 1%;
+  bottom: 20%;
+  animation-duration: 11s;
+  animation-direction: alternate-reverse;
+}
+
+@keyframes heroFloat {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(0, -12px, 0);
+  }
+}
+
+.statValue {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.6vw, 2.25rem);
+  font-weight: var(--fw-black);
+  line-height: 1;
+  letter-spacing: var(--ls-title);
+  color: var(--paper);
+  text-shadow: var(--glow-text-sm);
+}
+
+.statUnit {
+  font-size: 0.42em;
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.02em;
+  color: var(--red-soft);
+  text-shadow: none;
+}
+
+.stats .statLabel {
+  color: var(--text-muted);
+}
+
+/* ---------------------------------------------------------
+   Indice de scroll
+   --------------------------------------------------------- */
+
+.scrollCue {
+  position: absolute;
+  bottom: var(--sp-5);
+  left: var(--gutter);
+  display: none;
+  align-items: center;
+  gap: 0.9rem;
+  pointer-events: none;
+}
+
+@media (min-width: 960px) {
+  .scrollCue {
+    display: flex;
+  }
+}
+
+.scrollLine {
+  position: relative;
+  display: block;
+  width: 4.5rem;
+  height: 1px;
+  overflow: hidden;
+  background: var(--line-strong);
+}
+
+.scrollLine::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  left: -45%;
+  width: 45%;
+  background: var(--red);
+  box-shadow: var(--glow-red-sm);
+  animation: heroScrollSweep 2.8s var(--ease-in-out) infinite;
+}
+
+@keyframes heroScrollSweep {
+  0% {
+    transform: translateX(0);
+  }
+  70%,
+  100% {
+    transform: translateX(340%);
+  }
+}
+
+/* ---------------------------------------------------------
+   Overlays : vignettage + grain
+   --------------------------------------------------------- */
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    128% 92% at 52% 40%,
+    transparent 42%,
+    rgb(var(--ink-rgb) / 0.34) 76%,
+    rgb(var(--ink-rgb) / 0.72) 100%
+  );
+}
+
+/* 2 classes : passe devant la valeur de `.u-noise-layer` quel que soit
+   l'ordre de chargement des feuilles. */
+.hero .grain {
+  opacity: 0.06;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+/* Grand ecran : le portrait mord legerement hors du conteneur a droite.
+   Valeur bornee pour rester DANS la gouttiere : zero scroll horizontal. */
+@media (min-width: 1080px) {
+  .visual {
+    margin-right: clamp(-4.5rem, -3.2vw, 0rem);
+  }
+}
+
+@media (max-width: 1080px) {
+  .stats .statCardA {
+    left: -4%;
+  }
+}
+
+/* Sous 960px la grille repasse en UNE colonne : sans plafond, le portrait
+   occuperait toute la largeur (828px de large, 1035px de haut a 900px de
+   viewport). On borne la colonne visuelle et on la centre. Le plafond est
+   pose sur .visual (et non sur .media) pour que les cartes flottantes,
+   positionnees en absolute par rapport a .visual, restent collees a
+   l'image. */
+@media (max-width: 959px) {
+  .visual {
+    max-width: 34rem;
+    margin-inline: auto;
+  }
+
+  /* Les cartes glass repassent SOUS l'image des la tablette : au-dessus
+     elles mordent sur le visage sur une colonne unique et etroite. */
+  .stats {
+    position: static;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-3);
+    margin-top: var(--sp-4);
+    pointer-events: auto;
+  }
+
+  .stats .statCard {
+    position: static;
+    min-width: 0;
+    animation: none;
+  }
+}
+
+/* Tablette : debordement reduit. */
+@media (max-width: 900px) {
+  .visual {
+    margin-bottom: calc(var(--hero-bleed) * -0.4);
+  }
+}
+
+/* Mobile : plus de debordement du tout. */
+@media (max-width: 720px) {
+  .hero {
+    padding-block: var(--sp-7) var(--sp-8);
+    min-height: 100vh;
+    min-height: 100svh;
+  }
+
+  .visual {
+    margin-bottom: 0;
+    margin-right: 0;
+    max-width: 30rem;
+  }
+
+  .arc,
+  .arcGlow {
+    width: min(118%, 26rem);
+    opacity: 0.6;
+  }
+
+  .title {
+    /* Sur tres petit ecran, on autorise le retour a la ligne plutot que
+       la coupe : aucun debordement horizontal possible. */
+    text-wrap: balance;
+  }
+
+  .cta {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+}
+
+/* =========================================================
+   ACCESSIBILITE — mouvement reduit
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .kicker,
+  .title,
+  .lede,
+  .ctaRow,
+  .pills {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .hero .haloTop,
+  .hero .haloBottom,
+  .kickerDot,
+  .arc,
+  .arcGlow,
+  .stats .statCard,
+  .scrollLine::after {
+    animation: none;
+  }
+
+  .cta:hover {
+    transform: none;
+  }
+}
