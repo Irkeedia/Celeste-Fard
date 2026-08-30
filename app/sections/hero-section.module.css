@@ -44,9 +44,10 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* En 9:16 sur un ecran large, le cadrage se recentre sur le sujet
-     plutot que sur le milieu geometrique. */
-  object-position: 50% 28%;
+  /* En portrait, le conteneur est plus etroit que le 9:16 de la video :
+     c'est la LARGEUR qui est rognee, le Y n'a donc quasiment aucun effet.
+     On reste centre. */
+  object-position: 50% 30%;
   filter: saturate(0.85) contrast(1.06) brightness(0.62);
 }
 
@@ -338,7 +339,12 @@
   }
 
   .video {
-    object-position: 62% 30%;
+    /* Cadrage verifie par simulation sur le poster : a 1440x900 la zone
+       visible couvre 20% - 53% de la video, ce qui centre le visage et
+       garde le regard dans le cadre. Remonter davantage (8%) coupait au
+       niveau des yeux — le visage est au centre du plan, pas en haut.
+       Le X n'agit pas en paysage (aucun debordement horizontal). */
+    object-position: 50% 30%;
   }
 
   .veil {
