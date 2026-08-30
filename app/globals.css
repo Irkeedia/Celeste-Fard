@@ -1127,6 +1127,16 @@ body.nav-menu-open {
   transition: color var(--dur-fast) ease;
 }
 
+/* Au doigt, ces liens ne faisaient que 22px de haut : sous le seuil de
+   confort tactile. On agrandit la cible sans changer le rendu visuel. */
+@media (pointer: coarse) {
+  .site-footer-nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
 .site-footer-nav a::after {
   content: "";
   position: absolute;
