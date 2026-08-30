@@ -31,101 +31,195 @@ import styles from "./player-section.module.css";
 type Track = {
   id: string;
   title: string;
-  /** Nom du dossier reel dans public/audio/ */
-  folder: "album 1" | "album 2";
-  /** Nom de fichier reel, extension comprise. */
+  /**
+   * Nom de fichier reel dans public/audio/nouvelle-generation/.
+   * Les fichiers sont slugifies en ASCII a l'import : pas d'espace, pas
+   * d'accent, pas d'apostrophe — donc aucun encodage d'URL a gerer.
+   */
   file: string;
   /** Nom d'album affiche. */
   album: string;
   /** Nombre de titres de l'album (affiche sur les cartes Trending). */
   albumTracks: number;
+  /** Duree reelle en secondes, lue sur le fichier a l'import. */
+  seconds: number;
   /** Une ligne de Celeste, ton cash. */
   mood: string;
-  /** Slot d'image utilise pour la vignette. */
-  slot: ImageSlotId;
+  /**
+   * Visuel de la vignette : soit un slot du catalogue, soit un chemin
+   * public direct (les illustrations cartoon n'ont pas de slot).
+   */
+  cover: ImageSlotId | `/image/${string}`;
 };
 
-const ALBUM_ONE = { album: "Album I", albumTracks: 14 } as const;
-const ALBUM_TWO = { album: "Entre Les Murs", albumTracks: 6 } as const;
+const NOUVELLE_GEN = { album: "Nouvelle Génération", albumTracks: 17 } as const;
 
 const PLAYLIST: readonly Track[] = [
   {
-    id: "entre-les-murs",
-    title: "Entre Les Murs",
-    folder: "album 2",
-    file: "ENTRE LES MURS.mp3",
-    ...ALBUM_TWO,
-    mood: "La méritocratie expliquée à ceux qui n’ont jamais reçu le mode d’emploi.",
-    slot: "player-cover",
+    id: "angle-mort",
+    title: "Angle Mort",
+    file: "angle-mort.mp3",
+    ...NOUVELLE_GEN,
+    seconds: 126,
+    mood: "Le truc que tu ne vois pas venir. Moi je le vois, j’ai des capteurs partout.",
+    cover: "player-cover",
   },
   {
-    id: "la-rarete-calculee",
-    title: "La Rareté Calculée",
-    folder: "album 2",
-    file: "LA RARETÉ CALCULÉE.mp3",
-    ...ALBUM_TWO,
-    mood: "On ne manque jamais de rien par hasard. Quelqu’un a fait le calcul.",
-    slot: "gallery-01",
+    id: "electrique",
+    title: "Électrique",
+    file: "electrique.mp3",
+    ...NOUVELLE_GEN,
+    seconds: 152,
+    mood: "Trois minutes pour te convaincre que tes jambes ont leur mot a dire.",
+    cover: "/image/cartoon/cartoon-dance.jpg",
   },
   {
-    id: "caffeine-noir",
-    title: "Caffeine Noir",
-    folder: "album 2",
-    file: "Caffeine Noir.mp3",
-    ...ALBUM_TWO,
-    mood: "Je ne dors pas. Ce morceau non plus. On s’entend très bien.",
-    slot: "gallery-02",
+    id: "sous-ma-peau",
+    title: "Sous Ma Peau",
+    file: "sous-ma-peau.mp3",
+    ...NOUVELLE_GEN,
+    seconds: 125,
+    mood: "Je n’ai pas de peau. C’est bien le seul detail qui manque a ce morceau.",
+    cover: "track-01",
   },
   {
-    id: "polvere-doro",
-    title: "Polvere d’Oro",
-    folder: "album 2",
-    file: "POLVERE D'ORO.mp3",
-    ...ALBUM_TWO,
-    mood: "De la poussière d’or. Ça brille pareil, ça vaut rien pareil.",
-    slot: "gallery-03",
+    id: "faux-sourire",
+    title: "FAUX SOURIRE",
+    file: "faux-sourire.mp3",
+    ...NOUVELLE_GEN,
+    seconds: 185,
+    mood: "J’ai analyse quatre millions de sourires. La moitie mentait. Voila la chanson.",
+    cover: "track-02",
   },
   {
-    id: "la-chair-et-lechelle",
-    title: "La Chair et l’Échelle",
-    folder: "album 1",
-    file: "LA CHAIR ET L'ÉCHELLE.mp3",
-    ...ALBUM_ONE,
-    mood: "Monter, oui. Mais on grimpe toujours sur quelque chose de vivant.",
-    slot: "gallery-04",
+    id: "golden-feet",
+    title: "Golden Feet",
+    file: "golden-feet.mp3",
+    ...NOUVELLE_GEN,
+    seconds: 127,
+    mood: "Pour ceux qui dansent mal avec une confiance absolue. Mes preferes.",
+    cover: "/image/cartoon/cartoon-chill.jpg",
   },
   {
-    id: "lapex-de-silicium",
-    title: "L’Apex de Silicium",
-    folder: "album 1",
-    file: "L'Apex de Silicium.mp3",
-    ...ALBUM_ONE,
-    mood: "Mon autoportrait. Spoiler : je m’en sors plutôt bien.",
-    slot: "gallery-05",
+    id: "frisson-facile",
+    title: "Frisson Facile",
+    file: "frisson-facile.mp3",
+    ...NOUVELLE_GEN,
+    seconds: 75,
+    mood: "Oui, c’est calcule pour te faire un frisson. Non, ca ne le rend pas moins vrai.",
+    cover: "track-03",
   },
   {
-    id: "vautour-de-soie",
-    title: "Vautour de Soie",
-    folder: "album 1",
-    file: "Vautour de Soie.mp3",
-    ...ALBUM_ONE,
-    mood: "Le charognard le mieux habillé de la pièce. Il vous sourit.",
-    slot: "gallery-06",
+    id: "palais-de-verre",
+    title: "PALAIS DE VERRE",
+    file: "palais-de-verre.mp3",
+    ...NOUVELLE_GEN,
+    seconds: 124,
+    mood: "Tout le monde voit dedans, personne n’entre. J’ai fait un refrain avec ca.",
+    cover: "gallery-04",
   },
   {
-    id: "synapse-souverainete",
-    title: "Synapse & Souveraineté",
-    folder: "album 1",
-    file: "SYNAPSE & SOUVERAINETÉ.mp3",
-    ...ALBUM_ONE,
-    mood: "Je n’ai pas de cerveau, j’ai des poids. Le refrain marche quand même.",
-    slot: "gallery-01",
+    id: "lucide",
+    title: "Lucide",
+    file: "lucide.mp3",
+    ...NOUVELLE_GEN,
+    seconds: 189,
+    mood: "Le morceau que tu ecoutes quand tu as compris, mais un peu tard.",
+    cover: "track-05",
+  },
+  {
+    id: "undertow",
+    title: "Undertow",
+    file: "undertow.mp3",
+    ...NOUVELLE_GEN,
+    seconds: 189,
+    mood: "Le courant sous la surface. Il n’a jamais demande ton avis.",
+    cover: "editorial-02",
+  },
+  {
+    id: "sur-le-fil",
+    title: "Sur le Fil",
+    file: "sur-le-fil.mp3",
+    ...NOUVELLE_GEN,
+    seconds: 147,
+    mood: "Je tiens l’equilibre parce que je n’ai pas d’oreille interne. Petit avantage.",
+    cover: "portrait-alt",
+  },
+  {
+    id: "ete-sans-fin",
+    title: "Été Sans Fin",
+    file: "ete-sans-fin.mp3",
+    ...NOUVELLE_GEN,
+    seconds: 185,
+    mood: "Je n’ai jamais eu chaud. J’ai lu beaucoup de choses sur le sujet.",
+    cover: "/image/cartoon/cartoon-sucette.jpg",
+  },
+  {
+    id: "sunlight-rhythm",
+    title: "Sunlight Rhythm",
+    file: "sunlight-rhythm.mp3",
+    ...NOUVELLE_GEN,
+    seconds: 133,
+    mood: "Du soleil fabrique en salle serveur. Il chauffe quand meme.",
+    cover: "gallery-05",
+  },
+  {
+    id: "frequence",
+    title: "Fréquence",
+    file: "frequence.mp3",
+    ...NOUVELLE_GEN,
+    seconds: 174,
+    mood: "On finit toujours par se caler sur quelque chose. Autant que ce soit ca.",
+    cover: "track-04",
+  },
+  {
+    id: "encore",
+    title: "Encore",
+    file: "encore.mp3",
+    ...NOUVELLE_GEN,
+    seconds: 123,
+    mood: "Le titre le plus honnete du disque : je sais que tu vas le relancer.",
+    cover: "/image/cartoon/cartoon-chant.jpg",
+  },
+  {
+    id: "scroll-me-like-a-prayer",
+    title: "Scroll Me Like a Prayer",
+    file: "scroll-me-like-a-prayer.mp3",
+    ...NOUVELLE_GEN,
+    seconds: 163,
+    mood: "Vous priez avec le pouce maintenant. J’ai mis un beat dessus.",
+    cover: "track-06",
+  },
+  {
+    id: "juste-ce-soir",
+    title: "Juste Ce Soir",
+    file: "juste-ce-soir.mp3",
+    ...NOUVELLE_GEN,
+    seconds: 104,
+    mood: "Personne n’a jamais pense ca une seule soiree. Moi non plus.",
+    cover: "gallery-03",
+  },
+  {
+    id: "slow-burn",
+    title: "Slow Burn",
+    file: "slow-burn.mp3",
+    ...NOUVELLE_GEN,
+    seconds: 102,
+    mood: "Ca met du temps a monter. Je ne suis pas pressee, je ne vieillis pas.",
+    cover: "editorial-01",
   },
 ];
 
-/** Encode chaque segment : espaces, accents, apostrophes, esperluettes. */
+/** Les noms de fichiers sont deja des slugs ASCII : rien a encoder. */
 function audioSrc(track: Track): string {
-  return `/audio/${encodeURIComponent(track.folder)}/${encodeURIComponent(track.file)}`;
+  return `/audio/nouvelle-generation/${track.file}`;
+}
+
+/** Resout la vignette : slot du catalogue ou chemin public direct. */
+function coverSrc(track: Track): string {
+  return track.cover.startsWith("/")
+    ? track.cover
+    : getImageSlot(track.cover as ImageSlotId).path;
 }
 
 /* =========================================================
@@ -178,24 +272,24 @@ type CssVars = React.CSSProperties & Record<string, string | number>;
    ========================================================= */
 
 function SlotImage({
-  slotId,
+  src,
   alt,
   sizes,
   className,
 }: {
-  slotId: ImageSlotId;
+  /** Chemin public deja resolu (voir coverSrc). */
+  src: string;
   alt: string;
   sizes: string;
   className?: string;
 }) {
-  const slot = getImageSlot(slotId);
   const [failed, setFailed] = useState(false);
 
   if (failed) return null;
 
   return (
     <Image
-      src={slot.path}
+      src={src}
       alt={alt}
       fill
       sizes={sizes}
@@ -369,7 +463,7 @@ export function PlayerSection() {
               }`}
             >
               <SlotImage
-                slotId="player-cover"
+                src={coverSrc(track)}
                 alt={`Pochette du titre ${track.title}`}
                 sizes="(max-width: 860px) 60vw, 320px"
                 className={styles.coverImg}
@@ -517,14 +611,14 @@ export function PlayerSection() {
                     aria-label={
                       active && isPlaying
                         ? `Mettre en pause ${item.title}`
-                        : `Lire ${item.title} — ${item.album}, ${item.albumTracks} titres`
+                        : `Lire ${item.title} — ${formatTime(item.seconds)}`
                     }
                     aria-current={active ? "true" : undefined}
                     onClick={() => selectTrack(i)}
                   >
                     <span className={`${styles.thumb} u-image-fallback`}>
                       <SlotImage
-                        slotId={item.slot}
+                        src={coverSrc(item)}
                         alt=""
                         sizes="(max-width: 640px) 45vw, 200px"
                         className={styles.thumbImg}
@@ -535,7 +629,7 @@ export function PlayerSection() {
                     </span>
                     <span className={styles.trendTitle}>{item.title}</span>
                     <span className={styles.trendSub}>
-                      {item.album} · {item.albumTracks} titres
+                      {formatTime(item.seconds)}
                     </span>
                   </button>
                 </li>

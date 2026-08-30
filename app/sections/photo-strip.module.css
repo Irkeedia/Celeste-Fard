@@ -1,0 +1,175 @@
+/* =========================================================
+   PHOTO STRIP — deux rubans d'images en defilement continu.
+
+   Le defilement repose sur une regle simple : la liste est
+   dupliquee une fois dans le TSX, et l'animation translate
+   la piste de exactement -50%. A la fin du cycle, la copie
+   se trouve pile ou etait l'original -> boucle invisible.
+   ========================================================= */
+
+.strip {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden; /* contient les halos et les pistes */
+  padding-block: var(--sp-9);
+  background: linear-gradient(180deg, var(--ink), var(--ink-2) 50%, var(--ink));
+}
+
+/* Halo rouge diffus derriere les rubans. */
+.halo {
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 50%;
+  width: min(120rem, 160%);
+  aspect-ratio: 2 / 1;
+  translate: -50% -50%;
+  background: radial-gradient(
+    ellipse at center,
+    rgb(var(--red-rgb) / 0.18),
+    rgb(var(--magenta-rgb) / 0.08) 45%,
+    transparent 70%
+  );
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+/* --- En-tete ------------------------------------------- */
+
+.head {
+  max-width: var(--maxw);
+  margin-inline: auto;
+  margin-bottom: var(--sp-7);
+  padding-inline: var(--gutter);
+  text-align: center;
+}
+
+.title {
+  margin-block: var(--sp-2) var(--sp-3);
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  line-height: var(--lh-title);
+  letter-spacing: var(--ls-title);
+  text-transform: uppercase;
+}
+
+/* Second mot en contour : meme jeu que les autres sections. */
+.titleGhost {
+  color: transparent;
+  -webkit-text-stroke: 1px rgb(var(--paper-rgb) / 0.45);
+}
+
+.lede {
+  max-width: 46ch;
+  margin-inline: auto;
+  color: var(--text-dim);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+/* --- Rubans -------------------------------------------- */
+
+.row {
+  --fade: clamp(2rem, 8vw, 9rem);
+  position: relative;
+  overflow: hidden;
+  /* Les bords s'evanouissent : le ruban n'a pas de debut ni de fin visible. */
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 var(--fade),
+    #000 calc(100% - var(--fade)),
+    transparent
+  );
+}
+
+.row + .row {
+  margin-top: var(--sp-3);
+}
+
+.track {
+  display: flex;
+  gap: var(--sp-3);
+  width: max-content;
+  padding-inline: calc(var(--sp-3) / 2);
+  animation: strip-scroll 64s linear infinite;
+}
+
+.trackReverse {
+  animation-direction: reverse;
+}
+
+/* Au survol on ralentit fortement plutot que de figer net :
+   l'arret brutal donne l'impression d'un bug. */
+.strip:hover .track {
+  animation-duration: 190s;
+}
+
+@keyframes strip-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.item {
+  position: relative;
+  flex: 0 0 auto;
+  width: clamp(9rem, 18vw, 15rem);
+  aspect-ratio: 4 / 5;
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--ink-2);
+  transition:
+    border-color var(--dur-fast) ease,
+    box-shadow var(--dur-fast) ease;
+}
+
+.item:hover {
+  border-color: rgb(var(--red-rgb) / 0.55);
+  box-shadow: var(--glow-red-sm);
+}
+
+.img {
+  object-fit: cover;
+  /* Les visuels sont volontairement desatures au repos : le ruban ne doit
+     pas rivaliser avec le hero et la galerie, qui portent la couleur. */
+  filter: saturate(0.72) contrast(1.06);
+  transition: filter var(--dur-slow) var(--ease-out), scale var(--dur-slow) var(--ease-out);
+}
+
+.item:hover .img {
+  filter: saturate(1) contrast(1);
+  scale: 1.05;
+}
+
+/* --- Accessibilite / petits ecrans --------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none;
+    /* Sans animation, la piste dupliquee deborderait : on la rend
+       simplement parcourable au doigt / a la molette. */
+    width: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .item {
+    scroll-snap-align: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .track {
+    animation-duration: 46s;
+  }
+
+  .item {
+    width: clamp(8rem, 40vw, 11rem);
+  }
+}

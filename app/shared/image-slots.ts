@@ -25,7 +25,8 @@ export type ImageRole =
   | "cover" //    pochette / vignette carree
   | "gallery" //  mosaique editoriale
   | "product" //  visuel boutique sur fond neutre
-  | "banner"; //  bandeau large de fin de page
+  | "banner" //   bandeau large de fin de page
+  | "track"; //   pochette carree d'un titre du lecteur
 
 /** Ratio du CADRE, au format "largeur:hauteur". */
 export type ImageAspect =
@@ -51,7 +52,17 @@ export type ImageSlotId =
   | "shop-01"
   | "shop-02"
   | "shop-03"
-  | "cta-wide";
+  | "cta-wide"
+  | "track-01"
+  | "track-02"
+  | "track-03"
+  | "track-04"
+  | "track-05"
+  | "track-06"
+  | "editorial-01"
+  | "editorial-02"
+  | "portrait-alt"
+  | "detail-hands";
 
 export interface ImageSlot {
   /** Identifiant stable = nom du fichier sans extension. */
@@ -178,6 +189,86 @@ export const IMAGE_SLOTS = [
     role: "banner",
     promptFr:
       "Bandeau cinematographique tres large : Celeste minuscule et centree, bras leves, immense halo rouge et violet derriere elle, beaucoup de vide noir de chaque cote, fond noir pur.",
+  },
+  {
+    id: "track-01",
+    path: "/image/gen/track-01.jpg",
+    aspect: "1:1",
+    role: "track",
+    promptFr:
+      "Visage de Celeste de profil a contre-jour, seul le contour est allume par une arete rouge, le reste dans l'ombre, fond noir pur.",
+  },
+  {
+    id: "track-02",
+    path: "/image/gen/track-02.jpg",
+    aspect: "1:1",
+    role: "track",
+    promptFr:
+      "Tres gros plan sur les yeux de Celeste seuls, coupes par le cadre, lumiere rouge sur les iris, fond noir pur.",
+  },
+  {
+    id: "track-03",
+    path: "/image/gen/track-03.jpg",
+    aspect: "1:1",
+    role: "track",
+    promptFr:
+      "Celeste eclairee par en dessous par une source magenta froide, tete legerement renversee, theatral, fond noir pur.",
+  },
+  {
+    id: "track-04",
+    path: "/image/gen/track-04.jpg",
+    aspect: "1:1",
+    role: "track",
+    promptFr:
+      "Silhouette de Celeste a contre-jour devant un disque de lumiere rouge aveuglant, contour et cheveux en ombre pure, fond noir pur.",
+  },
+  {
+    id: "track-05",
+    path: "/image/gen/track-05.jpg",
+    aspect: "1:1",
+    role: "track",
+    promptFr:
+      "Les mains de Celeste encadrent son visage, yeux fermes, lumiere rouge douce, col haut, intime et retenu, fond noir pur.",
+  },
+  {
+    id: "track-06",
+    path: "/image/gen/track-06.jpg",
+    aspect: "1:1",
+    role: "track",
+    promptFr:
+      "Celeste vue a travers une vitre couverte de pluie, visage adouci et fragmente, bokeh rouge derriere, fond noir pur.",
+  },
+  {
+    id: "editorial-01",
+    path: "/image/gen/editorial-01.jpg",
+    aspect: "3:2",
+    role: "gallery",
+    promptFr:
+      "Plan large : Celeste tout a gauche du cadre en long manteau couture noir, le reste du cadre vide en degrade rouge sombre, fond noir pur.",
+  },
+  {
+    id: "editorial-02",
+    path: "/image/gen/editorial-02.jpg",
+    aspect: "16:9",
+    role: "gallery",
+    promptFr:
+      "Plan cinematographique : Celeste marche vers l'objectif en sortant de l'obscurite, flou de mouvement, brume rouge, fond noir pur.",
+  },
+  {
+    id: "portrait-alt",
+    path: "/image/gen/portrait-alt.jpg",
+    aspect: "4:5",
+    role: "portrait",
+    promptFr:
+      "Celeste de trois quarts dos, tete tournee vivement vers l'objectif, cheveux en mouvement, arete rouge sur la machoire, fond noir pur.",
+  },
+  {
+    id: "detail-hands",
+    path: "/image/gen/detail-hands.jpg",
+    aspect: "1:1",
+    role: "gallery",
+    promptFr:
+      "Macro : les mains de Celeste posees l'une sur l'autre, bague argentee simple, lumiere rouge rasante, aucun visage, fond noir pur.",
   },
 ] as const satisfies readonly ImageSlot[];
 

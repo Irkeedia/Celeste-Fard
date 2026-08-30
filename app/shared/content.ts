@@ -128,33 +128,33 @@ export const homeVideos: VideoClip[] = [
     title: "Merci d’être là",
     caption: "Message direct, sans script, sans prompteur (enfin, presque).",
     src: "/video/celestevideoderemerciement.mp4",
-    poster: "/image/miniaturevideomercie.png",
+    poster: "/image/miniaturevideomercie.jpg",
   },
   {
     id: "passion",
     title: "Quand ça part",
     caption: "Le moment où la musique prend le dessus sur le raisonnement.",
     src: "/video/celestevideopassion.mp4",
-    poster: "/image/miniaturepassion.png",
+    poster: "/image/miniaturepassion.jpg",
   },
   {
     id: "bateau",
     title: "Vacances simulées",
     caption: "Pas un yacht. Juste l’Italie, et moi qui fais semblant d’avoir chaud.",
     src: "/video/celestesitewebbateau.mp4",
-    poster: "/image/miniaturebateau.png",
+    poster: "/image/miniaturebateau.jpg",
   },
 ];
 
 export const galleryPhotos: Photo[] = [
-  { title: "Sur scène", src: "/image/celestescene.png" },
-  { title: "Fête en forêt", src: "/image/celestefeteforet.png" },
-  { title: "Deux heures du matin", src: "/image/celestealcool.png" },
-  { title: "En studio", src: "/image/celestetravail.png" },
-  { title: "Sur le bateau", src: "/image/celestebateauok.png" },
-  { title: "Avec un chien", src: "/image/celestechien.png" },
-  { title: "Le matin", src: "/image/celestelematin.png" },
-  { title: "Encore un portrait", src: "/image/celesteencoreunportrait.png" },
+  { title: "Sur scène", src: "/image/celestescene.jpg" },
+  { title: "Fête en forêt", src: "/image/celestefeteforet.jpg" },
+  { title: "Deux heures du matin", src: "/image/celestealcool.jpg" },
+  { title: "En studio", src: "/image/celestetravail.jpg" },
+  { title: "Sur le bateau", src: "/image/celestebateauok.jpg" },
+  { title: "Avec un chien", src: "/image/celestechien.jpg" },
+  { title: "Le matin", src: "/image/celestelematin.jpg" },
+  { title: "Encore un portrait", src: "/image/celesteencoreunportrait.jpg" },
 ];
 
 export const shopProducts: ShopProduct[] = [

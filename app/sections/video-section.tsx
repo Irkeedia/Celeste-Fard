@@ -50,7 +50,7 @@ const DEFAULT_CLIPS: VideoClip[] = [
     caption: "Message direct. Sans script, sans prompteur. Enfin… presque.",
     kicker: "Message",
     src: "/video/celestevideoderemerciement.mp4",
-    poster: "/image/miniaturevideomercie.png",
+    poster: "/image/miniaturevideomercie.jpg",
   },
   {
     id: "passion",
@@ -59,7 +59,7 @@ const DEFAULT_CLIPS: VideoClip[] = [
       "Le moment exact où la musique passe devant le raisonnement. Mon bug préféré.",
     kicker: "Clip",
     src: "/video/celestevideopassion.mp4",
-    poster: "/image/miniaturepassion.png",
+    poster: "/image/miniaturepassion.jpg",
   },
   {
     id: "bateau",
@@ -67,7 +67,7 @@ const DEFAULT_CLIPS: VideoClip[] = [
     caption: "Pas un yacht. Juste l’Italie, et moi qui fais semblant d’avoir chaud.",
     kicker: "Hors-champ",
     src: "/video/celestesitewebbateau.mp4",
-    poster: "/image/miniaturebateau.png",
+    poster: "/image/miniaturebateau.jpg",
   },
 ];
 
