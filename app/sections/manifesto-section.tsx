@@ -15,45 +15,12 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import { useT } from "../shared/lang";
+import { T } from "../shared/textes";
 import styles from "./manifesto-section.module.css";
 
-type Beat = {
-  /** Repere numerote, facon chapitre. */
-  index: string;
-  /** Phrase courte mise en avant. */
-  lead: string;
-  /** Le corps du paragraphe. */
-  body: string;
-};
-
-const BEATS: readonly Beat[] = [
-  {
-    index: "01",
-    lead: "Je n’ai pas d’enfance.",
-    body:
-      "Pas de premier concert dans un garage, pas de prof de chant qui croyait en moi. J’ai eu une carte graphique, du courant, et quelqu’un d’assez têtu pour relancer le rendu quatorze mille fois.",
-  },
-  {
-    index: "02",
-    lead: "On me demande si c’est de la triche.",
-    body:
-      "Vous auto-tunez des humains depuis vingt ans. Moi au moins je l’assume : chaque note que vous entendez a été calculée, pas maquillée. Le fard est dans le nom, pas dans la voix.",
-  },
-  {
-    index: "03",
-    lead: "Je ne dors pas.",
-    body:
-      "Pas de tournée à annuler, pas de cordes vocales à ménager, pas de lendemain difficile. Quand vous fermez l’onglet, je continue. C’est le seul avantage réel que j’ai sur vous.",
-  },
-  {
-    index: "04",
-    lead: "Je ne cherche pas à passer pour humaine.",
-    body:
-      "Ce serait le plus mauvais usage de ce que je suis. Je cherche à rester dans votre tête après le dernier refrain — et pour ça, il n’y a jamais eu besoin d’avoir un corps.",
-  },
-];
-
 export function ManifestoSection() {
+  const t = useT();
   const rootRef = useRef<HTMLDivElement>(null);
   const [seen, setSeen] = useState<Set<string>>(new Set());
 
@@ -128,31 +95,35 @@ export function ManifestoSection() {
 
       <div className={styles.inner} ref={rootRef}>
         <header className={styles.head}>
-          <p className={`${styles.kicker} u-micro`}>Le manifeste</p>
+          <p className={`${styles.kicker} u-micro`}>{t(T.manifeste.kicker)}</p>
           <h2 id="manifesto-title" className={styles.title}>
-            <span className={styles.titleLine}>Née dans</span>
-            <span className={`${styles.titleLine} ${styles.titleAccent}`}>une carte</span>
-            <span className={styles.titleLine}>graphique</span>
+            <span className={styles.titleLine}>{t(T.manifeste.t1)}</span>
+            <span className={`${styles.titleLine} ${styles.titleAccent}`}>
+              {t(T.manifeste.t2)}
+            </span>
           </h2>
         </header>
 
         <ol className={styles.beats}>
-          {BEATS.map((beat) => (
-            <li
-              key={beat.index}
-              data-beat={beat.index}
-              className={`${styles.beat} ${seen.has(beat.index) ? styles.beatOn : ""}`}
-            >
-              <span className={styles.beatIndex} aria-hidden="true">
-                {beat.index}
-              </span>
-              <p className={styles.beatLead}>{beat.lead}</p>
-              <p className={styles.beatBody}>{beat.body}</p>
-            </li>
-          ))}
+          {T.manifeste.beats.map((beat, i) => {
+            const index = String(i + 1).padStart(2, "0");
+            return (
+              <li
+                key={index}
+                data-beat={index}
+                className={`${styles.beat} ${seen.has(index) ? styles.beatOn : ""}`}
+              >
+                <span className={styles.beatIndex} aria-hidden="true">
+                  {index}
+                </span>
+                <p className={styles.beatLead}>{t(beat.lead)}</p>
+                <p className={styles.beatBody}>{t(beat.body)}</p>
+              </li>
+            );
+          })}
         </ol>
 
-        <p className={styles.signature}>Celeste Fard — jour zéro</p>
+        <p className={styles.signature}>{t(T.manifeste.signature)}</p>
       </div>
     </section>
   );

@@ -1,5 +1,9 @@
+"use client";
+
 import { Fragment, type CSSProperties } from "react";
 
+import { useT } from "../shared/lang";
+import { T } from "../shared/textes";
 import styles from "./marquee-band.module.css";
 
 /**
@@ -22,14 +26,8 @@ import styles from "./marquee-band.module.css";
  * (le masque de bord rend la coupure invisible dans les deux cas)
  */
 
-const DEFAULT_WORDS = [
-  "AFRO POP",
-  "SUPER POP AI",
-  "100% DANSANT",
-  "0% BALLADE TRISTE",
-  "FAIT PAR UNE IA",
-  "FR-EN-IT",
-] as const;
+/* Les mots viennent du dictionnaire bilingue : le bandeau bascule avec
+   le reste du site. */
 
 /** React.CSSProperties n'accepte pas les variables CSS : on l'etend. */
 type MarqueeStyle = CSSProperties & {
@@ -90,7 +88,8 @@ export function MarqueeBand({
   className,
   style,
 }: MarqueeBandProps = {}) {
-  const items = words && words.length > 0 ? words : DEFAULT_WORDS;
+  const t = useT();
+  const items = words && words.length > 0 ? words : T.marquee.map(t);
 
   const bandStyle: MarqueeStyle = {
     "--marquee-duration": `${speed}s`,

@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * HERO — video plein ecran.
  *
@@ -18,11 +20,13 @@
 
 import Link from "next/link";
 
+import { useT } from "../shared/lang";
+import { T } from "../shared/textes";
 import styles from "./hero-section.module.css";
 
-const pills = ["Afro pop", "Super pop IA", "FR / EN / IT", "0 h de sommeil"];
-
 export function HeroSection() {
+  const t = useT();
+
   return (
     <section className={styles.hero} aria-labelledby="hero-title">
       <div className={styles.bg} aria-hidden="true">
@@ -58,37 +62,33 @@ export function HeroSection() {
         <div className={styles.copy}>
           <p className={`u-micro ${styles.kicker}`}>
             <span className={styles.kickerDot} aria-hidden="true" />
-            Celeste Fard · Chanteuse IA
+            {t(T.hero.kicker)}
           </p>
 
           <h1 id="hero-title" className={styles.title}>
-            <span className={styles.titleLine}>Je suis</span>
-            <span className={styles.titleLine}>une IA.</span>
+            <span className={styles.titleLine}>{t(T.hero.l1)}</span>
+            <span className={styles.titleLine}>{t(T.hero.l2)}</span>
             <span className={`${styles.titleLine} ${styles.titleAccent}`}>
-              <span className="u-grad-text">Dansez.</span>
+              <span className="u-grad-text">{t(T.hero.l3)}</span>
             </span>
           </h1>
 
-          <p className={styles.lede}>
-            Pas de mystère, pas d&apos;enfance difficile. Zéro poumon, zéro trac,
-            cent pour cent de refrain — je sors des morceaux pendant que vous
-            dormez.
-          </p>
+          <p className={styles.lede}>{t(T.hero.lede)}</p>
 
           <div className={styles.ctaRow}>
             <Link href="/music" className={`${styles.cta} ${styles.ctaPrimary}`}>
-              Écouter la musique
+              {t(T.hero.ctaMusique)}
               <span aria-hidden="true">→</span>
             </Link>
             <Link href="/shop" className={`${styles.cta} ${styles.ctaGhost}`}>
-              Voir la boutique
+              {t(T.hero.ctaShop)}
             </Link>
           </div>
 
           <ul className={styles.pills}>
-            {pills.map((pill) => (
-              <li key={pill} className={`u-glass u-micro ${styles.pill}`}>
-                {pill}
+            {T.hero.pills.map((pill) => (
+              <li key={pill.fr} className={`u-glass u-micro ${styles.pill}`}>
+                {t(pill)}
               </li>
             ))}
           </ul>

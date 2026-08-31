@@ -5,6 +5,7 @@ import Link from "next/link";
 import "./globals.css";
 import { InteractiveEffects } from "./shared/interactive-effects";
 import { LEGAL } from "./shared/legal-info";
+import { LangProvider } from "./shared/lang";
 import { MainNav } from "./shared/main-nav";
 import { ViewportStable } from "./shared/viewport-stable";
 
@@ -110,6 +111,7 @@ export default function RootLayout({
         />
       </head>
       <body className="site-body">
+        <LangProvider>
         <ViewportStable />
         <InteractiveEffects />
 
@@ -174,6 +176,7 @@ export default function RootLayout({
             </p>
           </div>
         </footer>
+        </LangProvider>
       </body>
     </html>
   );

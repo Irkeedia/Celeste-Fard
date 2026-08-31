@@ -5,11 +5,15 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 
+import { useT } from "./lang";
+import { LangSwitch } from "./lang-switch";
+import { T } from "./textes";
+
 const LINKS = [
-  { href: "/", label: "Accueil" },
-  { href: "/music", label: "Musique" },
-  { href: "/shop", label: "Shop" },
-  { href: "/contact", label: "Contact" },
+  { href: "/", label: T.nav.accueil },
+  { href: "/music", label: T.nav.musique },
+  { href: "/shop", label: T.nav.shop },
+  { href: "/contact", label: T.nav.contact },
 ];
 
 const MOBILE_QUERY = "(max-width: 1024px)";
@@ -28,6 +32,7 @@ function isActivePath(pathname: string, href: string) {
 
 export function MainNav() {
   const pathname = usePathname();
+  const t = useT();
   const burgerRef = useRef<HTMLButtonElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const isClient = useIsClient();
@@ -144,7 +149,7 @@ export function MainNav() {
             type="button"
             className="site-nav-close"
             onClick={closeMenu}
-            aria-label="Fermer le menu"
+            aria-label={t(T.nav.fermer)}
           >
             <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
               <path
@@ -158,7 +163,7 @@ export function MainNav() {
 
           <div className="site-nav-head">
             <span className="site-nav-kicker">Celeste Fard</span>
-            <span className="site-nav-display">Menu</span>
+            <span className="site-nav-display">{t(T.nav.menu)}</span>
           </div>
 
           <ul className="nav-list nav-list--drawer">
@@ -179,7 +184,7 @@ export function MainNav() {
                   <span className="nav-link-index" aria-hidden>
                     {String(index + 1).padStart(2, "0")}
                   </span>
-                  <span className="nav-link-label">{link.label}</span>
+                  <span className="nav-link-label">{t(link.label)}</span>
                   <span className="nav-link-arrow" aria-hidden>
                     →
                   </span>
@@ -188,9 +193,13 @@ export function MainNav() {
             ))}
           </ul>
 
+          <div className="site-nav-lang">
+            <LangSwitch />
+          </div>
+
           <div className="site-nav-foot">
             <span className="site-nav-foot-line" aria-hidden />
-            <span>21 titres en écoute libre</span>
+            <span>{t(T.nav.piedMenu)}</span>
           </div>
         </nav>
       </>
@@ -206,7 +215,7 @@ export function MainNav() {
         aria-expanded={menuOpen}
         aria-controls="primary-navigation"
         aria-haspopup="true"
-        aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
+        aria-label={menuOpen ? t(T.nav.fermer) : t(T.nav.ouvrir)}
       >
         <span className="nav-burger-box" aria-hidden>
           <span className="nav-burger-line" />
@@ -214,6 +223,8 @@ export function MainNav() {
           <span className="nav-burger-line" />
         </span>
       </button>
+
+      <LangSwitch className="lang-switch--desktop" />
 
       <nav aria-label="Navigation principale" className="site-nav site-nav--desktop">
         <ul className="nav-list">
@@ -223,7 +234,7 @@ export function MainNav() {
                 className={`nav-link ${isActivePath(pathname, link.href) ? "active" : ""}`}
                 href={link.href}
               >
-                {link.label}
+                {t(link.label)}
               </Link>
             </li>
           ))}

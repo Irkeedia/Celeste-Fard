@@ -1354,3 +1354,74 @@ body.nav-menu-open {
   line-height: 1.55;
   color: rgb(var(--paper-rgb) / 0.34);
 }
+
+/* =========================================================
+   BASCULE DE LANGUE
+   Deux codes FR / EN, celui de la langue active est allume.
+   Montre l'etat plutot qu'une action : le visiteur voit
+   immediatement dans quelle langue il se trouve.
+   ========================================================= */
+
+.lang-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.42rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: rgb(var(--paper-rgb) / 0.04);
+  font-size: var(--fs-micro);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition:
+    border-color var(--dur-fast) ease,
+    background var(--dur-fast) ease;
+}
+
+.lang-switch:hover,
+.lang-switch:focus-visible {
+  border-color: rgb(var(--red-rgb) / 0.6);
+  background: rgb(var(--red-rgb) / 0.1);
+}
+
+.lang-switch-code {
+  transition: color var(--dur-fast) ease;
+}
+
+.lang-switch-code.is-on {
+  color: var(--paper);
+}
+
+.lang-switch-sep {
+  width: 1px;
+  height: 0.85em;
+  background: var(--line-strong);
+}
+
+/* Dans le header, le bouton se place avant la nav de bureau. */
+.lang-switch--desktop {
+  display: none;
+}
+
+@media (min-width: 1025px) {
+  .lang-switch--desktop {
+    display: inline-flex;
+    margin-right: var(--sp-3);
+  }
+}
+
+/* Dans le panneau mobile, il occupe sa propre ligne, au-dessus du pied. */
+.site-nav-lang {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: var(--sp-5);
+}
+
+@media (min-width: 1025px) {
+  .site-nav-lang {
+    display: none;
+  }
+}

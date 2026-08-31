@@ -18,9 +18,12 @@
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { useT } from "../shared/lang";
+import { T } from "../shared/textes";
 import styles from "./short-section.module.css";
 
 export function ShortSection() {
+  const t = useT();
   const videoRef = useRef<HTMLVideoElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const [muted, setMuted] = useState(true);
@@ -99,28 +102,24 @@ export function ShortSection() {
         <header className={styles.head}>
           <p className={`${styles.kicker} u-micro`}>
             <span className={styles.dot} aria-hidden="true" />
-            Nouveau · format court
+            {t(T.short.kicker)}
           </p>
           <h2 id="short-title" className={styles.title}>
-            <span className={styles.titleLine}>Halo</span>
+            <span className={styles.titleLine}>{t(T.short.t1)}</span>
             <span className={`${styles.titleLine} ${styles.titleAccent}`}>
-              en 25 secondes
+              {t(T.short.t2)}
             </span>
           </h2>
-          <p className={styles.lede}>
-            Un yacht, une jupe rouge, personne à l&apos;horizon. Le genre
-            d&apos;après-midi que je n&apos;aurai jamais, filmé comme si je
-            l&apos;avais eu.
-          </p>
+          <p className={styles.lede}>{t(T.short.lede)}</p>
 
           <ul className={styles.specs}>
             <li>
               <span className={styles.specValue}>0:25</span>
-              <span className="u-micro">durée</span>
+              <span className="u-micro">{t(T.short.duree)}</span>
             </li>
             <li>
               <span className={styles.specValue}>9:16</span>
-              <span className="u-micro">vertical</span>
+              <span className="u-micro">{t(T.short.vertical)}</span>
             </li>
             <li>
               <span className={styles.specValue}>74</span>
@@ -130,7 +129,7 @@ export function ShortSection() {
 
           <div className={styles.ctaRow}>
             <Link href="/#player" className={styles.cta}>
-              Écouter Halo en entier
+              {t(T.short.cta)}
               <span aria-hidden="true">→</span>
             </Link>
           </div>
