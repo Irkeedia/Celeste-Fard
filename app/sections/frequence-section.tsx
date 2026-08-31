@@ -45,12 +45,6 @@ type Line = {
   strong: string;
   /** Fin de la phrase. */
   after: string;
-  /** Position dans le cadre, en pourcentage. */
-  top: string;
-  left?: string;
-  right?: string;
-  /** Alignement du bloc de texte. */
-  align?: "left" | "right";
 };
 
 /**
@@ -62,14 +56,14 @@ type Line = {
  * absolues dans le morceau, dans la fenetre [EXTRACT_START, EXTRACT_END].
  */
 const LYRICS: readonly Line[] = [
-  { at: 25.5, before: "« Pas de superflu, je reste dans ma ", strong: "lumière", after: " »", top: "10%", left: "6%" },
-  { at: 27.1, before: "« Un battement lourd qui fait vibrer le ", strong: "sol", after: " »", top: "24%", right: "6%", align: "right" },
-  { at: 29, before: "« Rien dans la tête, je prends mon ", strong: "envol", after: " »", top: "38%", left: "5%" },
-  { at: 31.2, before: "« Le rythme est fluide, ça glisse sous mes ", strong: "pas", after: " »", top: "52%", right: "7%", align: "right" },
-  { at: 33, before: "« Tout est plus simple quand la basse est ", strong: "là", after: " »", top: "66%", left: "6%" },
-  { at: 35.2, before: "« Je veux juste la basse qui tourne en ", strong: "boucle", after: " »", top: "16%", left: "8%" },
-  { at: 38.7, before: "« Le son qui tape et le cœur qui ", strong: "touche", after: " »", top: "44%", right: "6%", align: "right" },
-  { at: 43, before: "« C’est ça le feeling, ", strong: "zéro détour", after: " »", top: "78%", left: "7%" },
+  { at: 25.5, before: "« Pas de superflu, je reste dans ma ", strong: "lumière", after: " »" },
+  { at: 27.1, before: "« Un battement lourd qui fait vibrer le ", strong: "sol", after: " »" },
+  { at: 29, before: "« Rien dans la tête, je prends mon ", strong: "envol", after: " »" },
+  { at: 31.2, before: "« Le rythme est fluide, ça glisse sous mes ", strong: "pas", after: " »" },
+  { at: 33, before: "« Tout est plus simple quand la basse est ", strong: "là", after: " »" },
+  { at: 35.2, before: "« Je veux juste la basse qui tourne en ", strong: "boucle", after: " »" },
+  { at: 38.7, before: "« Le son qui tape et le cœur qui ", strong: "touche", after: " »" },
+  { at: 43, before: "« C’est ça le feeling, ", strong: "zéro détour", after: " »" },
 ];
 
 function formatTime(s: number): string {
@@ -143,6 +137,13 @@ export function FrequenceSection() {
     };
   }, []);
 
+  /* Derniere phrase dont le temps est passe. -1 tant qu'aucune n'est
+     atteinte : le bloc reste alors vide plutot que d'afficher la premiere. */
+  let currentLine = -1;
+  for (let i = 0; i < LYRICS.length; i += 1) {
+    if (time >= LYRICS[i].at) currentLine = i;
+  }
+
   const extractLength = EXTRACT_END - EXTRACT_START;
   const elapsed = Math.min(Math.max(time - EXTRACT_START, 0), extractLength);
   const progress = (elapsed / extractLength) * 100;
@@ -184,31 +185,26 @@ export function FrequenceSection() {
           <p className={styles.sub}>afrobeat · 808 · {formatTime(TRACK_SECONDS)}</p>
         </header>
 
-        {/* --- Citations qui s'allument au fil du morceau --- */}
-        <ul className={styles.lines}>
-          {LYRICS.map((line) => {
-            /* On se base sur le temps ecoule, pas sur `playing` : mettre en
-               pause ferait autrement disparaitre d'un coup toutes les phrases
-               deja passees. Elles restent donc affichees, et ne se remettent a
-               zero qu'en fin de morceau (time repasse a 0). */
-            const active = time > 0 && time >= line.at;
+        {/* --- La parole en cours ---
+            Une seule a la fois, centree. Les afficher toutes, dispersees en
+            absolu, fonctionnait sur une affiche figee mais donnait un
+            eparpillement illisible des qu'elles s'enchainaient. */}
+        <div className={styles.lines} aria-live="off">
+          {LYRICS.map((line, i) => {
+            const active = i === currentLine;
             return (
-              <li
+              <p
                 key={line.at}
-                className={`${styles.line} ${active ? styles.lineOn : ""} ${
-                  line.align === "right" ? styles.lineRight : ""
-                }`}
-                style={{ top: line.top, left: line.left, right: line.right }}
+                className={`${styles.line} ${active ? styles.lineOn : ""}`}
+                aria-hidden={!active}
               >
-                <span className={styles.lineText}>
-                  {line.before}
-                  <strong className={styles.lineStrong}>{line.strong}</strong>
-                  {line.after}
-                </span>
-              </li>
+                {line.before}
+                <strong className={styles.lineStrong}>{line.strong}</strong>
+                {line.after}
+              </p>
             );
           })}
-        </ul>
+        </div>
 
         {/* --- Commande de lecture --- */}
         <div className={styles.player}>

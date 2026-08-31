@@ -120,12 +120,19 @@
   position: relative;
   z-index: 2;
   width: 100%;
-  max-width: var(--maxw);
-  min-height: min(132svh, 54rem);
+  /* `max-width: 100%` en plus du plafond en rem : la section est une
+     grille en `place-items: center`, sa piste s'elargit donc au contenu.
+     Sans cette borne, le titre en tres grande casse imposait sa largeur
+     et decalait tout le bloc vers la droite. */
+  max-width: min(var(--maxw), 100%);
+  min-height: min(120svh, 48rem);
   padding-inline: clamp(1.4rem, 5vw, 4rem);
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* Tout est centre, sur toutes les largeurs : la version precedente
+     laissait le titre centre mais les paroles reparties en absolu. */
+  text-align: center;
 }
 
 .head {
@@ -143,9 +150,10 @@
   margin-block: var(--sp-3) var(--sp-2);
   font-family: var(--font-serif), Georgia, serif;
   font-weight: 300;
-  font-size: clamp(3.4rem, 13vw, 10rem);
+  font-size: clamp(2.4rem, 12vw, 10rem);
   line-height: 0.94;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
+  max-width: 100%;
   text-transform: uppercase;
   color: var(--paper);
   text-shadow: 0 0 42px rgb(var(--red-rgb) / 0.45);
@@ -158,43 +166,44 @@
   color: var(--text-muted);
 }
 
-/* --- Citations flottantes -------------------------------- */
+/* --- La parole en cours -------------------------------- */
 
+/* Les phrases sont EMPILEES au meme endroit : chacune occupe la meme
+   case de grille, seule l'active est visible. Cela evite un saut de
+   hauteur a chaque changement, et centre le bloc une fois pour toutes
+   au lieu de disperser huit citations en absolu. */
 .lines {
-  position: absolute;
-  inset: 0;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  display: grid;
+  place-items: center;
+  width: min(100%, 34rem);
+  margin-inline: auto;
+  margin-top: var(--sp-6);
+  /* Hauteur reservee pour deux lignes : sans elle, le bloc grandit et
+     retrecit au fil des phrases et tout le reste sautille. */
+  min-height: 5.5rem;
+  text-align: center;
   pointer-events: none;
 }
 
 .line {
-  position: absolute;
-  max-width: min(20rem, 42%);
+  grid-area: 1 / 1;
+  margin: 0;
+  font-family: var(--font-serif), Georgia, serif;
+  font-style: italic;
+  font-size: clamp(1.05rem, 2.4vw, 1.6rem);
+  line-height: 1.4;
+  color: rgb(var(--paper-rgb) / 0.92);
+  text-shadow: 0 2px 20px rgb(var(--ink-rgb) / 0.95);
   opacity: 0;
-  translate: 0 8px;
+  translate: 0 10px;
   transition:
-    opacity 900ms var(--ease-out),
-    translate 900ms var(--ease-out);
-}
-
-.lineRight {
-  text-align: right;
+    opacity 620ms var(--ease-out),
+    translate 620ms var(--ease-out);
 }
 
 .lineOn {
   opacity: 1;
   translate: 0 0;
-}
-
-.lineText {
-  font-family: var(--font-serif), Georgia, serif;
-  font-style: italic;
-  font-size: clamp(0.85rem, 1.5vw, 1.12rem);
-  line-height: 1.45;
-  color: rgb(var(--paper-rgb) / 0.9);
-  text-shadow: 0 2px 18px rgb(var(--ink-rgb) / 0.95);
 }
 
 .lineStrong {
@@ -378,44 +387,6 @@
 }
 
 /* --- Petits ecrans -------------------------------------- */
-
-@media (max-width: 860px) {
-  /* Les citations en absolute se chevauchent des que la place manque :
-     on les repasse en flux, sous le titre, et on en montre moins. */
-  .lines {
-    position: static;
-    display: grid;
-    gap: var(--sp-3);
-    margin-top: var(--sp-6);
-    width: 100%;
-  }
-
-  .line {
-    position: static;
-    max-width: none;
-    text-align: center;
-    /* En flux, une phrase invisible laisserait un trou : on la garde
-       visible mais attenuee tant qu'elle n'est pas atteinte. */
-    opacity: 0.42;
-  }
-
-  .lineRight {
-    text-align: center;
-  }
-
-  .lineOn {
-    opacity: 1;
-  }
-
-  .line:nth-child(n + 5) {
-    display: none;
-  }
-
-  .ghostA,
-  .ghostB {
-    font-size: clamp(4rem, 26vw, 9rem);
-  }
-}
 
 @media (prefers-reduced-motion: reduce) {
   .line {

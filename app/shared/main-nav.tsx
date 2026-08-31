@@ -32,28 +32,13 @@ export function MainNav() {
   const [menuOpen, setMenuOpen] = useState(false);
   const isClient = useIsClient();
 
-  const closeMenu = useCallback(() => setMenuOpen(false), []);
+  const closeMenu = useCallback(() => {
+    setMenuOpen(false);
+    // Le panneau disparait : sans cela le focus retombe sur <body> et la
+    // navigation au clavier repart du haut de la page.
+    burgerRef.current?.focus();
+  }, []);
   const toggleMenu = useCallback(() => setMenuOpen((open) => !open), []);
-
-  /* Listeners natifs : plus fiables que onClick seul sur iOS / Android */
-  useEffect(() => {
-    const btn = burgerRef.current;
-    if (!btn) return;
-
-    let lastToggle = 0;
-
-    const onToggle = (event: Event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      const now = Date.now();
-      if (now - lastToggle < 400) return;
-      lastToggle = now;
-      toggleMenu();
-    };
-
-    btn.addEventListener("pointerup", onToggle);
-    return () => btn.removeEventListener("pointerup", onToggle);
-  }, [toggleMenu]);
 
   useEffect(() => {
     const mq = window.matchMedia(MOBILE_QUERY);
@@ -127,8 +112,8 @@ export function MainNav() {
       <>
         <div
           className="nav-backdrop is-open"
-          aria-hidden={false}
-          onPointerUp={closeMenu}
+          aria-hidden="true"
+          onClick={closeMenu}
         />
         <nav
           id="primary-navigation"
@@ -217,6 +202,7 @@ export function MainNav() {
         ref={burgerRef}
         type="button"
         className="nav-burger"
+        onClick={toggleMenu}
         aria-expanded={menuOpen}
         aria-controls="primary-navigation"
         aria-haspopup="true"

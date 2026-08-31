@@ -387,6 +387,7 @@ html[data-scrolled="true"] .site-header-inner::before {
 /* Burger (mobile / tablette) */
 
 .nav-burger {
+  touch-action: manipulation;
   display: inline-flex;
   flex: none;
   align-items: center;
@@ -512,7 +513,11 @@ html[data-scrolled="true"] .site-header-inner::before {
 
 /* --- Fermeture ----------------------------------------- */
 
+/* `touch-action: manipulation` supprime le delai de ~300 ms que certains
+   navigateurs mobiles gardent avant de valider un tap (attente d'un
+   eventuel double-tap de zoom). Sans lui, la croix parait ne pas repondre. */
 .site-nav-close {
+  touch-action: manipulation;
   position: absolute;
   top: max(1.2rem, calc(env(safe-area-inset-top) + 0.5rem));
   right: var(--gutter);
