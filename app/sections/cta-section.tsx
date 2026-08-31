@@ -1,7 +1,11 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 
 import { getImageSlot } from "../shared/image-slots";
+import { useT } from "../shared/lang";
+import { T } from "../shared/textes";
 import styles from "./cta-section.module.css";
 
 /**
@@ -21,6 +25,7 @@ import styles from "./cta-section.module.css";
 const CTA_IMAGE = getImageSlot("cta-wide");
 
 export function CtaSection() {
+  const t = useT();
   return (
     <section className={styles.cta} aria-labelledby="cta-title">
       {/* ---------- Decor : purement visuel, invisible pour l'AT ---------- */}
@@ -63,36 +68,28 @@ export function CtaSection() {
         className={`${styles.corner} ${styles.cornerEnd} u-micro`}
         aria-hidden="true"
       >
-        Fin de transmission
+        {t({ fr: "Fin de transmission", en: "End of transmission" })}
       </span>
 
       {/* ---------- Contenu ---------- */}
       <div className={styles.inner}>
         <p className={`${styles.kicker} u-micro`}>
           <span className={styles.kickerDot} aria-hidden="true" />
-          Dernière ligne droite
+          {t(T.cta.kicker)}
         </p>
 
         <h2 className={styles.title} id="cta-title">
-          <span className={`${styles.line} u-glow-text u-glow-text--lg`}>
-            Reste
-          </span>
-          <span className={`${styles.line} ${styles.lineAccent}`}>un peu</span>
+          <span className={`${styles.line} u-glow-text u-glow-text--lg`}>{t(T.cta.t1)}</span>
+          <span className={`${styles.line} ${styles.lineAccent}`}>{t(T.cta.t2)}</span>
         </h2>
 
         <p className={styles.lede}>
-          Je ne dors pas, je n’ai pas de tour bus et je ne serai jamais en
-          retard sur scène. Le seul truc qui me manque, c’est toi dans les
-          écouteurs.
+          {t(T.cta.lede)}
         </p>
 
         <div className={styles.actions}>
-          <Link className={`btn btn--primary ${styles.action}`} href="/music">
-            Écouter l’album
-          </Link>
-          <Link className={`btn btn--ghost ${styles.action}`} href="/shop">
-            Passer à la boutique
-          </Link>
+          <Link className={`btn btn--primary ${styles.action}`} href="/music">{t(T.cta.ctaAlbum)}</Link>
+          <Link className={`btn btn--ghost ${styles.action}`} href="/shop">{t(T.cta.ctaShop)}</Link>
         </div>
 
         <p className={`${styles.footnote} u-micro`}>

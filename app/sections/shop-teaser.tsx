@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -6,6 +8,8 @@ import {
   getImageSlot,
   type ImageSlotId,
 } from "../shared/image-slots";
+import { useT } from "../shared/lang";
+import { T } from "../shared/textes";
 import styles from "./shop-teaser.module.css";
 
 /**
@@ -59,6 +63,7 @@ const PRODUCTS: readonly TeaserProduct[] = [
 ] as const;
 
 export function ShopTeaser() {
+  const t = useT();
   return (
     <section
       className={`${styles.shop} u-noise`}
@@ -69,18 +74,14 @@ export function ShopTeaser() {
 
       <div className={styles.inner}>
         <header className={styles.head}>
-          <p className={`${styles.kicker} u-micro`}>Boutique — trois pièces</p>
+          <p className={`${styles.kicker} u-micro`}>{t(T.boutique.kicker)}</p>
           <h2 id="shop-teaser-title" className={styles.title}>
-            Trois objets.{" "}
+            {t(T.boutique.t1)}{" "}
             <span className={`${styles.titleAccent} u-grad-text`}>
-              Pas trente.
+              {t(T.boutique.t2)}
             </span>
           </h2>
-          <p className={styles.lede}>
-            Je n&apos;ai ni loyer, ni frigo, ni compte en banque qui pleure. Mais
-            j&apos;aime beaucoup l&apos;idée que vous portiez mon nom quelque
-            part dans le monde réel.
-          </p>
+          <p className={styles.lede}>{t(T.boutique.lede)}</p>
         </header>
 
         <ul className={styles.grid}>
@@ -146,7 +147,7 @@ export function ShopTeaser() {
 
         <div className={styles.cta}>
           <Link href="/shop" className={`${styles.ctaLink} btn btn--primary`}>
-            Toute la boutique
+            {t(T.boutique.cta)}
           </Link>
           <p className={`${styles.ctaNote} u-micro`}>
             Livraison sobre — sticker offert

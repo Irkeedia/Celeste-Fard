@@ -23,6 +23,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { useT } from "../shared/lang";
+import { T } from "../shared/textes";
 import styles from "./frequence-section.module.css";
 
 const TRACK_SRC = "/audio/nouvelle-generation/frequence.mp3";
@@ -73,6 +75,7 @@ function formatTime(s: number): string {
 }
 
 export function FrequenceSection() {
+  const t = useT();
   const audioRef = useRef<HTMLAudioElement>(null);
   const [playing, setPlaying] = useState(false);
   /** Vrai une fois l'extrait termine : declenche l'appel vers le titre complet. */
@@ -178,11 +181,13 @@ export function FrequenceSection() {
 
       <div className={styles.inner}>
         <header className={styles.head}>
-          <p className={`${styles.kicker} u-micro`}>Le titre · Nouvelle Génération</p>
+          <p className={`${styles.kicker} u-micro`}>{t(T.frequence.kicker)}</p>
           <h2 id="frequence-title" className={styles.title}>
             Fréquence
           </h2>
-          <p className={styles.sub}>afrobeat · 808 · {formatTime(TRACK_SECONDS)}</p>
+          <p className={styles.sub}>
+            {t(T.frequence.sub)} · {formatTime(TRACK_SECONDS)}
+          </p>
         </header>
 
         {/* --- La parole en cours ---
@@ -231,13 +236,13 @@ export function FrequenceSection() {
 
           <div className={styles.meta}>
             <span className={`${styles.metaTop} u-micro`}>
-              {ended ? "Fin de l’extrait" : playing ? "En lecture" : "Écouter l’extrait"}
+              {ended ? t(T.commun.finExtrait) : playing ? t(T.commun.enLecture) : t(T.commun.ecouterExtrait)}
             </span>
             <div className={styles.bar}>
               <span className={styles.barFill} style={{ width: `${progress}%` }} />
             </div>
             <span className={styles.metaTime}>
-              {formatTime(elapsed)} / {formatTime(extractLength)} · extrait
+              {formatTime(elapsed)} / {formatTime(extractLength)} · {t(T.commun.extrait)}
             </span>
           </div>
         </div>
@@ -246,7 +251,7 @@ export function FrequenceSection() {
             avant une fois l'extrait termine. */}
         <footer className={`${styles.foot} ${ended ? styles.footOn : ""}`}>
           <Link href="/#player" className={styles.cta}>
-            Écouter le titre en entier
+            {t(T.commun.titreEntier)}
             <span aria-hidden="true">→</span>
           </Link>
           <Link href="/music" className={styles.badge}>
@@ -257,7 +262,7 @@ export function FrequenceSection() {
               height={22}
               className={styles.badgeLogo}
             />
-            <span>L’art de la fréquence</span>
+            <span>{t(T.frequence.badge)}</span>
           </Link>
         </footer>
       </div>

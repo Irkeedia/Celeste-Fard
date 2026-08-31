@@ -27,6 +27,8 @@ import {
   formatTime,
   PLAYLIST,
 } from "../shared/playlist";
+import { useT } from "../shared/lang";
+import { T } from "../shared/textes";
 import styles from "./player-section.module.css";
 
 /* =========================================================
@@ -103,6 +105,7 @@ function SlotImage({
    ========================================================= */
 
 export function PlayerSection() {
+  const t = useT();
   const audioRef = useRef<HTMLAudioElement>(null);
   /** Rangee de titres : pilotee par les fleches sur grand ecran. */
   const trendRowRef = useRef<HTMLUListElement>(null);
@@ -262,14 +265,12 @@ export function PlayerSection() {
 
       <div className={styles.inner}>
         <header className={styles.head}>
-          <p className="u-micro">Salle d&apos;écoute · 24/7</p>
+          <p className="u-micro">{t(T.lecteur.kicker)}</p>
           <h2 id="player-title" className={styles.title}>
-            <span className="u-grad-text">Écoute</span>
-            <span className={styles.titleGhost}>-moi</span>
+            <span className="u-grad-text">{t(T.lecteur.t1)}</span>
+            <span className={styles.titleGhost}>{t(T.lecteur.t2)}</span>
           </h2>
-          <p className={styles.lede}>
-            Pas de tournée, pas de loge, pas de caprice. Juste le bouton play.
-          </p>
+          <p className={styles.lede}>{t(T.lecteur.lede)}</p>
         </header>
 
         {/* ---------- LE LECTEUR ---------- */}
@@ -411,7 +412,7 @@ export function PlayerSection() {
         {/* ---------- TRENDING ---------- */}
         <div className={styles.trending}>
           <div className={styles.trendingHead}>
-            <p className="u-micro">Trending · dans mes circuits</p>
+            <p className="u-micro">{t(T.lecteur.trending)}</p>
 
             {/* Fleches reservees aux ecrans larges : au doigt, le defilement
                 direct est plus rapide qu'un bouton. */}
@@ -420,7 +421,7 @@ export function PlayerSection() {
                 type="button"
                 className={styles.trendArrow}
                 onClick={() => scrollTrend(-1)}
-                aria-label="Titres précédents"
+                aria-label={t(T.lecteur.precedents)}
               >
                 <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
                   <path
@@ -437,7 +438,7 @@ export function PlayerSection() {
                 type="button"
                 className={styles.trendArrow}
                 onClick={() => scrollTrend(1)}
-                aria-label="Titres suivants"
+                aria-label={t(T.lecteur.suivants)}
               >
                 <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
                   <path
@@ -452,9 +453,7 @@ export function PlayerSection() {
               </button>
             </div>
 
-            <p className={styles.trendingHint} aria-hidden="true">
-              Faites glisser →
-            </p>
+            <p className={styles.trendingHint} aria-hidden="true">{t(T.lecteur.glisser)}</p>
           </div>
 
           <ul className={styles.trendRow} ref={trendRowRef}>

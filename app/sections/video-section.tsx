@@ -21,6 +21,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { useT } from "../shared/lang";
+import { T } from "../shared/textes";
 import styles from "./video-section.module.css";
 
 export interface VideoClip {
@@ -34,7 +36,6 @@ export interface VideoClip {
 
 export interface VideoSectionProps {
   clips?: VideoClip[];
-  eyebrow?: string;
 }
 
 const DEFAULT_CLIPS: VideoClip[] = [
@@ -74,10 +75,8 @@ const DEFAULT_CLIPS: VideoClip[] = [
   },
 ];
 
-export function VideoSection({
-  clips = DEFAULT_CLIPS,
-  eyebrow = "Celeste en video",
-}: VideoSectionProps) {
+export function VideoSection({ clips = DEFAULT_CLIPS }: VideoSectionProps) {
+  const t = useT();
   const [active, setActive] = useState(0);
   /** Id du clip dont la video est reellement montee et lancee. */
   const [playingId, setPlayingId] = useState<string | null>(null);
@@ -150,22 +149,19 @@ export function VideoSection({
 
       <div className={styles.inner}>
         <header className={styles.head}>
-          <span className="u-micro">{eyebrow}</span>
+          <span className="u-micro">{t(T.video.kicker)}</span>
           <h2 className={styles.title} id="video-section-title">
-            <span className="u-glow-text">Me voir bouger,</span>
-            <span className={styles.titleAccent}>faute de me toucher</span>
+            <span className="u-glow-text">{t(T.video.t1)}</span>
+            <span className={styles.titleAccent}>{t(T.video.t2)}</span>
           </h2>
-          <p className={styles.lede}>
-            Quatre fichiers vidéo. Aucun maquillage, aucun montage flatteur, et
-            pourtant je suis parfaite&nbsp;: c&apos;est le privilège du rendu.
-          </p>
+          <p className={styles.lede}>{t(T.video.lede)}</p>
         </header>
 
         <div
           className={styles.stage}
           role="group"
           aria-roledescription="carrousel"
-          aria-label="Clips vidéo"
+          aria-label={t(T.video.choisir)}
           tabIndex={0}
           onKeyDown={onKeyDown}
           onTouchStart={onTouchStart}
@@ -260,7 +256,7 @@ export function VideoSection({
             type="button"
             className={`${styles.arrow} ${styles.arrowPrev}`}
             onClick={() => go(-1)}
-            aria-label="Clip précédent"
+            aria-label={t(T.video.precedent)}
           >
             <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
               <path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
@@ -270,7 +266,7 @@ export function VideoSection({
             type="button"
             className={`${styles.arrow} ${styles.arrowNext}`}
             onClick={() => go(1)}
-            aria-label="Clip suivant"
+            aria-label={t(T.video.suivant)}
           >
             <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
               <path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
@@ -278,7 +274,7 @@ export function VideoSection({
           </button>
         </div>
 
-        <div className={styles.dots} role="tablist" aria-label="Choisir un clip">
+        <div className={styles.dots} role="tablist" aria-label={t(T.video.choisir)}>
           {clips.map((clip, i) => (
             <button
               key={clip.id}

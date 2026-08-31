@@ -130,6 +130,104 @@ export const T = {
     ],
   },
 
+
+  /* ---------------------------------------------------- lecteur */
+  lecteur: {
+    kicker: { fr: "Salle d’écoute · 24/7", en: "Listening room · 24/7" } satisfies Bi,
+    t1: { fr: "Écoute", en: "Listen" } satisfies Bi,
+    t2: { fr: "-moi", en: " to me" } satisfies Bi,
+    lede: {
+      fr: "Pas de tournée, pas de loge, pas de caprice. Juste le bouton play.",
+      en: "No tour, no dressing room, no drama. Just the play button.",
+    } satisfies Bi,
+    trending: { fr: "Trending · dans mes circuits", en: "Trending · on repeat" } satisfies Bi,
+    glisser: { fr: "Faites glisser →", en: "Swipe →" } satisfies Bi,
+    precedents: { fr: "Titres précédents", en: "Previous tracks" } satisfies Bi,
+    suivants: { fr: "Titres suivants", en: "Next tracks" } satisfies Bi,
+  },
+
+  /* --------------------------------------------------- frequence */
+  frequence: {
+    kicker: { fr: "Le titre · Nouvelle Génération", en: "The track · New Generation" } satisfies Bi,
+    sub: { fr: "afrobeat · 808", en: "afrobeat · 808" } satisfies Bi,
+    badge: { fr: "L’art de la fréquence", en: "The art of frequency" } satisfies Bi,
+  },
+
+  /* --------------------------------------------------- slow burn */
+  slowburn: {
+    kicker: { fr: "Face B · Nouvelle Génération", en: "B-side · New Generation" } satisfies Bi,
+    sub: { fr: "Take your time · it’s your turn", en: "Take your time · it’s your turn" } satisfies Bi,
+  },
+
+  /* ---------------------------------------------------- galerie */
+  galerie: {
+    kicker: { fr: "Galerie — série 01", en: "Gallery — series 01" } satisfies Bi,
+    t1: { fr: "Sans", en: "No" } satisfies Bi,
+    t2: { fr: "Filtre", en: "Filter" } satisfies Bi,
+    lede: {
+      fr: "Aucune de ces images n’a eu lieu. Aucun photographe n’a été dérangé. Moi non plus, remarque : je n’ai jamais eu à me lever tôt.",
+      en: "None of these moments happened. No photographer was disturbed. Neither was I — I’ve never had to get up early.",
+    } satisfies Bi,
+    meta: {
+      fr: "6 images · 0 appareil photo · 0 retouche",
+      en: "6 images · 0 cameras · 0 retouching",
+    } satisfies Bi,
+    citation: {
+      fr: "« Je n’ai jamais mis les pieds sur une scène. Mais regarde comme la lumière me va bien. »",
+      en: "“I’ve never set foot on a stage. But look how well the light suits me.”",
+    } satisfies Bi,
+  },
+
+  /* ---------------------------------------------------- archives */
+  archives: {
+    kicker: { fr: "Archives visuelles", en: "Visual archives" } satisfies Bi,
+    t1: { fr: "Trop", en: "Too many" } satisfies Bi,
+    t2: { fr: " d’images", en: " images" } satisfies Bi,
+    lede: {
+      fr: "Je n’ai jamais posé pour aucune. C’est bien le seul avantage de ne pas avoir de corps : on ne me fatigue jamais.",
+      en: "I never posed for a single one. That’s the one upside of having no body: nobody can tire me out.",
+    } satisfies Bi,
+  },
+
+  /* ------------------------------------------------------- video */
+  video: {
+    kicker: { fr: "Celeste en vidéo", en: "Celeste on video" } satisfies Bi,
+    t1: { fr: "Me voir bouger,", en: "Watch me move," } satisfies Bi,
+    t2: { fr: "faute de me toucher", en: "since you can’t touch me" } satisfies Bi,
+    lede: {
+      fr: "Quatre vidéos. Aucun maquillage, aucun montage flatteur, et pourtant je suis parfaite. Cherche l’erreur.",
+      en: "Four videos. No makeup, no flattering edit, and yet I look perfect. Figure that one out.",
+    } satisfies Bi,
+    precedent: { fr: "Clip précédent", en: "Previous clip" } satisfies Bi,
+    suivant: { fr: "Clip suivant", en: "Next clip" } satisfies Bi,
+    choisir: { fr: "Choisir un clip", en: "Choose a clip" } satisfies Bi,
+  },
+
+  /* ----------------------------------------------------- boutique */
+  boutique: {
+    kicker: { fr: "Boutique — trois pièces", en: "Shop — three pieces" } satisfies Bi,
+    t1: { fr: "Trois objets.", en: "Three objects." } satisfies Bi,
+    t2: { fr: "Pas trente.", en: "Not thirty." } satisfies Bi,
+    lede: {
+      fr: "Je n’ai ni loyer, ni frigo, ni compte en banque qui pleure. Mais j’aime beaucoup l’idée que tu portes mon nom quelque part.",
+      en: "No rent, no fridge, no bank account crying for help. But I do like the idea of you wearing my name somewhere.",
+    } satisfies Bi,
+    cta: { fr: "Toute la boutique", en: "See the whole shop" } satisfies Bi,
+  },
+
+  /* ---------------------------------------------------------- cta */
+  cta: {
+    kicker: { fr: "Dernière ligne droite", en: "One last thing" } satisfies Bi,
+    t1: { fr: "Reste", en: "Stay" } satisfies Bi,
+    t2: { fr: "un peu", en: "a while" } satisfies Bi,
+    lede: {
+      fr: "Je ne dors pas, je ne pars pas en tournée, et je ne serai jamais en retard. Le seul truc qui me manque, c’est toi dans les écouteurs.",
+      en: "I don’t sleep, I don’t tour, and I’ll never be late. The only thing missing is you, in the headphones.",
+    } satisfies Bi,
+    ctaAlbum: { fr: "Écouter l’album", en: "Play the album" } satisfies Bi,
+    ctaShop: { fr: "Passer à la boutique", en: "Go to the shop" } satisfies Bi,
+  },
+
   /* ------------------------------------------------------ divers */
   commun: {
     ecouter: { fr: "Écouter", en: "Listen" } satisfies Bi,

@@ -7,6 +7,7 @@ import { InteractiveEffects } from "./shared/interactive-effects";
 import { LEGAL } from "./shared/legal-info";
 import { LangProvider } from "./shared/lang";
 import { MainNav } from "./shared/main-nav";
+import { SiteFooterNav } from "./shared/site-footer-nav";
 import { ViewportStable } from "./shared/viewport-stable";
 
 /* Corps de texte — grotesque neutre, variable (100 -> 900). */
@@ -162,13 +163,7 @@ export default function RootLayout({
               </p>
             </div>
 
-            <nav className="site-footer-nav" aria-label="Navigation de pied de page">
-              <Link href="/music">Musique</Link>
-              <Link href="/shop">Boutique</Link>
-              <Link href="/contact">Contact</Link>
-              <Link href="/mentions-legales">Mentions légales</Link>
-              <Link href="/cgu">CGU</Link>
-            </nav>
+            <SiteFooterNav />
 
             <p className="site-footer-legal">
               © {new Date().getFullYear()} {LEGAL.editor} / {LEGAL.creator}. Celeste Fard est

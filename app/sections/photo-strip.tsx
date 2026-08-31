@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * SECTION "PHOTO STRIP" — trois rubans d'images qui defilent en sens alternes.
  *
@@ -16,6 +18,8 @@
 
 import Image from "next/image";
 
+import { useT } from "../shared/lang";
+import { T } from "../shared/textes";
 import styles from "./photo-strip.module.css";
 
 type Shot = { src: string; alt: string };
@@ -110,20 +114,18 @@ function Row({
 }
 
 export function PhotoStrip() {
+  const t = useT();
   return (
     <section className={`${styles.strip} u-noise`} aria-labelledby="strip-title">
       <span className={styles.halo} aria-hidden="true" />
 
       <header className={styles.head}>
-        <p className="u-micro">Archives visuelles</p>
+        <p className="u-micro">{t(T.archives.kicker)}</p>
         <h2 id="strip-title" className={styles.title}>
-          <span className="u-grad-text">Trop</span>
-          <span className={styles.titleGhost}> d’images</span>
+          <span className="u-grad-text">{t(T.archives.t1)}</span>
+          <span className={styles.titleGhost}>{t(T.archives.t2)}</span>
         </h2>
-        <p className={styles.lede}>
-          Je n’ai jamais posé pour aucune. C’est bien le seul avantage de ne pas
-          avoir de corps&nbsp;: on ne me fatigue jamais en séance photo.
-        </p>
+        <p className={styles.lede}>{t(T.archives.lede)}</p>
       </header>
 
       {/* Trois rangees, sens alternes : le sens unique donnait un

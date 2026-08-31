@@ -1,7 +1,11 @@
+"use client";
+
 import Image from "next/image";
 
 import { getImageSlot, type ImageSlotId } from "@/app/shared/image-slots";
 
+import { useT } from "../shared/lang";
+import { T } from "../shared/textes";
 import styles from "./gallery-section.module.css";
 
 /**
@@ -91,6 +95,7 @@ const TILES: readonly Tile[] = [
 ];
 
 export function GallerySection() {
+  const t = useT();
   return (
     <section
       id="galerie"
@@ -106,23 +111,17 @@ export function GallerySection() {
           <div className={styles.headLeft}>
             <p className={styles.kicker}>
               <span aria-hidden className={styles.kickerRule} />
-              Galerie — série 01
+              {t(T.galerie.kicker)}
             </p>
             <h2 id="galerie-titre" className={styles.title}>
-              <span className={styles.titleSolid}>Sans</span>
-              <span className={styles.titleOutline}>Filtre</span>
+              <span className={styles.titleSolid}>{t(T.galerie.t1)}</span>
+              <span className={styles.titleOutline}>{t(T.galerie.t2)}</span>
             </h2>
           </div>
 
           <div className={styles.headRight}>
             <p className={styles.lede}>
-              Aucune de ces photos n&apos;existe. Aucun photographe n&apos;a été
-              maltraité pendant le shooting. Moi non plus, remarquez : je
-              n&apos;existe pas davantage. Bonne visite.
-            </p>
-            <p className={styles.headMeta}>
-              6 images · 0 appareil photo · 0 retouche (enfin, techniquement,
-              que des retouches)
+              {t(T.galerie.lede)}
             </p>
           </div>
         </header>
