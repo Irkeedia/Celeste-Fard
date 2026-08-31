@@ -7,6 +7,7 @@ import { MarqueeBand } from "./sections/marquee-band";
 import { PhotoStrip } from "./sections/photo-strip";
 import { PlayerSection } from "./sections/player-section";
 import { ShopTeaser } from "./sections/shop-teaser";
+import { ShortSection } from "./sections/short-section";
 import { SlowBurnSection } from "./sections/slowburn-section";
 import { VideoSection } from "./sections/video-section";
 
@@ -18,8 +19,11 @@ import { VideoSection } from "./sections/video-section";
  * On n'enveloppe donc PAS dans `.page-wrap` : cela ajouterait une
  * seconde gouttiere et casserait les sections pleine largeur.
  *
- * Ordre : hero -> marquee -> manifesto -> player -> frequence -> slow burn
- * -> gallery -> photo strip -> video -> shop -> cta.
+ * Ordre : hero -> marquee -> short -> manifesto -> player -> frequence
+ * -> slow burn -> gallery -> photo strip -> video -> shop -> cta.
+ *
+ * Le short est place tot : c'est la piece la plus immediate du site,
+ * elle doit tomber avant les sections de texte.
  *
  * "Frequence" puis "Slow Burn" suivent le lecteur : apres le catalogue,
  * deux titres mis en avant plein ecran, l'un frontal et rouge vif,
@@ -34,6 +38,7 @@ export default function Home() {
     <>
       <HeroSection />
       <MarqueeBand />
+      <ShortSection />
       <ManifestoSection />
       <PlayerSection />
       <FrequenceSection />

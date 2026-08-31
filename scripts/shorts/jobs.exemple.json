@@ -1,0 +1,72 @@
+[
+ {
+  "prompt": "Preserve this exact woman: her long wavy vivid orange-red hair, her fair porcelain skin, her light blue-green eyes, her exact facial bone structure and features. Her complexion is smooth, clear and even \u2014 almost NO freckles, no skin blemishes. Slim elegant figure with a very narrow waist. AERIAL SHOT from directly above and close, looking straight down: she dances slowly on the deck, arms opening outward, her red skirt flaring in a circle around her as she turns. The camera drifts gently downward towards her. Wardrobe: a flowing red midi skirt and a simple fitted cream top, elegant and tasteful, fully covered. Setting: alone on the open deck of a luxury yacht at sea, late golden hour turning to dusk, calm ocean to the horizon, warm hazy light with soft lens flares. SHE IS COMPLETELY ALONE \u2014 no other people anywhere in frame. Look: dream-pop music video, washed nostalgic tones, soft focus, fine film grain, everything in smooth slow motion. Photorealistic, cinematic. No text, no captions.",
+  "refs": [
+   "Celestefardhero",
+   "celesteencoreunportrait",
+   "celesteprofilblanc",
+   "celestebateauok"
+  ],
+  "aspect": "9:16",
+  "size": "1080p",
+  "model": "gemini-omni-1.1-flash",
+  "out": "halo/halo-1-aerien.mp4",
+  "video": true
+ },
+ {
+  "prompt": "Preserve this exact woman: her long wavy vivid orange-red hair, her fair porcelain skin, her light blue-green eyes, her exact facial bone structure and features. Her complexion is smooth, clear and even \u2014 almost NO freckles, no skin blemishes. Slim elegant figure with a very narrow waist. EXTREME CLOSE-UP at ground level, camera very close to her head: her face in profile, eyes closed, chin lifted, hair lifting in the sea wind. She smiles faintly, at peace. Very shallow depth of field. Wardrobe: a flowing red midi skirt and a simple fitted cream top, elegant and tasteful, fully covered. Setting: alone on the open deck of a luxury yacht at sea, late golden hour turning to dusk, calm ocean to the horizon, warm hazy light with soft lens flares. SHE IS COMPLETELY ALONE \u2014 no other people anywhere in frame. Look: dream-pop music video, washed nostalgic tones, soft focus, fine film grain, everything in smooth slow motion. Photorealistic, cinematic. No text, no captions.",
+  "refs": [
+   "Celestefardhero",
+   "celesteencoreunportrait",
+   "celesteprofilblanc",
+   "celestebateauok"
+  ],
+  "aspect": "9:16",
+  "size": "1080p",
+  "model": "gemini-omni-1.1-flash",
+  "out": "halo/halo-2-tete.mp4",
+  "video": true
+ },
+ {
+  "prompt": "Preserve this exact woman: her long wavy vivid orange-red hair, her fair porcelain skin, her light blue-green eyes, her exact facial bone structure and features. Her complexion is smooth, clear and even \u2014 almost NO freckles, no skin blemishes. Slim elegant figure with a very narrow waist. WIDE AERIAL SHOT pulling back and up: she is a small figure alone on the vast white deck of the yacht, arms raised, the ocean stretching to the horizon around her. Wardrobe: a flowing red midi skirt and a simple fitted cream top, elegant and tasteful, fully covered. Setting: alone on the open deck of a luxury yacht at sea, late golden hour turning to dusk, calm ocean to the horizon, warm hazy light with soft lens flares. SHE IS COMPLETELY ALONE \u2014 no other people anywhere in frame. Look: dream-pop music video, washed nostalgic tones, soft focus, fine film grain, everything in smooth slow motion. Photorealistic, cinematic. No text, no captions.",
+  "refs": [
+   "Celestefardhero",
+   "celesteencoreunportrait",
+   "celesteprofilblanc",
+   "celestebateauok"
+  ],
+  "aspect": "9:16",
+  "size": "1080p",
+  "model": "gemini-omni-1.1-flash",
+  "out": "halo/halo-3-large.mp4",
+  "video": true
+ },
+ {
+  "prompt": "Preserve this exact woman: her long wavy vivid orange-red hair, her fair porcelain skin, her light blue-green eyes, her exact facial bone structure and features. Her complexion is smooth, clear and even \u2014 almost NO freckles, no skin blemishes. Slim elegant figure with a very narrow waist. MEDIUM SHOT, low camera angle from the deck: she spins slowly on herself, the red skirt sweeping through the frame, one hand trailing through her hair, head tilted back with joy. Wardrobe: a flowing red midi skirt and a simple fitted cream top, elegant and tasteful, fully covered. Setting: alone on the open deck of a luxury yacht at sea, late golden hour turning to dusk, calm ocean to the horizon, warm hazy light with soft lens flares. SHE IS COMPLETELY ALONE \u2014 no other people anywhere in frame. Look: dream-pop music video, washed nostalgic tones, soft focus, fine film grain, everything in smooth slow motion. Photorealistic, cinematic. No text, no captions.",
+  "refs": [
+   "Celestefardhero",
+   "celesteencoreunportrait",
+   "celesteprofilblanc",
+   "celestebateauok"
+  ],
+  "aspect": "9:16",
+  "size": "1080p",
+  "model": "gemini-omni-1.1-flash",
+  "out": "halo/halo-4-tour.mp4",
+  "video": true
+ },
+ {
+  "prompt": "Preserve this exact woman: her long wavy vivid orange-red hair, her fair porcelain skin, her light blue-green eyes, her exact facial bone structure and features. Her complexion is smooth, clear and even \u2014 almost NO freckles, no skin blemishes. Slim elegant figure with a very narrow waist. LOW ANGLE CLOSE SHOT from the deck floor looking up at her: she stands at the railing looking out to sea, wind in her hair and skirt, then slowly turns her face down towards the lens. Wardrobe: a flowing red midi skirt and a simple fitted cream top, elegant and tasteful, fully covered. Setting: alone on the open deck of a luxury yacht at sea, late golden hour turning to dusk, calm ocean to the horizon, warm hazy light with soft lens flares. SHE IS COMPLETELY ALONE \u2014 no other people anywhere in frame. Look: dream-pop music video, washed nostalgic tones, soft focus, fine film grain, everything in smooth slow motion. Photorealistic, cinematic. No text, no captions.",
+  "refs": [
+   "Celestefardhero",
+   "celesteencoreunportrait",
+   "celesteprofilblanc",
+   "celestebateauok"
+  ],
+  "aspect": "9:16",
+  "size": "1080p",
+  "model": "gemini-omni-1.1-flash",
+  "out": "halo/halo-5-horizon.mp4",
+  "video": true
+ }
+]

@@ -1,0 +1,298 @@
+/* =========================================================
+   SHORT — le clip vertical presente comme un post.
+
+   Deux colonnes en desktop (texte a gauche, telephone a droite),
+   empilees en mobile avec le clip EN PREMIER : sur un petit
+   ecran, c'est lui qu'on vient voir, pas le texte.
+   ========================================================= */
+
+.section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: var(--sp-9);
+  background: linear-gradient(180deg, var(--ink), var(--ink-2) 50%, var(--ink));
+}
+
+.haloA,
+.haloB {
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.haloA {
+  top: -12%;
+  right: -8%;
+  width: min(46rem, 78%);
+  aspect-ratio: 1;
+  background: radial-gradient(circle, rgb(var(--red-rgb) / 0.3), transparent 66%);
+}
+
+.haloB {
+  bottom: -16%;
+  left: -12%;
+  width: min(38rem, 66%);
+  aspect-ratio: 1;
+  background: radial-gradient(circle, rgb(var(--magenta-rgb) / 0.22), transparent 68%);
+}
+
+.inner {
+  display: grid;
+  gap: var(--sp-7);
+  align-items: center;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* --- Colonne texte ------------------------------------- */
+
+.kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--red-soft);
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: var(--glow-red-sm);
+  animation: shortPulse 2.6s var(--ease-in-out) infinite;
+}
+
+@keyframes shortPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(0.7);
+  }
+}
+
+.title {
+  display: grid;
+  margin-block: var(--sp-3) var(--sp-3);
+  font-family: var(--font-display);
+  font-size: clamp(2.6rem, 7vw, 5rem);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-title);
+  text-transform: uppercase;
+  color: var(--paper);
+}
+
+.titleLine {
+  display: block;
+}
+
+.titleAccent {
+  background: linear-gradient(100deg, var(--red-soft), var(--red) 45%, var(--magenta));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.lede {
+  max-width: 40ch;
+  color: var(--text-dim);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+/* --- Chiffres ------------------------------------------ */
+
+.specs {
+  display: flex;
+  gap: var(--sp-5);
+  margin: var(--sp-5) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.specs li {
+  display: grid;
+  gap: 0.15rem;
+}
+
+/* Filet rouge entre les chiffres, comme dans le manifeste. */
+.specs li + li {
+  padding-left: var(--sp-5);
+  border-left: 1px solid rgb(var(--red-rgb) / 0.35);
+}
+
+.specValue {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  line-height: 1;
+  color: var(--paper);
+}
+
+.ctaRow {
+  margin-top: var(--sp-6);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 48px;
+  padding: 0.9rem 1.7rem;
+  border-radius: var(--radius-pill);
+  background: var(--grad-signature-x);
+  box-shadow: var(--glow-red-md);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-small);
+  color: var(--paper);
+  text-decoration: none;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-mid) ease;
+}
+
+.cta:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--glow-red-lg);
+}
+
+/* --- Le telephone -------------------------------------- */
+
+.phone {
+  position: relative;
+  justify-self: center;
+  width: min(100%, 21rem);
+}
+
+.phoneGlow {
+  position: absolute;
+  inset: -12% -18%;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(var(--red-rgb) / 0.35), transparent 68%);
+  filter: blur(50px);
+}
+
+.screen {
+  position: relative;
+  aspect-ratio: 9 / 16;
+  border-radius: 30px;
+  overflow: hidden;
+  /* Bordure epaisse et sombre : suggere le chassis sans dessiner un
+     telephone entier, qui daterait la maquette. */
+  border: 3px solid rgb(var(--paper-rgb) / 0.14);
+  background: #000;
+  box-shadow:
+    var(--shadow-deep),
+    0 0 60px rgb(var(--red-rgb) / 0.28);
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  cursor: pointer;
+}
+
+/* --- Commandes ----------------------------------------- */
+
+.playOverlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: rgb(var(--ink-rgb) / 0.35);
+  cursor: pointer;
+}
+
+.playRing {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  padding-left: 3px; /* recentre le triangle optiquement */
+  border-radius: 50%;
+  border: 1px solid rgb(var(--paper-rgb) / 0.34);
+  background: rgb(var(--red-rgb) / 0.28);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: var(--paper);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.playOverlay:hover .playRing {
+  transform: scale(1.08);
+}
+
+.sound {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgb(var(--paper-rgb) / 0.24);
+  border-radius: 50%;
+  background: rgb(var(--ink-rgb) / 0.6);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: var(--paper);
+  cursor: pointer;
+  transition:
+    border-color var(--dur-fast) ease,
+    background var(--dur-fast) ease;
+}
+
+.sound:hover,
+.sound:focus-visible {
+  border-color: rgb(var(--red-rgb) / 0.7);
+  background: rgb(var(--red-rgb) / 0.22);
+}
+
+/* --- Deux colonnes en desktop -------------------------- */
+
+@media (min-width: 900px) {
+  .inner {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--sp-8);
+  }
+
+  .phone {
+    width: 22rem;
+  }
+}
+
+/* En mobile, le clip passe AVANT le texte : c'est lui qu'on vient voir. */
+@media (max-width: 899px) {
+  .head {
+    order: 2;
+  }
+
+  .phone {
+    order: 1;
+    width: min(100%, 19rem);
+  }
+
+  .specs {
+    gap: var(--sp-4);
+  }
+
+  .specs li + li {
+    padding-left: var(--sp-4);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot {
+    animation: none;
+  }
+}
