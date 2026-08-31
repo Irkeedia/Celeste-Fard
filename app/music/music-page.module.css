@@ -345,6 +345,15 @@
 
 .track {
   position: relative;
+  /* La ligne est un <button> depuis le passage a la lecture en place :
+     sans ces trois remises a zero, le navigateur impose son fond, sa
+     bordure et un centrage de texte qui cassent la grille. */
+  width: 100%;
+  border: 0;
+  background: none;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   grid-template-areas:
@@ -598,5 +607,216 @@
   .btnPrimary:hover,
   .btnGhost:hover {
     transform: none;
+  }
+}
+
+
+/* =========================================================
+   LECTURE EN PLACE
+   Ajoute avec le passage de la tracklist en composant client.
+   ========================================================= */
+
+/* Ligne en cours : filet rouge a gauche + fond tres legerement tenu. */
+.trackCurrent {
+  background: rgb(var(--red-rgb) / 0.07);
+}
+
+.trackCurrent::before {
+  opacity: 1;
+}
+
+.trackCurrent .trackTitle {
+  color: var(--paper);
+}
+
+/* --- Egaliseur (remplace le numero pendant la lecture) --- */
+
+.eq {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 14px;
+}
+
+.eq span {
+  width: 2px;
+  border-radius: 1px;
+  background: var(--red-soft);
+  animation: eqBar 900ms var(--ease-in-out) infinite alternate;
+}
+
+/* Hauteurs et retards distincts : sans cela les quatre barres montent
+   ensemble et l'egaliseur ressemble a un clignotement. */
+.eq span:nth-child(1) { height: 40%; animation-delay: 0ms; }
+.eq span:nth-child(2) { height: 90%; animation-delay: 160ms; }
+.eq span:nth-child(3) { height: 60%; animation-delay: 320ms; }
+.eq span:nth-child(4) { height: 100%; animation-delay: 90ms; }
+
+@keyframes eqBar {
+  from { transform: scaleY(0.35); }
+  to   { transform: scaleY(1); }
+}
+
+/* --- Barre de lecture, collee en bas ------------------- */
+
+.bar {
+  position: sticky;
+  bottom: 0;
+  z-index: 5;
+  margin-top: var(--sp-5);
+  /* Elle file jusqu'aux bords, comme une barre de lecteur. */
+  margin-inline: calc(var(--gutter) * -1);
+  padding: var(--sp-3) var(--gutter) max(var(--sp-3), env(safe-area-inset-bottom));
+  border-top: 1px solid rgb(var(--red-rgb) / 0.28);
+  background: rgb(var(--ink-rgb) / 0.86);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  animation: barIn 320ms var(--ease-out) both;
+}
+
+@keyframes barIn {
+  from { opacity: 0; transform: translateY(0.8rem); }
+  to   { opacity: 1; transform: none; }
+}
+
+.barInner {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    "play meta nav"
+    "seek seek seek";
+  align-items: center;
+  gap: var(--sp-2) var(--sp-3);
+  max-width: var(--maxw);
+  margin-inline: auto;
+}
+
+.barPlay {
+  grid-area: play;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border: 0;
+  border-radius: 50%;
+  background: linear-gradient(140deg, var(--red-soft), var(--red) 55%, var(--magenta));
+  color: var(--paper);
+  cursor: pointer;
+  box-shadow: var(--glow-red-sm);
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.barPlay:hover,
+.barPlay:focus-visible {
+  transform: scale(1.06);
+}
+
+.barMeta {
+  grid-area: meta;
+  display: grid;
+  min-width: 0;
+}
+
+.barTitle {
+  font-weight: var(--fw-bold);
+  color: var(--paper);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.barAlbum {
+  font-size: var(--fs-micro);
+  letter-spacing: var(--ls-micro);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.barTime {
+  font-size: var(--fs-micro);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.barNav {
+  grid-area: nav;
+  display: flex;
+  gap: var(--sp-2);
+}
+
+.barSkip {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: border-color var(--dur-fast) ease, color var(--dur-fast) ease;
+}
+
+.barSkip:hover,
+.barSkip:focus-visible {
+  border-color: rgb(var(--red-rgb) / 0.6);
+  color: var(--paper);
+}
+
+/* --- Curseur de position ------------------------------- */
+
+.barSeek {
+  grid-area: seek;
+  width: 100%;
+  height: 20px;
+  margin: 0;
+  appearance: none;
+  background: none;
+  cursor: pointer;
+}
+
+.barSeek::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 3px;
+  background: rgb(var(--paper-rgb) / 0.18);
+}
+
+.barSeek::-moz-range-track {
+  height: 3px;
+  border-radius: 3px;
+  background: rgb(var(--paper-rgb) / 0.18);
+}
+
+.barSeek::-webkit-slider-thumb {
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  margin-top: -4.5px;
+  border-radius: 50%;
+  background: var(--red);
+  box-shadow: var(--glow-red-sm);
+}
+
+.barSeek::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--red);
+}
+
+/* A partir de 720px, tout tient sur une seule ligne. */
+@media (min-width: 720px) {
+  .barInner {
+    grid-template-columns: auto minmax(8rem, 14rem) auto minmax(0, 1fr) auto auto;
+    grid-template-areas: "play meta time seek total nav";
+    gap: var(--sp-3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eq span,
+  .bar {
+    animation: none;
   }
 }

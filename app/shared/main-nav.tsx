@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
@@ -136,16 +135,23 @@ export function MainNav() {
           aria-label="Navigation principale"
           className="site-nav site-nav--mobile is-open"
         >
-          {/* Silhouette en filigrane : donne du fond au panneau plein ecran,
-              qui etait sinon un simple aplat noir. */}
-          <Image
-            src="/image/silhouette-celeste.png"
-            alt=""
-            width={502}
-            height={900}
-            className="site-nav-silhouette"
-            aria-hidden
-          />
+          {/* Fond : la video du hero, muette et tres assombrie. Elle donne
+              au panneau la meme matiere que le reste du site, la ou un
+              aplat noir faisait "boite de dialogue". */}
+          <span className="site-nav-bg" aria-hidden="true">
+            <video
+              className="site-nav-video"
+              src="/video/celeste-hero-mobile.mp4"
+              poster="/image/miniaturehero.jpg"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="none"
+            />
+            <span className="site-nav-veil" />
+            <span className="site-nav-glow" />
+          </span>
 
           {/* Le burger est recouvert par le panneau : sans cette croix, il
               n'y avait aucun moyen visible de refermer le menu. */}
@@ -155,30 +161,31 @@ export function MainNav() {
             onClick={closeMenu}
             aria-label="Fermer le menu"
           >
-            <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
               <path
                 d="M6 6l12 12M18 6L6 18"
                 stroke="currentColor"
-                strokeWidth="1.8"
+                strokeWidth="1.6"
                 strokeLinecap="round"
               />
             </svg>
           </button>
 
           <div className="site-nav-head">
-            <Image
-              src="/logo_celeste.png"
-              alt=""
-              width={56}
-              height={56}
-              className="brand-logo brand-logo--drawer"
-            />
-            <span className="site-nav-kicker">Explorer</span>
-            <span className="site-nav-display">Celeste Fard</span>
+            <span className="site-nav-kicker">Celeste Fard</span>
+            <span className="site-nav-display">Menu</span>
           </div>
+
           <ul className="nav-list nav-list--drawer">
             {LINKS.map((link, index) => (
-              <li key={link.href}>
+              <li
+                key={link.href}
+                className="nav-drawer-item"
+                /* Cascade d'apparition : chaque entree entre un cran apres
+                   la precedente. En variable CSS pour que le retard reste
+                   pilote par la feuille de style. */
+                style={{ "--i": index } as React.CSSProperties}
+              >
                 <Link
                   className={`nav-link nav-link--drawer ${isActivePath(pathname, link.href) ? "active" : ""}`}
                   href={link.href}
@@ -188,10 +195,18 @@ export function MainNav() {
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <span className="nav-link-label">{link.label}</span>
+                  <span className="nav-link-arrow" aria-hidden>
+                    →
+                  </span>
                 </Link>
               </li>
             ))}
           </ul>
+
+          <div className="site-nav-foot">
+            <span className="site-nav-foot-line" aria-hidden />
+            <span>21 titres en écoute libre</span>
+          </div>
         </nav>
       </>
     ) : null;

@@ -5,18 +5,18 @@ import Link from "next/link";
 import {
   ALBUM_SECONDS,
   ALBUM_TITLE,
-  audioSrc,
   formatAlbumDuration,
-  formatTime,
   PLAYLIST,
 } from "../shared/playlist";
 import styles from "./music-page.module.css";
+import { TracklistPlayer } from "./tracklist-player";
 
 /**
  * PAGE MUSIQUE — le catalogue, pour de vrai.
  *
- * Composant SERVEUR : aucune interaction ici, juste la verite du
- * catalogue rendue en HTML. Les donnees viennent de `app/shared/playlist.ts`,
+ * Composant SERVEUR pour tout ce qui est fixe (hero, chiffres, texte).
+ * La tracklist, elle, est interactive : elle vit dans `tracklist-player`,
+ * un composant client, pour permettre la lecture dans la page. Les donnees viennent de `app/shared/playlist.ts`,
  * le meme module que le lecteur de l'accueil : la page ne peut donc plus
  * mentir sur le nombre de titres ni sur la duree.
  *
@@ -128,47 +128,19 @@ export default function MusicPage() {
               La tracklist
             </h2>
             <p className={styles.listHint}>
-              Cliquez sur une ligne&nbsp;: le fichier s’ouvre, vous l’écoutez ou
-              vous le gardez.
+              Cliquez sur une ligne&nbsp;: la lecture démarre ici même, et
+              enchaîne toute seule sur la suivante.
             </p>
           </div>
 
-          <ol className={styles.tracks}>
-            {PLAYLIST.map((track, i) => (
-              <li key={track.id} className={styles.trackItem}>
-                <a
-                  className={styles.track}
-                  href={audioSrc(track)}
-                  aria-label={`Écouter ${track.title} — ${formatTime(
-                    track.seconds,
-                  )}`}
-                >
-                  <span className={styles.trackNum} aria-hidden="true">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-
-                  <span className={styles.trackTitle}>{track.title}</span>
-
-                  <span className={styles.trackMood}>{track.mood}</span>
-
-                  <span className={styles.trackTime}>
-                    {formatTime(track.seconds)}
-                  </span>
-
-                  <span className={styles.trackIcon} aria-hidden="true">
-                    <IconPlay />
-                  </span>
-                </a>
-              </li>
-            ))}
-          </ol>
+          <TracklistPlayer />
         </section>
 
         {/* ---------------- BAS DE PAGE ---------------- */}
         <section className={`${styles.outro} u-glass`}>
           <p className={`${styles.outroKicker} u-micro`}>La suite</p>
           <h2 className={styles.outroTitle}>
-            Le vrai lecteur est sur l’accueil
+            Et sur l’accueil, la version complète
           </h2>
           <p className={styles.outroText}>
             Forme d’onde, lecture aléatoire, boucle infinie&nbsp;: tout est en
@@ -190,11 +162,3 @@ export default function MusicPage() {
   );
 }
 
-/** Petit triangle de lecture, inline : aucune dependance d'icones. */
-function IconPlay() {
-  return (
-    <svg viewBox="0 0 24 24" width={16} height={16} fill="currentColor" focusable="false">
-      <path d="M8 5.6c0-.9 1-1.5 1.8-1L19 11.1c.7.4.7 1.4 0 1.8L9.8 19.4c-.8.5-1.8-.1-1.8-1V5.6Z" />
-    </svg>
-  );
-}

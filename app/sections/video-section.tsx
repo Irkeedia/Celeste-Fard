@@ -1,65 +1,51 @@
 "use client";
 
 /**
- * CELESTE FARD — SECTION VIDEO (le feed)
+ * SECTION "VIDEO" — carrousel en anneau.
  *
- * Trois clips verticaux 9:16 : celui du milieu est plus grand, plus lumineux
- * et passe au-dessus des autres. Mobile : carrousel horizontal scroll-snap.
+ * Les cartes sont disposees comme si elles tournaient autour d'un axe
+ * central : celle du milieu est de face, les suivantes s'eloignent en
+ * pivotant et en reculant. Remplace la rangee a plat, qui alignait trois
+ * vignettes sans hierarchie.
  *
- * Perf : aucun <video> n'est monte tant que l'utilisateur n'a pas clique.
- * On affiche la miniature via next/image (optimisee), et l'element video
- * n'apparait qu'au clic avec `preload="none"` + `poster` (aucun octet de
- * video n'est telecharge au chargement de la page).
- *
- * Ce composant est client parce que le bouton play pilote reellement la
- * lecture (useState + useRef). Aucune prop n'est obligatoire.
+ * Choix d'implementation :
+ * - la rotation est calculee a partir de l'ECART a la carte active
+ *   (offset), pas d'un angle absolu : ajouter un clip ne demande aucun
+ *   recalcul ;
+ * - au-dela de deux crans d'ecart la carte est masquee, sinon les cartes
+ *   lointaines restent cliquables sous les autres et alourdissent le rendu ;
+ * - la lecture ne demarre que sur clic, et uniquement sur la carte active.
+ *   Le <video> n'est monte qu'a ce moment : trois videos en autoplay
+ *   feraient ramer la page pour rien.
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import Image from "next/image";
 
 import styles from "./video-section.module.css";
 
 export interface VideoClip {
-  /** Identifiant stable, sert de cle React. */
   id: string;
-  /** Titre affiche en bas de la carte. */
   title: string;
-  /** Sous-titre, ton Celeste. */
   caption: string;
-  /** Micro-label au-dessus du titre (categorie du clip). */
   kicker: string;
-  /** Fichier video dans /public/video. */
   src: string;
-  /** Miniature dans /public/image — obligatoire (poster). */
   poster: string;
-  /**
-   * Force la mise en vedette de ce clip (carte agrandie).
-   * Sans ce drapeau, c'est le clip du milieu qui est vedette — un calcul
-   * de position qui change de resultat des qu'on ajoute un clip. On le
-   * garde en repli, mais un clip important doit se declarer ici.
-   */
-  featured?: boolean;
 }
 
 export interface VideoSectionProps {
-  /** Surcharge facultative des clips. */
   clips?: VideoClip[];
-  /** Micro-titre au-dessus du grand titre. */
   eyebrow?: string;
 }
 
-/** Les clips reellement presents dans /public/video. */
 const DEFAULT_CLIPS: VideoClip[] = [
   {
     id: "influenceuse",
     title: "Elle prend la parole",
     caption:
-      "Dix secondes pour annoncer dix-huit titres. Je n’ai pas eu besoin de respirer une seule fois.",
+      "Dix secondes pour annoncer vingt et un titres. Je n’ai pas eu besoin de respirer une seule fois.",
     kicker: "À la une",
     src: "/video/celeste-influenceuse.mp4",
     poster: "/image/miniatureinfluenceuse.jpg",
-    featured: true,
   },
   {
     id: "remerciement",
@@ -88,107 +74,71 @@ const DEFAULT_CLIPS: VideoClip[] = [
   },
 ];
 
-interface VideoCardProps {
-  clip: VideoClip;
-  index: number;
-  featured: boolean;
-}
-
-function VideoCard({ clip, index, featured }: VideoCardProps) {
-  const [playing, setPlaying] = useState(false);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-
-  // Le <video> vient d'etre monte : on lance la lecture. Le clic de
-  // l'utilisateur est encore dans la fenetre d'activation, donc autorise.
-  useEffect(() => {
-    if (!playing) return;
-    const node = videoRef.current;
-    if (!node) return;
-    const attempt = node.play();
-    if (attempt && typeof attempt.catch === "function") {
-      // Autoplay refuse : les controles natifs prennent le relais.
-      attempt.catch(() => undefined);
-    }
-  }, [playing]);
-
-  const handlePlay = useCallback(() => setPlaying(true), []);
-
-  const label = String(index + 1).padStart(2, "0");
-
-  return (
-    <article
-      className={`${styles.card} ${featured ? styles.cardFeatured : ""}`}
-    >
-      <div className={styles.frame}>
-        <div className={`${styles.media} u-image-fallback`}>
-          {playing ? (
-            <video
-              ref={videoRef}
-              className={styles.video}
-              src={clip.src}
-              poster={clip.poster}
-              preload="none"
-              controls
-              playsInline
-              onEnded={() => setPlaying(false)}
-            />
-          ) : (
-            <>
-              <Image
-                src={clip.poster}
-                alt={`Miniature du clip ${clip.title}`}
-                fill
-                className={styles.poster}
-                sizes="(max-width: 768px) 78vw, (max-width: 1180px) 32vw, 390px"
-              />
-
-              <div className={styles.veil} aria-hidden="true" />
-              <span className="u-noise-layer" aria-hidden="true" />
-
-              <span className={`${styles.badge} u-glass u-micro`}>
-                {label}
-              </span>
-
-              <button
-                type="button"
-                className={styles.playWrap}
-                onClick={handlePlay}
-                aria-label={`Lire la vidéo : ${clip.title}`}
-              >
-                <span className={styles.playDisc}>
-                  <svg
-                    className={styles.playIcon}
-                    viewBox="0 0 24 28"
-                    aria-hidden="true"
-                    focusable="false"
-                  >
-                    <path d="M2 2.4c0-1.5 1.6-2.4 2.9-1.7l17.2 10.6c1.2.8 1.2 2.6 0 3.4L4.9 25.3C3.6 26 2 25.1 2 23.6V2.4Z" />
-                  </svg>
-                </span>
-              </button>
-
-              <div className={styles.meta}>
-                <span className={`${styles.metaKicker} u-micro`}>
-                  {clip.kicker}
-                </span>
-                <h3 className={styles.metaTitle}>{clip.title}</h3>
-                <p className={styles.metaCaption}>{clip.caption}</p>
-              </div>
-            </>
-          )}
-        </div>
-      </div>
-    </article>
-  );
-}
-
 export function VideoSection({
   clips = DEFAULT_CLIPS,
   eyebrow = "Celeste en video",
 }: VideoSectionProps) {
-  // Repli sur le clip du milieu tant qu'aucun clip ne se declare vedette.
-  const hasExplicitFeatured = clips.some((clip) => clip.featured);
-  const middle = Math.floor(clips.length / 2);
+  const [active, setActive] = useState(0);
+  /** Id du clip dont la video est reellement montee et lancee. */
+  const [playingId, setPlayingId] = useState<string | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const touchX = useRef<number | null>(null);
+
+  const total = clips.length;
+
+  const go = useCallback(
+    (direction: 1 | -1) => {
+      setPlayingId(null);
+      setActive((i) => (i + direction + total) % total);
+    },
+    [total],
+  );
+
+  const select = useCallback((i: number) => {
+    setPlayingId(null);
+    setActive(i);
+  }, []);
+
+  // La video vient d'etre montee par le clic : on la lance. Le geste est
+  // encore dans la fenetre d'activation, la lecture est donc autorisee.
+  useEffect(() => {
+    if (!playingId) return;
+    const node = videoRef.current;
+    if (!node) return;
+    node.play().catch(() => undefined); // refus d'autoplay : controles natifs
+  }, [playingId]);
+
+  // Fleches du clavier : le carrousel est une liste, on doit pouvoir la
+  // parcourir sans souris.
+  const onKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        go(1);
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        go(-1);
+      }
+    },
+    [go],
+  );
+
+  const onTouchStart = useCallback((e: React.TouchEvent) => {
+    touchX.current = e.touches[0]?.clientX ?? null;
+  }, []);
+
+  const onTouchEnd = useCallback(
+    (e: React.TouchEvent) => {
+      const start = touchX.current;
+      touchX.current = null;
+      if (start == null) return;
+      const delta = (e.changedTouches[0]?.clientX ?? start) - start;
+      // 45px : au-dela d'un simple tremblement, en deca d'un vrai scroll.
+      if (Math.abs(delta) < 45) return;
+      go(delta < 0 ? 1 : -1);
+    },
+    [go],
+  );
 
   return (
     <section className={styles.section} aria-labelledby="video-section-title">
@@ -211,24 +161,137 @@ export function VideoSection({
           </p>
         </header>
 
-        <div className={styles.rail}>
-          {clips.map((clip, index) => (
-            <VideoCard
-              key={clip.id}
-              clip={clip}
-              index={index}
-              featured={hasExplicitFeatured ? Boolean(clip.featured) : index === middle}
-            />
-          ))}
+        <div
+          className={styles.stage}
+          role="group"
+          aria-roledescription="carrousel"
+          aria-label="Clips vidéo"
+          tabIndex={0}
+          onKeyDown={onKeyDown}
+          onTouchStart={onTouchStart}
+          onTouchEnd={onTouchEnd}
+        >
+          <div className={styles.ring}>
+            {clips.map((clip, i) => {
+              // Ecart signe le plus court dans l'anneau : de -total/2 a +total/2.
+              let offset = i - active;
+              if (offset > total / 2) offset -= total;
+              if (offset < -total / 2) offset += total;
+
+              const distance = Math.abs(offset);
+              const isActive = offset === 0;
+              const hidden = distance > 2;
+
+              return (
+                <article
+                  key={clip.id}
+                  className={`${styles.card} ${isActive ? styles.cardActive : ""}`}
+                  style={
+                    {
+                      "--offset": offset,
+                      "--distance": distance,
+                    } as React.CSSProperties
+                  }
+                  aria-hidden={hidden || undefined}
+                  // Une carte de cote reste dans le DOM pour l'anneau, mais
+                  // ne doit pas etre atteignable au clavier.
+                  inert={hidden ? true : undefined}
+                >
+                  <div className={`${styles.media} u-image-fallback`}>
+                    {isActive && playingId === clip.id ? (
+                      <video
+                        ref={videoRef}
+                        className={styles.video}
+                        src={clip.src}
+                        poster={clip.poster}
+                        controls
+                        controlsList="nodownload noplaybackrate"
+                        disablePictureInPicture
+                        onContextMenu={(e) => e.preventDefault()}
+                        playsInline
+                        preload="metadata"
+                      />
+                    ) : (
+                      <>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          className={styles.poster}
+                          src={clip.poster}
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                        />
+                        <span className={styles.shade} aria-hidden="true" />
+
+                        <button
+                          type="button"
+                          className={styles.trigger}
+                          onClick={() =>
+                            isActive ? setPlayingId(clip.id) : select(i)
+                          }
+                          tabIndex={hidden ? -1 : 0}
+                          aria-label={
+                            isActive
+                              ? `Lire ${clip.title}`
+                              : `Afficher ${clip.title}`
+                          }
+                        >
+                          <span className={styles.playRing} aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                              <path d="M8 5.5v13a1 1 0 0 0 1.54.84l10-6.5a1 1 0 0 0 0-1.68l-10-6.5A1 1 0 0 0 8 5.5Z" />
+                            </svg>
+                          </span>
+                        </button>
+
+                        <div className={styles.caption}>
+                          <span className={`${styles.kicker} u-micro`}>{clip.kicker}</span>
+                          <h3 className={styles.cardTitle}>{clip.title}</h3>
+                          <p className={styles.cardText}>{clip.caption}</p>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+
+          <button
+            type="button"
+            className={`${styles.arrow} ${styles.arrowPrev}`}
+            onClick={() => go(-1)}
+            aria-label="Clip précédent"
+          >
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+              <path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            className={`${styles.arrow} ${styles.arrowNext}`}
+            onClick={() => go(1)}
+            aria-label="Clip suivant"
+          >
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+              <path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
         </div>
 
-        <div className={styles.foot}>
-          <span className={styles.footLine} aria-hidden="true" />
-          <span className={`${styles.hint} u-micro`}>Glisse pour voir la suite</span>
+        <div className={styles.dots} role="tablist" aria-label="Choisir un clip">
+          {clips.map((clip, i) => (
+            <button
+              key={clip.id}
+              type="button"
+              role="tab"
+              aria-selected={i === active}
+              aria-label={clip.title}
+              className={`${styles.dot} ${i === active ? styles.dotOn : ""}`}
+              onClick={() => select(i)}
+            />
+          ))}
         </div>
       </div>
     </section>
   );
 }
-
-export default VideoSection;
