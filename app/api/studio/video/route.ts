@@ -23,6 +23,20 @@ export const maxDuration = 60;
 const MODELE = "veo-3.1-fast-generate-preview";
 const BASE = "https://generativelanguage.googleapis.com/v1beta";
 
+/**
+ * Veo ne recoit pas d'images de reference : l'identite doit etre decrite en
+ * toutes lettres, sinon on obtient n'importe quelle rousse.
+ *
+ * L'ancrage contemporain repond au meme biais que cote image — « rousse
+ * pale aux longs cheveux » derive spontanement vers le fantasy medieval.
+ */
+const IDENTITE =
+  "A woman with long wavy vivid orange-red hair, very pale porcelain skin with a few faint freckles, " +
+  "light blue-green eyes, natural beauty with no heavy makeup. " +
+  "Present day, modern real world, contemporary clothing. " +
+  "NO fantasy, NO medieval or historical setting, NO capes, cloaks, staffs or crowns. " +
+  "Cinematic photorealistic footage, natural realistic colours, shallow depth of field. SCENE: ";
+
 async function autorise() {
   const jar = await cookies();
   return jetonValide(jar.get(COOKIE)?.value);
@@ -41,7 +55,7 @@ export async function POST(request: Request) {
     method: "POST",
     headers: { "x-goog-api-key": cle, "Content-Type": "application/json" },
     body: JSON.stringify({
-      instances: [{ prompt }],
+      instances: [{ prompt: IDENTITE + prompt }],
       parameters: { aspectRatio: aspect, personGeneration: "allow_adult" },
     }),
   });

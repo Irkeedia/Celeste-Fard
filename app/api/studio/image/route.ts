@@ -33,16 +33,37 @@ const REFS = [
 ];
 
 /**
- * Prefixe ajoute a chaque prompt. Il porte tout ce qui doit rester constant
- * d'une image a l'autre : l'identite du personnage et sa carnation. Sans
- * lui, le modele derive et « ce n'est plus elle ».
+ * Prefixe ajoute a chaque prompt : l'identite du personnage et sa carnation,
+ * qui doivent rester constantes d'une image a l'autre.
+ *
+ * L'ANCRAGE CONTEMPORAIN N'EST PAS DECORATIF. « Femme rousse, peau tres
+ * pale, longs cheveux ondulues » est un archetype massivement associe, dans
+ * les donnees d'entrainement, a l'imagerie prerapha elite et fantasy. Sans
+ * decor explicitement moderne, le modele y retombe seul : les premiers
+ * essais du studio ont produit des sorcieres medievales en cape de velours,
+ * a partir de prompts pourtant neutres. Les prompts ecrits a la main ne
+ * tombaient pas dans le piege parce qu'ils nommaient toujours un lieu
+ * contemporain (rooftop, voiture, cafe) — ce qu'un prompt court ne fait pas.
  */
 const IDENTITE =
-  "Photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. " +
+  "Contemporary editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. " +
   "Preserve her identity with absolute precision: her exact facial bone structure, her long wavy vivid orange-red hair, " +
   "her light blue-green eyes, her narrow straight nose, her exact mouth shape. " +
   "Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the bridge of the nose — she is NOT heavily freckled. " +
-  "ZERO superficiality, no heavy makeup. Realistic skin texture with subtle imperfections, fine film grain. ";
+  "ZERO superficiality, no heavy makeup. Realistic skin texture with subtle imperfections. " +
+  "SETTING: present day, modern real world, contemporary clothing. " +
+  "STRICTLY FORBIDDEN unless the scene explicitly asks for it: fantasy, medieval, historical or period settings, " +
+  "witches, elves, castles, ruins, capes, cloaks, velvet gowns, staffs, swords, crowns, magic, painterly or pre-Raphaelite style. " +
+  "SCENE: ";
+
+/**
+ * Suffixe technique. Place APRES la scene decrite par l'utilisateur : les
+ * dernieres instructions pesent autant que les premieres, et c'est ce qui
+ * verrouille le rendu photographique une fois la scene posee.
+ */
+const RENDU =
+  " Shot on a full-frame camera, editorial magazine quality, natural realistic colours, " +
+  "shallow depth of field, fine film grain. Photorealistic — not an illustration, not a painting, not a render.";
 
 export async function POST(request: Request) {
   const jar = await cookies();
@@ -77,7 +98,7 @@ export async function POST(request: Request) {
     headers: { "x-goog-api-key": cle, "Content-Type": "application/json" },
     body: JSON.stringify({
       model: "gemini-3-pro-image",
-      input: [{ type: "text", text: IDENTITE + prompt }, ...images],
+      input: [{ type: "text", text: IDENTITE + prompt + RENDU }, ...images],
       response_format: {
         type: "image",
         mime_type: "image/jpeg",
