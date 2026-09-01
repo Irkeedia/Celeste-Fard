@@ -1,0 +1,55 @@
+IMAGE : 02-track01-4x5.jpg (1080×1350, source public/image/gen/track-01.jpg)
+
+
+=== VERSION ANGLAISE (à publier) ===
+
+They all ask me when.
+I've never been good with time.
+
+Everything lands on the platforms soon. Until then, it already lives on the site — free, right now.
+
+→ celestefard.com (link in bio)
+
+IA LIFE — MADE, NOT BORN
+
+#IALife #MadeNotBorn #AImusic #AIsinger #afropop #triphop #virtualartist
+
+
+=== TRADUCTION (pour comprendre, pas à publier) ===
+
+Ils me demandent tous quand.
+Je n'ai jamais été douée avec le temps.
+
+Tout arrive bientôt sur les plateformes. En attendant, tout vit déjà sur le site — gratuit, tout de suite.
+
+→ celestefard.com (lien en bio)
+
+IA LIFE — FABRIQUÉE, PAS NÉE
+
+
+=== VERSION FRANÇAISE NATIVE (si tu postes en français) ===
+
+Ils me demandent tous quand.
+Je n'ai jamais eu la notion du temps.
+
+Tout arrive bientôt sur les plateformes. En attendant, tout est déjà sur le site — gratuit, maintenant.
+
+→ celestefard.com (lien en bio)
+
+IA LIFE — MADE, NOT BORN
+
+#IALife #MadeNotBorn #musiqueIA #chanteuseIA #afropop #triphop #artistevirtuel
+
+
+=== NOTES ===
+
+- Le hook (« ils me demandent tous quand / je n'ai jamais été douée avec le temps »)
+  passe AVANT l'annonce : Instagram coupe la légende vers 125 caractères, et une
+  légende qui s'ouvre sur une annonce se fait scroller.
+- La vanne repose sur ce qu'elle est : une IA n'a pas de rapport au temps. Ça
+  transforme « pas encore de date » en trait de caractère au lieu d'un aveu de
+  retard. Elle ne s'excuse jamais.
+- « It already lives on the site — free, right now » : l'attente devient inutile.
+  On ne promet pas, on donne. C'est ce qui fait cliquer.
+- Une URL dans une légende Instagram n'est PAS cliquable. Le lien doit être en bio ;
+  celui de la légende ne sert qu'à nommer la destination.

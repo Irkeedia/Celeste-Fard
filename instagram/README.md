@@ -49,6 +49,18 @@ la répétition, pas par le volume.
 - `posts/` — ce qui part sur le compte, numéroté dans l'ordre de publication
 - `covers/` — les 8 frames candidates du reel Halo, en 1080×1920
 
+Chaque post a le même trio : `NN-nom-reel.mp4`, `NN-nom-cover.jpg`, `NN-nom-legende.txt`.
+
+| N° | Morceau | Durée | Recette du montage |
+|---|---|---|---|
+| 01 | Halo | 30 s | fondus enchaînés, étalonnage crimson, texte en bas |
+| 02 | — | image | portrait 4:5 |
+| 03 | Slow Burn | 9,8 s | format court, une seule idée |
+| 04 | Low Tide | 26 s | coupes franches, bleu nuit, lyrics plein cadre |
+
+Les recettes sont volontairement différentes d'un post à l'autre : quatre reels
+montés pareil se seraient annulés dans le fil.
+
 ## Checklist de publication d'un reel
 
 1. Publier en **Reel**, pas en publication classique — seul le reel est distribué
@@ -57,9 +69,12 @@ la répétition, pas par le volume.
    le web). Instagram recompresse à la réception : partir d'une source déjà
    compressée empile deux pertes, et ça se voit dans les noirs.
 3. Format **9:16** — refuser le recadrage automatique s'il est proposé.
-4. Couverture : **repositionner l'image pour le profil**. La grille affiche la
-   couverture en 4:5 et rogne le haut et le bas — sans ce réglage, le visage se
-   fait couper.
+4. Couverture : **repositionner l'image pour le profil**. Le reel se joue en 9:16
+   plein écran, mais la grille du profil rogne sa vignette en **3:4** (Instagram
+   est passé du carré au portrait 3:4 en janvier 2026). Sur un 1080×1920, on perd
+   environ 240 px en haut et 240 en bas. Garder le visage et tout texte dans la
+   zone centrale : **rien d'important en bas du cadre**, c'est la première chose
+   qui saute.
 5. Vérifier que l'audio est bien crédité comme **son original**. C'est le vecteur
    de propagation : chaque réutilisation renvoie vers le compte.
 6. Ne jamais publier un reel **seul** sur une grille vide. Les curieux qu'il ramène
