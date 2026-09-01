@@ -1,26 +1,40 @@
 /* =========================================================
-   BOUTIQUE — PAGE DEDIEE
+   BOUTIQUE — PAGE DEDIEE, EN PLANCHE CONTACT
    Tout le style de app/shop/page.tsx vit ici.
    On ne consomme QUE les tokens de app/styles/tokens.css.
+
+   Parti pris : beaucoup de noir, des filets de 1px plutot que des
+   cartes arrondies, des cartels de galerie plutot que des fiches
+   produit, et le rouge en accent RARE (numeros de planche, point
+   d'alerte, bouton principal du bandeau de fin).
 
    -------------------------------------------------------
    REGLE CRITIQUE : `mix-blend-mode: screen` (u-screen)
    -------------------------------------------------------
    Les visuels /image/gen/shop-0x.jpg ont un fond NOIR PUR. On
-   l'efface avec `screen`. Or le blending est ISOLE des qu'un
-   ANCETRE du <img> cree un contexte d'empilement. Donc, entre la
-   <section> et le <img> produit : PAS de `transform`, PAS de
-   `filter`, PAS de `perspective`, PAS de `backdrop-filter`, PAS de
-   `z-index` numerique, PAS d'`isolation: isolate`, PAS d'`opacity`
-   inferieure a 1.
-   -> Le visuel est un FRERE de la carte, jamais son enfant.
-   -> Le tilt au survol est pose sur `.panel` et sur `.shot`
-      eux-memes, avec `perspective()` ECRIT DANS la fonction
-      transform (et non en propriete `perspective`).
+   l'efface avec `screen`, ce qui fait flotter le produit dans sa
+   case. Or le blending est ISOLE des qu'un ANCETRE du <img> cree un
+   contexte d'empilement. Donc, entre la <section> et le <img> : PAS
+   de `transform`, PAS de `filter`, PAS de `perspective`, PAS de
+   `backdrop-filter`, PAS de `z-index` numerique, PAS
+   d'`isolation: isolate`, PAS d'`opacity` inferieure a 1.
+   -> `.plate`, `.plateStack` et `.cell` restent donc "plats" : leur
+      seul effet est un `background`, un `border` ou un `overflow`,
+      qui n'isolent rien.
+   -> Les halos, qui portent un `filter: blur()`, sont des FRERES des
+      sections de contenu, jamais des ancetres des visuels.
+
+   Ces visuels ne recoivent JAMAIS `u-image-fallback` : cet utilitaire
+   peint `--grad-image-fallback` en PERMANENCE, pas seulement en cas
+   d'echec. Sous un produit en `object-fit: contain`, ce degrade
+   baverait tout autour. Si un .jpg manque, `img[data-img-failed]`
+   (globals.css) rend l'image transparente et la case reste noire — ce
+   qui, dans une planche contact, se lit comme une case vide.
 
    Les illustrations /image/cartoon/*.jpg ont au contraire un fond
-   BLANC : elles ne recoivent JAMAIS `u-screen`, on les cadre dans
-   une pastille ronde qui assume le blanc comme un sticker.
+   BLANC : elles ne recoivent JAMAIS `u-screen` (le blanc resterait
+   blanc). Elles sont traitees comme des vignettes de la planche :
+   filet fin, angles droits, legende en micro-texte.
    ========================================================= */
 
 /* ---------------------------------------------------------
@@ -36,6 +50,20 @@
     max(var(--gutter), env(safe-area-inset-right));
 }
 
+/* `u-micro` compense son letter-spacing final par un margin-right negatif :
+   on le reconduit partout, sinon les blocs paraissent decales a droite.
+
+   SPECIFICITE : `u-micro` impose `color: var(--text-muted)`. A specificite
+   egale (0-1-0), c'est l'ordre de chargement des feuilles qui trancherait,
+   et Next ne le garantit pas (cf. "Ordering and Merging" de la doc CSS).
+   On double donc la classe (0-2-0) partout ou l'on repeint une propriete
+   deja posee par `u-micro`. */
+.kicker.kicker {
+  display: block;
+  margin: 0 calc(var(--ls-micro) * -1) var(--sp-4) 0;
+  color: var(--red-soft);
+}
+
 /* =========================================================
    1. HERO DE PAGE
    ========================================================= */
@@ -44,61 +72,28 @@
   position: relative;
   overflow: visible;
   padding-block: var(--sp-9) var(--sp-8);
-  background:
-    linear-gradient(
-      180deg,
-      var(--ink) 0%,
-      var(--ink) 45%,
-      rgb(var(--ink-rgb) / 0) 100%
-    ),
-    var(--ink-2);
+  background: var(--ink);
 }
 
-/* Halo centre SANS transform : `inset-inline` symetrique fait le travail,
-   et aucune valeur en `min()` ne peut se desynchroniser de la largeur. */
+/* Halo centre SANS transform : `inset-inline` symetrique fait le travail.
+   Volontairement tres attenue : la page a besoin de noir. */
 .heroHalo {
   position: absolute;
-  top: -22%;
+  top: -20%;
   inset-inline: -18%;
   display: block;
-  aspect-ratio: 1.5 / 1;
+  aspect-ratio: 1.7 / 1;
   pointer-events: none;
   border-radius: 50%;
   background: var(--grad-radial-glow-soft);
-  filter: blur(60px);
+  filter: blur(80px);
+  opacity: 0.4;
 }
 
 /* Le titre display vit sur TOUTE la largeur du conteneur, jamais dans une
    colonne de grille : c'est la seule facon de tenir `--fs-display` (jusqu'a
    11rem) sans que le titre ne se casse en quatre lignes sur grand ecran.
-   Le duo texte / illustration vient ensuite, en bande. */
-.heroBand {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  align-items: center;
-  gap: var(--sp-6);
-  margin-top: var(--sp-6);
-}
-
-.heroCopy {
-  min-width: 0;
-}
-
-/* `u-micro` compense son letter-spacing final par un margin-right
-   negatif : on le reconduit pour ne pas casser l'alignement.
-
-   SPECIFICITE : `u-micro` impose `color: var(--text-muted)`. A specificite
-   egale (0-1-0), c'est l'ordre de chargement des feuilles qui trancherait,
-   et Next ne le garantit pas (cf. "Ordering and Merging" de la doc CSS).
-   On double donc la classe pour passer a 0-2-0 partout ou l'on repeint une
-   propriete deja posee par `u-micro`. */
-.kicker.kicker {
-  display: block;
-  margin: 0 calc(var(--ls-micro) * -1) var(--sp-4) 0;
-  color: var(--red-soft);
-}
-
+   Le duo texte / vignette vient ensuite, en bande. */
 .heroTitle {
   margin: 0;
   font-family: var(--font-display);
@@ -107,19 +102,29 @@
   line-height: var(--lh-display);
   letter-spacing: var(--ls-display);
   color: var(--paper);
-  text-shadow: var(--glow-text-sm);
   text-transform: uppercase;
   text-wrap: balance;
 }
 
-/* Le texte en degrade est transparent : un `text-shadow` le salirait. Son
-   glow passe donc par `drop-shadow`, qui reproduit exactement --glow-text-sm
-   (impossible de brancher un token d'ombre dans `drop-shadow()`). Meme
-   recette que hero-section et cta-section.
-   Sans danger ici : aucun visuel `u-screen` ne vit dans ce hero. */
+/* Le texte en degrade est transparent : un `text-shadow` le salirait.
+   On n'ajoute PAS de `drop-shadow` non plus — ce serait un `filter`, et
+   meme si aucun visuel `u-screen` ne vit dans ce hero, la regle se lit
+   plus simplement si elle vaut pour toute la page. Le degrade suffit. */
 .titleAccent {
   text-shadow: none;
-  filter: drop-shadow(0 0 14px rgb(var(--red-rgb) / 0.45));
+}
+
+.heroBand {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: end;
+  gap: var(--sp-7);
+  margin-top: var(--sp-6);
+}
+
+.heroCopy {
+  min-width: 0;
 }
 
 .heroLede {
@@ -131,8 +136,8 @@
   text-wrap: pretty;
 }
 
-/* Avertissement honnete : aucun paiement n'existe.
-   Classe doublee : on repeint le `color` de `u-micro` (cf. `.kicker`). */
+/* Avertissement honnete : aucun paiement n'existe. Le seul aplat rouge du
+   hero, et il est minuscule — c'est justement ce qui le rend lisible. */
 .heroNotice.heroNotice {
   display: inline-flex;
   align-items: center;
@@ -141,7 +146,7 @@
   padding: var(--sp-2) var(--sp-4);
   border: 1px solid rgb(var(--red-rgb) / 0.32);
   border-radius: var(--radius-pill);
-  background: rgb(var(--red-rgb) / 0.1);
+  background: rgb(var(--red-rgb) / 0.08);
   color: var(--red-soft);
 }
 
@@ -154,26 +159,22 @@
   box-shadow: var(--glow-red-sm);
 }
 
-/* --- Sticker illustre du hero (fond BLANC : pas de u-screen) --- */
+/* --- Vignette illustree (fond BLANC : jamais `u-screen`) --- */
+/* Traitee comme une case de la planche : carree, filet fin, angles
+   droits, legende dessous. L'ancienne pastille ronde a anneau degrade
+   etait, et de loin, l'element le plus criard de la page. */
 
 .heroSticker {
-  position: relative;
-  justify-self: center;
-  width: min(19rem, 68vw);
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  /* Anneau degrade : le blanc de l'illustration devient un parti pris. */
-  padding: 4px;
-  background: var(--grad-signature);
-  box-shadow: var(--glow-red-md), var(--shadow-soft);
+  justify-self: start;
+  width: min(17rem, 60vw);
+  margin: 0;
 }
 
 .heroStickerFrame {
   display: block;
-  width: 100%;
-  height: 100%;
   overflow: hidden;
-  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--line);
 }
 
 .heroStickerImg {
@@ -183,38 +184,28 @@
   object-fit: cover;
 }
 
+.heroStickerCap.heroStickerCap {
+  display: block;
+  margin: var(--sp-3) calc(var(--ls-micro) * -1) 0 0;
+  color: var(--text-muted);
+}
+
 /* =========================================================
-   2. LES TROIS FICHES PRODUIT
+   2. LA PLANCHE + LES CARTELS
    ========================================================= */
 
 .products {
   position: relative;
-  /* `visible` obligatoire : le visuel produit et les halos mordent
-     hors de la section. html/body sont en `overflow-x: clip`
-     (globals.css), donc aucun scroll horizontal n'est possible.
-     Aucun `z-index` ici : cela isolerait le `screen` des visuels. */
+  /* Aucun `z-index` ici : cela isolerait le `screen` des visuels. */
   overflow: visible;
   padding-block: var(--sp-8) var(--sp-10);
+  /* Legerement plus clair que les cases (`--ink`) : la planche se detache
+     du fond sans avoir besoin d'ombre. */
   background: var(--ink-2);
 }
 
-.productsHalo {
-  position: absolute;
-  right: -12%;
-  bottom: -10%;
-  display: block;
-  width: min(720px, 86%);
-  aspect-ratio: 1.3 / 1;
-  pointer-events: none;
-  border-radius: 50%;
-  background: var(--grad-radial-glow-soft);
-  filter: blur(55px);
-  opacity: 0.8;
-}
-
 .head {
-  max-width: 44rem;
-  text-align: left;
+  max-width: 46rem;
 }
 
 .headTitle {
@@ -225,116 +216,113 @@
   line-height: var(--lh-title);
   letter-spacing: var(--ls-title);
   color: var(--paper);
+  text-transform: uppercase;
   text-wrap: balance;
 }
 
 .headLede {
-  max-width: 42ch;
-  margin: var(--sp-3) 0 0;
+  max-width: 44ch;
+  margin: var(--sp-4) 0 0;
   font-size: var(--fs-body);
   line-height: var(--lh-body);
   color: var(--text-dim);
 }
 
-.grid {
+/* --- La planche ----------------------------------------- */
+/* Les filets sont obtenus par un `gap` de 1px sur un fond clair : chaque
+   case repeint un fond opaque par-dessus. Une bordure par case donnerait
+   des traits doubles aux jonctions. */
+
+.plate {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  column-gap: var(--sp-5);
-  row-gap: clamp(5rem, 13vw, 7.5rem);
-  max-width: 23rem;
-  margin: clamp(4.5rem, 10vw, 7rem) auto 0;
+  gap: 1px;
+  margin-top: clamp(3rem, 7vw, 4.5rem);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--line);
+}
+
+/* Les deux petites cases. En pile mobile ce conteneur est transparent au
+   regard : ses enfants s'enchainent simplement dans la planche. */
+.plateStack {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1px;
+  min-height: 0;
+  background: var(--line);
+}
+
+.cell {
+  position: relative;
+  display: block;
+  min-height: 0;
+  /* Opaque : c'est ce fond qui "creuse" les filets. Il sert aussi de fond
+     au `screen` du visuel — le noir pur de l'image ne le modifie pas,
+     c'est donc bien cette couleur que l'on voit autour du produit. */
+  background: var(--ink);
+  aspect-ratio: 3 / 2;
+}
+
+.cellLead {
+  aspect-ratio: 4 / 5;
+}
+
+.shot {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* `contain` et non `cover` : les visuels sont carres, les cases ne le
+     sont pas. `cover` rognerait le produit ; le noir laisse autour
+     disparait de toute facon avec le `screen`. */
+  object-fit: contain;
+  padding: var(--sp-4);
+}
+
+/* Numero de planche. Peint APRES l'image (ordre du DOM) et sans
+   `z-index` : il passe donc au-dessus sans creer de contexte. */
+.cellIdx.cellIdx {
+  position: absolute;
+  top: var(--sp-4);
+  left: var(--sp-4);
+  margin-right: calc(var(--ls-micro) * -1);
+  color: var(--red-soft);
+}
+
+/* --- Les cartels ---------------------------------------- */
+/* C'est la recompense du clic depuis la home : matiere, format, note
+   d'usage, prix. Une ligne par piece, separee par un filet. */
+
+.cartels {
+  margin: clamp(3rem, 6vw, 4.5rem) 0 0;
   padding: 0;
   list-style: none;
 }
 
-/* --- Une fiche ------------------------------------------ */
-
-.item {
-  /* --shot-w : largeur du visuel produit.
-     --overhang : hauteur qui deborde AU-DESSUS de la carte.
-     Le `padding-top` reserve exactement cette place, donc rien ne
-     sort de la grille.
-     `min(..., 76%)` borne le visuel a la largeur reelle de la carte :
-     sinon, aux largeurs intermediaires, le halo (128 %) debordait. */
-  --shot-w: min(clamp(11.5rem, 42vw, 16rem), 76%);
-  --overhang: clamp(3rem, 8.5vw, 4.75rem);
-
-  position: relative;
-  padding-top: var(--overhang);
+.cartel {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: var(--sp-4) var(--sp-5);
+  padding-block: var(--sp-6);
+  border-top: 1px solid var(--line);
 }
 
-/* Halo rouge derriere le produit. Fait aussi office de fond de secours
-   si le .jpg manque : volontairement sombre, sinon le `screen` de
-   l'image virerait au delave. */
-.itemHalo {
-  position: absolute;
-  top: calc(var(--shot-w) * 0.04);
-  left: 50%;
-  display: block;
-  width: calc(var(--shot-w) * 1.28);
-  aspect-ratio: 1 / 1;
-  margin-left: calc(var(--shot-w) * -0.64);
-  pointer-events: none;
-  border-radius: 50%;
-  background: radial-gradient(
-    closest-side,
-    rgb(var(--red-rgb) / 0.38) 0%,
-    rgb(var(--magenta-rgb) / 0.22) 46%,
-    rgb(var(--violet-rgb) / 0.3) 72%,
-    rgb(var(--violet-rgb) / 0) 100%
-  );
-  filter: blur(28px);
-  opacity: 0.85;
-  transition: opacity var(--dur-slow) var(--ease-out);
+.cartel:last-child {
+  border-bottom: 1px solid var(--line);
 }
 
-/* --- La carte ------------------------------------------- */
-
-.panel {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* Le visuel mord dans la carte : on degage sa hauteur visible. */
-  padding: calc(var(--shot-w) - var(--overhang) + var(--sp-5)) var(--sp-5)
-    var(--sp-6);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-lg);
-  /* Fond OPAQUE et non `backdrop-filter` : un filtre de fond creerait
-     un contexte d'empilement et casserait le `screen` du visuel. */
-  background: linear-gradient(
-    180deg,
-    rgb(var(--ink-rgb) / 0.62) 0%,
-    var(--ink-3) 100%
-  );
-  box-shadow: var(--shadow-soft);
-  text-align: center;
-  transition:
-    transform var(--dur-slow) var(--ease-out),
-    border-color var(--dur-slow) var(--ease-out),
-    box-shadow var(--dur-slow) var(--ease-out);
+.cartelIdx.cartelIdx {
+  margin: 0.35rem calc(var(--ls-micro) * -1) 0 0;
+  color: var(--red-soft);
 }
 
-/* Lisere lumineux interne. */
-.panel::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  border-radius: inherit;
-  background: linear-gradient(
-    180deg,
-    rgb(var(--paper-rgb) / 0.09) 0%,
-    rgb(var(--paper-rgb) / 0) 40%
-  );
+.cartelBody {
+  min-width: 0;
 }
 
-.index {
-  margin: 0 calc(var(--ls-micro) * -1) var(--sp-2) 0;
-  color: var(--text-muted);
-}
-
-.name {
+.cartelName {
   margin: 0;
   font-family: var(--font-display);
   font-size: var(--fs-h3);
@@ -345,80 +333,63 @@
   text-transform: uppercase;
 }
 
-/* Classe doublee : on repeint le `color` de `u-micro` (cf. `.kicker`). */
-.spec.spec {
+.cartelSpec.cartelSpec {
+  display: block;
   margin: var(--sp-2) calc(var(--ls-micro) * -1) 0 0;
-  color: var(--red-soft);
+  color: var(--text-muted);
 }
 
-.desc {
-  max-width: 26ch;
+.cartelDesc {
+  max-width: 52ch;
   margin: var(--sp-3) 0 0;
-  font-size: var(--fs-small);
+  font-size: var(--fs-body);
   line-height: var(--lh-body);
   color: var(--text-dim);
-  text-wrap: pretty;
 }
 
-/* --- Le visuel qui deborde ------------------------------ */
-
-.shotWrap {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  display: block;
-  width: var(--shot-w);
-  margin-left: calc(var(--shot-w) / -2);
-  aspect-ratio: 1 / 1;
-  pointer-events: none;
+.cartelNote {
+  max-width: 52ch;
+  margin: var(--sp-2) 0 0;
+  font-size: var(--fs-small);
+  line-height: var(--lh-body);
+  color: var(--text-muted);
 }
 
-.shot {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform var(--dur-slow) var(--ease-out);
-}
-
-/* --- Pastille de prix ----------------------------------- */
-
-.price {
-  position: absolute;
-  top: calc(var(--overhang) - 0.9rem);
-  right: clamp(0.4rem, 3vw, 1.4rem);
-  display: inline-flex;
+/* Colonne prix + bouton. En mobile elle passe sous le corps du cartel,
+   en ligne ; en desktop elle devient une colonne alignee a droite. */
+.cartelSide {
+  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  padding: 0.55rem 1.05rem;
-  border: 1px solid rgb(var(--paper-rgb) / 0.24);
-  border-radius: var(--radius-pill);
-  background: var(--grad-signature-x);
-  box-shadow: var(--glow-red-sm), var(--shadow-soft);
-  color: var(--paper);
-  font-family: var(--font-display);
-  font-size: var(--fs-body);
-  font-weight: var(--fw-black);
-  letter-spacing: 0.01em;
-  line-height: 1;
-  white-space: nowrap;
-  transition: transform var(--dur-slow) var(--ease-out);
+  gap: var(--sp-4);
+  grid-column: 2;
 }
 
-/* --- Bouton honnete : rien a acheter -------------------- */
+/* Le prix est le seul element vraiment gros de la page apres le titre :
+   dans un cartel de galerie, c'est lui qui remplace la pastille rouge. */
+.cartelPrice {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3.4vw, 2.4rem);
+  font-weight: var(--fw-black);
+  line-height: 1;
+  letter-spacing: var(--ls-title);
+  color: var(--paper);
+  white-space: nowrap;
+}
 
+/* Bouton honnete : rien n'est achetable, et il le dit. */
 .buy {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.55rem;
-  width: 100%;
-  min-height: 48px;
-  margin-top: var(--sp-5);
-  padding: 0.75rem 1.3rem;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0.7rem 1.2rem;
   border: 1px dashed var(--line-strong);
   border-radius: var(--radius-pill);
-  background: rgb(var(--paper-rgb) / 0.05);
-  color: var(--text-dim);
+  background: transparent;
+  color: var(--text-muted);
   font: inherit;
   font-size: var(--fs-micro);
   font-weight: var(--fw-bold);
@@ -435,53 +406,12 @@
   margin-right: calc(var(--ls-micro) * -1);
 }
 
-.itemNote {
-  margin: var(--sp-3) 0 0;
-  font-size: var(--fs-small);
-  line-height: 1.5;
-  color: var(--text-muted);
-}
-
-/* --- Tilt subtil au survol ------------------------------ */
-/* `perspective()` est DANS la fonction transform : aucun ancetre du
-   visuel ne devient un contexte d'empilement, le `screen` tient. */
-
-.item:hover .panel,
-.item:focus-within .panel {
-  transform: perspective(900px) rotate3d(1, -0.35, 0, 4.5deg) translateY(-6px);
-  border-color: rgb(var(--red-rgb) / 0.36);
-  box-shadow: var(--shadow-deep), var(--glow-red-sm);
-}
-
-.item:hover .shot,
-.item:focus-within .shot {
-  transform: perspective(900px) rotate3d(1, -0.35, 0, 4.5deg)
-    translateY(-0.85rem) scale(1.05);
-}
-
-.item:hover .price,
-.item:focus-within .price {
-  transform: translateY(-0.35rem);
-}
-
-.item:hover .itemHalo,
-.item:focus-within .itemHalo {
-  opacity: 1;
-}
-
-/* --- Rappel global sous la grille ----------------------- */
-
 .disclaimer {
-  max-width: 52ch;
-  margin: clamp(3rem, 7vw, 4.5rem) auto 0;
-  padding: var(--sp-4) var(--sp-5);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  background: var(--surface);
+  max-width: 60ch;
+  margin: clamp(2.5rem, 5vw, 3.5rem) 0 0;
   font-size: var(--fs-small);
   line-height: var(--lh-body);
   color: var(--text-muted);
-  text-align: center;
 }
 
 /* =========================================================
@@ -495,15 +425,8 @@
   background: var(--ink);
 }
 
-.whyGrid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  align-items: start;
-  gap: var(--sp-7);
-}
-
 .whyHead {
-  min-width: 0;
+  max-width: 46rem;
 }
 
 .whyTitle {
@@ -519,84 +442,36 @@
 }
 
 .whyLede {
-  max-width: 40ch;
+  max-width: 46ch;
   margin: var(--sp-4) 0 0;
   font-size: var(--fs-body);
   line-height: var(--lh-body);
   color: var(--text-dim);
 }
 
-/* Sticker illustre (fond blanc assume, jamais `u-screen`). */
-.whySticker {
-  position: relative;
-  width: min(13rem, 46vw);
-  margin-top: var(--sp-6);
-  aspect-ratio: 1 / 1;
-  padding: 3px;
-  border-radius: 50%;
-  background: var(--grad-signature-x);
-  box-shadow: var(--glow-red-sm);
-}
-
-.whyStickerFrame {
-  display: block;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  border-radius: 50%;
-}
-
-.whyStickerImg {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
+/* Meme langage que la planche : des filets de 1px, pas des cartes.
+   Le fond des colonnes reprend `--ink`, celui de la section : seuls les
+   traits de separation restent visibles. */
 .reasons {
   display: grid;
-  gap: var(--sp-4);
-  margin: 0;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1px;
+  margin: clamp(3rem, 6vw, 4.5rem) 0 0;
   padding: 0;
+  background: var(--line);
+  border-block: 1px solid var(--line);
   list-style: none;
 }
 
 .reason {
-  position: relative;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  align-items: start;
-  gap: var(--sp-4);
-  padding: var(--sp-5);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  background: var(--surface);
-  transition:
-    border-color var(--dur-fast) var(--ease-out),
-    transform var(--dur-fast) var(--ease-out),
-    box-shadow var(--dur-fast) var(--ease-out);
+  padding: var(--sp-6) 0;
+  background: var(--ink);
 }
 
-.reason:hover {
-  border-color: rgb(var(--red-rgb) / 0.4);
-  transform: translateY(-3px);
-  box-shadow: var(--glow-red-sm);
-}
-
-.reasonNum {
-  font-family: var(--font-display);
-  font-size: clamp(1.9rem, 4vw, 2.6rem);
-  font-weight: var(--fw-black);
-  line-height: 1;
-  letter-spacing: var(--ls-title);
-  background: var(--grad-signature-x);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.reasonBody {
-  min-width: 0;
+.reasonNum.reasonNum {
+  display: block;
+  margin: 0 calc(var(--ls-micro) * -1) var(--sp-4) 0;
+  color: var(--red-soft);
 }
 
 .reasonTitle {
@@ -607,13 +482,42 @@
   line-height: 1.15;
   letter-spacing: var(--ls-title);
   color: var(--paper);
+  text-transform: uppercase;
 }
 
 .reasonText {
-  margin: var(--sp-2) 0 0;
+  margin: var(--sp-3) 0 0;
   font-size: var(--fs-small);
   line-height: var(--lh-body);
   color: var(--text-dim);
+}
+
+/* Vignette illustree, alignee a droite sous les colonnes (fond blanc
+   assume, jamais `u-screen`). */
+.whySticker {
+  width: min(12rem, 40vw);
+  margin: var(--sp-7) 0 0 auto;
+}
+
+.whyStickerFrame {
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--line);
+}
+
+.whyStickerImg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.whyStickerCap.whyStickerCap {
+  display: block;
+  margin: var(--sp-3) calc(var(--ls-micro) * -1) 0 0;
+  color: var(--text-muted);
+  text-align: right;
 }
 
 /* =========================================================
@@ -624,29 +528,12 @@
   position: relative;
   overflow: visible;
   padding-block: var(--sp-9) var(--sp-10);
-  background: linear-gradient(180deg, var(--ink) 0%, var(--ink-2) 100%);
-}
-
-.outroHalo {
-  position: absolute;
-  top: -18%;
-  inset-inline: -14%;
-  display: block;
-  aspect-ratio: 1.4 / 1;
-  pointer-events: none;
-  border-radius: 50%;
-  background: var(--grad-radial-glow-soft);
-  filter: blur(60px);
+  background: var(--ink-2);
 }
 
 .outroPanel {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--sp-4);
-  padding: var(--sp-7) var(--sp-5);
-  text-align: center;
+  max-width: 46rem;
 }
 
 .outroTitle {
@@ -662,8 +549,8 @@
 }
 
 .outroText {
-  max-width: 44ch;
-  margin: 0;
+  max-width: 48ch;
+  margin: var(--sp-4) 0 0;
   font-size: var(--fs-body);
   line-height: var(--lh-body);
   color: var(--text-dim);
@@ -672,9 +559,8 @@
 .outroActions {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   gap: var(--sp-3);
-  margin-top: var(--sp-2);
+  margin-top: var(--sp-6);
 }
 
 .action {
@@ -696,27 +582,26 @@
     border-color var(--dur-fast) var(--ease-out);
 }
 
+/* Le seul aplat rouge plein de la page : il est en fin de parcours, sur
+   l'action que l'on veut reellement voir cliquee. */
 .actionPrimary {
   background: var(--grad-signature-x);
   color: var(--paper);
-  box-shadow: var(--glow-red-sm);
 }
 
 .actionPrimary:hover {
   transform: translateY(-2px);
-  box-shadow: var(--glow-red-md);
+  box-shadow: var(--glow-red-sm);
 }
 
 .actionGhost {
   border-color: var(--line-strong);
-  background: var(--surface);
   color: var(--paper);
 }
 
 .actionGhost:hover {
   transform: translateY(-2px);
   border-color: rgb(var(--red-rgb) / 0.6);
-  background: rgb(var(--red-rgb) / 0.14);
 }
 
 .actionIcon {
@@ -729,75 +614,81 @@
 }
 
 /* =========================================================
-   RESPONSIVE — mobile first (375 / 768 / 1440)
+   RESPONSIVE — mobile first
    ========================================================= */
 
-/* --- Tablette ------------------------------------------- */
 @media (min-width: 700px) {
-  .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    max-width: 46rem;
-  }
-
-  /* La 3e fiche est centree sur toute la ligne. */
-  .grid > .item:last-child {
-    grid-column: 1 / -1;
-    justify-self: center;
-    width: 100%;
-    max-width: 22rem;
-  }
-
+  /* Trois colonnes de raisons, separees par des filets verticaux. */
   .reasons {
-    gap: var(--sp-5);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .reason {
+    padding: var(--sp-6) var(--sp-5);
+  }
+
+  /* Le premier et le dernier ne sont pas retrecis vers l'exterieur :
+     le texte reste aligne sur la gouttiere de la page. */
+  .reason:first-child {
+    padding-left: 0;
+  }
+
+  .reason:last-child {
+    padding-right: 0;
   }
 }
 
 @media (min-width: 860px) {
   .heroBand {
-    grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.6fr);
+    grid-template-columns: minmax(0, 1fr) auto;
     gap: var(--sp-8);
     margin-top: var(--sp-7);
   }
 
   .heroSticker {
     justify-self: end;
-    width: min(20rem, 30vw);
   }
 
-  .whyGrid {
-    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-    gap: var(--sp-8);
+  /* La planche prend sa forme MIROIR du teaser de la home : deux petites
+     cases empilees a gauche, la grande a droite.
+
+     C'est la PLANCHE qui porte le ratio, pas les cases : tant que la
+     hauteur venait des cases, les petites imposaient celle de leur visuel
+     carre (`1fr` vaut `minmax(auto, 1fr)`, dont le minimum automatique
+     refuse de comprimer le contenu) et la grande case ne remplissait pas
+     sa colonne. Ici la planche fixe sa hauteur et tout s'etire.
+
+     Le ratio 5/3 est accorde aux colonnes 1fr / 1.5fr : la grande case
+     occupe 60% de la largeur et toute la hauteur, elle tombe donc CARREE ;
+     les deux petites, moitie moins hautes, sont franchement paysage. */
+  .plate {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+    aspect-ratio: 5 / 3;
   }
 
-  .whySticker {
-    width: min(15rem, 22vw);
-    margin-top: var(--sp-7);
-  }
-}
-
-/* --- Desktop -------------------------------------------- */
-@media (min-width: 1024px) {
-  .grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    max-width: none;
-    column-gap: var(--sp-6);
-    row-gap: clamp(5rem, 8vw, 7rem);
+  .plateStack {
+    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
   }
 
-  .grid > .item:last-child {
-    grid-column: auto;
-    justify-self: stretch;
-    width: auto;
-    max-width: none;
+  /* Les ratios par case ne servent qu'en pile mobile : ici la grille
+     commande, et les laisser se battrait avec elle. */
+  .cell,
+  .cellLead {
+    aspect-ratio: auto;
   }
 
-  /* Leger decalage vertical de la fiche centrale : rythme editorial. */
-  .grid > .item:nth-child(2) {
-    margin-top: calc(var(--sp-7) * -1);
+  /* Le cartel passe en trois colonnes : numero, corps, prix + bouton. */
+  .cartel {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: var(--sp-5) var(--sp-7);
   }
 
-  .head {
-    max-width: 50rem;
+  .cartelSide {
+    grid-column: 3;
+    grid-row: 1;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--sp-3);
   }
 }
 
@@ -806,23 +697,11 @@
    ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-  .panel,
-  .shot,
-  .price,
-  .itemHalo,
-  .reason,
   .action,
   .actionIcon {
     transition: none;
   }
 
-  .item:hover .panel,
-  .item:focus-within .panel,
-  .item:hover .shot,
-  .item:focus-within .shot,
-  .item:hover .price,
-  .item:focus-within .price,
-  .reason:hover,
   .action:hover,
   .action:hover .actionIcon {
     transform: none;
@@ -830,16 +709,15 @@
 }
 
 @media (forced-colors: active) {
-  .panel,
-  .reason,
+  .plate,
+  .cell,
+  .heroStickerFrame,
+  .whyStickerFrame,
   .buy {
-    border-color: CanvasText;
+    border: 1px solid CanvasText;
   }
 
-  .itemHalo,
-  .heroHalo,
-  .outroHalo,
-  .productsHalo {
+  .heroHalo {
     display: none;
   }
 }

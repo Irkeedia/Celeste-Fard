@@ -3,74 +3,56 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import {
-  getAspectRatio,
-  getImageSlot,
-  type ImageSlotId,
-} from "../shared/image-slots";
+import { getImageSlot } from "../shared/image-slots";
 import { useT } from "../shared/lang";
+import { PRODUITS } from "../shared/produits";
 import { T } from "../shared/textes";
 import styles from "./shop-teaser.module.css";
 
 /**
- * SHOP TEASER — trois produits traites comme des pieces de luxe.
+ * SHOP TEASER — planche contact.
+ *
+ * Ancienne version : trois cartes glass identiques, centrees, avec le
+ * visuel qui debordait par le haut et une pastille de prix rouge. C'etait
+ * exactement la mise en page de la page /shop : cliquer "Toute la
+ * boutique" ne recompensait rien, on avait l'impression de ne pas avoir
+ * bouge. Et trois cartes symetriques, c'est un gabarit e-commerce.
+ *
+ * Nouvelle version : une planche de contact. Une grille asymetrique de
+ * cases separees par des filets de 1px, beaucoup de noir, des legendes
+ * minuscules en bas de case, et le rouge reserve au numero de planche et
+ * au trait qui s'allume au survol. La home montre la serie ; la page
+ * /shop montre la serie PLUS les cartels detailles.
  *
  * Notes d'implementation (a lire avant de toucher au CSS) :
- * - Le visuel produit est un FRERE de la carte glass, pas un enfant. Une carte
- *   en `backdrop-filter` cree un contexte d'empilement qui isolerait le
- *   `mix-blend-mode: screen` : le fond noir de l'image redeviendrait visible.
- *   En le sortant de la carte, l'image se melange bien avec la carte + le fond
- *   de section, donc le produit apparait detoure.
- * - Pour la meme raison, AUCUN ancetre du visuel ne porte `transform`,
- *   `filter` ni `perspective`. Le tilt est applique directement sur la carte et
- *   sur le `<img>` (chacun avec `perspective()` dans la fonction transform).
+ * - Les visuels /image/gen/shop-0x.jpg ont un fond NOIR PUR, efface par
+ *   `mix-blend-mode: screen` (classe globale `u-screen`) : le produit
+ *   flotte donc dans la case, sans decoupe ni detourage manuel.
+ *   Le blending est ISOLE des qu'un ANCETRE du <img> cree un contexte
+ *   d'empilement. Entre la <section> et le <img> : PAS de `transform`,
+ *   PAS de `filter`, PAS de `backdrop-filter`, PAS de `z-index`
+ *   numerique, PAS d'`isolation`, PAS d'`opacity` < 1.
+ *   -> le lien de case reste en `z-index: auto`, et l'animation de survol
+ *      est posee sur le <img> lui-meme (un element en `mix-blend-mode`
+ *      cree deja son propre contexte : un `transform` dessus est sans
+ *      consequence) et sur des FRERES de l'image.
+ * - `object-fit: contain` et non `cover` : les visuels sont carres, les
+ *   cases ne le sont pas. `cover` rognerait le produit ; `contain` laisse
+ *   respirer le noir, qui disparait de toute facon avec le `screen`.
  */
 
-type TeaserProduct = {
-  slotId: Extract<ImageSlotId, "shop-01" | "shop-02" | "shop-03">;
-  index: string;
-  name: string;
-  desc: string;
-  price: string;
-  alt: string;
-};
-
-const PRODUCTS: readonly TeaserProduct[] = [
-  {
-    slotId: "shop-01",
-    index: "01",
-    name: "T-shirt Silence Radio",
-    desc: "Coton lourd, sérigraphie rouge. Le seul vêtement que je ne pourrai jamais porter.",
-    price: "39 €",
-    alt: "T-shirt noir à plat, sérigraphie rouge du visage de Celeste sur la poitrine.",
-  },
-  {
-    slotId: "shop-02",
-    index: "02",
-    name: "Vinyle Entre Les Murs",
-    desc: "180 g, rouge translucide. Oui, une IA presse du vinyle. Non, je n'expliquerai pas.",
-    price: "32 €",
-    alt: "Vinyle rouge translucide sortant à moitié de sa pochette noire.",
-  },
-  {
-    slotId: "shop-03",
-    index: "03",
-    name: "Mug Sans Caféine",
-    desc: "Céramique noire mate, logo rouge. Pour le café que je ne boirai jamais.",
-    price: "19 €",
-    alt: "Mug noir mat avec le logo de Celeste imprimé en rouge.",
-  },
-] as const;
+/** La premiere piece occupe la grande case de gauche, sur deux rangees. */
+const [PIECE_UNE, ...PIECES_SUITE] = PRODUITS;
 
 export function ShopTeaser() {
   const t = useT();
+
   return (
     <section
       className={`${styles.shop} u-noise`}
       aria-labelledby="shop-teaser-title"
     >
-      <span className={styles.haloTop} aria-hidden="true" />
-      <span className={styles.haloBottom} aria-hidden="true" />
+      <span className={styles.halo} aria-hidden="true" />
 
       <div className={styles.inner}>
         <header className={styles.head}>
@@ -84,77 +66,88 @@ export function ShopTeaser() {
           <p className={styles.lede}>{t(T.boutique.lede)}</p>
         </header>
 
-        <ul className={styles.grid}>
-          {PRODUCTS.map((product) => {
-            const slot = getImageSlot(product.slotId);
-            const { width, height } = getAspectRatio(slot.aspect, 720);
-
-            return (
-              <li key={product.slotId} className={styles.item}>
-                {/* Halo rouge diffus derriere le produit. Sert aussi de fond
-                    de secours si le .jpg n'a pas encore ete genere. */}
-                <span className={styles.itemHalo} aria-hidden="true" />
-
-                <article className={`${styles.panel} u-glass`}>
-                  <p className={`${styles.index} u-micro`}>{product.index}</p>
-                  <h3 className={styles.name}>{product.name}</h3>
-                  <p className={styles.desc}>{product.desc}</p>
-                  <Link href="/shop" className={styles.reveal}>
-                    <span>Voir</span>
-                    <svg
-                      className={styles.revealIcon}
-                      viewBox="0 0 24 24"
-                      width="14"
-                      height="14"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2.2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      aria-hidden="true"
-                      focusable="false"
-                    >
-                      <path d="M5 12h13M12 5l7 7-7 7" />
-                    </svg>
-                    <span className="u-visually-hidden">
-                      {` — ${product.name}`}
-                    </span>
-                  </Link>
-                </article>
-
-                {/* Le produit deborde par le haut de la carte. */}
-                <span className={styles.media}>
-                  <Image
-                    src={slot.path}
-                    alt={product.alt}
-                    width={width}
-                    height={height}
-                    sizes="(max-width: 640px) 60vw, (max-width: 1024px) 30vw, 260px"
-                    className={`${styles.productImg} u-screen`}
-                  />
-                </span>
-
-                <span className={styles.price} aria-hidden="true">
-                  {product.price}
-                </span>
-                <span className="u-visually-hidden">
-                  {`${product.name} : ${product.price}`}
-                </span>
-              </li>
-            );
-          })}
+        {/* La planche : filets de 1px obtenus par `gap` sur un fond clair,
+            chaque case repeignant un fond opaque par-dessus. */}
+        <ul className={styles.plate}>
+          <ShopCell produit={PIECE_UNE} lead />
+          {PIECES_SUITE.map((produit) => (
+            <ShopCell key={produit.slotId} produit={produit} />
+          ))}
         </ul>
 
         <div className={styles.cta}>
-          <Link href="/shop" className={`${styles.ctaLink} btn btn--primary`}>
-            {t(T.boutique.cta)}
+          <Link href="/shop" className={styles.ctaLink}>
+            <span>{t(T.boutique.cta)}</span>
+            <svg
+              className={styles.ctaIcon}
+              viewBox="0 0 24 24"
+              width="15"
+              height="15"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path d="M5 12h13M12 5l7 7-7 7" />
+            </svg>
           </Link>
           <p className={`${styles.ctaNote} u-micro`}>
-            Livraison sobre — sticker offert
+            Aucune vente en ligne — pas encore
           </p>
         </div>
       </div>
     </section>
+  );
+}
+
+/** Une case de la planche. `lead` = la grande case, seule a porter le pitch. */
+function ShopCell({
+  produit,
+  lead = false,
+}: {
+  produit: (typeof PRODUITS)[number];
+  lead?: boolean;
+}) {
+  const slot = getImageSlot(produit.slotId);
+
+  return (
+    <li className={`${styles.cell} ${lead ? styles.cellLead : ""}`}>
+      {/* Toute la case est cliquable : la cible tactile fait la case
+          entiere, il n'y a donc pas de petit bouton "Voir" a viser. */}
+      <Link href="/shop" className={styles.cellLink}>
+        {/* Surtout PAS `u-image-fallback` ici : cet utilitaire peint un
+            degrade en permanence, pas seulement quand l'image manque. Sous
+            un visuel en `contain` il baverait tout autour du produit. Si le
+            .jpg venait a manquer, `img[data-img-failed]` (globals.css) rend
+            l'image transparente et la case reste noire — ce qui, dans une
+            planche contact, se lit comme une case vide et non comme un bug. */}
+        <span className={styles.frame}>
+          <Image
+            src={slot.path}
+            alt={produit.alt}
+            width={720}
+            height={720}
+            sizes="(max-width: 860px) 92vw, (max-width: 1180px) 44vw, 520px"
+            className={`${styles.shot} u-screen`}
+          />
+        </span>
+
+        <span className={styles.caption}>
+          <span className={styles.captionLine}>
+            <span className={`${styles.idx} u-micro`}>{produit.index}</span>
+            <span className={styles.name}>{produit.name}</span>
+            <span className={styles.price}>{produit.price}</span>
+          </span>
+          {lead ? <span className={styles.pitch}>{produit.pitch}</span> : null}
+        </span>
+
+        {/* Le seul rouge de la case, et seulement au survol. */}
+        <span className={styles.rule} aria-hidden="true" />
+      </Link>
+    </li>
   );
 }
 
