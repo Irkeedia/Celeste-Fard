@@ -1,0 +1,14 @@
+[
+  {
+    "prompt": "celeste_char, a woman with long wavy vivid orange-red hair and very pale porcelain skin with a few light freckles across the nose, wearing a black bikini, standing on an empty beach at golden hour, warm low backlight rimming her hair, blurred ocean behind her, confident relaxed pose, looking into the camera, editorial fashion photography, 85mm lens, shallow depth of field, realistic skin texture, fine film grain",
+    "out": "instagram/gen/flux-plage-01.jpg"
+  },
+  {
+    "prompt": "celeste_char, a woman with long wavy vivid orange-red hair and very pale porcelain skin with a few light freckles, wearing a deep red bikini with a white linen shirt open over it floating in the wind, walking in shallow water at sunset, deep crimson and magenta sky, reflections on the wet sand, candid moment, editorial fashion photography, 50mm lens, cinematic colour grading, fine film grain",
+    "out": "instagram/gen/flux-plage-02.jpg"
+  },
+  {
+    "prompt": "celeste_char, a woman with long wavy vivid orange-red hair slicked back wet, very pale porcelain skin, wearing a black bikini top, standing waist-deep in calm sea water at blue hour, water droplets on her shoulders, head turned over her shoulder towards the camera, cool blue tones with warm rim light on her hair, empty horizon, editorial fashion photography, 85mm lens, realistic skin texture, fine film grain",
+    "out": "instagram/gen/flux-plage-03.jpg"
+  }
+]

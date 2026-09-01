@@ -1,0 +1,34 @@
+[
+  {
+    "prompt": "Editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. Preserve her identity with absolute precision: her exact facial bone structure, her long wavy vivid orange-red hair, her light blue-green eyes, her narrow straight nose, her exact mouth shape. Her skin is VERY PALE PORCELAIN, almost translucent, with only a FEW faint freckles scattered lightly across the bridge of the nose — she is NOT heavily freckled. Waist-up framing, she stands on a beach at sunset wearing a deep red two-piece bikini with a light white linen shirt open over it, floating in the sea breeze. Deep crimson and magenta sky, sun low on the horizon, blurred water behind her, no other people. Candid moment, serene and self-possessed, looking away from the camera. ZERO superficiality, no heavy makeup, NOT a seductive pose. Realistic skin texture with subtle imperfections, 85mm lens, cinematic colour grading, fine film grain.",
+    "refs": ["Celestefardhero", "celesteencoreunportrait", "celesteprofilblanc", "celestelematin", "celesteroses", "celestecontratserieuse", "irl-03", "irl-04", "irl-06", "portrait-alt", "hero-portrait", "celestebateauok"],
+    "aspect": "4:5",
+    "size": "2K",
+    "model": "gemini-3-pro-image",
+    "out": "instagram/gen/bikini-02.jpg"
+  },
+  {
+    "prompt": "Editorial summer fashion photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. Preserve her identity with absolute precision: her exact facial bone structure, her long wavy vivid orange-red hair, her light blue-green eyes, her narrow straight nose, her exact mouth shape. Her skin is VERY PALE PORCELAIN, almost translucent, with only a FEW faint freckles scattered lightly across the bridge of the nose — she is NOT heavily freckled. Waist-up framing, she stands on a beach at sunset wearing beachwear: a dark red swimsuit top under an oversized white linen shirt, and a patterned sarong knotted at her waist. Deep crimson and magenta sky, warm rim light, blurred sea behind her, no other people. Relaxed candid moment, looking towards the horizon. ZERO superficiality, no heavy makeup, NOT a seductive pose. Realistic skin texture, 85mm lens, cinematic colour grading, fine film grain.",
+    "refs": ["Celestefardhero", "celesteencoreunportrait", "celesteprofilblanc", "celestelematin", "celesteroses", "celestecontratserieuse", "irl-03", "irl-04", "irl-06", "portrait-alt", "hero-portrait", "celestebateauok"],
+    "aspect": "4:5",
+    "size": "2K",
+    "model": "gemini-3-pro-image",
+    "out": "instagram/gen/bikini-05.jpg"
+  },
+  {
+    "prompt": "Editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. Preserve her identity with absolute precision: her exact facial bone structure, her long wavy vivid orange-red hair, her light blue-green eyes, her narrow straight nose, her exact mouth shape. Her skin is VERY PALE PORCELAIN, almost translucent, with only a FEW faint freckles scattered lightly across the bridge of the nose — she is NOT heavily freckled. Close portrait, head and shoulders only, she is on a beach at golden hour, wet hair pushed back, a large soft towel wrapped around her shoulders and held closed with both hands, thin black swimsuit strap just visible at the neck. Warm low sunlight, sea spray in the air, blurred ocean behind, no other people. Calm, slight smile, looking at the camera. ZERO superficiality, no heavy makeup. Realistic skin texture with subtle imperfections, 85mm lens, shallow depth of field, fine film grain.",
+    "refs": ["Celestefardhero", "celesteencoreunportrait", "celesteprofilblanc", "celestelematin", "celesteroses", "celestecontratserieuse", "irl-03", "irl-04", "irl-06", "portrait-alt", "hero-portrait", "celestebateauok"],
+    "aspect": "4:5",
+    "size": "2K",
+    "model": "gemini-3-pro-image",
+    "out": "instagram/gen/bikini-06.jpg"
+  },
+  {
+    "prompt": "Editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. Preserve her identity with absolute precision: her exact facial bone structure, her long wavy vivid orange-red hair, her light blue-green eyes, her narrow straight nose, her exact mouth shape. Her skin is VERY PALE PORCELAIN, almost translucent, with only a FEW faint freckles scattered lightly across the bridge of the nose — she is NOT heavily freckled. Waist-up framing, she stands waist-deep in calm sea water at blue hour, wearing a simple black swimsuit top, wet hair slicked back, water droplets on her shoulders, arms relaxed at the surface of the water. Cool blue tones with a warm rim light on her hair, empty horizon, no other people. Quiet introspective moment, eyes closed. ZERO superficiality, no heavy makeup, NOT a seductive pose. Realistic skin texture, 85mm lens, fine film grain.",
+    "refs": ["Celestefardhero", "celesteencoreunportrait", "celesteprofilblanc", "celestelematin", "celesteroses", "celestecontratserieuse", "irl-03", "irl-04", "irl-06", "portrait-alt", "hero-portrait", "celestebateauok"],
+    "aspect": "4:5",
+    "size": "2K",
+    "model": "gemini-3-pro-image",
+    "out": "instagram/gen/bikini-07.jpg"
+  }
+]

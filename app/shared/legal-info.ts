@@ -1,6 +1,6 @@
 export const LEGAL = {
   siteName: "Celeste Fard",
-  siteUrl: "https://irkeedia.com",
+  siteUrl: "https://www.celestefard.com",
   creator: "Irkeedia Labs",
   editor: "Mathieu Toffolon",
   email: "irkeedia.com@gmail.com",

@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function ContactPage() {
   return (
     <div className="page-wrap">
@@ -45,6 +47,12 @@ export default function ContactPage() {
           <p>Management&nbsp;: management@celestefard.com</p>
           <p>Presse&nbsp;: press@celestefard.com</p>
           <p>Instagram&nbsp;: @celestefard</p>
+          {/* Acces a l'outil interne de generation. Volontairement discret et
+              sans explication : la page elle-meme est protegee par mot de
+              passe et exclue des moteurs de recherche. */}
+          <p style={{ marginTop: "1.5rem", opacity: 0.45, fontSize: "0.8rem" }}>
+            <Link href="/studio">Espace équipe</Link>
+          </p>
         </div>
       </section>
     </div>

@@ -1,0 +1,20 @@
+[
+  {
+    "prompt": "Sensual editorial beach photograph of THIS EXACT WOMAN from the reference images — preserve her identity precisely: her exact facial bone structure, her long wavy vivid orange-red hair, her light blue-green eyes, her narrow straight nose. Her skin is VERY PALE PORCELAIN, almost translucent, with only a FEW faint freckles across the bridge of the nose — she is NOT heavily freckled. She stands on an empty beach at golden hour in a black two-piece bikini, one hand in her wet hair, body turned three-quarters, chin slightly down, looking straight into the lens. Warm low backlight rimming her silhouette, sea breeze, blurred ocean. Confident and sensual but composed, high-end fashion magazine aesthetic. Realistic skin texture with subtle imperfections, 85mm lens, shallow depth of field, fine film grain.",
+    "refs": ["celesteencoreunportrait", "irl-03", "Celestefardhero", "celesteprofilblanc", "celestelematin"],
+    "model": "grok-imagine-image",
+    "out": "instagram/gen/xai-plage-01.jpg"
+  },
+  {
+    "prompt": "Sensual editorial beach photograph of THIS EXACT WOMAN from the reference images — preserve her identity precisely: her exact facial bone structure, her long wavy vivid orange-red hair, her light blue-green eyes, her narrow straight nose. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the nose — NOT heavily freckled. She lies back on warm sand at sunset in a deep red two-piece bikini, propped on her elbows, knees bent, head tilted back towards the last light. Deep crimson and magenta sky, warm rim light along her arms and hair, empty beach. Relaxed, sensual, self-possessed — high-end fashion magazine aesthetic, never vulgar. Realistic skin texture, 50mm lens, cinematic colour grading, fine film grain.",
+    "refs": ["celesteencoreunportrait", "irl-03", "Celestefardhero", "celesteprofilblanc", "celestelematin"],
+    "model": "grok-imagine-image",
+    "out": "instagram/gen/xai-plage-02.jpg"
+  },
+  {
+    "prompt": "Sensual editorial beach photograph of THIS EXACT WOMAN from the reference images — preserve her identity precisely: her exact facial bone structure, her long wavy vivid orange-red hair, her light blue-green eyes, her narrow straight nose. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the nose — NOT heavily freckled. She stands waist-deep in the sea at dusk in a black bikini top, wet hair slicked back, water running down her shoulders and collarbones, head turned over her shoulder towards the camera. Deep blue hour tones with a warm rim light on her hair, empty horizon. Intense, sensual, quietly confident — high-end fashion magazine aesthetic. Realistic skin texture, 85mm lens, fine film grain.",
+    "refs": ["celesteencoreunportrait", "irl-03", "Celestefardhero", "celesteprofilblanc", "celestelematin"],
+    "model": "grok-imagine-image",
+    "out": "instagram/gen/xai-plage-03.jpg"
+  }
+]

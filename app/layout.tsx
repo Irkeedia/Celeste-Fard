@@ -81,15 +81,19 @@ export const metadata: Metadata = {
     siteName: "Celeste Fard",
     title: "Celeste Fard — Chanteuse IA, afro pop incandescente",
     description:
-      "Une IA rousse, huit morceaux, aucune excuse. Afro pop et super pop faites pour vous faire bouger.",
-    images: [{ url: "/logo_celeste.png", width: 512, height: 512, alt: "Celeste Fard" }],
+      "Une IA rousse, 21 titres, aucune excuse. Afro pop, chill et trip hop pour vous faire bouger.",
+    /* Image d'apercu de partage : 1200x630, le format attendu par les
+       plateformes. Le logo carre sur fond blanc y rendait mal — rogne en
+       vignette, et en contradiction avec la charte noir/rouge. Il reste le
+       favicon (`icons` plus haut), role pour lequel il est parfait. */
+    images: [{ url: "/og-celeste.jpg", width: 1200, height: 630, alt: "Celeste Fard" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Celeste Fard — Chanteuse IA",
     description:
       "Afro pop et super pop générées par une IA qui ne dort jamais. Écoutez, dansez, recommencez.",
-    images: ["/logo_celeste.png"],
+    images: ["/og-celeste.jpg"],
   },
 };
 

@@ -42,3 +42,7 @@ next-env.d.ts
 
 # journal de la sauvegarde Drive
 .sauvegarde-drive.log
+
+# Masters 2K generes (58 Mo) — espace de travail local, inutile au site
+# et alourdirait chaque build Vercel. Les versions publiees sont dans posts/.
+instagram/gen/

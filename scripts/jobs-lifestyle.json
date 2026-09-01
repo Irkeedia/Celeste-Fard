@@ -1,0 +1,42 @@
+[
+  {
+    "prompt": "Upscale lifestyle editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. Preserve her identity with absolute precision: her exact facial bone structure, her long wavy vivid orange-red hair, her light blue-green eyes, her narrow straight nose, her exact mouth shape. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the bridge of the nose — she is NOT heavily freckled. Waist-up framing. She leans on the railing of a rooftop terrace at golden hour, city skyline blurred far below, wearing an elegant beige silk slip dress and thin gold jewellery, a glass of wine on the ledge beside her. Warm low sunlight, soft wind in her hair, looking out at the city. Quiet luxury, understated wealth. ZERO superficiality, no heavy makeup. Realistic skin texture, 85mm lens, shallow depth of field, fine film grain.",
+    "refs": ["Celestefardhero", "celesteencoreunportrait", "celesteprofilblanc", "celestelematin", "celesteroses", "celestecontratserieuse", "irl-03", "irl-04", "irl-06", "portrait-alt", "hero-portrait", "celestebateauok"],
+    "aspect": "4:5",
+    "size": "2K",
+    "model": "gemini-3-pro-image",
+    "out": "instagram/gen/life-01-rooftop.jpg"
+  },
+  {
+    "prompt": "Cinematic lifestyle photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. Preserve her identity with absolute precision: her exact facial bone structure, her long wavy vivid orange-red hair, her light blue-green eyes, her narrow straight nose, her exact mouth shape. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the nose — NOT heavily freckled. Close framing. She sits in the back seat of a car at night, head resting against the window, city neon signs streaking past in the blurred background, wearing a black wool coat. Coloured light washing across her face, reflections on the glass, pensive expression. Cinematic night photography, quiet luxury. ZERO superficiality, no heavy makeup. Realistic skin texture, 50mm lens, fine film grain.",
+    "refs": ["Celestefardhero", "celesteencoreunportrait", "celesteprofilblanc", "celestelematin", "celesteroses", "celestecontratserieuse", "irl-03", "irl-04", "irl-06", "portrait-alt", "hero-portrait", "celestebateauok"],
+    "aspect": "4:5",
+    "size": "2K",
+    "model": "gemini-3-pro-image",
+    "out": "instagram/gen/life-02-voiture-nuit.jpg"
+  },
+  {
+    "prompt": "Intimate lifestyle editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. Preserve her identity with absolute precision: her exact facial bone structure, her long wavy vivid orange-red hair, her light blue-green eyes, her narrow straight nose, her exact mouth shape. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the nose — NOT heavily freckled. Waist-up framing. Early morning in a bright minimalist apartment, she stands barefoot by a large window holding a ceramic coffee cup with both hands, wearing an oversized cream knit sweater, hair loose and undone. Soft diffused daylight, linen curtains, plants, warm neutral tones. Calm, unposed, half smiling. ZERO superficiality, no makeup. Realistic skin texture, 85mm lens, fine film grain.",
+    "refs": ["Celestefardhero", "celesteencoreunportrait", "celesteprofilblanc", "celestelematin", "celesteroses", "celestecontratserieuse", "irl-03", "irl-04", "irl-06", "portrait-alt", "hero-portrait", "celestebateauok"],
+    "aspect": "4:5",
+    "size": "2K",
+    "model": "gemini-3-pro-image",
+    "out": "instagram/gen/life-03-matin.jpg"
+  },
+  {
+    "prompt": "High-end fashion lifestyle photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. Preserve her identity with absolute precision: her exact facial bone structure, her long wavy vivid orange-red hair, her light blue-green eyes, her narrow straight nose, her exact mouth shape. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the nose — NOT heavily freckled. Waist-up framing. She walks through the corridor of a luxury hotel, deep green walls and brass fittings, warm sconce lighting, wearing a tailored charcoal suit with an open collar. Caught mid-stride, glancing back over her shoulder. Rich saturated colours, quiet luxury, editorial magazine aesthetic. ZERO superficiality, no heavy makeup. Realistic skin texture, 50mm lens, fine film grain.",
+    "refs": ["Celestefardhero", "celesteencoreunportrait", "celesteprofilblanc", "celestelematin", "celesteroses", "celestecontratserieuse", "irl-03", "irl-04", "irl-06", "portrait-alt", "hero-portrait", "celestebateauok"],
+    "aspect": "4:5",
+    "size": "2K",
+    "model": "gemini-3-pro-image",
+    "out": "instagram/gen/life-04-hotel.jpg"
+  },
+  {
+    "prompt": "Lifestyle editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. Preserve her identity with absolute precision: her exact facial bone structure, her long wavy vivid orange-red hair, her light blue-green eyes, her narrow straight nose, her exact mouth shape. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the nose — NOT heavily freckled. Waist-up framing. She sits at the terrace table of a Parisian cafe on a rainy afternoon, under the awning, wearing a dark trench coat, hands around an espresso cup, wet street and blurred umbrellas behind her. Soft grey overcast light, rain droplets on the glass, warm interior glow behind. Contemplative, elegant, unposed. ZERO superficiality, no heavy makeup. Realistic skin texture, 85mm lens, shallow depth of field, fine film grain.",
+    "refs": ["Celestefardhero", "celesteencoreunportrait", "celesteprofilblanc", "celestelematin", "celesteroses", "celestecontratserieuse", "irl-03", "irl-04", "irl-06", "portrait-alt", "hero-portrait", "celestebateauok"],
+    "aspect": "4:5",
+    "size": "2K",
+    "model": "gemini-3-pro-image",
+    "out": "instagram/gen/life-05-cafe-pluie.jpg"
+  }
+]
