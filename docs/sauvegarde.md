@@ -67,6 +67,30 @@ Vérifier que la tâche est bien enregistrée :
 crontab -l | grep sauvegarde-drive
 ```
 
+## Vérifier que la sauvegarde a vraiment eu lieu
+
+Le script affiche maintenant, pour chaque dossier, le **nombre de fichiers
+réellement transférés**, et s'arrête en code d'erreur si une copie a échoué :
+
+```
+public/video -> 03 Videos/Site  (2 fichier(s) transfere(s))
+ECHEC : instagram -> 06 Reseaux sociaux/Instagram
+```
+
+Ce n'était pas le cas avant, et ça a mordu : le script passait à rclone une
+option inexistante (`--print-stats`), donc **chaque copie de la boucle échouait**
+— pendant que le journal affichait des lignes rassurantes. La sortie de rclone
+était pipée dans `grep` puis suivie de `|| true`, ce qui détruisait le code
+d'erreur. Une sauvegarde qui ment est pire que pas de sauvegarde : on cesse de
+vérifier. C'est corrigé, mais la leçon vaut pour toute modification future du
+script — **ne jamais avaler le code de sortie de rclone.**
+
+Pour un contrôle indépendant du script, comparer les compteurs :
+
+```bash
+rclone lsf "gdrive:Celeste Fard" -R --files-only | wc -l
+```
+
 ## En cas d'échec
 
 La panne la plus probable est un **jeton rclone expiré**. Le script s'arrête
