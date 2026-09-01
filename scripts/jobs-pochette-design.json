@@ -1,0 +1,34 @@
+[
+  {
+    "prompt": "Minimalist high-contrast album cover photograph, NO TEXT ANYWHERE. THIS EXACT WOMAN from the reference images — same facial bone structure, same long wavy vivid orange-red hair. She stands perfectly centred and symmetrical, chest-up, facing the camera, in TOTAL BACKLIGHT: she is almost a silhouette, her face mostly in deep shadow with only faint red light catching the edge of her cheekbones and the outline of her hair. Behind her head, a series of PERFECT CONCENTRIC GLOWING RINGS in intense neon crimson red, like radiating sound waves, sharp and geometric, thin bright lines on PURE ABSOLUTE BLACK. The black fills most of the frame. Extreme contrast, deep crushed blacks, almost no midtones. Generous empty black space at the TOP THIRD of the square frame. Graphic, radical, minimal — a bold art-directed record sleeve, not a beauty portrait. Photorealistic, fine film grain. ABSOLUTELY NO TEXT, NO LETTERS, NO LOGO.",
+    "refs": ["Celestefardhero", "celesteencoreunportrait", "irl-03", "hero-portrait", "portrait-alt"],
+    "aspect": "1:1",
+    "size": "4K",
+    "model": "gemini-3-pro-image",
+    "out": "instagram/pochettes/design-01-anneaux.jpg"
+  },
+  {
+    "prompt": "Minimalist high-contrast album cover photograph, NO TEXT ANYWHERE. THIS EXACT WOMAN from the reference images — same facial bone structure, same long wavy vivid orange-red hair. Chest-up, facing the camera, positioned slightly LOW in the frame, in TOTAL BACKLIGHT: almost a pure silhouette, face in deep shadow, only a thin rim of crimson light tracing her hair and shoulders. Behind her, a single huge PERFECT CIRCLE of glowing red-to-magenta gradient, deliberately OFF-CENTRE and cropped by the right edge of the frame, like a setting sun. PURE ABSOLUTE BLACK everywhere else, filling most of the image. Extreme contrast, crushed blacks. Large empty black space in the upper left. Bold graphic art direction, radical minimalism, record sleeve aesthetic. Photorealistic, fine film grain. ABSOLUTELY NO TEXT, NO LETTERS, NO LOGO.",
+    "refs": ["Celestefardhero", "celesteencoreunportrait", "irl-03", "hero-portrait", "portrait-alt"],
+    "aspect": "1:1",
+    "size": "4K",
+    "model": "gemini-3-pro-image",
+    "out": "instagram/pochettes/design-02-disque-decale.jpg"
+  },
+  {
+    "prompt": "Minimalist high-contrast album cover photograph, NO TEXT ANYWHERE. THIS EXACT WOMAN from the reference images — same facial bone structure, same long wavy vivid orange-red hair. Head and shoulders, perfectly centred, facing the camera, in TOTAL BACKLIGHT so she reads as a dark silhouette with only faint red edge light on her hair and jawline, eyes barely visible in shadow. Behind her, a row of tall thin VERTICAL GLOWING BARS of neon crimson and magenta light of varying heights, like an audio spectrum analyser, sharp and geometric, standing on PURE ABSOLUTE BLACK. Deep crushed blacks fill the frame. Extreme contrast. Empty black space at the top of the square frame. Radical graphic art direction, bold record sleeve, not a beauty portrait. Photorealistic, fine film grain. ABSOLUTELY NO TEXT, NO LETTERS, NO LOGO.",
+    "refs": ["Celestefardhero", "celesteencoreunportrait", "irl-03", "hero-portrait", "portrait-alt"],
+    "aspect": "1:1",
+    "size": "4K",
+    "model": "gemini-3-pro-image",
+    "out": "instagram/pochettes/design-03-spectre.jpg"
+  },
+  {
+    "prompt": "Minimalist high-contrast album cover photograph, NO TEXT ANYWHERE. THIS EXACT WOMAN from the reference images — same facial bone structure, same long wavy vivid orange-red hair. Extreme close-up of her face filling the lower half of the frame, facing the camera, lit ONLY by a single horizontal band of intense crimson neon light crossing her eyes, everything else falling into PURE ABSOLUTE BLACK. Her hair dissolves into the darkness. The upper half of the square frame is completely empty black. Brutal contrast, crushed blacks, one single light source. Radical minimal graphic art direction, bold record sleeve. Photorealistic, realistic skin texture, fine film grain. ABSOLUTELY NO TEXT, NO LETTERS, NO LOGO.",
+    "refs": ["Celestefardhero", "celesteencoreunportrait", "irl-03", "hero-portrait", "portrait-alt"],
+    "aspect": "1:1",
+    "size": "4K",
+    "model": "gemini-3-pro-image",
+    "out": "instagram/pochettes/design-04-bande.jpg"
+  }
+]

@@ -30,14 +30,13 @@ import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname } from "node:path";
 
 const HOST = process.env.COMFY_HOST ?? "http://127.0.0.1:8188";
-const LORA = "celeste_char.safetensors";
 
-function graphe({ prompt, width, height, steps, seed, lora_strength, guidance }) {
+function graphe({ prompt, width, height, steps, seed, lora_strength, guidance, lora }) {
   return {
     1: { class_type: "UnetLoaderGGUF", inputs: { unet_name: "flux1-dev-Q8_0.gguf" } },
     10: {
       class_type: "LoraLoaderModelOnly",
-      inputs: { model: ["1", 0], lora_name: LORA, strength_model: lora_strength },
+      inputs: { model: ["1", 0], lora_name: lora, strength_model: lora_strength },
     },
     2: {
       class_type: "DualCLIPLoader",
@@ -81,6 +80,7 @@ export async function generate(job) {
     seed: Math.floor(Math.random() * 1e15),
     lora_strength: 0.9,
     guidance: 3.5,
+    lora: "celeste_char.safetensors",
     ...job,
   };
 

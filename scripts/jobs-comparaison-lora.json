@@ -1,0 +1,26 @@
+[
+  {
+    "prompt": "celeste_char, a woman with long wavy vivid orange-red hair and very pale porcelain skin, waist-up portrait in a dark studio, crimson rim light from behind, soft magenta key on the face, black top, looking straight into the camera, editorial photography, 85mm lens, realistic skin texture, fine film grain",
+    "seed": 777001,
+    "lora": "celeste_char.safetensors",
+    "out": "instagram/gen/cmp-v1-studio.jpg"
+  },
+  {
+    "prompt": "celeste_char, a woman with long wavy vivid orange-red hair and very pale porcelain skin, waist-up portrait in a dark studio, crimson rim light from behind, soft magenta key on the face, black top, looking straight into the camera, editorial photography, 85mm lens, realistic skin texture, fine film grain",
+    "seed": 777001,
+    "lora": "celeste_char_v2.safetensors",
+    "out": "instagram/gen/cmp-v2-studio.jpg"
+  },
+  {
+    "prompt": "celeste_char, a woman with long wavy vivid orange-red hair and very pale porcelain skin, close-up face portrait in natural daylight by a window, neutral expression, editorial photography, 85mm lens, realistic skin texture, fine film grain",
+    "seed": 777002,
+    "lora": "celeste_char.safetensors",
+    "out": "instagram/gen/cmp-v1-jour.jpg"
+  },
+  {
+    "prompt": "celeste_char, a woman with long wavy vivid orange-red hair and very pale porcelain skin, close-up face portrait in natural daylight by a window, neutral expression, editorial photography, 85mm lens, realistic skin texture, fine film grain",
+    "seed": 777002,
+    "lora": "celeste_char_v2.safetensors",
+    "out": "instagram/gen/cmp-v2-jour.jpg"
+  }
+]

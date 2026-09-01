@@ -129,7 +129,10 @@ export const PLAYLIST: readonly Track[] = [
     ...NOUVELLE_GEN,
     seconds: 174,
     mood: "On finit toujours par se caler sur quelque chose. Autant que ce soit ça.",
-    cover: "track-04",
+    /* Vraie pochette du single, typographiee en Bodoni. Remplace le slot
+       track-04, qui est un faux visuel de couverture Vogue : une marque
+       deposee n'a rien a faire sur la pochette d'un titre publie. */
+    cover: "/image/gen/frequence-cover.jpg",
   },
   {
     id: "lucide",

@@ -1,0 +1,26 @@
+[
+  {
+    "prompt": "Square album cover artwork for an afrobeat single. Contemporary editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. Preserve her identity with absolute precision: her exact facial bone structure, her long wavy vivid orange-red hair, her light blue-green eyes, her narrow straight nose, her exact mouth shape. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the bridge of the nose — she is NOT heavily freckled. She faces the camera straight on, centred symmetrical composition, chest-up, direct confident gaze, slight smile. Warm saturated afrobeat palette: deep crimson red and burnt orange background with golden sunlight raking across her, rich shadows. Bold condensed sans-serif display typography in cream white reading exactly FREQUENCE in capital letters across the lower third of the cover, clean and perfectly spelled, no other text. Modern music streaming cover art, graphic and striking. Photorealistic, 85mm lens, realistic skin texture, fine film grain. NOT fantasy, NOT medieval, present day.",
+    "refs": ["Celestefardhero", "celesteencoreunportrait", "celesteprofilblanc", "celestelematin", "celesteroses", "irl-03", "irl-04", "irl-06", "portrait-alt", "hero-portrait"],
+    "aspect": "1:1",
+    "size": "4K",
+    "model": "gemini-3-pro-image",
+    "out": "instagram/pochettes/frequence-01.jpg"
+  },
+  {
+    "prompt": "Square album cover artwork for an afrobeat single. Contemporary editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. Preserve her identity with absolute precision: her exact facial bone structure, her long wavy vivid orange-red hair, her light blue-green eyes, her narrow straight nose, her exact mouth shape. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the nose — NOT heavily freckled. Close-up, she faces the camera straight on, perfectly centred, direct intense gaze. Graphic afrobeat cover design: deep black background with concentric glowing crimson and magenta sound-wave rings radiating behind her head like a halo, warm golden rim light on her hair and shoulders. Bold condensed sans-serif display typography in cream white reading exactly FREQUENCE in capital letters at the bottom, clean and perfectly spelled, no other text. Striking modern streaming cover art. Photorealistic, realistic skin texture, fine film grain. NOT fantasy, present day.",
+    "refs": ["Celestefardhero", "celesteencoreunportrait", "celesteprofilblanc", "celestelematin", "celesteroses", "irl-03", "irl-04", "irl-06", "portrait-alt", "hero-portrait"],
+    "aspect": "1:1",
+    "size": "4K",
+    "model": "gemini-3-pro-image",
+    "out": "instagram/pochettes/frequence-02.jpg"
+  },
+  {
+    "prompt": "Square album cover artwork for an afrobeat single, WITHOUT ANY TEXT OR LETTERING. Contemporary editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. Preserve her identity with absolute precision: her exact facial bone structure, her long wavy vivid orange-red hair, her light blue-green eyes, her narrow straight nose, her exact mouth shape. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the nose — NOT heavily freckled. She faces the camera straight on, centred symmetrical composition, chest-up, direct confident gaze. Warm saturated afrobeat palette: deep crimson and burnt orange, golden sunlight raking across her, rich deep shadows, generous empty space in the lower third of the frame for typography to be added later. ABSOLUTELY NO TEXT, NO LETTERS, NO WORDS, NO LOGO anywhere in the image. Photorealistic, 85mm lens, realistic skin texture, fine film grain. NOT fantasy, present day.",
+    "refs": ["Celestefardhero", "celesteencoreunportrait", "celesteprofilblanc", "celestelematin", "celesteroses", "irl-03", "irl-04", "irl-06", "portrait-alt", "hero-portrait"],
+    "aspect": "1:1",
+    "size": "4K",
+    "model": "gemini-3-pro-image",
+    "out": "instagram/pochettes/frequence-03-sans-texte.jpg"
+  }
+]
