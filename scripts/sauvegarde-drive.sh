@@ -48,6 +48,7 @@ COPIES=(
   "public/video|03 Videos/Site"
   "scripts/refs|04 Production/References visage"
   "scripts/shorts|04 Production/Outils et polices"
+  "instagram|06 Reseaux sociaux/Instagram"
 )
 
 for ligne in "${COPIES[@]}"; do

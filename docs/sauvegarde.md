@@ -32,6 +32,7 @@ Le script écrit dans `.sauvegarde-drive.log` (ignoré par git).
 | `~/Téléchargements/celeste-short*.mp4` | `03 Videos/Shorts reseaux` |
 | `scripts/refs/` | `04 Production/References visage` |
 | `scripts/shorts/` | `04 Production/Outils et polices` |
+| `instagram/` | `06 Reseaux sociaux/Instagram` |
 
 `05 Archives Drive (avant rangement)` contient les anciens dossiers Celeste
 qui traînaient dans `Musique/`, déplacés tels quels. Le script n'y touche pas.
