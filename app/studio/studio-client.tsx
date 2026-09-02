@@ -1,16 +1,22 @@
 "use client";
 
 /**
- * Interface du studio.
+ * Interface du studio — pensee pour le telephone, c'est son usage principal.
  *
- * Deux modes : photo (synchrone, 30-60 s) et video (asynchrone, plusieurs
- * minutes). La video ne peut pas tenir dans une seule requete : on lance le
- * rendu, puis on interroge l'operation toutes les 10 s. C'est pour ca que
- * les deux modes ne partagent pas la meme mecanique d'envoi.
+ * Trois partis pris qui expliquent le code :
  *
- * Le prompt saisi n'a PAS besoin de decrire Celeste : le serveur prefixe
- * automatiquement la description d'identite. On decrit donc uniquement la
- * scene, ce qui evite les variations de formulation d'une fois sur l'autre.
+ * 1. MULTI-GENERATION. Gemini ne rend qu'une image par appel. Pour en
+ *    obtenir plusieurs, on lance N requetes EN PARALLELE depuis le
+ *    navigateur plutot qu'une seule requete serveur qui en enchainerait N :
+ *    chaque appel dispose ainsi de son propre budget de temps, une image
+ *    ratee n'entraine pas les autres, et chacune s'affiche des son arrivee.
+ *
+ * 2. AUCUN SAUT DE MISE EN PAGE. Les cases du resultat existent AVANT les
+ *    images, avec un ratio fixe. Sinon la page se reorganise a chaque
+ *    reponse recue et le contenu bouge sous le doigt.
+ *
+ * 3. LE PROMPT NE DECRIT QUE LA SCENE. L'identite de Celeste est ajoutee
+ *    cote serveur, en tete ET en fin de prompt.
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -18,6 +24,8 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./studio.module.css";
 
 type Mode = "photo" | "video";
+type Etat = "vide" | "attente" | "ok" | "erreur";
+type Case = { etat: Etat; url?: string; message?: string };
 
 const PRESETS: Record<Mode, { nom: string; texte: string }[]> = {
   photo: [
@@ -51,52 +59,76 @@ const PRESETS: Record<Mode, { nom: string; texte: string }[]> = {
       texte:
         "Waist-up framing, on an empty beach at golden hour, sea breeze in her hair, blurred ocean behind, warm backlight, relaxed and self-assured.",
     },
+    {
+      nom: "Café pluie",
+      texte:
+        "Waist-up framing, she sits at a Parisian cafe terrace on a rainy afternoon, dark trench coat, hands around an espresso cup, wet street and blurred umbrellas behind, soft grey light.",
+    },
+    {
+      nom: "Gros plan",
+      texte:
+        "Extreme close-up of her face, natural window light, neutral expression, looking straight into the lens, shallow depth of field, 85mm lens.",
+    },
   ],
   video: [
     {
       nom: "Portrait vivant",
       texte:
-        "A woman with long wavy vivid orange-red hair and very pale skin, in a dark studio, slowly turning her head towards the camera, crimson rim light, subtle hair movement, cinematic, shallow depth of field.",
+        "in a dark studio, slowly turning her head towards the camera, crimson rim light, subtle hair movement, shallow depth of field",
     },
     {
       nom: "Marche néon",
       texte:
-        "A woman with long wavy vivid orange-red hair walking slowly towards the camera down a neon-lit street at night, reflections on wet asphalt, slow motion, cinematic colour grading.",
+        "walking slowly towards the camera down a neon-lit street at night, reflections on wet asphalt, slow motion",
     },
     {
       nom: "Fenêtre matin",
       texte:
-        "A woman with long wavy vivid orange-red hair standing by a window in soft morning light, holding a cup, slight smile, curtains moving gently, calm and intimate, handheld camera feel.",
+        "standing by a window in soft morning light, holding a cup, slight smile, curtains moving gently, handheld camera feel",
     },
   ],
 };
 
-const FORMATS: Record<Mode, string[]> = {
-  photo: ["4:5", "9:16", "1:1", "16:9"],
-  video: ["9:16", "16:9"],
+const FORMATS: Record<Mode, { valeur: string; ratio: string }[]> = {
+  photo: [
+    { valeur: "4:5", ratio: "4 / 5" },
+    { valeur: "9:16", ratio: "9 / 16" },
+    { valeur: "1:1", ratio: "1 / 1" },
+    { valeur: "16:9", ratio: "16 / 9" },
+  ],
+  video: [
+    { valeur: "9:16", ratio: "9 / 16" },
+    { valeur: "16:9", ratio: "16 / 9" },
+  ],
 };
 
 export function StudioClient({ connecteInitial }: { connecteInitial: boolean }) {
   const [connecte, setConnecte] = useState(connecteInitial);
   const [motDePasse, setMotDePasse] = useState("");
+  const [erreurLogin, setErreurLogin] = useState("");
+
   const [mode, setMode] = useState<Mode>("photo");
   const [prompt, setPrompt] = useState("");
   const [aspect, setAspect] = useState("4:5");
-  const [enCours, setEnCours] = useState(false);
-  const [etape, setEtape] = useState("");
-  const [erreur, setErreur] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-  const [videoUrl, setVideoUrl] = useState("");
+  const [nombre, setNombre] = useState(1);
 
-  // Un rendu video peut survivre a un changement d'onglet : on garde le
-  // minuteur pour pouvoir l'arreter proprement au demontage.
+  const [cases, setCases] = useState<Case[]>([]);
+  const [enCours, setEnCours] = useState(false);
+  const [etapeVideo, setEtapeVideo] = useState("");
+  const [agrandie, setAgrandie] = useState<string | null>(null);
+
+  const zoneRef = useRef<HTMLDivElement>(null);
   const minuteur = useRef<ReturnType<typeof setTimeout> | null>(null);
   useEffect(() => () => { if (minuteur.current) clearTimeout(minuteur.current); }, []);
+
+  const ratio = FORMATS[mode].find((f) => f.valeur === aspect)?.ratio ?? "4 / 5";
+
+  /* ------------------------------------------------ connexion */
 
   const connexion = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
-      setErreur("");
+      setErreurLogin("");
       const r = await fetch("/api/studio/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -106,7 +138,7 @@ export function StudioClient({ connecteInitial }: { connecteInitial: boolean }) 
         setConnecte(true);
         setMotDePasse("");
       } else {
-        setErreur((await r.json()).erreur ?? "Connexion refusée");
+        setErreurLogin((await r.json()).erreur ?? "Connexion refusée");
       }
     },
     [motDePasse],
@@ -119,72 +151,91 @@ export function StudioClient({ connecteInitial }: { connecteInitial: boolean }) 
 
   const changerMode = useCallback((m: Mode) => {
     setMode(m);
-    setAspect(FORMATS[m][0]);
-    setImageUrl("");
-    setVideoUrl("");
-    setErreur("");
+    setAspect(FORMATS[m][0].valeur);
+    if (m === "video") setNombre(1); // une video coute trop cher pour en lancer 4
+    setCases([]);
+    setEtapeVideo("");
   }, []);
+
+  /* ------------------------------------------------ generation */
 
   const lancer = useCallback(async () => {
     if (!prompt.trim() || enCours) return;
+    const n = mode === "video" ? 1 : nombre;
+
     setEnCours(true);
-    setErreur("");
-    setImageUrl("");
-    setVideoUrl("");
+    setEtapeVideo("");
+    setCases(Array.from({ length: n }, () => ({ etat: "attente" as Etat })));
+    // On amene le resultat sous les yeux : sur telephone il est sinon hors ecran.
+    requestAnimationFrame(() => zoneRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
 
-    try {
-      if (mode === "photo") {
-        setEtape("Génération en cours… 30 à 60 secondes");
-        const r = await fetch("/api/studio/image", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt, aspect }),
-        });
-        const j = await r.json();
-        if (!r.ok) throw new Error(j.erreur ?? "Échec de la génération");
-        setImageUrl(j.image);
-      } else {
-        setEtape("Lancement du rendu vidéo…");
-        const r = await fetch("/api/studio/video", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt, aspect }),
-        });
-        const j = await r.json();
-        if (!r.ok) throw new Error(j.erreur ?? "Échec du lancement");
-
-        const debut = Date.now();
-        const interroger = async () => {
-          const s = await fetch(`/api/studio/video?op=${encodeURIComponent(j.operation)}`);
-          const sj = await s.json();
-          if (sj.erreur) throw new Error(sj.erreur);
-          if (sj.done && sj.videoUrl) {
-            setVideoUrl(sj.videoUrl);
-            setEnCours(false);
-            setEtape("");
-            return;
-          }
-          const ecoule = Math.round((Date.now() - debut) / 1000);
-          setEtape(`Rendu vidéo en cours… ${ecoule} s écoulées (compter 2 à 5 minutes)`);
-          minuteur.current = setTimeout(() => {
-            interroger().catch((e) => {
-              setErreur(e.message);
-              setEnCours(false);
-              setEtape("");
-            });
-          }, 10000);
-        };
-        await interroger();
-        return; // la boucle gere la fin
-      }
-    } catch (e) {
-      setErreur(e instanceof Error ? e.message : "Erreur inconnue");
+    if (mode === "photo") {
+      // En parallele : chaque image arrive quand elle est prete, et un echec
+      // reste local a sa case.
+      await Promise.all(
+        Array.from({ length: n }, (_, i) =>
+          fetch("/api/studio/image", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt, aspect }),
+          })
+            .then(async (r) => {
+              const j = await r.json();
+              if (!r.ok) throw new Error(j.erreur ?? "Échec de la génération");
+              setCases((c) => c.map((x, k) => (k === i ? { etat: "ok", url: j.image } : x)));
+            })
+            .catch((e) => {
+              setCases((c) =>
+                c.map((x, k) => (k === i ? { etat: "erreur", message: e.message } : x)),
+              );
+            }),
+        ),
+      );
+      setEnCours(false);
+      return;
     }
-    setEnCours(false);
-    setEtape("");
-  }, [prompt, aspect, mode, enCours]);
 
-  /* ------------------------------------------------ connexion */
+    /* Video : rendu long, on lance puis on interroge l'operation. */
+    try {
+      setEtapeVideo("Lancement du rendu…");
+      const r = await fetch("/api/studio/video", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt, aspect }),
+      });
+      const j = await r.json();
+      if (!r.ok) throw new Error(j.erreur ?? "Échec du lancement");
+
+      const debut = Date.now();
+      const interroger = async () => {
+        const s = await fetch(`/api/studio/video?op=${encodeURIComponent(j.operation)}`);
+        const sj = await s.json();
+        if (sj.erreur) throw new Error(sj.erreur);
+        if (sj.done && sj.videoUrl) {
+          setCases([{ etat: "ok", url: sj.videoUrl }]);
+          setEnCours(false);
+          setEtapeVideo("");
+          return;
+        }
+        const s2 = Math.round((Date.now() - debut) / 1000);
+        setEtapeVideo(`Rendu en cours… ${s2} s (compter 2 à 5 min)`);
+        minuteur.current = setTimeout(() => {
+          interroger().catch((e) => {
+            setCases([{ etat: "erreur", message: e.message }]);
+            setEnCours(false);
+            setEtapeVideo("");
+          });
+        }, 10000);
+      };
+      await interroger();
+    } catch (e) {
+      setCases([{ etat: "erreur", message: e instanceof Error ? e.message : "Erreur" }]);
+      setEnCours(false);
+      setEtapeVideo("");
+    }
+  }, [prompt, aspect, mode, nombre, enCours]);
+
+  /* ------------------------------------------------ rendu */
 
   if (!connecte) {
     return (
@@ -206,28 +257,31 @@ export function StudioClient({ connecteInitial }: { connecteInitial: boolean }) 
               Se connecter
             </button>
           </form>
-          {erreur && <p className={styles.erreur} style={{ marginTop: "1rem" }}>{erreur}</p>}
+          {erreurLogin && <p className={styles.erreur}>{erreurLogin}</p>}
         </div>
       </div>
     );
   }
 
-  /* ------------------------------------------------ studio */
-
   return (
     <div className={styles.wrap}>
-      <h1 className={styles.titre}>Studio</h1>
+      <div className={styles.entete}>
+        <h1 className={styles.titre}>Studio</h1>
+        <button type="button" className={styles.lienDiscret} onClick={deconnexion}>
+          Quitter
+        </button>
+      </div>
+
       <p className={styles.sous}>
-        Génération d&apos;images et de vidéos de Céleste. Inutile de la décrire : son identité est
-        ajoutée automatiquement. Décris seulement la scène.
+        Décris seulement la scène — l&apos;identité de Céleste est ajoutée automatiquement.
       </p>
 
-      <div className={styles.onglets}>
+      <div className={styles.rangee}>
         {(["photo", "video"] as Mode[]).map((m) => (
           <button
             key={m}
             type="button"
-            className={`${styles.onglet} ${mode === m ? styles.ongletActif : ""}`}
+            className={`${styles.pastille} ${mode === m ? styles.pastilleActive : ""}`}
             onClick={() => changerMode(m)}
           >
             {m === "photo" ? "Photo" : "Vidéo"}
@@ -235,88 +289,156 @@ export function StudioClient({ connecteInitial }: { connecteInitial: boolean }) 
         ))}
       </div>
 
-      <div className={styles.grille}>
-        <div>
-          <label className={styles.champ} htmlFor="prompt">
-            Scène
-          </label>
-          <textarea
-            id="prompt"
-            className={styles.zone}
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            placeholder="Ex : elle marche dans une rue de Paris sous la pluie, trench noir, lumière grise…"
-          />
+      <label className={styles.champ} htmlFor="prompt">
+        Scène
+      </label>
+      <textarea
+        id="prompt"
+        className={styles.zone}
+        value={prompt}
+        onChange={(e) => setPrompt(e.target.value)}
+        placeholder="Ex : elle marche dans une rue de Paris sous la pluie, trench noir, lumière grise…"
+      />
 
-          <div className={styles.presets}>
-            {PRESETS[mode].map((p) => (
-              <button
-                key={p.nom}
-                type="button"
-                className={styles.preset}
-                onClick={() => setPrompt(p.texte)}
-              >
-                {p.nom}
-              </button>
-            ))}
-          </div>
-
-          <label className={styles.champ}>Format</label>
-          <div className={styles.formats}>
-            {FORMATS[mode].map((f) => (
-              <button
-                key={f}
-                type="button"
-                className={`${styles.onglet} ${aspect === f ? styles.ongletActif : ""}`}
-                onClick={() => setAspect(f)}
-              >
-                {f}
-              </button>
-            ))}
-          </div>
-
+      <div className={styles.rangee}>
+        {PRESETS[mode].map((p) => (
           <button
-            className={styles.bouton}
+            key={p.nom}
             type="button"
-            onClick={lancer}
-            disabled={enCours || !prompt.trim()}
+            className={styles.pastille}
+            onClick={() => setPrompt(p.texte)}
           >
-            {enCours ? "En cours…" : mode === "photo" ? "Générer l'image" : "Générer la vidéo"}
+            {p.nom}
           </button>
-
-          <button type="button" className={styles.lienDiscret} onClick={deconnexion}>
-            Se déconnecter
-          </button>
-        </div>
-
-        <div className={styles.resultat}>
-          {erreur ? (
-            <p className={styles.erreur}>{erreur}</p>
-          ) : imageUrl ? (
-            <div style={{ textAlign: "center" }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img className={styles.media} src={imageUrl} alt="Image générée" />
-              <a className={styles.telecharger} href={imageUrl} download="celeste.jpg">
-                Télécharger
-              </a>
-            </div>
-          ) : videoUrl ? (
-            <div style={{ textAlign: "center" }}>
-              <video className={styles.media} src={videoUrl} controls playsInline />
-              <a className={styles.telecharger} href={videoUrl} download="celeste.mp4">
-                Télécharger
-              </a>
-            </div>
-          ) : enCours ? (
-            <p className={styles.attente}>
-              <span className={styles.pouls} />
-              {etape}
-            </p>
-          ) : (
-            <p className={styles.attente}>Le résultat apparaîtra ici</p>
-          )}
-        </div>
+        ))}
       </div>
+
+      <label className={styles.champ}>Format</label>
+      <div className={styles.rangee}>
+        {FORMATS[mode].map((f) => (
+          <button
+            key={f.valeur}
+            type="button"
+            className={`${styles.pastille} ${styles.pastilleEtroite} ${
+              aspect === f.valeur ? styles.pastilleActive : ""
+            }`}
+            onClick={() => setAspect(f.valeur)}
+          >
+            {f.valeur}
+          </button>
+        ))}
+      </div>
+
+      {mode === "photo" && (
+        <>
+          <label className={styles.champ}>Nombre d&apos;images</label>
+          <div className={styles.rangee}>
+            {[1, 2, 3, 4].map((n) => (
+              <button
+                key={n}
+                type="button"
+                className={`${styles.pastille} ${styles.pastilleEtroite} ${
+                  nombre === n ? styles.pastilleActive : ""
+                }`}
+                onClick={() => setNombre(n)}
+              >
+                {n}
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+
+      <button
+        className={styles.bouton}
+        type="button"
+        onClick={lancer}
+        disabled={enCours || !prompt.trim()}
+      >
+        {enCours
+          ? "En cours…"
+          : mode === "video"
+            ? "Générer la vidéo"
+            : `Générer ${nombre > 1 ? `${nombre} images` : "l'image"}`}
+      </button>
+
+      <div className={styles.zoneResultats} ref={zoneRef}>
+        {etapeVideo && (
+          <p className={styles.attente}>
+            <span className={styles.pouls} />
+            {etapeVideo}
+          </p>
+        )}
+
+        {cases.length > 0 && (
+          <div className={styles.grilleResultats} data-multi={cases.length > 1}>
+            {cases.map((c, i) => (
+              <div
+                key={i}
+                className={`${styles.case} ${mode === "video" ? styles.videoCase : ""}`}
+                style={{ ["--ratio" as string]: ratio }}
+              >
+                {c.etat === "attente" && (
+                  <p className={styles.attente}>
+                    <span className={styles.pouls} />
+                    {mode === "video" ? "Rendu…" : "30 à 60 s"}
+                  </p>
+                )}
+
+                {c.etat === "erreur" && <p className={styles.erreur}>{c.message}</p>}
+
+                {c.etat === "ok" && c.url && mode === "photo" && (
+                  <>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img className={styles.media} src={c.url} alt={`Génération ${i + 1}`} />
+                    <div className={styles.actions}>
+                      <button
+                        type="button"
+                        className={styles.action}
+                        onClick={() => setAgrandie(c.url!)}
+                      >
+                        Agrandir
+                      </button>
+                      <a
+                        className={styles.action}
+                        href={c.url}
+                        download={`celeste-${i + 1}.jpg`}
+                      >
+                        Enregistrer
+                      </a>
+                    </div>
+                  </>
+                )}
+
+                {c.etat === "ok" && c.url && mode === "video" && (
+                  <>
+                    <video className={styles.media} src={c.url} controls playsInline />
+                    <div className={styles.actions}>
+                      <a className={styles.action} href={c.url} download="celeste.mp4">
+                        Enregistrer
+                      </a>
+                    </div>
+                  </>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {agrandie && (
+        <div
+          className={styles.visionneuse}
+          onClick={() => setAgrandie(null)}
+          role="presentation"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={agrandie} alt="Image agrandie" />
+          <button type="button" className={styles.bouton} onClick={() => setAgrandie(null)}>
+            Fermer
+          </button>
+        </div>
+      )}
     </div>
   );
 }

@@ -63,7 +63,13 @@ const IDENTITE =
  */
 const RENDU =
   " Shot on a full-frame camera, editorial magazine quality, natural realistic colours, " +
-  "shallow depth of field, fine film grain. Photorealistic — not an illustration, not a painting, not a render.";
+  "shallow depth of field, fine film grain. Photorealistic — not an illustration, not a painting, not a render. " +
+  // Rappel final de l'identite : sur un prompt long, la consigne d'ouverture
+  // se dilue et le modele rend « une rousse » au lieu de CETTE femme. La
+  // repeter en cloture est ce qui reduit le plus les hors-sujet.
+  "MOST IMPORTANT REQUIREMENT: the woman must be the EXACT SAME PERSON as in the reference images — " +
+  "identical face, identical bone structure, identical eyes, identical hair colour. " +
+  "If anything conflicts with her likeness, keep her likeness.";
 
 export async function POST(request: Request) {
   const jar = await cookies();
