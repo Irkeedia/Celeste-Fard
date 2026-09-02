@@ -1,31 +1,48 @@
 "use client";
 
 /**
- * Interface du studio — pensee pour le telephone, c'est son usage principal.
+ * Studio — interface pensee comme une application mobile.
  *
- * Trois partis pris qui expliquent le code :
+ * Partis pris qui expliquent la structure :
  *
- * 1. MULTI-GENERATION. Gemini ne rend qu'une image par appel. Pour en
- *    obtenir plusieurs, on lance N requetes EN PARALLELE depuis le
- *    navigateur plutot qu'une seule requete serveur qui en enchainerait N :
- *    chaque appel dispose ainsi de son propre budget de temps, une image
- *    ratee n'entraine pas les autres, et chacune s'affiche des son arrivee.
+ * 1. MODE APPLICATION. On pose `data-studio` sur <body> pour effacer
+ *    l'en-tete et le pied de page du site : le logo geant et les mentions
+ *    legales sous un outil de travail cassent l'illusion d'application.
  *
- * 2. AUCUN SAUT DE MISE EN PAGE. Les cases du resultat existent AVANT les
- *    images, avec un ratio fixe. Sinon la page se reorganise a chaque
- *    reponse recue et le contenu bouge sous le doigt.
+ * 2. RIEN NE SE PERD. Les generations s'accumulent dans une galerie
+ *    persistee en IndexedDB (voir `historique.ts`) : changer d'onglet,
+ *    relancer une generation ou recharger la page ne fait plus disparaitre
+ *    le travail. C'etait le principal defaut de la version precedente.
  *
- * 3. LE PROMPT NE DECRIT QUE LA SCENE. L'identite de Celeste est ajoutee
- *    cote serveur, en tete ET en fin de prompt.
+ * 3. ACTION FIXEE EN BAS, dans la zone du pouce. Sur grand ecran elle
+ *    reprend sa place dans la colonne (media query du CSS).
+ *
+ * 4. MULTI-GENERATION EN PARALLELE. Gemini ne rend qu'une image par appel :
+ *    on lance N requetes simultanees plutot qu'une requete serveur qui en
+ *    enchainerait N. Chacune a son budget de temps, un echec reste local,
+ *    et chaque image s'affiche des son arrivee.
+ *
+ * 5. AUCUN SAUT DE MISE EN PAGE. Les cases existent avant les images, a
+ *    ratio fixe, sinon le contenu bouge sous le doigt.
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { ajouter, lister, supprimer, versBlob, vider } from "./historique";
 import styles from "./studio.module.css";
 
 type Mode = "photo" | "video";
-type Etat = "vide" | "attente" | "ok" | "erreur";
-type Case = { etat: Etat; url?: string; message?: string };
+type Etat = "attente" | "ok" | "erreur";
+
+type Item = {
+  cle: string;
+  etat: Etat;
+  mode: Mode;
+  ratio: string;
+  url?: string;
+  idDb?: number;
+  message?: string;
+};
 
 const PRESETS: Record<Mode, { nom: string; texte: string }[]> = {
   photo: [
@@ -35,7 +52,12 @@ const PRESETS: Record<Mode, { nom: string; texte: string }[]> = {
         "Waist-up studio portrait against a pure black background, restrained crimson rim light from behind, soft magenta key on the face, deep shadows, 85mm lens.",
     },
     {
-      nom: "Lifestyle matin",
+      nom: "Gros plan",
+      texte:
+        "Extreme close-up of her face, natural window light, neutral expression, looking straight into the lens, shallow depth of field, 85mm lens.",
+    },
+    {
+      nom: "Matin",
       texte:
         "Waist-up framing, early morning in a bright minimalist apartment, she stands by a large window holding a ceramic cup, oversized knit sweater, soft diffused daylight, warm neutral tones, unposed.",
     },
@@ -45,7 +67,7 @@ const PRESETS: Record<Mode, { nom: string; texte: string }[]> = {
         "Close framing, she sits in the back seat of a car at night, head against the window, city neon signs streaking past, coloured light across her face, cinematic night photography.",
     },
     {
-      nom: "Rooftop doré",
+      nom: "Rooftop",
       texte:
         "Waist-up framing, she leans on a rooftop terrace railing at golden hour, city skyline blurred below, silk slip dress, warm low sunlight, quiet luxury.",
     },
@@ -64,11 +86,6 @@ const PRESETS: Record<Mode, { nom: string; texte: string }[]> = {
       texte:
         "Waist-up framing, she sits at a Parisian cafe terrace on a rainy afternoon, dark trench coat, hands around an espresso cup, wet street and blurred umbrellas behind, soft grey light.",
     },
-    {
-      nom: "Gros plan",
-      texte:
-        "Extreme close-up of her face, natural window light, neutral expression, looking straight into the lens, shallow depth of field, 85mm lens.",
-    },
   ],
   video: [
     {
@@ -82,7 +99,7 @@ const PRESETS: Record<Mode, { nom: string; texte: string }[]> = {
         "walking slowly towards the camera down a neon-lit street at night, reflections on wet asphalt, slow motion",
     },
     {
-      nom: "Fenêtre matin",
+      nom: "Fenêtre",
       texte:
         "standing by a window in soft morning light, holding a cup, slight smile, curtains moving gently, handheld camera feel",
     },
@@ -112,16 +129,57 @@ export function StudioClient({ connecteInitial }: { connecteInitial: boolean }) 
   const [aspect, setAspect] = useState("4:5");
   const [nombre, setNombre] = useState(1);
 
-  const [cases, setCases] = useState<Case[]>([]);
+  const [items, setItems] = useState<Item[]>([]);
   const [enCours, setEnCours] = useState(false);
   const [etapeVideo, setEtapeVideo] = useState("");
   const [agrandie, setAgrandie] = useState<string | null>(null);
 
   const zoneRef = useRef<HTMLDivElement>(null);
   const minuteur = useRef<ReturnType<typeof setTimeout> | null>(null);
-  useEffect(() => () => { if (minuteur.current) clearTimeout(minuteur.current); }, []);
+  const compteur = useRef(0);
+  const urls = useRef<string[]>([]);
 
-  const ratio = FORMATS[mode].find((f) => f.valeur === aspect)?.ratio ?? "4 / 5";
+  const nouvelleCle = () => `k${compteur.current++}`;
+
+  /* Mode application + chargement de la galerie persistee. */
+  useEffect(() => {
+    document.body.dataset.studio = "1";
+
+    let vivant = true;
+    lister()
+      .then((entrees) => {
+        if (!vivant) return;
+        setItems(
+          entrees.map((e) => {
+            const url = URL.createObjectURL(e.blob);
+            urls.current.push(url);
+            return {
+              cle: `db${e.id}`,
+              etat: "ok" as Etat,
+              mode: e.mode,
+              ratio: e.ratio,
+              url,
+              idDb: e.id,
+            };
+          }),
+        );
+      })
+      .catch(() => {
+        /* Navigation privee stricte : on tourne sans historique. */
+      });
+
+    const timer = minuteur;
+    return () => {
+      vivant = false;
+      delete document.body.dataset.studio;
+      if (timer.current) clearTimeout(timer.current);
+      urls.current.forEach(URL.revokeObjectURL);
+      urls.current = [];
+    };
+  }, []);
+
+  const ratioCourant = FORMATS[mode].find((f) => f.valeur === aspect)?.ratio ?? "4 / 5";
+  const visibles = items.filter((i) => i.mode === mode);
 
   /* ------------------------------------------------ connexion */
 
@@ -149,31 +207,59 @@ export function StudioClient({ connecteInitial }: { connecteInitial: boolean }) 
     setConnecte(false);
   }, []);
 
+  /* Le changement de mode ne touche PLUS aux resultats : ils sont
+     simplement filtres a l'affichage. */
   const changerMode = useCallback((m: Mode) => {
     setMode(m);
     setAspect(FORMATS[m][0].valeur);
-    if (m === "video") setNombre(1); // une video coute trop cher pour en lancer 4
-    setCases([]);
+    if (m === "video") setNombre(1);
     setEtapeVideo("");
   }, []);
+
+  /* ------------------------------------------------ suppression */
+
+  const retirer = useCallback(async (item: Item) => {
+    if (item.url) URL.revokeObjectURL(item.url);
+    if (item.idDb !== undefined) await supprimer(item.idDb);
+    setItems((l) => l.filter((i) => i.cle !== item.cle));
+  }, []);
+
+  const toutVider = useCallback(async () => {
+    items.forEach((i) => i.url && URL.revokeObjectURL(i.url));
+    urls.current = [];
+    await vider();
+    setItems([]);
+  }, [items]);
 
   /* ------------------------------------------------ generation */
 
   const lancer = useCallback(async () => {
     if (!prompt.trim() || enCours) return;
     const n = mode === "video" ? 1 : nombre;
+    const modeCourant = mode;
+    const ratio = ratioCourant;
+
+    const nouveaux: Item[] = Array.from({ length: n }, () => ({
+      cle: nouvelleCle(),
+      etat: "attente" as Etat,
+      mode: modeCourant,
+      ratio,
+    }));
 
     setEnCours(true);
     setEtapeVideo("");
-    setCases(Array.from({ length: n }, () => ({ etat: "attente" as Etat })));
-    // On amene le resultat sous les yeux : sur telephone il est sinon hors ecran.
-    requestAnimationFrame(() => zoneRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }));
+    // En tete : la generation en cours est ce qu'on veut voir en premier.
+    setItems((l) => [...nouveaux, ...l]);
+    requestAnimationFrame(() =>
+      zoneRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }),
+    );
 
-    if (mode === "photo") {
-      // En parallele : chaque image arrive quand elle est prete, et un echec
-      // reste local a sa case.
+    const majItem = (cle: string, maj: Partial<Item>) =>
+      setItems((l) => l.map((i) => (i.cle === cle ? { ...i, ...maj } : i)));
+
+    if (modeCourant === "photo") {
       await Promise.all(
-        Array.from({ length: n }, (_, i) =>
+        nouveaux.map((it) =>
           fetch("/api/studio/image", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -182,13 +268,24 @@ export function StudioClient({ connecteInitial }: { connecteInitial: boolean }) 
             .then(async (r) => {
               const j = await r.json();
               if (!r.ok) throw new Error(j.erreur ?? "Échec de la génération");
-              setCases((c) => c.map((x, k) => (k === i ? { etat: "ok", url: j.image } : x)));
+              const blob = await versBlob(j.image);
+              const url = URL.createObjectURL(blob);
+              urls.current.push(url);
+              let idDb: number | undefined;
+              try {
+                idDb = await ajouter({
+                  blob,
+                  mode: modeCourant,
+                  ratio,
+                  prompt,
+                  date: Date.now(),
+                });
+              } catch {
+                /* Sans stockage, l'image reste affichee pour la session. */
+              }
+              majItem(it.cle, { etat: "ok", url, idDb });
             })
-            .catch((e) => {
-              setCases((c) =>
-                c.map((x, k) => (k === i ? { etat: "erreur", message: e.message } : x)),
-              );
-            }),
+            .catch((e) => majItem(it.cle, { etat: "erreur", message: e.message })),
         ),
       );
       setEnCours(false);
@@ -196,6 +293,7 @@ export function StudioClient({ connecteInitial }: { connecteInitial: boolean }) 
     }
 
     /* Video : rendu long, on lance puis on interroge l'operation. */
+    const it = nouveaux[0];
     try {
       setEtapeVideo("Lancement du rendu…");
       const r = await fetch("/api/studio/video", {
@@ -212,16 +310,25 @@ export function StudioClient({ connecteInitial }: { connecteInitial: boolean }) 
         const sj = await s.json();
         if (sj.erreur) throw new Error(sj.erreur);
         if (sj.done && sj.videoUrl) {
-          setCases([{ etat: "ok", url: sj.videoUrl }]);
+          const blob = await (await fetch(sj.videoUrl)).blob();
+          const url = URL.createObjectURL(blob);
+          urls.current.push(url);
+          let idDb: number | undefined;
+          try {
+            idDb = await ajouter({ blob, mode: "video", ratio, prompt, date: Date.now() });
+          } catch {
+            /* idem */
+          }
+          majItem(it.cle, { etat: "ok", url, idDb });
           setEnCours(false);
           setEtapeVideo("");
           return;
         }
         const s2 = Math.round((Date.now() - debut) / 1000);
-        setEtapeVideo(`Rendu en cours… ${s2} s (compter 2 à 5 min)`);
+        setEtapeVideo(`Rendu en cours · ${s2} s (2 à 5 min)`);
         minuteur.current = setTimeout(() => {
           interroger().catch((e) => {
-            setCases([{ etat: "erreur", message: e.message }]);
+            majItem(it.cle, { etat: "erreur", message: e.message });
             setEnCours(false);
             setEtapeVideo("");
           });
@@ -229,30 +336,32 @@ export function StudioClient({ connecteInitial }: { connecteInitial: boolean }) 
       };
       await interroger();
     } catch (e) {
-      setCases([{ etat: "erreur", message: e instanceof Error ? e.message : "Erreur" }]);
+      majItem(it.cle, { etat: "erreur", message: e instanceof Error ? e.message : "Erreur" });
       setEnCours(false);
       setEtapeVideo("");
     }
-  }, [prompt, aspect, mode, nombre, enCours]);
+  }, [prompt, aspect, mode, nombre, enCours, ratioCourant]);
 
-  /* ------------------------------------------------ rendu */
+  /* ------------------------------------------------ connexion */
 
   if (!connecte) {
     return (
-      <div className={styles.wrap}>
+      <div className={styles.app}>
         <div className={styles.login}>
-          <h1 className={styles.titre}>Studio</h1>
-          <p className={styles.sous}>Accès réservé</p>
-          <form onSubmit={connexion}>
-            <input
-              className={styles.saisie}
-              type="password"
-              value={motDePasse}
-              onChange={(e) => setMotDePasse(e.target.value)}
-              placeholder="Mot de passe"
-              autoComplete="current-password"
-              required
-            />
+          <h1 className={styles.loginTitre}>Studio</h1>
+          <p className={styles.info}>Accès réservé</p>
+          <form className={styles.loginForm} onSubmit={connexion}>
+            <div className={styles.carteChamp}>
+              <input
+                className={styles.saisie}
+                type="password"
+                value={motDePasse}
+                onChange={(e) => setMotDePasse(e.target.value)}
+                placeholder="Mot de passe"
+                autoComplete="current-password"
+                required
+              />
+            </div>
             <button className={styles.bouton} type="submit">
               Se connecter
             </button>
@@ -263,180 +372,236 @@ export function StudioClient({ connecteInitial }: { connecteInitial: boolean }) 
     );
   }
 
+  /* ------------------------------------------------ application */
+
   return (
-    <div className={styles.wrap}>
-      <div className={styles.entete}>
-        <h1 className={styles.titre}>Studio</h1>
-        <button type="button" className={styles.lienDiscret} onClick={deconnexion}>
+    <div className={styles.app}>
+      <header className={styles.barre}>
+        <h1 className={styles.barreTitre}>Studio</h1>
+        <button type="button" className={styles.barreAction} onClick={deconnexion}>
           Quitter
         </button>
-      </div>
+      </header>
 
-      <p className={styles.sous}>
-        Décris seulement la scène — l&apos;identité de Céleste est ajoutée automatiquement.
-      </p>
-
-      <div className={styles.rangee}>
-        {(["photo", "video"] as Mode[]).map((m) => (
-          <button
-            key={m}
-            type="button"
-            className={`${styles.pastille} ${mode === m ? styles.pastilleActive : ""}`}
-            onClick={() => changerMode(m)}
-          >
-            {m === "photo" ? "Photo" : "Vidéo"}
-          </button>
-        ))}
-      </div>
-
-      <label className={styles.champ} htmlFor="prompt">
-        Scène
-      </label>
-      <textarea
-        id="prompt"
-        className={styles.zone}
-        value={prompt}
-        onChange={(e) => setPrompt(e.target.value)}
-        placeholder="Ex : elle marche dans une rue de Paris sous la pluie, trench noir, lumière grise…"
-      />
-
-      <div className={styles.rangee}>
-        {PRESETS[mode].map((p) => (
-          <button
-            key={p.nom}
-            type="button"
-            className={styles.pastille}
-            onClick={() => setPrompt(p.texte)}
-          >
-            {p.nom}
-          </button>
-        ))}
-      </div>
-
-      <label className={styles.champ}>Format</label>
-      <div className={styles.rangee}>
-        {FORMATS[mode].map((f) => (
-          <button
-            key={f.valeur}
-            type="button"
-            className={`${styles.pastille} ${styles.pastilleEtroite} ${
-              aspect === f.valeur ? styles.pastilleActive : ""
-            }`}
-            onClick={() => setAspect(f.valeur)}
-          >
-            {f.valeur}
-          </button>
-        ))}
-      </div>
-
-      {mode === "photo" && (
-        <>
-          <label className={styles.champ}>Nombre d&apos;images</label>
-          <div className={styles.rangee}>
-            {[1, 2, 3, 4].map((n) => (
+      <div className={styles.contenu}>
+        <div className={styles.colonneGauche}>
+          <div className={styles.segments}>
+            {(["photo", "video"] as Mode[]).map((m) => (
               <button
-                key={n}
+                key={m}
                 type="button"
-                className={`${styles.pastille} ${styles.pastilleEtroite} ${
-                  nombre === n ? styles.pastilleActive : ""
-                }`}
-                onClick={() => setNombre(n)}
+                className={`${styles.segment} ${mode === m ? styles.segmentActif : ""}`}
+                onClick={() => changerMode(m)}
               >
-                {n}
+                {m === "photo" ? "Photo" : "Vidéo"}
               </button>
             ))}
           </div>
-        </>
-      )}
 
-      <button
-        className={styles.bouton}
-        type="button"
-        onClick={lancer}
-        disabled={enCours || !prompt.trim()}
-      >
-        {enCours
-          ? "En cours…"
-          : mode === "video"
-            ? "Générer la vidéo"
-            : `Générer ${nombre > 1 ? `${nombre} images` : "l'image"}`}
-      </button>
-
-      <div className={styles.zoneResultats} ref={zoneRef}>
-        {etapeVideo && (
-          <p className={styles.attente}>
-            <span className={styles.pouls} />
-            {etapeVideo}
-          </p>
-        )}
-
-        {cases.length > 0 && (
-          <div className={styles.grilleResultats} data-multi={cases.length > 1}>
-            {cases.map((c, i) => (
-              <div
-                key={i}
-                className={`${styles.case} ${mode === "video" ? styles.videoCase : ""}`}
-                style={{ ["--ratio" as string]: ratio }}
-              >
-                {c.etat === "attente" && (
-                  <p className={styles.attente}>
-                    <span className={styles.pouls} />
-                    {mode === "video" ? "Rendu…" : "30 à 60 s"}
-                  </p>
-                )}
-
-                {c.etat === "erreur" && <p className={styles.erreur}>{c.message}</p>}
-
-                {c.etat === "ok" && c.url && mode === "photo" && (
-                  <>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img className={styles.media} src={c.url} alt={`Génération ${i + 1}`} />
-                    <div className={styles.actions}>
-                      <button
-                        type="button"
-                        className={styles.action}
-                        onClick={() => setAgrandie(c.url!)}
-                      >
-                        Agrandir
-                      </button>
-                      <a
-                        className={styles.action}
-                        href={c.url}
-                        download={`celeste-${i + 1}.jpg`}
-                      >
-                        Enregistrer
-                      </a>
-                    </div>
-                  </>
-                )}
-
-                {c.etat === "ok" && c.url && mode === "video" && (
-                  <>
-                    <video className={styles.media} src={c.url} controls playsInline />
-                    <div className={styles.actions}>
-                      <a className={styles.action} href={c.url} download="celeste.mp4">
-                        Enregistrer
-                      </a>
-                    </div>
-                  </>
-                )}
-              </div>
-            ))}
+          <div className={styles.carte}>
+            <p className={styles.etiquette}>Scène</p>
+            <textarea
+              id="prompt"
+              className={styles.zone}
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              placeholder="Elle marche dans une rue de Paris sous la pluie, trench noir, lumière grise…"
+            />
+            <div className={styles.chips}>
+              {PRESETS[mode].map((p) => (
+                <button
+                  key={p.nom}
+                  type="button"
+                  className={styles.chip}
+                  onClick={() => setPrompt(p.texte)}
+                >
+                  {p.nom}
+                </button>
+              ))}
+            </div>
           </div>
-        )}
+
+          <div className={styles.carte}>
+            <div className={styles.ligne}>
+              <span className={styles.etiquette}>Format</span>
+              <div className={styles.choix}>
+                {FORMATS[mode].map((f) => (
+                  <button
+                    key={f.valeur}
+                    type="button"
+                    className={`${styles.choixItem} ${
+                      aspect === f.valeur ? styles.choixActif : ""
+                    }`}
+                    onClick={() => setAspect(f.valeur)}
+                  >
+                    {f.valeur}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {mode === "photo" && (
+              <div className={styles.ligne}>
+                <span className={styles.etiquette}>Images</span>
+                <div className={styles.choix}>
+                  {[1, 2, 3, 4].map((n) => (
+                    <button
+                      key={n}
+                      type="button"
+                      className={`${styles.choixItem} ${nombre === n ? styles.choixActif : ""}`}
+                      onClick={() => setNombre(n)}
+                    >
+                      {n}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className={styles.barreBasse}>
+            <div className={styles.barreBasseInner}>
+              <button
+                className={styles.bouton}
+                type="button"
+                onClick={lancer}
+                disabled={enCours || !prompt.trim()}
+              >
+                {enCours
+                  ? "Génération en cours…"
+                  : mode === "video"
+                    ? "Générer la vidéo"
+                    : nombre > 1
+                      ? `Générer ${nombre} images`
+                      : "Générer"}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className={styles.resultats} ref={zoneRef}>
+          {etapeVideo && (
+            <p className={styles.info}>
+              <span className={styles.pouls} />
+              {etapeVideo}
+            </p>
+          )}
+
+          {visibles.length === 0 && !etapeVideo && (
+            <div className={styles.accueil}>
+              <span className={styles.accueilRond} aria-hidden="true" />
+              <p className={styles.accueilTexte}>
+                Décris une scène, ou choisis un préréglage.
+                <br />
+                Inutile de décrire Céleste.
+              </p>
+            </div>
+          )}
+
+          {visibles.length > 0 && (
+            <>
+              <div className={styles.barreGalerie}>
+                <span className={styles.etiquette}>
+                  {visibles.length} {mode === "video" ? "vidéo" : "image"}
+                  {visibles.length > 1 ? "s" : ""} · conservées sur cet appareil
+                </span>
+                <button type="button" className={styles.barreAction} onClick={toutVider}>
+                  Tout vider
+                </button>
+              </div>
+
+              <div className={styles.grille} data-multi={visibles.length > 1}>
+                {visibles.map((it, i) => (
+                  <div
+                    key={it.cle}
+                    className={`${styles.case} ${it.mode === "video" ? styles.caseVideo : ""}`}
+                    style={{ ["--ratio" as string]: it.ratio }}
+                  >
+                    {it.etat === "attente" && (
+                      <>
+                        <span className={styles.squelette} aria-hidden="true" />
+                        <span className={styles.squeletteTexte}>
+                          {it.mode === "video" ? "Rendu…" : "30–60 s"}
+                        </span>
+                      </>
+                    )}
+
+                    {it.etat === "erreur" && <p className={styles.erreur}>{it.message}</p>}
+
+                    {it.etat === "ok" && it.url && it.mode === "photo" && (
+                      <>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img className={styles.media} src={it.url} alt={`Génération ${i + 1}`} />
+                        <div className={styles.actions}>
+                          <button
+                            type="button"
+                            className={styles.action}
+                            onClick={() => setAgrandie(it.url!)}
+                          >
+                            Voir
+                          </button>
+                          <a
+                            className={styles.action}
+                            href={it.url}
+                            download={`celeste-${i + 1}.jpg`}
+                          >
+                            Garder
+                          </a>
+                          <button
+                            type="button"
+                            className={styles.action}
+                            onClick={() => retirer(it)}
+                            aria-label="Supprimer"
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      </>
+                    )}
+
+                    {it.etat === "ok" && it.url && it.mode === "video" && (
+                      <>
+                        <video
+                          className={`${styles.media} ${styles.mediaContain}`}
+                          src={it.url}
+                          controls
+                          playsInline
+                        />
+                        <div className={styles.actions}>
+                          <a className={styles.action} href={it.url} download="celeste.mp4">
+                            Garder
+                          </a>
+                          <button
+                            type="button"
+                            className={styles.action}
+                            onClick={() => retirer(it)}
+                            aria-label="Supprimer"
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
       </div>
 
       {agrandie && (
-        <div
-          className={styles.visionneuse}
-          onClick={() => setAgrandie(null)}
-          role="presentation"
-        >
+        <div className={styles.visionneuse} role="dialog" aria-modal="true">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={agrandie} alt="Image agrandie" />
-          <button type="button" className={styles.bouton} onClick={() => setAgrandie(null)}>
-            Fermer
-          </button>
+          <img className={styles.visionneuseImg} src={agrandie} alt="Image agrandie" />
+          <div className={styles.visionneuseActions}>
+            <a className={styles.action} href={agrandie} download="celeste.jpg">
+              Garder
+            </a>
+            <button type="button" className={styles.action} onClick={() => setAgrandie(null)}>
+              Fermer
+            </button>
+          </div>
         </div>
       )}
     </div>
