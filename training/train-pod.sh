@@ -128,6 +128,33 @@ echo "  $NIMG images / $(ls $WS/dataset/10_celeste_char/*.txt 2>/dev/null | wc -
 push_log
 
 echo "--- 5/6 config + entrainement ---"
+# Les checkpoints partent sur HF DES QU ILS SONT ECRITS, pas a la fin.
+# Le premier essai a perdu ~4 h de calcul : le pod community a ete repris par
+# son proprietaire en cours de route, le trap n a pas eu le temps de tourner,
+# et les checkpoints ecrits sur le disque sont partis avec la machine. Avec
+# cet envoi continu, une interruption coute au pire les 400 derniers steps.
+( while true; do
+    sleep 120
+    for f in $WS/output/*.safetensors; do
+      [ -e "$f" ] || continue
+      marque="$f.envoye"
+      [ -e "$marque" ] && continue
+      # On attend que le fichier soit stable avant de l envoyer.
+      t1=$(stat -c %s "$f"); sleep 10; t2=$(stat -c %s "$f")
+      [ "$t1" = "$t2" ] || continue
+      $PY - "$f" <<'PYCK' && touch "$marque"
+import os, sys
+from huggingface_hub import HfApi
+api = HfApi(token=os.environ["HF_TOKEN"])
+repo = os.environ["HF_USER"] + "/celeste-lora-v3"
+api.create_repo(repo, private=True, exist_ok=True)
+api.upload_file(path_or_fileobj=sys.argv[1],
+                path_in_repo=os.path.basename(sys.argv[1]), repo_id=repo)
+print("  checkpoint envoye :", os.path.basename(sys.argv[1]))
+PYCK
+    done
+  done ) &
+UPLOADER=$!
 mkdir -p $WS/output $WS/logs
 curl -sL -H "Authorization: Bearer $HF_TOKEN" \
   "https://huggingface.co/datasets/$DATASET_REPO/resolve/main/celeste-v3-runpod.toml" -o $WS/config.toml
@@ -138,6 +165,7 @@ cd $WS/sd-scripts
 accelerate launch --mixed_precision bf16 --num_cpu_threads_per_process 2 \
   flux_train_network.py --config_file $WS/config.toml
 echo "  entrainement sorti avec le code $?"
+kill $UPLOADER 2>/dev/null
 ls -la $WS/output/
 push_log
 
