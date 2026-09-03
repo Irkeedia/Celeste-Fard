@@ -1,0 +1,222 @@
+[
+ {
+  "prompt": "Editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. THE NOSE IS THE MOST IMPORTANT FEATURE TO GET RIGHT: it is SMALL and NARROW with a straight, delicate bridge, a slightly UPTURNED tip, and small neat nostrils. There is NO bump, NO hook, NO roman arch, it is NOT long, NOT wide, NOT flat. Match the nose silhouette of the profile reference images exactly. Preserve the rest of her identity with absolute precision: her SOFT ROUNDED YOUTHFUL face, full cheeks, gentle jaw, she looks about 25 — NOT older, NOT gaunt, NOT angular. EYE COLOUR: LIGHT BLUE-GREEN / pale sea green, never brown. HAIR: long, wavy, WORN LOOSE and falling freely around her face, in a VIVID SATURATED RED-ORANGE, the colour of hot flame, intensely pigmented — not a muted natural ginger. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the bridge of the nose. SETTING: present day, modern real world, contemporary clothing. Waist-up, head turned only SLIGHTLY away from the camera (about 20 degrees), standing near a tall sunlit window in a bright white room. Soft abundant daylight raking gently across her nose and cheek. Wearing a grey t-shirt. Calm expression, eyes towards the lens. 85mm lens. ZERO superficiality, no heavy makeup. Realistic skin texture, fine film grain, photographic, not illustrated.",
+  "refs": [
+   "celesteprofilvert",
+   "celesteprofilblanc",
+   "celeste-nuque34",
+   "celeste-queue34",
+   "Celestefardhero",
+   "celesteencoreunportrait",
+   "celestelematin",
+   "celesteroses",
+   "celestecontratserieuse",
+   "irl-03",
+   "irl-04",
+   "irl-06",
+   "portrait-alt",
+   "hero-portrait"
+  ],
+  "aspect": "4:5",
+  "size": "2K",
+  "out": "training/dataset-src/np-01-34-leger.jpg"
+ },
+ {
+  "prompt": "Editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. THE NOSE IS THE MOST IMPORTANT FEATURE TO GET RIGHT: it is SMALL and NARROW with a straight, delicate bridge, a slightly UPTURNED tip, and small neat nostrils. There is NO bump, NO hook, NO roman arch, it is NOT long, NOT wide, NOT flat. Match the nose silhouette of the profile reference images exactly. Preserve the rest of her identity with absolute precision: her SOFT ROUNDED YOUTHFUL face, full cheeks, gentle jaw, she looks about 25 — NOT older, NOT gaunt, NOT angular. EYE COLOUR: LIGHT BLUE-GREEN / pale sea green, never brown. HAIR: long, wavy, WORN LOOSE and falling freely around her face, in a VIVID SATURATED RED-ORANGE, the colour of hot flame, intensely pigmented — not a muted natural ginger. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the bridge of the nose. SETTING: present day, modern real world, contemporary clothing. Waist-up, head turned about 35 degrees away from the camera, on a sunny terrace with a pale stone wall behind. Warm soft daylight modelling the bridge of her nose. Wearing a white linen shirt. Relaxed expression, eyes towards the lens. 85mm lens. ZERO superficiality, no heavy makeup. Realistic skin texture, fine film grain, photographic, not illustrated.",
+  "refs": [
+   "celesteprofilvert",
+   "celesteprofilblanc",
+   "celeste-nuque34",
+   "celeste-queue34",
+   "Celestefardhero",
+   "celesteencoreunportrait",
+   "celestelematin",
+   "celesteroses",
+   "celestecontratserieuse",
+   "irl-03",
+   "irl-04",
+   "irl-06",
+   "portrait-alt",
+   "hero-portrait"
+  ],
+  "aspect": "4:5",
+  "size": "2K",
+  "out": "training/dataset-src/np-02-34-marque.jpg"
+ },
+ {
+  "prompt": "Editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. THE NOSE IS THE MOST IMPORTANT FEATURE TO GET RIGHT: it is SMALL and NARROW with a straight, delicate bridge, a slightly UPTURNED tip, and small neat nostrils. There is NO bump, NO hook, NO roman arch, it is NOT long, NOT wide, NOT flat. Match the nose silhouette of the profile reference images exactly. Preserve the rest of her identity with absolute precision: her SOFT ROUNDED YOUTHFUL face, full cheeks, gentle jaw, she looks about 25 — NOT older, NOT gaunt, NOT angular. EYE COLOUR: LIGHT BLUE-GREEN / pale sea green, never brown. HAIR: long, wavy, WORN LOOSE and falling freely around her face, in a VIVID SATURATED RED-ORANGE, the colour of hot flame, intensely pigmented — not a muted natural ginger. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the bridge of the nose. SETTING: present day, modern real world, contemporary clothing. Head and shoulders, head turned about 50 degrees away, in a bright airy loft with a window out of frame. Soft daylight, the far cheek just catching light, nose silhouette starting to read against the pale background. Cream jumper. 85mm lens. ZERO superficiality, no heavy makeup. Realistic skin texture, fine film grain, photographic, not illustrated.",
+  "refs": [
+   "celesteprofilvert",
+   "celesteprofilblanc",
+   "celeste-nuque34",
+   "celeste-queue34",
+   "Celestefardhero",
+   "celesteencoreunportrait",
+   "celestelematin",
+   "celesteroses",
+   "celestecontratserieuse",
+   "irl-03",
+   "irl-04",
+   "irl-06",
+   "portrait-alt",
+   "hero-portrait"
+  ],
+  "aspect": "4:5",
+  "size": "2K",
+  "out": "training/dataset-src/np-03-34-fort.jpg"
+ },
+ {
+  "prompt": "Editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. THE NOSE IS THE MOST IMPORTANT FEATURE TO GET RIGHT: it is SMALL and NARROW with a straight, delicate bridge, a slightly UPTURNED tip, and small neat nostrils. There is NO bump, NO hook, NO roman arch, it is NOT long, NOT wide, NOT flat. Match the nose silhouette of the profile reference images exactly. Preserve the rest of her identity with absolute precision: her SOFT ROUNDED YOUTHFUL face, full cheeks, gentle jaw, she looks about 25 — NOT older, NOT gaunt, NOT angular. EYE COLOUR: LIGHT BLUE-GREEN / pale sea green, never brown. HAIR: long, wavy, WORN LOOSE and falling freely around her face, in a VIVID SATURATED RED-ORANGE, the colour of hot flame, intensely pigmented — not a muted natural ginger. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the bridge of the nose. SETTING: present day, modern real world, contemporary clothing. Head and shoulders, head turned about 70 degrees away, nearly in profile but the far eyelash still visible, against a sunlit pale wall outdoors. Warm afternoon daylight, clean nose silhouette against the bright wall. Grey t-shirt. 85mm lens. ZERO superficiality, no heavy makeup. Realistic skin texture, fine film grain, photographic, not illustrated.",
+  "refs": [
+   "celesteprofilvert",
+   "celesteprofilblanc",
+   "celeste-nuque34",
+   "celeste-queue34",
+   "Celestefardhero",
+   "celesteencoreunportrait",
+   "celestelematin",
+   "celesteroses",
+   "celestecontratserieuse",
+   "irl-03",
+   "irl-04",
+   "irl-06",
+   "portrait-alt",
+   "hero-portrait"
+  ],
+  "aspect": "4:5",
+  "size": "2K",
+  "out": "training/dataset-src/np-04-presque-profil.jpg"
+ },
+ {
+  "prompt": "Editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. THE NOSE IS THE MOST IMPORTANT FEATURE TO GET RIGHT: it is SMALL and NARROW with a straight, delicate bridge, a slightly UPTURNED tip, and small neat nostrils. There is NO bump, NO hook, NO roman arch, it is NOT long, NOT wide, NOT flat. Match the nose silhouette of the profile reference images exactly. Preserve the rest of her identity with absolute precision: her SOFT ROUNDED YOUTHFUL face, full cheeks, gentle jaw, she looks about 25 — NOT older, NOT gaunt, NOT angular. EYE COLOUR: LIGHT BLUE-GREEN / pale sea green, never brown. HAIR: long, wavy, WORN LOOSE and falling freely around her face, in a VIVID SATURATED RED-ORANGE, the colour of hot flame, intensely pigmented — not a muted natural ginger. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the bridge of the nose. SETTING: present day, modern real world, contemporary clothing. Head and shoulders, TRUE 90-degree PROFILE seen from her left, against a bright sunlit pale stone wall outdoors. Warm daylight, her nose, lips and chin read as a crisp silhouette against the light wall. Looking straight ahead out of frame. Cream jumper. 85mm lens. ZERO superficiality, no heavy makeup. Realistic skin texture, fine film grain, photographic, not illustrated.",
+  "refs": [
+   "celesteprofilvert",
+   "celesteprofilblanc",
+   "celeste-nuque34",
+   "celeste-queue34",
+   "Celestefardhero",
+   "celesteencoreunportrait",
+   "celestelematin",
+   "celesteroses",
+   "celestecontratserieuse",
+   "irl-03",
+   "irl-04",
+   "irl-06",
+   "portrait-alt",
+   "hero-portrait"
+  ],
+  "aspect": "4:5",
+  "size": "2K",
+  "out": "training/dataset-src/np-05-profil-pur.jpg"
+ },
+ {
+  "prompt": "Editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. THE NOSE IS THE MOST IMPORTANT FEATURE TO GET RIGHT: it is SMALL and NARROW with a straight, delicate bridge, a slightly UPTURNED tip, and small neat nostrils. There is NO bump, NO hook, NO roman arch, it is NOT long, NOT wide, NOT flat. Match the nose silhouette of the profile reference images exactly. Preserve the rest of her identity with absolute precision: her SOFT ROUNDED YOUTHFUL face, full cheeks, gentle jaw, she looks about 25 — NOT older, NOT gaunt, NOT angular. EYE COLOUR: LIGHT BLUE-GREEN / pale sea green, never brown. HAIR: long, wavy, WORN LOOSE and falling freely around her face, in a VIVID SATURATED RED-ORANGE, the colour of hot flame, intensely pigmented — not a muted natural ginger. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the bridge of the nose. SETTING: present day, modern real world, contemporary clothing. Head and shoulders, TRUE 90-degree PROFILE seen from her RIGHT side, near a large sunlit window in a white room. Soft window light along the bridge of the nose. Looking straight ahead out of frame. Grey t-shirt. 85mm lens. ZERO superficiality, no heavy makeup. Realistic skin texture, fine film grain, photographic, not illustrated.",
+  "refs": [
+   "celesteprofilvert",
+   "celesteprofilblanc",
+   "celeste-nuque34",
+   "celeste-queue34",
+   "Celestefardhero",
+   "celesteencoreunportrait",
+   "celestelematin",
+   "celesteroses",
+   "celestecontratserieuse",
+   "irl-03",
+   "irl-04",
+   "irl-06",
+   "portrait-alt",
+   "hero-portrait"
+  ],
+  "aspect": "4:5",
+  "size": "2K",
+  "out": "training/dataset-src/np-06-profil-droit.jpg"
+ },
+ {
+  "prompt": "Editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. THE NOSE IS THE MOST IMPORTANT FEATURE TO GET RIGHT: it is SMALL and NARROW with a straight, delicate bridge, a slightly UPTURNED tip, and small neat nostrils. There is NO bump, NO hook, NO roman arch, it is NOT long, NOT wide, NOT flat. Match the nose silhouette of the profile reference images exactly. Preserve the rest of her identity with absolute precision: her SOFT ROUNDED YOUTHFUL face, full cheeks, gentle jaw, she looks about 25 — NOT older, NOT gaunt, NOT angular. EYE COLOUR: LIGHT BLUE-GREEN / pale sea green, never brown. HAIR: long, wavy, WORN LOOSE and falling freely around her face, in a VIVID SATURATED RED-ORANGE, the colour of hot flame, intensely pigmented — not a muted natural ginger. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the bridge of the nose. SETTING: present day, modern real world, contemporary clothing. Head and shoulders, three-quarter angle with her CHIN LIFTED, seen very slightly from below, outdoors against a bright pale sky. Warm daylight under the nose and jaw. Eyes half-closed, calm. White shirt. 85mm lens. ZERO superficiality, no heavy makeup. Realistic skin texture, fine film grain, photographic, not illustrated.",
+  "refs": [
+   "celesteprofilvert",
+   "celesteprofilblanc",
+   "celeste-nuque34",
+   "celeste-queue34",
+   "Celestefardhero",
+   "celesteencoreunportrait",
+   "celestelematin",
+   "celesteroses",
+   "celestecontratserieuse",
+   "irl-03",
+   "irl-04",
+   "irl-06",
+   "portrait-alt",
+   "hero-portrait"
+  ],
+  "aspect": "4:5",
+  "size": "2K",
+  "out": "training/dataset-src/np-07-menton-leve.jpg"
+ },
+ {
+  "prompt": "Editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. THE NOSE IS THE MOST IMPORTANT FEATURE TO GET RIGHT: it is SMALL and NARROW with a straight, delicate bridge, a slightly UPTURNED tip, and small neat nostrils. There is NO bump, NO hook, NO roman arch, it is NOT long, NOT wide, NOT flat. Match the nose silhouette of the profile reference images exactly. Preserve the rest of her identity with absolute precision: her SOFT ROUNDED YOUTHFUL face, full cheeks, gentle jaw, she looks about 25 — NOT older, NOT gaunt, NOT angular. EYE COLOUR: LIGHT BLUE-GREEN / pale sea green, never brown. HAIR: long, wavy, WORN LOOSE and falling freely around her face, in a VIVID SATURATED RED-ORANGE, the colour of hot flame, intensely pigmented — not a muted natural ginger. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the bridge of the nose. SETTING: present day, modern real world, contemporary clothing. Head and shoulders, three-quarter angle with her CHIN LOWERED and eyes raised towards the lens, in a bright white room by a window. Soft top light along the bridge of the nose. Navy top. 85mm lens. ZERO superficiality, no heavy makeup. Realistic skin texture, fine film grain, photographic, not illustrated.",
+  "refs": [
+   "celesteprofilvert",
+   "celesteprofilblanc",
+   "celeste-nuque34",
+   "celeste-queue34",
+   "Celestefardhero",
+   "celesteencoreunportrait",
+   "celestelematin",
+   "celesteroses",
+   "celestecontratserieuse",
+   "irl-03",
+   "irl-04",
+   "irl-06",
+   "portrait-alt",
+   "hero-portrait"
+  ],
+  "aspect": "4:5",
+  "size": "2K",
+  "out": "training/dataset-src/np-08-menton-baisse.jpg"
+ },
+ {
+  "prompt": "Editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. THE NOSE IS THE MOST IMPORTANT FEATURE TO GET RIGHT: it is SMALL and NARROW with a straight, delicate bridge, a slightly UPTURNED tip, and small neat nostrils. There is NO bump, NO hook, NO roman arch, it is NOT long, NOT wide, NOT flat. Match the nose silhouette of the profile reference images exactly. Preserve the rest of her identity with absolute precision: her SOFT ROUNDED YOUTHFUL face, full cheeks, gentle jaw, she looks about 25 — NOT older, NOT gaunt, NOT angular. EYE COLOUR: LIGHT BLUE-GREEN / pale sea green, never brown. HAIR: long, wavy, WORN LOOSE and falling freely around her face, in a VIVID SATURATED RED-ORANGE, the colour of hot flame, intensely pigmented — not a muted natural ginger. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the bridge of the nose. SETTING: present day, modern real world, contemporary clothing. Head and shoulders, near-profile turned about 60 degrees away, backlit by a bright window so a thin rim of light traces the exact outline of her nose, lips and chin. Bright airy interior, soft fill on the face so it is not a silhouette. Grey t-shirt. 85mm lens. ZERO superficiality, no heavy makeup. Realistic skin texture, fine film grain, photographic, not illustrated.",
+  "refs": [
+   "celesteprofilvert",
+   "celesteprofilblanc",
+   "celeste-nuque34",
+   "celeste-queue34",
+   "Celestefardhero",
+   "celesteencoreunportrait",
+   "celestelematin",
+   "celesteroses",
+   "celestecontratserieuse",
+   "irl-03",
+   "irl-04",
+   "irl-06",
+   "portrait-alt",
+   "hero-portrait"
+  ],
+  "aspect": "4:5",
+  "size": "2K",
+  "out": "training/dataset-src/np-09-contrejour.jpg"
+ },
+ {
+  "prompt": "Editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. THE NOSE IS THE MOST IMPORTANT FEATURE TO GET RIGHT: it is SMALL and NARROW with a straight, delicate bridge, a slightly UPTURNED tip, and small neat nostrils. There is NO bump, NO hook, NO roman arch, it is NOT long, NOT wide, NOT flat. Match the nose silhouette of the profile reference images exactly. Preserve the rest of her identity with absolute precision: her SOFT ROUNDED YOUTHFUL face, full cheeks, gentle jaw, she looks about 25 — NOT older, NOT gaunt, NOT angular. EYE COLOUR: LIGHT BLUE-GREEN / pale sea green, never brown. HAIR: long, wavy, WORN LOOSE and falling freely around her face, in a VIVID SATURATED RED-ORANGE, the colour of hot flame, intensely pigmented — not a muted natural ginger. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the bridge of the nose. SETTING: present day, modern real world, contemporary clothing. Waist-up, TRUE PROFILE, sitting at a table by a large bright window in a white cafe, looking out of the window away from the camera. Abundant soft daylight, clean nose and lip silhouette against the bright window. White shirt. 50mm lens. ZERO superficiality, no heavy makeup. Realistic skin texture, fine film grain, photographic, not illustrated.",
+  "refs": [
+   "celesteprofilvert",
+   "celesteprofilblanc",
+   "celeste-nuque34",
+   "celeste-queue34",
+   "Celestefardhero",
+   "celesteencoreunportrait",
+   "celestelematin",
+   "celesteroses",
+   "celestecontratserieuse",
+   "irl-03",
+   "irl-04",
+   "irl-06",
+   "portrait-alt",
+   "hero-portrait"
+  ],
+  "aspect": "4:5",
+  "size": "2K",
+  "out": "training/dataset-src/np-10-profil-assise.jpg"
+ }
+]

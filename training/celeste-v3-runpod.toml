@@ -1,0 +1,86 @@
+# Config kohya_ss / sd-scripts pour reentrainer le LoRA Celeste sur RunPod.
+#
+# Difference avec la v2 locale (celeste-lora-config.toml) : la v2 etait bridee
+# par la RTX 5070 Ti 16 Go. Ici on vise un GPU cloud 48-80 Go, donc on enleve
+# toutes les bequilles memoire et on entraine pour de vrai.
+#
+#   v2 (local)                 ->  v3 (RunPod)
+#   resolution 768             ->  1024      (Flux est natif 1024, 768 perd du detail)
+#   network_dim 16             ->  32        (plus de capacite = visage mieux appris)
+#   max_train_steps 800        ->  ~2400     (800 c est un brouillon)
+#   fp8_base = true            ->  supprime  (base bf16, pas de perte de precision)
+#   blocks_to_swap = 12        ->  supprime  (swap CPU<->GPU, inutile et lent ici)
+#   train_batch_size 1         ->  4         (batch plus grand = gradient plus stable)
+#   learning_rate 3e-4         ->  1e-4      (plus de steps + dim plus grand => LR plus bas,
+#                                             sinon le LoRA "cuit" et fige les poses)
+#
+# max_train_steps est a RECALCULER selon le nombre final d images du dataset :
+#   steps = (images x repeats x epochs) / batch_size
+# Regle qui marche bien pour un personnage : viser 30 a 40 steps par image.
+# Ex. 70 images -> ~2400 steps. Ajuster avant de lancer.
+
+# --- Modele de base (chemins sur le pod, pas en local) ---
+pretrained_model_name_or_path = "/workspace/models/flux1-dev.safetensors"
+ae = "/workspace/models/ae.safetensors"
+clip_l = "/workspace/models/clip_l.safetensors"
+t5xxl = "/workspace/models/t5xxl_fp16.safetensors"
+
+# --- Dataset ---
+train_data_dir = "/workspace/dataset"
+caption_extension = ".txt"
+resolution = "1024,1024"
+enable_bucket = true
+bucket_no_upscale = true
+bucket_reso_steps = 64
+min_bucket_reso = 512
+max_bucket_reso = 1536
+
+# --- LoRA ---
+network_module = "networks.lora_flux"
+network_dim = 32
+network_alpha = 16
+network_train_unet_only = true
+
+# --- Entrainement ---
+max_train_steps = 2400
+train_batch_size = 4
+gradient_accumulation_steps = 1
+learning_rate = 0.0001
+unet_lr = 0.0001
+optimizer_type = "AdamW8bit"
+lr_scheduler = "cosine"
+lr_warmup_steps = 100
+max_grad_norm = 1.0
+min_snr_gamma = 7.0
+noise_offset = 0.05
+seed = 42
+
+# --- Specifique Flux ---
+timestep_sampling = "sigmoid"
+model_prediction_type = "raw"
+discrete_flow_shift = 3.0
+guidance_scale = 1.0
+apply_t5_attn_mask = true
+t5xxl_max_token_length = 512
+
+# --- Precision / perf ---
+mixed_precision = "bf16"
+full_bf16 = true
+save_precision = "bf16"
+gradient_checkpointing = true
+sdpa = true
+cache_latents = true
+cache_latents_to_disk = true
+cache_text_encoder_outputs = true
+cache_text_encoder_outputs_to_disk = true
+max_data_loader_n_workers = 4
+
+# --- Sorties ---
+# save_every_n_steps plutot que par epoch : on veut des checkpoints
+# intermediaires a comparer, le meilleur LoRA n est pas toujours le dernier
+# (au-dela d un certain point le modele sur-apprend et fige les poses).
+output_dir = "/workspace/output"
+output_name = "celeste_char_v3"
+save_model_as = "safetensors"
+save_every_n_steps = 400
+logging_dir = "/workspace/logs"

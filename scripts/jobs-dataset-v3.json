@@ -1,0 +1,72 @@
+[
+  {
+    "prompt": "Editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. Preserve her identity with absolute precision: her exact facial bone structure, her long wavy vivid orange-red hair, her light blue-green eyes, her narrow straight nose, her exact mouth shape. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the bridge of the nose — she is NOT heavily freckled. SETTING: present day, modern real world, contemporary clothing. Tight close-up of her face, PURE PROFILE seen from her left side, against a plain warm beige wall outdoors. Flat even overcast daylight, no hard shadow, no colour cast. Neutral relaxed expression, mouth closed, looking straight ahead out of frame. 85mm lens. ZERO superficiality, no heavy makeup. Realistic skin texture, every pore visible, fine film grain, photographic, not illustrated.",
+    "refs": ["Celestefardhero", "celesteencoreunportrait", "celesteprofilblanc", "celestelematin", "celesteroses", "celestecontratserieuse", "irl-03", "irl-04", "irl-06", "portrait-alt", "hero-portrait", "celestebateauok"],
+    "aspect": "4:5",
+    "size": "2K",
+    "out": "training/dataset-src/ds-01-profil-gauche.jpg"
+  },
+  {
+    "prompt": "Editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. Preserve her identity with absolute precision: her exact facial bone structure, her long wavy vivid orange-red hair, her light blue-green eyes, her narrow straight nose, her exact mouth shape. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the bridge of the nose — she is NOT heavily freckled. SETTING: present day, modern real world, contemporary clothing. Tight close-up of her face, PURE PROFILE seen from her right side, against a plain pale grey concrete wall outdoors. Flat even overcast daylight, no hard shadow. Her hair is pulled back into a HIGH PONYTAIL, showing her ear, jawline and neck clearly. Neutral expression. 85mm lens. ZERO superficiality, no heavy makeup. Realistic skin texture, fine film grain, photographic, not illustrated.",
+    "refs": ["Celestefardhero", "celesteencoreunportrait", "celesteprofilblanc", "celestelematin", "celesteroses", "celestecontratserieuse", "irl-03", "irl-04", "irl-06", "portrait-alt", "hero-portrait", "celestebateauok"],
+    "aspect": "4:5",
+    "size": "2K",
+    "out": "training/dataset-src/ds-02-profil-droit-queue.jpg"
+  },
+  {
+    "prompt": "Editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. Preserve her identity with absolute precision: her exact facial bone structure, her long wavy vivid orange-red hair, her light blue-green eyes, her narrow straight nose, her exact mouth shape. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the bridge of the nose — she is NOT heavily freckled. SETTING: present day, modern real world, contemporary clothing. Head and shoulders, three-quarter angle, against a plain seamless LIGHT GREY studio backdrop. Very soft even north-window light, high-key, almost shadowless. Her hair is gathered in a LOOSE LOW BUN with a few strands escaping, forehead and hairline fully visible. Calm, no smile, looking into the lens. 105mm lens. ZERO superficiality, no heavy makeup. Realistic skin texture, fine film grain, photographic, not illustrated.",
+    "refs": ["Celestefardhero", "celesteencoreunportrait", "celesteprofilblanc", "celestelematin", "celesteroses", "celestecontratserieuse", "irl-03", "irl-04", "irl-06", "portrait-alt", "hero-portrait", "celestebateauok"],
+    "aspect": "4:5",
+    "size": "2K",
+    "out": "training/dataset-src/ds-03-chignon-fond-clair.jpg"
+  },
+  {
+    "prompt": "Editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. Preserve her identity with absolute precision: her exact facial bone structure, her long wavy vivid orange-red hair, her light blue-green eyes, her narrow straight nose, her exact mouth shape. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the bridge of the nose — she is NOT heavily freckled. SETTING: present day, modern real world, contemporary clothing. Waist-up, facing the camera square-on, standing in front of a plain WHITE painted brick wall on a bright overcast day. Completely flat diffused daylight, no colour cast, no rim light. Wearing a plain light grey t-shirt. Her hair is in a single loose SIDE BRAID over her shoulder. Relaxed neutral expression, arms down. 50mm lens. ZERO superficiality, no heavy makeup. Realistic skin texture, fine film grain, photographic, not illustrated.",
+    "refs": ["Celestefardhero", "celesteencoreunportrait", "celesteprofilblanc", "celestelematin", "celesteroses", "celestecontratserieuse", "irl-03", "irl-04", "irl-06", "portrait-alt", "hero-portrait", "celestebateauok"],
+    "aspect": "4:5",
+    "size": "2K",
+    "out": "training/dataset-src/ds-04-tresse-mur-blanc.jpg"
+  },
+  {
+    "prompt": "Editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. Preserve her identity with absolute precision: her exact facial bone structure, her long wavy vivid orange-red hair, her light blue-green eyes, her narrow straight nose, her exact mouth shape. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the bridge of the nose — she is NOT heavily freckled. SETTING: present day, modern real world, contemporary clothing. Very tight close-up of her face filling the frame, three-quarter angle, soft daylight from a large window on her left, plain out-of-focus pale interior wall behind. Eyes open, looking slightly off-camera, lips relaxed and closed. Extremely sharp on the eyes and skin, maximum facial detail. 105mm macro lens. ZERO superficiality, no heavy makeup. Realistic skin texture, every pore and freckle visible, fine film grain, photographic, not illustrated.",
+    "refs": ["Celestefardhero", "celesteencoreunportrait", "celesteprofilblanc", "celestelematin", "celesteroses", "celestecontratserieuse", "irl-03", "irl-04", "irl-06", "portrait-alt", "hero-portrait", "celestebateauok"],
+    "aspect": "1:1",
+    "size": "2K",
+    "out": "training/dataset-src/ds-05-gros-plan-fenetre.jpg"
+  },
+  {
+    "prompt": "Editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. Preserve her identity with absolute precision: her exact facial bone structure, her long wavy vivid orange-red hair, her light blue-green eyes, her narrow straight nose, her exact mouth shape. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the bridge of the nose — she is NOT heavily freckled. SETTING: present day, modern real world, contemporary clothing. Three-quarter length, from mid-thigh up, standing on a quiet modern city pavement on a bright overcast day, blurred pale buildings behind. Flat soft daylight, no shadow. Wearing simple jeans and a plain cream jumper. Her face remains LARGE in the frame despite the wider crop. Natural stance, looking into the lens. 35mm lens. ZERO superficiality, no heavy makeup. Realistic skin texture, fine film grain, photographic, not illustrated.",
+    "refs": ["Celestefardhero", "celesteencoreunportrait", "celesteprofilblanc", "celestelematin", "celesteroses", "celestecontratserieuse", "irl-03", "irl-04", "irl-06", "portrait-alt", "hero-portrait", "celestebateauok"],
+    "aspect": "4:5",
+    "size": "2K",
+    "out": "training/dataset-src/ds-06-plan-americain-rue.jpg"
+  },
+  {
+    "prompt": "Editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. Preserve her identity with absolute precision: her exact facial bone structure, her long wavy vivid orange-red hair, her light blue-green eyes, her narrow straight nose, her exact mouth shape. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the bridge of the nose — she is NOT heavily freckled. SETTING: present day, modern real world, contemporary clothing. Head and shoulders, seen from a HIGH ANGLE looking down at her as she tilts her face up towards the camera, outdoors under a bright white overcast sky. Soft even light from above, catchlights in her eyes. Hair falling back off her shoulders. Calm open expression. 85mm lens. ZERO superficiality, no heavy makeup. Realistic skin texture, fine film grain, photographic, not illustrated.",
+    "refs": ["Celestefardhero", "celesteencoreunportrait", "celesteprofilblanc", "celestelematin", "celesteroses", "celestecontratserieuse", "irl-03", "irl-04", "irl-06", "portrait-alt", "hero-portrait", "celestebateauok"],
+    "aspect": "4:5",
+    "size": "2K",
+    "out": "training/dataset-src/ds-07-plongee-ciel-blanc.jpg"
+  },
+  {
+    "prompt": "Editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. Preserve her identity with absolute precision: her exact facial bone structure, her long wavy vivid orange-red hair, her light blue-green eyes, her narrow straight nose, her exact mouth shape. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the bridge of the nose — she is NOT heavily freckled. SETTING: present day, modern real world, contemporary clothing. Waist-up, three-quarter angle, sitting at a table by a large window in a bright airy white cafe, soft daylight flooding in from the side, pale wooden and white interior out of focus behind her. Wearing a plain white shirt. Her hair is TUCKED BEHIND ONE EAR, showing the ear and the side of her face. Mid-conversation, natural relaxed micro-expression, not posed. 50mm lens. ZERO superficiality, no heavy makeup. Realistic skin texture, fine film grain, photographic, not illustrated.",
+    "refs": ["Celestefardhero", "celesteencoreunportrait", "celesteprofilblanc", "celestelematin", "celesteroses", "celestecontratserieuse", "irl-03", "irl-04", "irl-06", "portrait-alt", "hero-portrait", "celestebateauok"],
+    "aspect": "4:5",
+    "size": "2K",
+    "out": "training/dataset-src/ds-08-cafe-clair.jpg"
+  },
+  {
+    "prompt": "Editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. Preserve her identity with absolute precision: her exact facial bone structure, her long wavy vivid orange-red hair, her light blue-green eyes, her narrow straight nose, her exact mouth shape. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the bridge of the nose — she is NOT heavily freckled. SETTING: present day, modern real world, contemporary clothing. Head and shoulders, seen from a LOW ANGLE looking up at her, against a plain pale blue sky with thin white cloud. Bright open daylight, soft shadow under the chin. Her hair is blown across slightly by wind. She looks down towards the lens, faint amused expression. 85mm lens. ZERO superficiality, no heavy makeup. Realistic skin texture, fine film grain, photographic, not illustrated.",
+    "refs": ["Celestefardhero", "celesteencoreunportrait", "celesteprofilblanc", "celestelematin", "celesteroses", "celestecontratserieuse", "irl-03", "irl-04", "irl-06", "portrait-alt", "hero-portrait", "celestebateauok"],
+    "aspect": "4:5",
+    "size": "2K",
+    "out": "training/dataset-src/ds-09-contreplongee-ciel.jpg"
+  },
+  {
+    "prompt": "Editorial photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. Preserve her identity with absolute precision: her exact facial bone structure, her long wavy vivid orange-red hair, her light blue-green eyes, her narrow straight nose, her exact mouth shape. Her skin is VERY PALE PORCELAIN with only a FEW faint freckles across the bridge of the nose — she is NOT heavily freckled. SETTING: present day, modern real world, contemporary clothing. Head and shoulders, three-quarter angle from BEHIND her, she turns her head back over her shoulder towards the camera, showing the nape of her neck and the back of her hair. Plain pale sand-coloured wall behind, soft flat daylight. Neutral expression, direct eye contact. 85mm lens. ZERO superficiality, no heavy makeup. Realistic skin texture, fine film grain, photographic, not illustrated.",
+    "refs": ["Celestefardhero", "celesteencoreunportrait", "celesteprofilblanc", "celestelematin", "celesteroses", "celestecontratserieuse", "irl-03", "irl-04", "irl-06", "portrait-alt", "hero-portrait", "celestebateauok"],
+    "aspect": "4:5",
+    "size": "2K",
+    "out": "training/dataset-src/ds-10-nuque-retournee.jpg"
+  }
+]

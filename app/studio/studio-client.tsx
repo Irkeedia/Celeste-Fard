@@ -34,6 +34,24 @@ import styles from "./studio.module.css";
 type Mode = "photo" | "video";
 type Etat = "attente" | "ok" | "erreur";
 
+/**
+ * Deux moteurs pour la photo, complementaires plutot que concurrents :
+ *
+ * - **Gemini** approxime le visage a partir d'images de reference. Rendu tres
+ *   propre, mais il refuse tenues de plage et cadrages juges suggestifs — ce
+ *   qui declenche les filtres, c'est la surface de corps visible, pas le mot
+ *   « bikini ».
+ * - **Flux** tourne sur ComfyUI, sur la machine : le visage vient d'un LoRA
+ *   entraine, et il n'y a **aucune moderation**. En contrepartie il exige que
+ *   ComfyUI soit lance, et le rendu est un peu moins lisse.
+ */
+type Moteur = "gemini" | "flux";
+
+const MOTEURS: { valeur: Moteur; nom: string; aide: string }[] = [
+  { valeur: "gemini", nom: "Gemini", aide: "Rendu le plus propre — refuse les tenues légères" },
+  { valeur: "flux", nom: "Flux", aide: "Sans modération — ComfyUI doit tourner sur le PC" },
+];
+
 type Item = {
   cle: string;
   etat: Etat;
@@ -125,6 +143,7 @@ export function StudioClient({ connecteInitial }: { connecteInitial: boolean }) 
   const [erreurLogin, setErreurLogin] = useState("");
 
   const [mode, setMode] = useState<Mode>("photo");
+  const [moteur, setMoteur] = useState<Moteur>("gemini");
   const [prompt, setPrompt] = useState("");
   const [aspect, setAspect] = useState("4:5");
   const [nombre, setNombre] = useState(1);
@@ -237,6 +256,7 @@ export function StudioClient({ connecteInitial }: { connecteInitial: boolean }) 
     if (!prompt.trim() || enCours) return;
     const n = mode === "video" ? 1 : nombre;
     const modeCourant = mode;
+    const moteurCourant = moteur;
     const ratio = ratioCourant;
 
     const nouveaux: Item[] = Array.from({ length: n }, () => ({
@@ -258,36 +278,40 @@ export function StudioClient({ connecteInitial }: { connecteInitial: boolean }) 
       setItems((l) => l.map((i) => (i.cle === cle ? { ...i, ...maj } : i)));
 
     if (modeCourant === "photo") {
-      await Promise.all(
-        nouveaux.map((it) =>
-          fetch("/api/studio/image", {
+      const route = moteurCourant === "flux" ? "/api/studio/flux" : "/api/studio/image";
+
+      const une = async (it: Item) => {
+        try {
+          const r = await fetch(route, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ prompt, aspect }),
-          })
-            .then(async (r) => {
-              const j = await r.json();
-              if (!r.ok) throw new Error(j.erreur ?? "Échec de la génération");
-              const blob = await versBlob(j.image);
-              const url = URL.createObjectURL(blob);
-              urls.current.push(url);
-              let idDb: number | undefined;
-              try {
-                idDb = await ajouter({
-                  blob,
-                  mode: modeCourant,
-                  ratio,
-                  prompt,
-                  date: Date.now(),
-                });
-              } catch {
-                /* Sans stockage, l'image reste affichee pour la session. */
-              }
-              majItem(it.cle, { etat: "ok", url, idDb });
-            })
-            .catch((e) => majItem(it.cle, { etat: "erreur", message: e.message })),
-        ),
-      );
+          });
+          const j = await r.json();
+          if (!r.ok) throw new Error(j.erreur ?? "Échec de la génération");
+          const blob = await versBlob(j.image);
+          const url = URL.createObjectURL(blob);
+          urls.current.push(url);
+          let idDb: number | undefined;
+          try {
+            idDb = await ajouter({ blob, mode: modeCourant, ratio, prompt, date: Date.now() });
+          } catch {
+            /* Sans stockage, l'image reste affichee pour la session. */
+          }
+          majItem(it.cle, { etat: "ok", url, idDb });
+        } catch (e) {
+          majItem(it.cle, { etat: "erreur", message: e instanceof Error ? e.message : "Erreur" });
+        }
+      };
+
+      if (moteurCourant === "flux") {
+        // Une seule carte graphique derriere ComfyUI : lancer les jobs en
+        // parallele ne les accelere pas, ca ne fait que provoquer des
+        // rechargements de modele entre chacun. On enchaine.
+        for (const it of nouveaux) await une(it);
+      } else {
+        await Promise.all(nouveaux.map(une));
+      }
       setEnCours(false);
       return;
     }
@@ -340,7 +364,7 @@ export function StudioClient({ connecteInitial }: { connecteInitial: boolean }) 
       setEnCours(false);
       setEtapeVideo("");
     }
-  }, [prompt, aspect, mode, nombre, enCours, ratioCourant]);
+  }, [prompt, aspect, mode, moteur, nombre, enCours, ratioCourant]);
 
   /* ------------------------------------------------ connexion */
 
@@ -397,6 +421,31 @@ export function StudioClient({ connecteInitial }: { connecteInitial: boolean }) 
               </button>
             ))}
           </div>
+
+          {mode === "photo" && (
+            <div className={styles.carte}>
+              <div className={styles.ligne}>
+                <span className={styles.etiquette}>Moteur</span>
+                <div className={styles.choix}>
+                  {MOTEURS.map((m) => (
+                    <button
+                      key={m.valeur}
+                      type="button"
+                      className={`${styles.choixItem} ${
+                        moteur === m.valeur ? styles.choixActif : ""
+                      }`}
+                      onClick={() => setMoteur(m.valeur)}
+                    >
+                      {m.nom}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <p className={styles.aide}>
+                {MOTEURS.find((m) => m.valeur === moteur)?.aide}
+              </p>
+            </div>
+          )}
 
           <div className={styles.carte}>
             <p className={styles.etiquette}>Scène</p>

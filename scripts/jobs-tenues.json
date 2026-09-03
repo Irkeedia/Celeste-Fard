@@ -1,0 +1,222 @@
+[
+ {
+  "prompt": "Editorial fashion photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. THE NOSE: SHORT and SMALL, fine straight bridge, tip turning UPWARDS, sitting high above the upper lip — never drooping, never long, never hooked. Preserve her identity precisely: SOFT ROUNDED YOUTHFUL face, full cheeks, gentle jaw, she looks about 25 — not older, not gaunt, not angular. EYE COLOUR: LIGHT BLUE-GREEN / pale sea green, never brown. HAIR: long, wavy, WORN LOOSE around her face, VIVID SATURATED RED-ORANGE, the colour of hot flame, intensely pigmented — not a muted copper. Skin VERY PALE PORCELAIN with a FEW faint freckles across the nose. Slim athletic build, long legs. SETTING: present day, modern real world. Three-quarter body shot from mid-calf up, standing on a sunny city pavement. Wearing HIGH-WAISTED DENIM MINI SHORTS and a fitted white cropped t-shirt, bare legs, white trainers. Bright natural daylight, blurred pale buildings behind. Relaxed stance, looking into the lens. 35mm lens. Tasteful high-end fashion editorial in the style of a Zara or Mango lookbook. ZERO superficiality, no heavy makeup, natural confident posture. Realistic skin texture, fine film grain, photographic, not illustrated.",
+  "refs": [
+   "celeste-profil-ancre",
+   "celesteprofilvert",
+   "celesteprofilblanc",
+   "celeste-nuque34",
+   "celeste-queue34",
+   "Celestefardhero",
+   "celesteencoreunportrait",
+   "celestelematin",
+   "celesteroses",
+   "celestecontratserieuse",
+   "irl-03",
+   "irl-04",
+   "portrait-alt",
+   "hero-portrait"
+  ],
+  "aspect": "4:5",
+  "size": "2K",
+  "out": "training/dataset-src/tenue-03-short-jean-rue.jpg"
+ },
+ {
+  "prompt": "Editorial fashion photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. THE NOSE: SHORT and SMALL, fine straight bridge, tip turning UPWARDS, sitting high above the upper lip — never drooping, never long, never hooked. Preserve her identity precisely: SOFT ROUNDED YOUTHFUL face, full cheeks, gentle jaw, she looks about 25 — not older, not gaunt, not angular. EYE COLOUR: LIGHT BLUE-GREEN / pale sea green, never brown. HAIR: long, wavy, WORN LOOSE around her face, VIVID SATURATED RED-ORANGE, the colour of hot flame, intensely pigmented — not a muted copper. Skin VERY PALE PORCELAIN with a FEW faint freckles across the nose. Slim athletic build, long legs. SETTING: present day, modern real world. Three-quarter body shot, sitting on a low wall on a sunny terrace. Wearing a SHORT PLEATED SKIRT above the knee and a fitted ribbed knit top, bare legs crossed. Warm afternoon daylight, pale stone behind. Natural relaxed pose. 50mm lens. Tasteful high-end fashion editorial in the style of a Zara or Mango lookbook. ZERO superficiality, no heavy makeup, natural confident posture. Realistic skin texture, fine film grain, photographic, not illustrated.",
+  "refs": [
+   "celeste-profil-ancre",
+   "celesteprofilvert",
+   "celesteprofilblanc",
+   "celeste-nuque34",
+   "celeste-queue34",
+   "Celestefardhero",
+   "celesteencoreunportrait",
+   "celestelematin",
+   "celesteroses",
+   "celestecontratserieuse",
+   "irl-03",
+   "irl-04",
+   "portrait-alt",
+   "hero-portrait"
+  ],
+  "aspect": "4:5",
+  "size": "2K",
+  "out": "training/dataset-src/tenue-04-jupe-courte-terrasse.jpg"
+ },
+ {
+  "prompt": "Editorial fashion photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. THE NOSE: SHORT and SMALL, fine straight bridge, tip turning UPWARDS, sitting high above the upper lip — never drooping, never long, never hooked. Preserve her identity precisely: SOFT ROUNDED YOUTHFUL face, full cheeks, gentle jaw, she looks about 25 — not older, not gaunt, not angular. EYE COLOUR: LIGHT BLUE-GREEN / pale sea green, never brown. HAIR: long, wavy, WORN LOOSE around her face, VIVID SATURATED RED-ORANGE, the colour of hot flame, intensely pigmented — not a muted copper. Skin VERY PALE PORCELAIN with a FEW faint freckles across the nose. Slim athletic build, long legs. SETTING: present day, modern real world. Three-quarter body shot, standing on a rooftop at golden hour. Wearing a SHORT FITTED BODYCON DRESS in deep red, sleeveless, hemline above the knee, bare arms and legs. Warm low sunlight rimming her hair. Confident stance, hand on hip. 50mm lens. Tasteful high-end fashion editorial in the style of a Zara or Mango lookbook. ZERO superficiality, no heavy makeup, natural confident posture. Realistic skin texture, fine film grain, photographic, not illustrated.",
+  "refs": [
+   "celeste-profil-ancre",
+   "celesteprofilvert",
+   "celesteprofilblanc",
+   "celeste-nuque34",
+   "celeste-queue34",
+   "Celestefardhero",
+   "celesteencoreunportrait",
+   "celestelematin",
+   "celesteroses",
+   "celestecontratserieuse",
+   "irl-03",
+   "irl-04",
+   "portrait-alt",
+   "hero-portrait"
+  ],
+  "aspect": "4:5",
+  "size": "2K",
+  "out": "training/dataset-src/tenue-05-robe-moulante-soir.jpg"
+ },
+ {
+  "prompt": "Editorial fashion photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. THE NOSE: SHORT and SMALL, fine straight bridge, tip turning UPWARDS, sitting high above the upper lip — never drooping, never long, never hooked. Preserve her identity precisely: SOFT ROUNDED YOUTHFUL face, full cheeks, gentle jaw, she looks about 25 — not older, not gaunt, not angular. EYE COLOUR: LIGHT BLUE-GREEN / pale sea green, never brown. HAIR: long, wavy, WORN LOOSE around her face, VIVID SATURATED RED-ORANGE, the colour of hot flame, intensely pigmented — not a muted copper. Skin VERY PALE PORCELAIN with a FEW faint freckles across the nose. Slim athletic build, long legs. SETTING: present day, modern real world. Waist-up to mid-thigh, leaning on a balcony rail. Wearing a FITTED RIBBED TANK TOP and HIGH-WAISTED SHORTS, bare shoulders and arms. Bright morning daylight, city out of focus behind. Looking off-camera, natural expression. 50mm lens. Tasteful high-end fashion editorial in the style of a Zara or Mango lookbook. ZERO superficiality, no heavy makeup, natural confident posture. Realistic skin texture, fine film grain, photographic, not illustrated.",
+  "refs": [
+   "celeste-profil-ancre",
+   "celesteprofilvert",
+   "celesteprofilblanc",
+   "celeste-nuque34",
+   "celeste-queue34",
+   "Celestefardhero",
+   "celesteencoreunportrait",
+   "celestelematin",
+   "celesteroses",
+   "celestecontratserieuse",
+   "irl-03",
+   "irl-04",
+   "portrait-alt",
+   "hero-portrait"
+  ],
+  "aspect": "4:5",
+  "size": "2K",
+  "out": "training/dataset-src/tenue-06-debardeur-balcon.jpg"
+ },
+ {
+  "prompt": "Editorial fashion photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. THE NOSE: SHORT and SMALL, fine straight bridge, tip turning UPWARDS, sitting high above the upper lip — never drooping, never long, never hooked. Preserve her identity precisely: SOFT ROUNDED YOUTHFUL face, full cheeks, gentle jaw, she looks about 25 — not older, not gaunt, not angular. EYE COLOUR: LIGHT BLUE-GREEN / pale sea green, never brown. HAIR: long, wavy, WORN LOOSE around her face, VIVID SATURATED RED-ORANGE, the colour of hot flame, intensely pigmented — not a muted copper. Skin VERY PALE PORCELAIN with a FEW faint freckles across the nose. Slim athletic build, long legs. SETTING: present day, modern real world. Three-quarter body shot walking along a sunny seafront promenade. Wearing a FITTED CROP TOP and a SHORT FLOWING SKIRT, midriff and legs visible, sandals. Bright daylight, sea sparkling out of focus behind. Candid mid-step. 35mm lens. Tasteful high-end fashion editorial in the style of a Zara or Mango lookbook. ZERO superficiality, no heavy makeup, natural confident posture. Realistic skin texture, fine film grain, photographic, not illustrated.",
+  "refs": [
+   "celeste-profil-ancre",
+   "celesteprofilvert",
+   "celesteprofilblanc",
+   "celeste-nuque34",
+   "celeste-queue34",
+   "Celestefardhero",
+   "celesteencoreunportrait",
+   "celestelematin",
+   "celesteroses",
+   "celestecontratserieuse",
+   "irl-03",
+   "irl-04",
+   "portrait-alt",
+   "hero-portrait"
+  ],
+  "aspect": "4:5",
+  "size": "2K",
+  "out": "training/dataset-src/tenue-07-croptop-promenade.jpg"
+ },
+ {
+  "prompt": "Editorial fashion photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. THE NOSE: SHORT and SMALL, fine straight bridge, tip turning UPWARDS, sitting high above the upper lip — never drooping, never long, never hooked. Preserve her identity precisely: SOFT ROUNDED YOUTHFUL face, full cheeks, gentle jaw, she looks about 25 — not older, not gaunt, not angular. EYE COLOUR: LIGHT BLUE-GREEN / pale sea green, never brown. HAIR: long, wavy, WORN LOOSE around her face, VIVID SATURATED RED-ORANGE, the colour of hot flame, intensely pigmented — not a muted copper. Skin VERY PALE PORCELAIN with a FEW faint freckles across the nose. Slim athletic build, long legs. SETTING: present day, modern real world. Three-quarter body shot, standing on an outdoor running track. Wearing FITTED ATHLETIC LEGGINGS and a SPORTS CROP TOP, athletic build visible, trainers. Bright morning daylight. Athletic confident posture, hands on hips. 50mm lens. Tasteful high-end fashion editorial in the style of a Zara or Mango lookbook. ZERO superficiality, no heavy makeup, natural confident posture. Realistic skin texture, fine film grain, photographic, not illustrated.",
+  "refs": [
+   "celeste-profil-ancre",
+   "celesteprofilvert",
+   "celesteprofilblanc",
+   "celeste-nuque34",
+   "celeste-queue34",
+   "Celestefardhero",
+   "celesteencoreunportrait",
+   "celestelematin",
+   "celesteroses",
+   "celestecontratserieuse",
+   "irl-03",
+   "irl-04",
+   "portrait-alt",
+   "hero-portrait"
+  ],
+  "aspect": "4:5",
+  "size": "2K",
+  "out": "training/dataset-src/tenue-08-sport-exterieur.jpg"
+ },
+ {
+  "prompt": "Editorial fashion photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. THE NOSE: SHORT and SMALL, fine straight bridge, tip turning UPWARDS, sitting high above the upper lip — never drooping, never long, never hooked. Preserve her identity precisely: SOFT ROUNDED YOUTHFUL face, full cheeks, gentle jaw, she looks about 25 — not older, not gaunt, not angular. EYE COLOUR: LIGHT BLUE-GREEN / pale sea green, never brown. HAIR: long, wavy, WORN LOOSE around her face, VIVID SATURATED RED-ORANGE, the colour of hot flame, intensely pigmented — not a muted copper. Skin VERY PALE PORCELAIN with a FEW faint freckles across the nose. Slim athletic build, long legs. SETTING: present day, modern real world. Three-quarter body shot in a bright white loft by a tall window. Wearing a SHORT SILK SLIP DRESS with thin spaghetti straps, bare shoulders and arms, hemline mid-thigh. Abundant soft daylight. Standing relaxed, looking towards the lens. 50mm lens. Tasteful high-end fashion editorial in the style of a Zara or Mango lookbook. ZERO superficiality, no heavy makeup, natural confident posture. Realistic skin texture, fine film grain, photographic, not illustrated.",
+  "refs": [
+   "celeste-profil-ancre",
+   "celesteprofilvert",
+   "celesteprofilblanc",
+   "celeste-nuque34",
+   "celeste-queue34",
+   "Celestefardhero",
+   "celesteencoreunportrait",
+   "celestelematin",
+   "celesteroses",
+   "celestecontratserieuse",
+   "irl-03",
+   "irl-04",
+   "portrait-alt",
+   "hero-portrait"
+  ],
+  "aspect": "4:5",
+  "size": "2K",
+  "out": "training/dataset-src/tenue-09-slip-dress-interieur.jpg"
+ },
+ {
+  "prompt": "Editorial fashion photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. THE NOSE: SHORT and SMALL, fine straight bridge, tip turning UPWARDS, sitting high above the upper lip — never drooping, never long, never hooked. Preserve her identity precisely: SOFT ROUNDED YOUTHFUL face, full cheeks, gentle jaw, she looks about 25 — not older, not gaunt, not angular. EYE COLOUR: LIGHT BLUE-GREEN / pale sea green, never brown. HAIR: long, wavy, WORN LOOSE around her face, VIVID SATURATED RED-ORANGE, the colour of hot flame, intensely pigmented — not a muted copper. Skin VERY PALE PORCELAIN with a FEW faint freckles across the nose. Slim athletic build, long legs. SETTING: present day, modern real world. Three-quarter body shot on a sunlit street. Wearing SHORT DENIM SHORTS and an oversized white shirt TIED AT THE WAIST, midriff and long bare legs visible. Bright daylight, warm tones. Walking, natural stride. 35mm lens. Tasteful high-end fashion editorial in the style of a Zara or Mango lookbook. ZERO superficiality, no heavy makeup, natural confident posture. Realistic skin texture, fine film grain, photographic, not illustrated.",
+  "refs": [
+   "celeste-profil-ancre",
+   "celesteprofilvert",
+   "celesteprofilblanc",
+   "celeste-nuque34",
+   "celeste-queue34",
+   "Celestefardhero",
+   "celesteencoreunportrait",
+   "celestelematin",
+   "celesteroses",
+   "celestecontratserieuse",
+   "irl-03",
+   "irl-04",
+   "portrait-alt",
+   "hero-portrait"
+  ],
+  "aspect": "4:5",
+  "size": "2K",
+  "out": "training/dataset-src/tenue-10-short-chemise.jpg"
+ },
+ {
+  "prompt": "Editorial fashion photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. THE NOSE: SHORT and SMALL, fine straight bridge, tip turning UPWARDS, sitting high above the upper lip — never drooping, never long, never hooked. Preserve her identity precisely: SOFT ROUNDED YOUTHFUL face, full cheeks, gentle jaw, she looks about 25 — not older, not gaunt, not angular. EYE COLOUR: LIGHT BLUE-GREEN / pale sea green, never brown. HAIR: long, wavy, WORN LOOSE around her face, VIVID SATURATED RED-ORANGE, the colour of hot flame, intensely pigmented — not a muted copper. Skin VERY PALE PORCELAIN with a FEW faint freckles across the nose. Slim athletic build, long legs. SETTING: present day, modern real world. Three-quarter body shot against a pale concrete wall in the city. Wearing a SHORT BLACK LEATHER SKIRT and a fitted black long-sleeve top, bare legs, ankle boots. Soft bright daylight. Leaning back on the wall, direct gaze. 50mm lens. Tasteful high-end fashion editorial in the style of a Zara or Mango lookbook. ZERO superficiality, no heavy makeup, natural confident posture. Realistic skin texture, fine film grain, photographic, not illustrated.",
+  "refs": [
+   "celeste-profil-ancre",
+   "celesteprofilvert",
+   "celesteprofilblanc",
+   "celeste-nuque34",
+   "celeste-queue34",
+   "Celestefardhero",
+   "celesteencoreunportrait",
+   "celestelematin",
+   "celesteroses",
+   "celestecontratserieuse",
+   "irl-03",
+   "irl-04",
+   "portrait-alt",
+   "hero-portrait"
+  ],
+  "aspect": "4:5",
+  "size": "2K",
+  "out": "training/dataset-src/tenue-11-jupe-cuir-ville.jpg"
+ },
+ {
+  "prompt": "Editorial fashion photograph of THIS EXACT WOMAN — she must be instantly recognisable as the woman in the reference images. THE NOSE: SHORT and SMALL, fine straight bridge, tip turning UPWARDS, sitting high above the upper lip — never drooping, never long, never hooked. Preserve her identity precisely: SOFT ROUNDED YOUTHFUL face, full cheeks, gentle jaw, she looks about 25 — not older, not gaunt, not angular. EYE COLOUR: LIGHT BLUE-GREEN / pale sea green, never brown. HAIR: long, wavy, WORN LOOSE around her face, VIVID SATURATED RED-ORANGE, the colour of hot flame, intensely pigmented — not a muted copper. Skin VERY PALE PORCELAIN with a FEW faint freckles across the nose. Slim athletic build, long legs. SETTING: present day, modern real world. Three-quarter body shot in a sunlit garden. Wearing a SHORT FITTED SUMMER DRESS with thin straps, floral print, hemline above the knee, bare shoulders arms and legs. Warm dappled daylight through leaves. Natural smile, relaxed. 50mm lens. Tasteful high-end fashion editorial in the style of a Zara or Mango lookbook. ZERO superficiality, no heavy makeup, natural confident posture. Realistic skin texture, fine film grain, photographic, not illustrated.",
+  "refs": [
+   "celeste-profil-ancre",
+   "celesteprofilvert",
+   "celesteprofilblanc",
+   "celeste-nuque34",
+   "celeste-queue34",
+   "Celestefardhero",
+   "celesteencoreunportrait",
+   "celestelematin",
+   "celesteroses",
+   "celestecontratserieuse",
+   "irl-03",
+   "irl-04",
+   "portrait-alt",
+   "hero-portrait"
+  ],
+  "aspect": "4:5",
+  "size": "2K",
+  "out": "training/dataset-src/tenue-12-robe-ete-jardin.jpg"
+ }
+]

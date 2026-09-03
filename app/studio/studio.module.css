@@ -135,6 +135,16 @@
   margin: 0;
 }
 
+/* Une ligne sous le choix du moteur : ce qui les distingue n'est pas
+   devinable depuis leur nom, et ca evite d'essayer une tenue de plage sur
+   Gemini pour se prendre un refus de moderation. */
+.aide {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+}
+
 /* 16px MINIMUM : en dessous, Safari iOS zoome a la prise de focus et ne
    revient jamais. C'etait l'origine du « ca zoome et ca se decale ».
    Ne jamais repasser en variable de taille. */
