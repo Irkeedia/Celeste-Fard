@@ -48,13 +48,25 @@ async function choisirLora(): Promise<string> {
     const dispo: string[] = (await r.json())?.LoraLoaderModelOnly?.input?.required?.lora_name?.[0] ?? [];
     const celeste = dispo.filter((n) => n.startsWith("celeste_char"));
     if (!celeste.length) return "celeste_char.safetensors";
-    // On extrait le numero de version plutot que de comparer les chaines :
-    // localeCompare ignore la ponctuation et classait `celeste_char.safetensors`
-    // APRES `celeste_char_v2.safetensors` (il comparait "...charsafetensors"
-    // a "...charv2safetensors", donc s < v). Le premier LoRA, sans suffixe,
-    // est la v1.
-    const version = (n: string) => Number(/_v(\d+)\./.exec(n)?.[1] ?? 1);
-    return celeste.reduce((a, b) => (version(b) > version(a) ? b : a));
+    // On extrait les numeros plutot que de comparer les chaines : localeCompare
+    // ignore la ponctuation et classait `celeste_char.safetensors` APRES
+    // `celeste_char_v2.safetensors` (il comparait "...charsafetensors" a
+    // "...charv2safetensors", donc s < v).
+    //
+    // Deux nomenclatures cohabitent :
+    //   celeste_char_v3.safetensors              -> LoRA final
+    //   celeste_char_v3-step00000400.safetensors -> checkpoint intermediaire
+    // A version egale, le final l'emporte sur les checkpoints, et entre
+    // checkpoints c'est le step le plus avance qui gagne.
+    const rang = (n: string): [number, number] => [
+      Number(/_v(\d+)/.exec(n)?.[1] ?? 1),
+      /-step(\d+)/.test(n) ? Number(/-step(\d+)/.exec(n)![1]) : Number.MAX_SAFE_INTEGER,
+    ];
+    return celeste.reduce((a, b) => {
+      const [va, sa] = rang(a);
+      const [vb, sb] = rang(b);
+      return vb > va || (vb === va && sb > sa) ? b : a;
+    });
   } catch {
     return "celeste_char.safetensors";
   }
