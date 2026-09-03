@@ -41,6 +41,15 @@ autodestruct() {
   code=$?
   echo "=== FIN (code $code) $(date -u) ==="
   push_log
+  # Le pod ComfyUI du studio n'a personne pour l'eteindre une fois le PC de
+  # Mathieu eteint : c'est ce script, qui vit dans le cloud, qui s'en charge.
+  # Sans ca il facturerait toute la nuit.
+  if [ -n "${COMFY_POD_ID:-}" ] && [ -n "${RUNPOD_API_KEY:-}" ]; then
+    echo "extinction du pod ComfyUI $COMFY_POD_ID"
+    curl -s -X POST "https://api.runpod.io/graphql?api_key=$RUNPOD_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d "{\"query\":\"mutation { podTerminate(input:{podId:\\\"$COMFY_POD_ID\\\"}) }\"}"
+  fi
   if [ -n "${RUNPOD_API_KEY:-}" ] && [ -n "${RUNPOD_POD_ID:-}" ]; then
     echo "auto-destruction du pod $RUNPOD_POD_ID"
     curl -s -X POST "https://api.runpod.io/graphql?api_key=$RUNPOD_API_KEY" \
@@ -50,8 +59,8 @@ autodestruct() {
 }
 trap autodestruct EXIT
 
-# Chien de garde : tue le pod au bout de 5h si le script se fige.
-( sleep 18000
+# Chien de garde : 3h suffisent pour 400 steps de reprise.
+( sleep 10800
   curl -s -X POST "https://api.runpod.io/graphql?api_key=${RUNPOD_API_KEY:-}" \
     -H "Content-Type: application/json" \
     -d "{\"query\":\"mutation { podTerminate(input:{podId:\\\"${RUNPOD_POD_ID:-}\\\"}) }\"}" ) &
@@ -125,6 +134,18 @@ rm -f  $WS/dataset/10_celeste_char/*.toml $WS/dataset/10_celeste_char/*.sh
 NIMG=$(ls $WS/dataset/10_celeste_char/*.jpg 2>/dev/null | wc -l)
 echo "  $NIMG images / $(ls $WS/dataset/10_celeste_char/*.txt 2>/dev/null | wc -l) captions"
 [ "$NIMG" -ge 50 ] || { echo "ERREUR: dataset incomplet ($NIMG images)"; exit 1; }
+push_log
+
+echo "--- 4b/6 checkpoint de reprise ---"
+mkdir -p $WS/reprise
+$PY - <<'PYR'
+import os
+from huggingface_hub import hf_hub_download
+hf_hub_download(os.environ["HF_USER"]+"/celeste-lora-v3",
+                "celeste_char_v3-step00001000.safetensors",
+                token=os.environ["HF_TOKEN"], local_dir="/workspace/reprise")
+print("  checkpoint 1000 recupere")
+PYR
 push_log
 
 echo "--- 5/6 config + entrainement ---"

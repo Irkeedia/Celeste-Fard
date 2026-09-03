@@ -40,16 +40,19 @@ network_module = "networks.lora_flux"
 network_dim = 32
 network_alpha = 16
 network_train_unet_only = true
+# Reprise : on repart du checkpoint 1000 plutot que de zero. L'entrainement
+# precedent a ete coupe par le chien de garde a 5h, il manque 400 steps.
+network_weights = "/workspace/reprise/celeste_char_v3-step00001000.safetensors"
 
 # --- Entrainement ---
-max_train_steps = 1400
+max_train_steps = 400
 train_batch_size = 2
 gradient_accumulation_steps = 1
 learning_rate = 0.0001
 unet_lr = 0.0001
 optimizer_type = "AdamW8bit"
 lr_scheduler = "cosine"
-lr_warmup_steps = 100
+lr_warmup_steps = 0
 max_grad_norm = 1.0
 min_snr_gamma = 7.0
 noise_offset = 0.05
@@ -80,7 +83,7 @@ max_data_loader_n_workers = 4
 # intermediaires a comparer, le meilleur LoRA n est pas toujours le dernier
 # (au-dela d un certain point le modele sur-apprend et fige les poses).
 output_dir = "/workspace/output"
-output_name = "celeste_char_v3"
+output_name = "celeste_char_v3f"
 save_model_as = "safetensors"
 save_every_n_steps = 200
 logging_dir = "/workspace/logs"
