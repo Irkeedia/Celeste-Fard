@@ -86,8 +86,10 @@ const TAILLES: Record<string, { width: number; height: number }> = {
  * LoRA porte le visage mais pas la colorimetrie du decor.
  */
 const IDENTITE =
-  "celeste_char, a woman with long wavy vivid orange-red hair and very pale porcelain skin " +
-  "with a few light freckles, ";
+  /* Pas de "freckles" en positif — voir la note dans studio/image. Flux n'a
+     pas de prompt negatif ici, donc la peau nette doit etre dite en positif. */
+  "celeste_char, a woman with long wavy vivid orange-red hair and very pale porcelain skin, " +
+  "clear smooth even-toned skin, no freckles, ";
 
 /** Suffixe technique : verrouille le rendu photographique apres la scene. */
 const RENDU =
@@ -160,7 +162,10 @@ export async function POST(request: Request) {
     return Response.json({ erreur: "Non authentifie" }, { status: 401 });
   }
 
-  const { prompt, aspect = "4:5", force = 0.9, steps = 28 } = await request.json();
+  // Valeurs par defaut issues du comparatif a seed fixe du 3 septembre :
+  // au-dessus de guidance 3 Flux lisse et sature la peau (effet plastique),
+  // et une force de LoRA trop haute ecrase la texture propre au modele.
+  const { prompt, aspect = "4:5", force = 0.7, steps = 28, guidance = 2.5 } = await request.json();
   if (!prompt || typeof prompt !== "string") {
     return Response.json({ erreur: "Prompt manquant" }, { status: 400 });
   }
@@ -174,8 +179,8 @@ export async function POST(request: Request) {
     ...taille,
     steps: Math.min(Math.max(Number(steps) || 28, 10), 40),
     seed: Math.floor(Math.random() * 1e15),
-    force: Math.min(Math.max(Number(force) || 0.9, 0.1), 1.5),
-    guidance: 3.5,
+    force: Math.min(Math.max(Number(force) || 0.7, 0.1), 1.5),
+    guidance: Math.min(Math.max(Number(guidance) || 2.5, 1), 6),
   };
 
   let promptId: string;

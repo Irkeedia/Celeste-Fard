@@ -63,6 +63,22 @@ try:
 except Exception as e:
     print("pas de LoRA v3 :", e)
 PYX
+# L entrainement peut encore tourner et publier de nouveaux checkpoints.
+# On resynchronise en fond pour que le pod suive, sans avoir a le relancer.
+( while true; do
+    sleep 300
+    python3 - <<'PYS' 2>/dev/null
+import os
+from huggingface_hub import HfApi, hf_hub_download
+t=os.environ["HF_TOKEN"]; repo=os.environ["HF_USER"]+"/celeste-lora-v3"
+d="/comfyui/models/loras"
+api=HfApi(token=t)
+for f in api.list_repo_files(repo):
+    if f.endswith(".safetensors") and not os.path.exists(os.path.join(d,f)):
+        hf_hub_download(repo, f, token=t, local_dir=d)
+        print("nouveau lora:", f)
+PYS
+  done ) &
 EOS
 }
 
