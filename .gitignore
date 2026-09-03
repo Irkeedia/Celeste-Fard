@@ -50,3 +50,5 @@ instagram/gen/
 # Dataset d entrainement du LoRA : 120 Mo, vit sur HuggingFace
 # (depot prive toffolon/celeste-dataset-v3), pas dans le depot git.
 training/dataset-src/
+
+training/.comfy-pod-id

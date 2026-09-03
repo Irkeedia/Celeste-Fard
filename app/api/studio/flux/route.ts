@@ -9,14 +9,17 @@
  *
  * Le rendu se fait sur ComfyUI, qui n'est PAS sur Vercel. `COMFY_HOST` doit
  * pointer vers une instance joignable depuis la fonction :
- *   - en local           : http://127.0.0.1:8188 (defaut)
- *   - depuis un deploiement : l'URL publique d'un tunnel vers la machine
- * Sans tunnel actif, cette route repond 503 avec une explication — c'est une
- * limite d'architecture, pas une panne.
+ *   - en dev sur le PC : http://127.0.0.1:8188 (defaut)
+ *   - depuis le site deploye : un pod ComfyUI RunPod, joignable en HTTPS par
+ *     le proxy `https://{podId}-8188.proxy.runpod.net`. Le pod s'allume et
+ *     s'eteint avec `training/comfy-pod.sh` — il facture tant qu'il vit, il
+ *     n'est donc pas fait pour rester en place.
+ * ComfyUI injoignable -> 503 explicite. C'est une limite d'architecture
+ * connue, pas une panne.
  *
- * Graphe repris de `scripts/generate-images-comfy.mjs` : GGUF Q8, DualCLIP
+ * Graphe repris de `scripts/generate-images-comfy.mjs` : DualCLIP
  * t5xxl+clip_l, KSampler euler/simple a cfg 1 (Flux guide par FluxGuidance,
- * pas par le CFG classique).
+ * pas par le CFG classique). Le modele de base s'adapte a la machine.
  */
 import { cookies } from "next/headers";
 
@@ -25,6 +28,9 @@ import { COOKIE, jetonValide } from "../../../studio/auth";
 export const maxDuration = 300;
 
 const HOST = process.env.COMFY_HOST ?? "http://127.0.0.1:8188";
+
+/** GGUF compresse en local (16 Go), safetensors plein sur un pod (48 Go). */
+const UNET = process.env.COMFY_UNET ?? "flux1-dev-Q8_0.gguf";
 
 /**
  * Le LoRA n'est pas code en dur : on demande a ComfyUI ce dont il dispose et
@@ -85,9 +91,16 @@ function graphe(p: {
   force: number;
   guidance: number;
   lora: string;
+  unet: string;
 }) {
   return {
-    1: { class_type: "UnetLoaderGGUF", inputs: { unet_name: "flux1-dev-Q8_0.gguf" } },
+    // Le modele de base depend de la machine : en local c'est un GGUF Q8,
+    // compresse pour tenir dans les 16 Go de la carte, et qui exige le custom
+    // node ComfyUI-GGUF. Sur un pod 48 Go on charge le safetensors standard,
+    // sans custom node a installer. On choisit le loader d'apres l'extension.
+    1: p.unet.endsWith(".gguf")
+      ? { class_type: "UnetLoaderGGUF", inputs: { unet_name: p.unet } }
+      : { class_type: "UNETLoader", inputs: { unet_name: p.unet, weight_dtype: "default" } },
     10: {
       class_type: "LoraLoaderModelOnly",
       inputs: { model: ["1", 0], lora_name: p.lora, strength_model: p.force },
@@ -144,6 +157,7 @@ export async function POST(request: Request) {
   const lora = await choisirLora();
   const corps = {
     lora,
+    unet: UNET,
     prompt: IDENTITE + prompt + RENDU,
     ...taille,
     steps: Math.min(Math.max(Number(steps) || 28, 10), 40),
