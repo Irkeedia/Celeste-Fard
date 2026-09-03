@@ -57,8 +57,9 @@ Chaque post a le même trio : `NN-nom-reel.mp4`, `NN-nom-cover.jpg`, `NN-nom-leg
 | 02 | — | image | portrait 4:5 |
 | 03 | Slow Burn | 9,8 s | format court, une seule idée |
 | 04 | Low Tide | 26 s | coupes franches, bleu nuit, lyrics plein cadre |
+| 05 | Made, Not Born | 30 s | selfie balcon, présentation parlée, sous-titres fixes |
 
-Les recettes sont volontairement différentes d'un post à l'autre : quatre reels
+Les recettes sont volontairement différentes d'un post à l'autre : cinq reels
 montés pareil se seraient annulés dans le fil.
 
 ## Checklist de publication d'un reel
