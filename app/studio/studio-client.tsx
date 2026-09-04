@@ -49,7 +49,45 @@ type Moteur = "gemini" | "flux";
 
 const MOTEURS: { valeur: Moteur; nom: string; aide: string }[] = [
   { valeur: "gemini", nom: "Gemini", aide: "Rendu le plus propre — refuse les tenues légères" },
-  { valeur: "flux", nom: "Flux", aide: "Sans modération — ComfyUI doit tourner sur le PC" },
+  { valeur: "flux", nom: "Flux", aide: "Sans modération — le LoRA de Céleste, sur RunPod" },
+];
+
+/**
+ * Reglages fins de Flux. Les valeurs par defaut viennent d'un comparatif a
+ * seed fixe : ce sont celles qui tiennent le mieux le photorealisme.
+ *
+ * Les libelles decrivent l'EFFET, pas le parametre. « Guidance » ne dit rien ;
+ * « texture de peau » dit ce qu'on va voir changer. Le nom technique reste en
+ * commentaire ici, pas dans l'interface.
+ */
+const REGLAGES = [
+  {
+    cle: "guidance" as const,
+    nom: "Texture de peau",
+    min: 1.5,
+    max: 4,
+    pas: 0.1,
+    defaut: 2.5,
+    aide: "Bas = peau réaliste, pores et grain. Haut = rendu lisse et saturé.",
+  },
+  {
+    cle: "force" as const,
+    nom: "Ressemblance",
+    min: 0.3,
+    max: 1.1,
+    pas: 0.05,
+    defaut: 0.7,
+    aide: "Poids du LoRA. Trop haut, le visage est fidèle mais la peau se lisse.",
+  },
+  {
+    cle: "steps" as const,
+    nom: "Finesse",
+    min: 15,
+    max: 40,
+    pas: 1,
+    defaut: 28,
+    aide: "Nombre d'étapes. Au-delà de 30, on paie surtout de l'attente.",
+  },
 ];
 
 type Item = {
@@ -144,6 +182,9 @@ export function StudioClient({ connecteInitial }: { connecteInitial: boolean }) 
 
   const [mode, setMode] = useState<Mode>("photo");
   const [moteur, setMoteur] = useState<Moteur>("gemini");
+  const [reglages, setReglages] = useState<Record<string, number>>(() =>
+    Object.fromEntries(REGLAGES.map((r) => [r.cle, r.defaut])),
+  );
   const [prompt, setPrompt] = useState("");
   const [aspect, setAspect] = useState("4:5");
   const [nombre, setNombre] = useState(1);
@@ -257,6 +298,7 @@ export function StudioClient({ connecteInitial }: { connecteInitial: boolean }) 
     const n = mode === "video" ? 1 : nombre;
     const modeCourant = mode;
     const moteurCourant = moteur;
+    const reglagesCourants = reglages;
     const ratio = ratioCourant;
 
     const nouveaux: Item[] = Array.from({ length: n }, () => ({
@@ -285,7 +327,11 @@ export function StudioClient({ connecteInitial }: { connecteInitial: boolean }) 
           const r = await fetch(route, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ prompt, aspect }),
+            // Les reglages fins ne concernent que Flux : Gemini ignorerait
+            // ces champs, autant ne pas les envoyer.
+            body: JSON.stringify(
+              moteurCourant === "flux" ? { prompt, aspect, ...reglagesCourants } : { prompt, aspect },
+            ),
           });
           const j = await r.json();
           if (!r.ok) throw new Error(j.erreur ?? "Échec de la génération");
@@ -364,7 +410,7 @@ export function StudioClient({ connecteInitial }: { connecteInitial: boolean }) 
       setEnCours(false);
       setEtapeVideo("");
     }
-  }, [prompt, aspect, mode, moteur, nombre, enCours, ratioCourant]);
+  }, [prompt, aspect, mode, moteur, reglages, nombre, enCours, ratioCourant]);
 
   /* ------------------------------------------------ connexion */
 
@@ -444,6 +490,44 @@ export function StudioClient({ connecteInitial }: { connecteInitial: boolean }) 
               <p className={styles.aide}>
                 {MOTEURS.find((m) => m.valeur === moteur)?.aide}
               </p>
+
+              {/* Reglages fins : seul Flux les expose, Gemini ne les lit pas. */}
+              {moteur === "flux" && (
+                <div className={styles.reglages}>
+                  {REGLAGES.map((r) => (
+                    <div key={r.cle} className={styles.reglage}>
+                      <div className={styles.reglageTete}>
+                        <span className={styles.etiquette}>{r.nom}</span>
+                        <span className={styles.reglageValeur}>
+                          {r.pas < 1 ? reglages[r.cle].toFixed(2) : reglages[r.cle]}
+                        </span>
+                      </div>
+                      <input
+                        type="range"
+                        className={styles.curseur}
+                        min={r.min}
+                        max={r.max}
+                        step={r.pas}
+                        value={reglages[r.cle]}
+                        aria-label={r.nom}
+                        onChange={(e) =>
+                          setReglages((v) => ({ ...v, [r.cle]: Number(e.target.value) }))
+                        }
+                      />
+                      <p className={styles.reglageAide}>{r.aide}</p>
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    className={styles.chip}
+                    onClick={() =>
+                      setReglages(Object.fromEntries(REGLAGES.map((r) => [r.cle, r.defaut])))
+                    }
+                  >
+                    Réglages conseillés
+                  </button>
+                </div>
+              )}
             </div>
           )}
 

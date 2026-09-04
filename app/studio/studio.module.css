@@ -257,6 +257,84 @@
   gap: 0.35rem;
 }
 
+/* Reglages fins de Flux. Un curseur plutot que des paliers : ces valeurs se
+   cherchent au ressenti, et l'ecart entre 2,4 et 2,6 de guidance se voit. */
+.reglages {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--bord);
+}
+
+.reglage {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.5rem 0;
+}
+
+.reglageTete {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.reglageValeur {
+  font-variant-numeric: tabular-nums;
+  font-size: 0.85rem;
+  color: var(--red);
+}
+
+/* 28px de haut minimum : en dessous, la zone tactile est trop petite au
+   pouce sur mobile, ou le studio est majoritairement utilise. */
+.curseur {
+  width: 100%;
+  height: 28px;
+  background: transparent;
+  appearance: none;
+  cursor: pointer;
+}
+
+.curseur::-webkit-slider-runnable-track {
+  height: 3px;
+  background: var(--glass);
+  border-radius: 3px;
+}
+
+.curseur::-webkit-slider-thumb {
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  margin-top: -9.5px;
+  border-radius: 50%;
+  background: var(--red);
+  border: none;
+}
+
+.curseur::-moz-range-track {
+  height: 3px;
+  background: var(--glass);
+  border-radius: 3px;
+}
+
+.curseur::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 50%;
+  background: var(--red);
+}
+
+.reglageAide {
+  margin: 0;
+  font-size: 0.72rem;
+  line-height: 1.35;
+  color: var(--text-muted);
+}
+
 .choixItem {
   min-width: 44px;
   min-height: 36px;
