@@ -1,60 +1,24 @@
-import Link from "next/link";
+import type { Metadata } from "next";
+
+import { ContactContent } from "./contact-content";
+
+/**
+ * CONTACT — coquille SERVEUR.
+ *
+ * Ne porte que les metadonnees : tout le JSX vit dans `contact-content.tsx`,
+ * un composant client, parce que la traduction passe par le hook `useT()`.
+ * Voir l'en-tete de ce fichier pour le detail du motif.
+ *
+ * Les metadonnees sont en ANGLAIS : elles sont statiques et rendues par le
+ * serveur, qui sert desormais l'anglais (cf. shared/lang.tsx).
+ */
+
+export const metadata: Metadata = {
+  title: "Contact",
+  description:
+    "Booking, collabs, playlists, or just to say a track got you moving. Reach Celeste Fard's management and press here.",
+};
 
 export default function ContactPage() {
-  return (
-    <div className="page-wrap">
-      <section className="hero">
-        <p className="eyebrow">CONTACT</p>
-        <h1>
-          Dites-moi <span className="pop">où on danse</span>
-        </h1>
-        <p className="lede">
-          Booking, collab, playlist, ou juste pour dire qu&apos;un morceau vous a fait bouger dans
-          votre cuisine. Tout m&apos;intéresse. Surtout la cuisine.
-        </p>
-      </section>
-
-      <section className="section section--tight">
-        <div className="contact-panel">
-          <form
-            className="contact-form"
-            action="mailto:management@celestefard.com"
-            method="post"
-            encType="text/plain"
-          >
-            <label htmlFor="name">Nom</label>
-            <input id="name" name="name" type="text" placeholder="Ton nom" required />
-
-            <label htmlFor="email">Email</label>
-            <input id="email" name="email" type="email" placeholder="ton@email.com" required />
-
-            <label htmlFor="message">Message</label>
-            <textarea
-              id="message"
-              name="message"
-              rows={5}
-              placeholder="Dis-moi tout, même le pire"
-              required
-            />
-
-            <button type="submit" className="btn btn--primary btn--block">
-              Envoyer
-            </button>
-          </form>
-        </div>
-
-        <div className="contact-links">
-          <p>Management&nbsp;: management@celestefard.com</p>
-          <p>Presse&nbsp;: press@celestefard.com</p>
-          <p>Instagram&nbsp;: @celestefard</p>
-          {/* Acces a l'outil interne de generation. Volontairement discret et
-              sans explication : la page elle-meme est protegee par mot de
-              passe et exclue des moteurs de recherche. */}
-          <p style={{ marginTop: "1.5rem", opacity: 0.45, fontSize: "0.8rem" }}>
-            <Link href="/studio">Espace équipe</Link>
-          </p>
-        </div>
-      </section>
-    </div>
-  );
+  return <ContactContent />;
 }

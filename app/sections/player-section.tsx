@@ -28,7 +28,9 @@ import {
   PLAYLIST,
 } from "../shared/playlist";
 import { useT } from "../shared/lang";
+import type { Bi } from "../shared/lang";
 import { T } from "../shared/textes";
+import { remplir, TA11y } from "../shared/textes-a11y";
 import styles from "./player-section.module.css";
 
 /* =========================================================
@@ -59,10 +61,13 @@ const BAR_HEIGHTS: readonly number[] = Array.from(
 
 type RepeatMode = "off" | "all" | "one";
 
-const REPEAT_LABEL: Record<RepeatMode, string> = {
-  off: "Répétition désactivée",
-  all: "Répéter la playlist",
-  one: "Répéter ce titre",
+/* Le libelle du bouton "repeter" depend du mode. Il porte une paire de
+   textes et non une chaine : c'est un `aria-label`, il doit basculer avec
+   le reste de la page. */
+const REPEAT_LABEL: Record<RepeatMode, Bi> = {
+  off: TA11y.repetitionOff,
+  all: TA11y.repetitionToutes,
+  one: TA11y.repetitionUne,
 };
 
 /** Style avec variables CSS custom (TS n'accepte pas `--x` nativement). */
@@ -284,7 +289,7 @@ export function PlayerSection() {
             >
               <SlotImage
                 src={coverSrc(track)}
-                alt={`Pochette du titre ${track.title}`}
+                alt={remplir(t(TA11y.pochetteTitre), { title: track.title })}
                 sizes="(max-width: 860px) 60vw, 320px"
                 className={styles.coverImg}
               />
@@ -302,7 +307,7 @@ export function PlayerSection() {
                 className={`${styles.pulse} ${isPlaying ? styles.pulseOn : ""}`}
                 aria-hidden="true"
               />
-              {isPlaying ? "Now playing" : "En pause"}
+              {t(isPlaying ? T.commun.enLecture : TA11y.lecteurEnPause)}
             </p>
 
             <h3 className={styles.trackTitle}>{track.title}</h3>
@@ -336,8 +341,11 @@ export function PlayerSection() {
                 step={1}
                 value={duration > 0 ? Math.round(progress * 1000) : 0}
                 style={{ "--p": progressPct } as CssVars}
-                aria-label={`Position dans le titre ${track.title}`}
-                aria-valuetext={`${formatTime(currentTime)} sur ${formatTime(duration)}`}
+                aria-label={remplir(t(TA11y.positionTitre), { title: track.title })}
+                aria-valuetext={remplir(t(TA11y.positionValeur), {
+                  position: formatTime(currentTime),
+                  duree: formatTime(duration),
+                })}
                 onChange={(e) => onSeek(Number(e.target.value))}
                 onPointerDown={() => setScrubbing(true)}
                 onPointerUp={() => setScrubbing(false)}
@@ -353,7 +361,7 @@ export function PlayerSection() {
               <button
                 type="button"
                 className={`${styles.ctrl} ${shuffle ? styles.ctrlOn : ""}`}
-                aria-label="Lecture aléatoire"
+                aria-label={t(TA11y.lectureAleatoire)}
                 aria-pressed={shuffle}
                 onClick={() => setShuffle((s) => !s)}
               >
@@ -363,7 +371,7 @@ export function PlayerSection() {
               <button
                 type="button"
                 className={styles.ctrl}
-                aria-label="Titre précédent"
+                aria-label={t(TA11y.titrePrecedent)}
                 onClick={goPrev}
               >
                 <IconPrev />
@@ -372,11 +380,10 @@ export function PlayerSection() {
               <button
                 type="button"
                 className={styles.play}
-                aria-label={
-                  isPlaying
-                    ? `Mettre en pause ${track.title}`
-                    : `Lire ${track.title}`
-                }
+                aria-label={remplir(
+                  t(isPlaying ? TA11y.mettreEnPauseTitre : TA11y.lireTitre),
+                  { title: track.title },
+                )}
                 onClick={togglePlay}
               >
                 {isPlaying ? <IconPause /> : <IconPlay />}
@@ -385,7 +392,7 @@ export function PlayerSection() {
               <button
                 type="button"
                 className={styles.ctrl}
-                aria-label="Titre suivant"
+                aria-label={t(TA11y.titreSuivant)}
                 onClick={() => goNext(false)}
               >
                 <IconNext />
@@ -396,7 +403,7 @@ export function PlayerSection() {
                 className={`${styles.ctrl} ${
                   repeat !== "off" ? styles.ctrlOn : ""
                 }`}
-                aria-label={REPEAT_LABEL[repeat]}
+                aria-label={t(REPEAT_LABEL[repeat])}
                 onClick={() =>
                   setRepeat((r) =>
                     r === "off" ? "all" : r === "all" ? "one" : "off",
@@ -468,8 +475,13 @@ export function PlayerSection() {
                     }`}
                     aria-label={
                       active && isPlaying
-                        ? `Mettre en pause ${item.title}`
-                        : `Lire ${item.title} — ${formatTime(item.seconds)}`
+                        ? remplir(t(TA11y.mettreEnPauseTitre), {
+                            title: item.title,
+                          })
+                        : remplir(t(TA11y.lireTitreDuree), {
+                            title: item.title,
+                            duree: formatTime(item.seconds),
+                          })
                     }
                     aria-current={active ? "true" : undefined}
                     onClick={() => selectTrack(i)}

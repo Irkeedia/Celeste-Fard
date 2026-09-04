@@ -25,6 +25,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useT } from "../shared/lang";
 import { T } from "../shared/textes";
+import { TA11y } from "../shared/textes-a11y";
 import styles from "./frequence-section.module.css";
 
 const TRACK_SRC = "/audio/nouvelle-generation/frequence.mp3";
@@ -56,6 +57,13 @@ type Line = {
  * mot-a-mot de l'extrait (hyperframes transcribe), donc chaque phrase
  * s'allume exactement quand elle est chantee. Valeurs en secondes
  * absolues dans le morceau, dans la fenetre [EXTRACT_START, EXTRACT_END].
+ *
+ * CES PAROLES NE SE TRADUISENT PAS, et c'est volontaire : "Frequence"
+ * est chante en francais. Les lignes s'allument sur la voix — les
+ * afficher en anglais ferait lire autre chose que ce qui est entendu.
+ * Meme regle a l'envers dans `slowburn-section.tsx`, dont les paroles
+ * anglaises restent anglaises pour un visiteur francophone. Un texte
+ * chante est du contenu, pas de l'interface.
  */
 const LYRICS: readonly Line[] = [
   { at: 25.5, before: "« Pas de superflu, je reste dans ma ", strong: "lumière", after: " »" },
@@ -217,7 +225,7 @@ export function FrequenceSection() {
             type="button"
             className={styles.play}
             onClick={toggle}
-            aria-label={playing ? "Mettre Fréquence en pause" : "Écouter Fréquence"}
+            aria-label={t(playing ? TA11y.frequencePause : TA11y.frequenceEcouter)}
           >
             <span className={styles.playRing} aria-hidden="true" />
             <span className={styles.playIcon} aria-hidden="true">

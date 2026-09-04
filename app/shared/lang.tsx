@@ -6,13 +6,14 @@
  * Choix assume : une seule URL, le texte bascule en place. C'est le plus
  * simple a maintenir et aucun lien existant ne casse. Contrepartie a
  * connaitre : les moteurs de recherche n'indexent que la version servie
- * par defaut (le francais). Si l'anglais doit etre reference un jour, il
- * faudra passer a de vraies routes /fr et /en.
+ * par defaut — depuis septembre 2026, l'ANGLAIS. Si le francais doit
+ * etre reference a nouveau, il faudra passer a de vraies routes /fr et
+ * /en (avec balises hreflang).
  *
  * IMPLEMENTATION — `useSyncExternalStore` plutot qu'un `useState` peuple
  * dans un effet. Le serveur ne connait ni localStorage ni la langue du
- * navigateur : il doit rendre le francais, et le client peut afficher
- * autre chose. C'est exactement le cas que cette API resout, en
+ * navigateur : il doit rendre une langue fixe, et le client peut
+ * afficher autre chose. C'est exactement le cas que cette API resout, en
  * distinguant l'instantane serveur de l'instantane client — sans effet
  * qui declenche un second rendu en cascade.
  *
@@ -40,8 +41,9 @@ function lirePreference(): Lang {
   } catch {
     // localStorage indisponible (navigation privee stricte) : on ignore.
   }
-  // Premier passage : la langue du navigateur decide. Un visiteur
-  // anglophone arrive donc directement en anglais.
+  // Premier passage : la langue du navigateur decide. L'anglais etant
+  // desormais la langue servie, c'est le visiteur FRANCOPHONE qui bascule
+  // au montage — l'anglophone, lui, ne voit aucun changement.
   return navigator.language?.toLowerCase().startsWith("fr") ? "fr" : "en";
 }
 
@@ -55,9 +57,19 @@ function instantaneClient(): Lang {
   return langueCourante;
 }
 
-/** Le serveur rend toujours le francais : c'est le HTML de reference. */
+/**
+ * Le serveur rend toujours l'ANGLAIS : c'est le HTML de reference, celui
+ * que les moteurs de recherche indexent.
+ *
+ * Consequence assumee (cf. en-tete) : avec une seule URL pour les deux
+ * langues, seule la version servie ici est referencee. Le francais reste
+ * parfaitement accessible aux visiteurs — `lirePreference()` bascule un
+ * navigateur francophone des le montage client — mais il n'est plus
+ * indexe. C'est le choix fait avec Mathieu : garder l'architecture a une
+ * seule URL plutot que migrer vers de vraies routes /fr et /en.
+ */
 function instantaneServeur(): Lang {
-  return "fr";
+  return "en";
 }
 
 function sAbonner(callback: () => void) {

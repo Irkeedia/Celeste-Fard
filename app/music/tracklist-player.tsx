@@ -21,8 +21,27 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
+import { useT } from "../shared/lang";
 import { PLAYLIST, audioSrc, formatTime, type Track } from "../shared/playlist";
 import styles from "./music-page.module.css";
+import { TMusic } from "./music-textes";
+
+/**
+ * Les libelles de ce lecteur sont tous des `aria-label` : ils ne
+ * s'affichent jamais a l'ecran, seuls les lecteurs d'ecran les lisent.
+ * Ils etaient restes en francais en dur alors que le reste de la page
+ * bascule — la page etait donc bilingue a l'oeil, pas a l'oreille.
+ *
+ * `remplir()` remplace les marqueurs {title} / {duree} plutot que de
+ * concatener dans le JSX : l'ordre des mots change d'une langue a
+ * l'autre, une concatenation ne peut pas etre correcte dans les deux.
+ */
+function remplir(gabarit: string, valeurs: Record<string, string>) {
+  return Object.entries(valeurs).reduce(
+    (texte, [cle, valeur]) => texte.replaceAll(`{${cle}}`, valeur),
+    gabarit,
+  );
+}
 
 function IconPlay() {
   return (
@@ -54,6 +73,7 @@ function Equalizer() {
 }
 
 export function TracklistPlayer() {
+  const t = useT();
   const audioRef = useRef<HTMLAudioElement>(null);
   const [current, setCurrent] = useState<number | null>(null);
   /**
@@ -162,8 +182,13 @@ export function TracklistPlayer() {
                 aria-current={isCurrent ? "true" : undefined}
                 aria-label={
                   isPlaying
-                    ? `Mettre en pause ${item.title}`
-                    : `Écouter ${item.title} — ${formatTime(item.seconds)}`
+                    ? remplir(t(TMusic.mettreEnPauseTitre), {
+                        title: item.title,
+                      })
+                    : remplir(t(TMusic.ecouterTitre), {
+                        title: item.title,
+                        duree: formatTime(item.seconds),
+                      })
                 }
               >
                 <span className={styles.trackNum} aria-hidden="true">
@@ -185,13 +210,19 @@ export function TracklistPlayer() {
 
       {/* Barre de lecture : n'apparait qu'une fois un titre lance. */}
       {track ? (
-        <div className={styles.bar} role="region" aria-label="Lecture en cours">
+        <div
+          className={styles.bar}
+          role="region"
+          aria-label={t(TMusic.lectureEnCours)}
+        >
           <div className={styles.barInner}>
             <button
               type="button"
               className={styles.barPlay}
               onClick={() => void play(current!)}
-              aria-label={playing ? "Mettre en pause" : "Reprendre la lecture"}
+              aria-label={
+                playing ? t(TMusic.mettreEnPause) : t(TMusic.reprendre)
+              }
             >
               {playing ? <IconPause /> : <IconPlay />}
             </button>
@@ -211,7 +242,7 @@ export function TracklistPlayer() {
               step={0.1}
               value={progress}
               onChange={(e) => seek(Number(e.target.value))}
-              aria-label="Position dans le morceau"
+              aria-label={t(TMusic.position)}
             />
 
             <span className={styles.barTime}>
@@ -223,7 +254,7 @@ export function TracklistPlayer() {
                 type="button"
                 className={styles.barSkip}
                 onClick={() => next(-1)}
-                aria-label="Titre précédent"
+                aria-label={t(TMusic.titrePrecedent)}
               >
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
                   <path d="M7 5h2v14H7zM19 5.5v13a1 1 0 0 1-1.54.84l-10-6.5a1 1 0 0 1 0-1.68l10-6.5A1 1 0 0 1 19 5.5Z" />
@@ -233,7 +264,7 @@ export function TracklistPlayer() {
                 type="button"
                 className={styles.barSkip}
                 onClick={() => next(1)}
-                aria-label="Titre suivant"
+                aria-label={t(TMusic.titreSuivant)}
               >
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true">
                   <path d="M15 5h2v14h-2zM5 5.5v13a1 1 0 0 0 1.54.84l10-6.5a1 1 0 0 0 0-1.68l-10-6.5A1 1 0 0 0 5 5.5Z" />

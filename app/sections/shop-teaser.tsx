@@ -94,9 +94,7 @@ export function ShopTeaser() {
               <path d="M5 12h13M12 5l7 7-7 7" />
             </svg>
           </Link>
-          <p className={`${styles.ctaNote} u-micro`}>
-            Aucune vente en ligne — pas encore
-          </p>
+          <p className={`${styles.ctaNote} u-micro`}>{t(T.boutique.note)}</p>
         </div>
       </div>
     </section>
@@ -111,6 +109,7 @@ function ShopCell({
   produit: (typeof PRODUITS)[number];
   lead?: boolean;
 }) {
+  const t = useT();
   const slot = getImageSlot(produit.slotId);
 
   return (
@@ -127,7 +126,7 @@ function ShopCell({
         <span className={styles.frame}>
           <Image
             src={slot.path}
-            alt={produit.alt}
+            alt={t(produit.alt)}
             width={720}
             height={720}
             sizes="(max-width: 860px) 92vw, (max-width: 1180px) 44vw, 520px"
@@ -138,10 +137,12 @@ function ShopCell({
         <span className={styles.caption}>
           <span className={styles.captionLine}>
             <span className={`${styles.idx} u-micro`}>{produit.index}</span>
-            <span className={styles.name}>{produit.name}</span>
+            <span className={styles.name}>{t(produit.name)}</span>
             <span className={styles.price}>{produit.price}</span>
           </span>
-          {lead ? <span className={styles.pitch}>{produit.pitch}</span> : null}
+          {lead ? (
+            <span className={styles.pitch}>{t(produit.pitch)}</span>
+          ) : null}
         </span>
 
         {/* Le seul rouge de la case, et seulement au survol. */}

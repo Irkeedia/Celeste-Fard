@@ -4,9 +4,10 @@ import Image from "next/image";
 
 import { getImageSlot, type ImageSlotId } from "@/app/shared/image-slots";
 
-import { useT } from "../shared/lang";
+import { useT, type Bi } from "../shared/lang";
 import { T } from "../shared/textes";
 import styles from "./gallery-section.module.css";
+import { TMedias } from "./medias-textes";
 
 /**
  * GALERIE IMMERSIVE — masonry editorial.
@@ -33,12 +34,12 @@ interface Tile {
   slot: ImageSlotId;
   /** Classe de placement dans la grille (aire + ratio mobile). */
   className: string;
-  /** Numéro d'archive affiché dans la légende. */
+  /** Numero d'archive affiche dans la legende. Un chiffre : pas de langue. */
   index: string;
-  /** Légende en micro-texte, ton Celeste. */
-  caption: string;
-  /** Texte alternatif accessible. */
-  alt: string;
+  /** Legende en micro-texte, ton Celeste. Bilingue. */
+  caption: Bi;
+  /** Texte alternatif accessible. Bilingue : les lecteurs d'ecran le lisent. */
+  alt: Bi;
   /** Largeur rendue, par palier, pour le srcset de next/image. */
   sizes: string;
 }
@@ -48,48 +49,48 @@ const TILES: readonly Tile[] = [
     slot: "gallery-01",
     className: styles.tileA,
     index: "01",
-    caption: "Scène — premier rappel",
-    alt: "Celeste sur scène, micro à la main, dans un contre-jour rouge chargé de fumée.",
+    caption: TMedias.g1Caption,
+    alt: TMedias.g1Alt,
     sizes: "(min-width: 1024px) 42vw, 100vw",
   },
   {
     slot: "gallery-04",
     className: styles.tileB,
     index: "02",
-    caption: "Salle vide — 3h du matin",
-    alt: "Scène vue depuis les coulisses, projecteurs rouges balayant la fumée, silhouette de Celeste au centre.",
+    caption: TMedias.g2Caption,
+    alt: TMedias.g2Alt,
     sizes: "(min-width: 1024px) 42vw, 100vw",
   },
   {
     slot: "gallery-02",
     className: styles.tileD,
     index: "03",
-    caption: "Ce micro a plus d'ancienneté que moi",
-    alt: "Gros plan sur la main baguée de Celeste posée sur un micro vintage.",
+    caption: TMedias.g3Caption,
+    alt: TMedias.g3Alt,
     sizes: "(min-width: 1024px) 22vw, (min-width: 480px) 50vw, 100vw",
   },
   {
     slot: "gallery-05",
     className: styles.tileE,
     index: "04",
-    caption: "Rire non calibré",
-    alt: "Portrait rapproché de Celeste qui rit, taches de rousseur visibles sous une lumière rouge chaude.",
+    caption: TMedias.g4Caption,
+    alt: TMedias.g4Alt,
     sizes: "(min-width: 1024px) 22vw, (min-width: 480px) 50vw, 100vw",
   },
   {
     slot: "gallery-03",
     className: styles.tileC,
     index: "05",
-    caption: "Dos tourné, volontairement",
-    alt: "Celeste de dos, tête tournée vers l'objectif, lumière magenta sur la nuque.",
+    caption: TMedias.g5Caption,
+    alt: TMedias.g5Alt,
     sizes: "(min-width: 1024px) 32vw, (min-width: 480px) 50vw, 100vw",
   },
   {
     slot: "gallery-06",
     className: styles.tileF,
     index: "06",
-    caption: "Studio — jour 04, câbles partout",
-    alt: "Celeste assise au sol en studio, casque autour du cou, entourée de câbles et de pédales.",
+    caption: TMedias.g6Caption,
+    alt: TMedias.g6Alt,
     sizes: "(min-width: 1024px) 32vw, (min-width: 480px) 50vw, 100vw",
   },
 ];
@@ -137,7 +138,7 @@ export function GallerySection() {
               >
                 <Image
                   src={slot.path}
-                  alt={tile.alt}
+                  alt={t(tile.alt)}
                   fill
                   sizes={tile.sizes}
                   className={styles.image}
@@ -145,20 +146,19 @@ export function GallerySection() {
                 <span aria-hidden className={styles.veil} />
                 <figcaption className={styles.caption}>
                   <span className={styles.captionIndex}>{tile.index}</span>
-                  <span className={styles.captionText}>{tile.caption}</span>
+                  <span className={styles.captionText}>{t(tile.caption)}</span>
                 </figcaption>
               </figure>
             );
           })}
 
-          {/* Respiration éditoriale : une carte de texte occupe une case de la
-              grille, comme dans une double page de magazine. */}
+          {/* Respiration editoriale : une carte de texte occupe une case de la
+              grille, comme dans une double page de magazine.
+              La citation vient de `shared/textes.ts`, ou elle etait deja
+              traduite : la dupliquer ici les aurait laissees diverger. */}
           <aside className={`${styles.note} ${styles.tileQ} u-glass`}>
-            <p className={styles.noteLabel}>Note de production</p>
-            <p className={styles.noteQuote}>
-              &laquo;&nbsp;Je n&apos;ai jamais mis les pieds sur une scène. Mais
-              regardez comme la lumière me va bien.&nbsp;&raquo;
-            </p>
+            <p className={styles.noteLabel}>{t(TMedias.gNoteLabel)}</p>
+            <p className={styles.noteQuote}>{t(T.galerie.citation)}</p>
             <p className={styles.noteSign}>Celeste Fard</p>
           </aside>
         </div>

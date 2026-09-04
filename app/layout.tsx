@@ -1,12 +1,15 @@
 import type { Metadata, Viewport } from "next";
 import { Anton, Cormorant_Garamond, Inter } from "next/font/google";
-import Image from "next/image";
-import Link from "next/link";
 import "./globals.css";
 import { InteractiveEffects } from "./shared/interactive-effects";
 import { LEGAL } from "./shared/legal-info";
 import { LangProvider } from "./shared/lang";
 import { MainNav } from "./shared/main-nav";
+import {
+  SiteBrand,
+  SiteFooterBrand,
+  SiteFooterLegal,
+} from "./shared/site-brand";
 import { SiteFooterNav } from "./shared/site-footer-nav";
 import { ViewportStable } from "./shared/viewport-stable";
 
@@ -53,23 +56,28 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(LEGAL.siteUrl),
+  /* Metadonnees en ANGLAIS : elles sont statiques, rendues par le serveur,
+     donc elles suivent la langue servie. Un visiteur francophone verra
+     l'interface en francais mais un partage social en anglais — c'est la
+     contrepartie de l'architecture a une seule URL. */
   title: {
-    default: "Celeste Fard — Chanteuse IA, afro pop incandescente",
+    default: "Celeste Fard — AI Singer, Blazing Afro Pop",
     template: "%s · Celeste Fard",
   },
   description:
-    "Je suis une IA et je ne dors jamais. Afro pop, super pop, zéro morceau triste : mon seul job est de faire danser le maximum d'humains sur Terre.",
+    "I'm an AI and I never sleep. Afro pop, super pop, not one sad song: my only job is to get as many humans as possible dancing.",
   applicationName: "Celeste Fard",
   authors: [{ name: LEGAL.creator }],
   creator: LEGAL.creator,
   publisher: LEGAL.editor,
   keywords: [
     "Celeste Fard",
-    "chanteuse IA",
-    "musique générée par IA",
+    "AI singer",
+    "AI generated music",
     "afro pop",
     "super pop",
-    "artiste virtuelle",
+    "virtual artist",
+    "chanteuse IA",
   ],
   icons: {
     icon: "/logo_celeste.png",
@@ -77,11 +85,14 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    locale: "fr_FR",
+    /* La langue servie est l'anglais ; le francais reste disponible dans
+       l'interface, d'ou l'`alternateLocale`. */
+    locale: "en_US",
+    alternateLocale: "fr_FR",
     siteName: "Celeste Fard",
-    title: "Celeste Fard — Chanteuse IA, afro pop incandescente",
+    title: "Celeste Fard — AI Singer, Blazing Afro Pop",
     description:
-      "Une IA rousse, 21 titres, aucune excuse. Afro pop, chill et trip hop pour vous faire bouger.",
+      "A redheaded AI, 21 tracks, no excuses. Afro pop, chill and trip hop to get you moving.",
     /* Image d'apercu de partage : 1200x630, le format attendu par les
        plateformes. Le logo carre sur fond blanc y rendait mal — rogne en
        vignette, et en contradiction avec la charte noir/rouge. Il reste le
@@ -90,9 +101,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Celeste Fard — Chanteuse IA",
+    title: "Celeste Fard — AI Singer",
     description:
-      "Afro pop et super pop générées par une IA qui ne dort jamais. Écoutez, dansez, recommencez.",
+      "Afro pop and super pop made by an AI that never sleeps. Listen, dance, repeat.",
     images: ["/og-celeste.jpg"],
   },
 };
@@ -103,8 +114,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    /* `lang` decrit la langue REELLEMENT rendue par le serveur, soit
+       l'anglais (cf. shared/lang.tsx). Le client la reecrit en "fr" quand
+       il bascule, pour que lecteurs d'ecran et synthese vocale suivent.
+       `suppressHydrationWarning` couvre justement cet ecart. */
     <html
-      lang="fr"
+      lang="en"
       className={`${inter.variable} ${anton.variable} ${cormorant.variable} h-full antialiased`}
       suppressHydrationWarning
     >
@@ -122,22 +137,7 @@ export default function RootLayout({
 
         <header className="site-header">
           <div className="site-header-inner">
-            <Link href="/" className="brand-link">
-              <span className="brand-logo-ring">
-                <Image
-                  src="/logo_celeste.png"
-                  alt=""
-                  width={44}
-                  height={44}
-                  className="brand-logo"
-                  loading="eager"
-                />
-              </span>
-              <span className="brand-link-copy">
-                <span className="brand-link-text">CELESTE FARD</span>
-                <span className="brand-link-sub">Chanteuse IA</span>
-              </span>
-            </Link>
+            <SiteBrand />
             <MainNav />
           </div>
         </header>
@@ -147,32 +147,11 @@ export default function RootLayout({
         <footer className="site-footer">
           <div className="site-footer-glow" aria-hidden />
           <div className="site-footer-inner">
-            <div className="site-footer-brand">
-              <Link
-                href="/"
-                className="site-footer-logo-link"
-                aria-label="Retour à l'accueil"
-              >
-                <Image
-                  src="/logo_celeste.png"
-                  alt="Celeste Fard"
-                  width={52}
-                  height={52}
-                  className="brand-logo brand-logo--footer"
-                />
-              </Link>
-              <p className="site-footer-wordmark">CELESTE FARD</p>
-              <p className="site-footer-tagline u-micro">
-                Chanteuse IA · Afro pop &amp; super pop · FR / EN / IT
-              </p>
-            </div>
+            <SiteFooterBrand />
 
             <SiteFooterNav />
 
-            <p className="site-footer-legal">
-              © {new Date().getFullYear()} {LEGAL.editor} / {LEGAL.creator}. Celeste Fard est
-              une représentation artistique assistée par intelligence artificielle.
-            </p>
+            <SiteFooterLegal />
           </div>
         </footer>
         </LangProvider>

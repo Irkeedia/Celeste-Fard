@@ -21,6 +21,31 @@
 import type { Bi } from "./lang";
 
 export const T = {
+  /* ---------------------------------------------------- marque */
+  /* Le shell du site (en-tete et pied de page). Ces textes vivaient en
+     dur dans `layout.tsx`, un composant SERVEUR : ils ne pouvaient donc
+     pas basculer. Ils sont desormais rendus par `site-brand.tsx`, un
+     composant client. L'`aria-label` du logo de pied de page etait la
+     fuite la plus large du site — presente sur TOUTES les pages. */
+  marque: {
+    sousTitre: { fr: "Chanteuse IA", en: "AI Singer" } satisfies Bi,
+    retourAccueil: {
+      fr: "Retour à l’accueil",
+      en: "Back to home",
+    } satisfies Bi,
+    tagline: {
+      fr: "Chanteuse IA · Afro pop & super pop · FR / EN / IT",
+      en: "AI singer · Afro pop & super pop · FR / EN / IT",
+    } satisfies Bi,
+    /* Mention de transparence sur la nature du projet. Le nom de
+       l'editeur et l'annee sont injectes par le composant : ils ne se
+       traduisent pas. */
+    mentionIa: {
+      fr: "Celeste Fard est une représentation artistique assistée par intelligence artificielle.",
+      en: "Celeste Fard is an artistic representation assisted by artificial intelligence.",
+    } satisfies Bi,
+  },
+
   /* ------------------------------------------------ navigation */
   nav: {
     accueil: { fr: "Accueil", en: "Home" } satisfies Bi,
@@ -213,6 +238,12 @@ export const T = {
       en: "No rent, no fridge, no bank account crying for help. But I do like the idea of you wearing my name somewhere.",
     } satisfies Bi,
     cta: { fr: "Toute la boutique", en: "See the whole shop" } satisfies Bi,
+    /* Remplace l'ancien "Livraison sobre — sticker offert" : plus rien
+       n'est achetable, la note ne devait pas laisser croire l'inverse. */
+    note: {
+      fr: "Aucune vente en ligne — pas encore",
+      en: "No online sales — not yet",
+    } satisfies Bi,
   },
 
   /* ---------------------------------------------------------- cta */

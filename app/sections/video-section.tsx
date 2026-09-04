@@ -21,15 +21,18 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { useT } from "../shared/lang";
+import { useT, type Bi } from "../shared/lang";
 import { T } from "../shared/textes";
 import styles from "./video-section.module.css";
+import { TMedias } from "./medias-textes";
 
 export interface VideoClip {
   id: string;
-  title: string;
-  caption: string;
-  kicker: string;
+  /* Les trois champs de texte sont bilingues : le serveur rend l'anglais,
+     et le composant les passe par `t()` au moment de l'affichage. */
+  title: Bi;
+  caption: Bi;
+  kicker: Bi;
   src: string;
   poster: string;
 }
@@ -41,35 +44,33 @@ export interface VideoSectionProps {
 const DEFAULT_CLIPS: VideoClip[] = [
   {
     id: "influenceuse",
-    title: "Elle prend la parole",
-    caption:
-      "Dix secondes pour annoncer vingt et un titres. Je n’ai pas eu besoin de respirer une seule fois.",
-    kicker: "À la une",
+    title: TMedias.v1Titre,
+    caption: TMedias.v1Caption,
+    kicker: TMedias.v1Kicker,
     src: "/video/celeste-influenceuse.mp4",
     poster: "/image/miniatureinfluenceuse.jpg",
   },
   {
     id: "remerciement",
-    title: "Merci d’être là",
-    caption: "Message direct. Sans script, sans prompteur. Enfin… presque.",
-    kicker: "Message",
+    title: TMedias.v2Titre,
+    caption: TMedias.v2Caption,
+    kicker: TMedias.v2Kicker,
     src: "/video/celestevideoderemerciement.mp4",
     poster: "/image/miniaturevideomercie.jpg",
   },
   {
     id: "passion",
-    title: "Quand ça part",
-    caption:
-      "Le moment exact où la musique passe devant le raisonnement. Mon bug préféré.",
-    kicker: "Clip",
+    title: TMedias.v3Titre,
+    caption: TMedias.v3Caption,
+    kicker: TMedias.v3Kicker,
     src: "/video/celestevideopassion.mp4",
     poster: "/image/miniaturepassion.jpg",
   },
   {
     id: "bateau",
-    title: "Vacances simulées",
-    caption: "Pas un yacht. Juste l’Italie, et moi qui fais semblant d’avoir chaud.",
-    kicker: "Hors-champ",
+    title: TMedias.v4Titre,
+    caption: TMedias.v4Caption,
+    kicker: TMedias.v4Kicker,
     src: "/video/celestesitewebbateau.mp4",
     poster: "/image/miniaturebateau.jpg",
   },
@@ -226,11 +227,9 @@ export function VideoSection({ clips = DEFAULT_CLIPS }: VideoSectionProps) {
                             isActive ? setPlayingId(clip.id) : select(i)
                           }
                           tabIndex={hidden ? -1 : 0}
-                          aria-label={
-                            isActive
-                              ? `Lire ${clip.title}`
-                              : `Afficher ${clip.title}`
-                          }
+                          aria-label={t(
+                            isActive ? TMedias.vLire : TMedias.vAfficher,
+                          ).replace("{titre}", t(clip.title))}
                         >
                           <span className={styles.playRing} aria-hidden="true">
                             <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
@@ -240,9 +239,9 @@ export function VideoSection({ clips = DEFAULT_CLIPS }: VideoSectionProps) {
                         </button>
 
                         <div className={styles.caption}>
-                          <span className={`${styles.kicker} u-micro`}>{clip.kicker}</span>
-                          <h3 className={styles.cardTitle}>{clip.title}</h3>
-                          <p className={styles.cardText}>{clip.caption}</p>
+                          <span className={`${styles.kicker} u-micro`}>{t(clip.kicker)}</span>
+                          <h3 className={styles.cardTitle}>{t(clip.title)}</h3>
+                          <p className={styles.cardText}>{t(clip.caption)}</p>
                         </div>
                       </>
                     )}
@@ -281,7 +280,7 @@ export function VideoSection({ clips = DEFAULT_CLIPS }: VideoSectionProps) {
               type="button"
               role="tab"
               aria-selected={i === active}
-              aria-label={clip.title}
+              aria-label={t(clip.title)}
               className={`${styles.dot} ${i === active ? styles.dotOn : ""}`}
               onClick={() => select(i)}
             />

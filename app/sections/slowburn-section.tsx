@@ -20,6 +20,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useT } from "../shared/lang";
 import { T } from "../shared/textes";
+import { TA11y } from "../shared/textes-a11y";
 import styles from "./slowburn-section.module.css";
 
 const TRACK_SRC = "/audio/nouvelle-generation/slow-burn.mp3";
@@ -175,7 +176,7 @@ export function SlowBurnSection() {
             type="button"
             className={styles.play}
             onClick={toggle}
-            aria-label={playing ? "Mettre Slow Burn en pause" : "Écouter l’extrait de Slow Burn"}
+            aria-label={t(playing ? TA11y.slowburnPause : TA11y.slowburnEcouter)}
           >
             {playing ? (
               <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
