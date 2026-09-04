@@ -85,6 +85,23 @@
     min-height: 44px;
     justify-content: center;
     padding: 0.42rem;
+    /* CENTRAGE REEL dans la barre. `space-between` sur le conteneur ne
+       suffirait pas : le logo est bien plus large que le burger, la
+       pilule tomberait donc a droite du milieu optique.
+       En la sortant du flux, les deux seuls elements restants sont le
+       logo et le burger — que `space-between` colle respectivement a
+       gauche et a droite, ce qui est exactement l'objectif.
+       `.site-header-inner` est deja en `position: relative`. */
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    /* Recentrage par marges negatives (la moitie des 44px imposes
+       ci-dessus) et NON par `translate(-50%, -50%)` : `transform` est
+       deja pris par le `:hover` et remis a `none` par
+       `prefers-reduced-motion`. Les deux ecraseraient le centrage et
+       feraient sauter la pilule. */
+    margin-left: -22px;
+    margin-top: -22px;
   }
 
   .header .label {

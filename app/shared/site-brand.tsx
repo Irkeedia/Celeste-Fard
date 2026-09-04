@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import { useT } from "./lang";
 import { LEGAL } from "./legal-info";
+import styles from "./site-brand.module.css";
 import { T } from "./textes";
 
 /**
@@ -38,7 +39,9 @@ export function SiteBrand() {
           loading="eager"
         />
       </span>
-      <span className="brand-link-copy">
+      {/* Le bloc texte s'efface sous 560px pour degager le centre de la
+          barre, ou vit la pilule Instagram (cf. le module CSS). */}
+      <span className={`brand-link-copy ${styles.copy}`}>
         <span className="brand-link-text">CELESTE FARD</span>
         <span className="brand-link-sub">{t(T.marque.sousTitre)}</span>
       </span>

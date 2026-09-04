@@ -212,6 +212,14 @@ export function MainNav() {
 
   return (
     <>
+      {/* Place AVANT le burger et le selecteur de langue : c'est l'action
+          que l'on veut voir cliquee, elle vient donc en premier dans
+          l'ordre de lecture comme dans l'ordre de tabulation.
+          Sur mobile, le module CSS la recentre dans la barre — l'ordre du
+          DOM la place ici pour que la tabulation suive l'ordre VISUEL
+          (logo, Instagram, burger) et non l'inverse. */}
+      <InstagramLink />
+
       <button
         ref={burgerRef}
         type="button"
@@ -228,11 +236,6 @@ export function MainNav() {
           <span className="nav-burger-line" />
         </span>
       </button>
-
-      {/* Place AVANT le selecteur de langue : c'est l'action que l'on veut
-          voir cliquee, elle doit venir en premier dans l'ordre de lecture
-          comme dans l'ordre de tabulation. Visible sur toutes les pages. */}
-      <InstagramLink />
 
       <LangSwitch className="lang-switch--desktop" />
 

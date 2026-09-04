@@ -1,0 +1,31 @@
+/* =========================================================
+   MARQUE DU SHELL — ajustements mobile.
+
+   Style isole dans un CSS Module : l'en-tete de `globals.css` demande
+   explicitement de ne pas le modifier. Ce fichier ne fait que POSER une
+   contrainte supplementaire sur des elements deja stylés la-bas.
+   ========================================================= */
+
+/* Sur petit ecran, le bloc texte de la marque ("CELESTE FARD" + le
+   sous-titre) s'efface et seul le logo rond reste.
+
+   POURQUOI : la pilule Instagram est centree dans la barre. A 375px, le
+   bloc texte court jusqu'a 175px alors que la pilule commence a 166px —
+   elles se chevauchaient. Le calcul : la pilule demarre a
+   `vw / 2 - 22`, il faut donc `vw > 394` pour qu'elles ne se touchent
+   pas. Autrement dit le probleme concernait la majorite des telephones
+   (iPhone SE et 14, Pixel...).
+
+   Retrecir la typo ou masquer le seul sous-titre ne reglait rien : les
+   deux lignes font exactement la meme largeur, c'est "CELESTE FARD" qui
+   commande. Le logo rond reste parfaitement identifiable, et le nom
+   complet s'affiche de toute facon dans le hero de chaque page.
+
+   Le seuil est pose a 560px et non a 394px : entre les deux, l'ecart
+   n'etait que d'une poignee de pixels, ce qui se lit comme un defaut
+   d'alignement plutot que comme une intention. */
+@media (max-width: 560px) {
+  .copy {
+    display: none;
+  }
+}
