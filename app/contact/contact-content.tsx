@@ -3,6 +3,7 @@
 import Link from "next/link";
 
 import { useT } from "../shared/lang";
+import { LEGAL } from "../shared/legal-info";
 import { TContact } from "./contact-textes";
 
 /**
@@ -82,7 +83,17 @@ export function ContactContent() {
           <p>
             {t(TContact.presse)}&nbsp;: {EMAIL_PRESSE}
           </p>
-          <p>{t(TContact.instagram)}&nbsp;: @celestefard</p>
+          {/* @celestefard n'etait qu'un texte mort : ni lien, ni cible. */}
+          <p>
+            {t(TContact.instagram)}&nbsp;:{" "}
+            <a
+              href={LEGAL.instagram.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {LEGAL.instagram.handle}
+            </a>
+          </p>
           {/* Acces a l'outil interne de generation. Volontairement discret et
               sans explication : la page elle-meme est protegee par mot de
               passe et exclue des moteurs de recherche. */}

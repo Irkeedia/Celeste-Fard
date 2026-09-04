@@ -9,6 +9,7 @@
 
 import Link from "next/link";
 
+import { InstagramLink } from "./instagram-link";
 import { useT } from "./lang";
 import { T } from "./textes";
 import { TA11y } from "./textes-a11y";
@@ -30,6 +31,9 @@ export function SiteFooterNav() {
           {t(l.label)}
         </Link>
       ))}
+      {/* Lien SORTANT : il ferme la liste plutot que de s'y fondre, toutes
+          les autres entrees etant internes au site. */}
+      <InstagramLink variant="inline" />
     </nav>
   );
 }

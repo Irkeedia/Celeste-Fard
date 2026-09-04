@@ -44,6 +44,15 @@ export const T = {
       fr: "Celeste Fard est une représentation artistique assistée par intelligence artificielle.",
       en: "Celeste Fard is an artistic representation assisted by artificial intelligence.",
     } satisfies Bi,
+
+    /* Lien Instagram de l'en-tete. Le libelle visible est court (la barre
+       du haut est etroite, et il disparait meme sous 1024px) : c'est
+       l'`aria-label` qui porte l'information complete. */
+    instagramSuivre: { fr: "Suivre", en: "Follow" } satisfies Bi,
+    instagramAria: {
+      fr: "Suivre Celeste Fard sur Instagram (nouvel onglet)",
+      en: "Follow Celeste Fard on Instagram (opens in a new tab)",
+    } satisfies Bi,
   },
 
   /* ------------------------------------------------ navigation */

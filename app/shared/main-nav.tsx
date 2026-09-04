@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 
+import { InstagramLink } from "./instagram-link";
 import { useT } from "./lang";
 import { LangSwitch } from "./lang-switch";
 import { T } from "./textes";
@@ -200,6 +201,10 @@ export function MainNav() {
           <div className="site-nav-foot">
             <span className="site-nav-foot-line" aria-hidden />
             <span>{t(T.nav.piedMenu)}</span>
+            {/* Variante discrete : la pilule rouge du header est deja
+                visible juste au-dessus du tiroir, la repeter en plein
+                ferait doublon. */}
+            <InstagramLink variant="inline" />
           </div>
         </nav>
       </>
@@ -223,6 +228,11 @@ export function MainNav() {
           <span className="nav-burger-line" />
         </span>
       </button>
+
+      {/* Place AVANT le selecteur de langue : c'est l'action que l'on veut
+          voir cliquee, elle doit venir en premier dans l'ordre de lecture
+          comme dans l'ordre de tabulation. Visible sur toutes les pages. */}
+      <InstagramLink />
 
       <LangSwitch className="lang-switch--desktop" />
 

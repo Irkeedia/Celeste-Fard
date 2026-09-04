@@ -1,0 +1,121 @@
+/* =========================================================
+   LIEN INSTAGRAM
+
+   Style isole dans un CSS Module : l'en-tete de `globals.css` demande
+   explicitement de ne pas le modifier.
+
+   La variante "header" est le seul aplat rouge PLEIN de la barre du
+   haut. C'est voulu : c'est ce qui le detache du menu et du selecteur
+   de langue, qui sont tous deux des pilules discretes a filet.
+   ========================================================= */
+
+.header {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex: none;
+  /* Aligne sur la hauteur du selecteur de langue voisin. */
+  padding: 0.42rem 0.85rem;
+  border: 1px solid rgb(var(--paper-rgb) / 0.18);
+  border-radius: var(--radius-pill);
+  background: var(--grad-signature-x);
+  box-shadow: var(--glow-red-sm);
+  color: var(--paper);
+  font-size: var(--fs-micro);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+.header:hover {
+  transform: translateY(-1px);
+  border-color: rgb(var(--paper-rgb) / 0.4);
+  box-shadow: var(--glow-red-md);
+}
+
+.header:focus-visible {
+  outline: 2px solid var(--paper);
+  outline-offset: 2px;
+}
+
+/* --- Variante discrete (tiroir mobile, pied de page) ---- */
+
+.inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: inherit;
+  font-weight: var(--fw-bold);
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.inline:hover {
+  color: var(--red-soft);
+}
+
+.inline:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 3px;
+}
+
+.icone {
+  flex: none;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+/* Sous 1024px, la barre du haut se resserre (burger + logo + langue) :
+   le libelle tombe, l'icone seule tient la place. La cible reste carree
+   et au-dessus du plancher tactile de 44px.
+   Ne s'applique QU'A la variante d'en-tete : dans le tiroir mobile, le
+   libelle doit au contraire rester lisible. */
+@media (max-width: 1024px) {
+  .header {
+    gap: 0;
+    min-width: 44px;
+    min-height: 44px;
+    justify-content: center;
+    padding: 0.42rem;
+  }
+
+  .header .label {
+    /* `clip` plutot que `display: none` : le texte reste dans l'arbre
+       d'accessibilite pour les lecteurs d'ecran qui l'utilisent, sans
+       occuper la moindre place a l'ecran. */
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* =========================================================
+   ACCESSIBILITE
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .header {
+    transition: none;
+  }
+
+  .header:hover {
+    transform: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .header {
+    border: 1px solid CanvasText;
+  }
+}

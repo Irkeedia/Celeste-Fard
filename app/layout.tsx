@@ -129,6 +129,27 @@ export default function RootLayout({
             __html: `(()=>{try{const h=window.innerHeight;document.documentElement.style.setProperty("--app-vh",h*0.01+"px");document.documentElement.style.setProperty("--app-height",h+"px");}catch(e){}})();`,
           }}
         />
+
+        {/* Donnees structurees schema.org. `sameAs` est ce qui permet aux
+            moteurs de rattacher le site au compte Instagram : sans lui, ce
+            sont deux presences sans lien declare. Rendu par le serveur, il
+            n'a donc pas a etre traduit. */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "MusicGroup",
+              name: LEGAL.siteName,
+              url: LEGAL.siteUrl,
+              image: `${LEGAL.siteUrl}/og-celeste.jpg`,
+              genre: ["Afro pop", "Super pop"],
+              description:
+                "AI singer. Afro pop and super pop made by an AI that never sleeps.",
+              sameAs: [LEGAL.instagram.url],
+            }),
+          }}
+        />
       </head>
       <body className="site-body">
         <LangProvider>
