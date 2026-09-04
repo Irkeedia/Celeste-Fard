@@ -28,19 +28,62 @@ api.upload_file(path_or_fileobj="/workspace/comfy-boot.log",
 PYL
 }
 
-# CHIEN DE GARDE AUTONOME. La nuit du 3 au 4 septembre, ce pod a tourne ~13 h
-# pour rien (6,40 $) : je comptais sur le pod d'entrainement pour l'eteindre en
-# terminant, et ce chainage a echoue sans que je puisse savoir pourquoi — mon
-# push_log tournait AVANT les lignes d'extinction, donc elles n'apparaissaient
-# jamais dans le log publie.
-# La lecon : un pod qui coute de l'argent doit porter sa propre mort. Ne jamais
-# dependre d'une autre machine pour s'eteindre.
-WATCHDOG_H=${WATCHDOG_H:-4}
-( sleep $((WATCHDOG_H * 3600))
-  curl -s -X POST "https://api.runpod.io/graphql?api_key=${RUNPOD_API_KEY:-}" \
-    -H "Content-Type: application/json" \
-    -d "{\"query\":\"mutation { podTerminate(input:{podId:\\\"${RUNPOD_POD_ID:-}\\\"}) }\"}" ) &
-echo "chien de garde arme : extinction dans ${WATCHDOG_H}h"
+# CHIEN DE GARDE SUR INACTIVITE. La nuit du 3 au 4 septembre, ce pod a tourne
+# ~13 h pour rien (6,40 $) : je comptais sur le pod d'entrainement pour
+# l'eteindre, et ce chainage a echoue. Un pod qui coute de l'argent doit porter
+# sa propre mort.
+#
+# On surveille l'activite reelle de ComfyUI plutot qu'un delai fixe : tant
+# qu'on genere, le pod vit ; des qu'on arrete, il s'eteint tout seul. La file
+# est prise en compte, sinon une generation longue passerait pour de
+# l'inactivite et tuerait le pod en plein travail.
+INACTIVITE_MIN=${INACTIVITE_MIN:-20}
+MAX_H=${MAX_H:-12}
+( derniere=$(date +%s); vus=-1
+  debut=$(date +%s)
+  while true; do
+    sleep 60
+    etat=$($PY - <<'PYQ' 2>/dev/null
+import json, urllib.request
+def get(p):
+    try:
+        with urllib.request.urlopen("http://127.0.0.1:8188"+p, timeout=8) as r:
+            return json.load(r)
+    except Exception:
+        return None
+h = get("/history?max_items=1000")
+q = get("/queue")
+# Une sonde qui echoue n'est PAS une preuve d'inactivite : ComfyUI peut etre
+# en train de charger un modele et ne pas repondre. On renvoie un marqueur
+# d'echec, et l'appelant ne decompte alors rien — sinon un ComfyUI muet
+# pendant 20 min ferait tuer le pod alors qu'il travaille.
+if h is None or q is None:
+    print("NA 0")
+else:
+    actifs = len(q.get("queue_running", [])) + len(q.get("queue_pending", []))
+    print(len(h), actifs)
+PYQ
+)
+    set -- $etat
+    faits=${1:-NA}; actifs=${2:-0}
+    # Sonde muette : on ne conclut rien, on repasse au tour suivant.
+    if [ "$faits" = "NA" ]; then continue; fi
+    # Une generation terminee (compteur qui bouge) ou en cours (file non vide)
+    # comptent toutes deux comme de l'activite.
+    if [ "$faits" != "$vus" ] || [ "${actifs:-0}" -gt 0 ]; then
+      vus=$faits; derniere=$(date +%s)
+    fi
+    inactif=$(( ($(date +%s) - derniere) / 60 ))
+    total=$(( ($(date +%s) - debut) / 3600 ))
+    if [ "$inactif" -ge "$INACTIVITE_MIN" ] || [ "$total" -ge "$MAX_H" ]; then
+      echo "extinction : ${inactif} min sans activite (limite ${INACTIVITE_MIN})"
+      curl -s -X POST "https://api.runpod.io/graphql?api_key=${RUNPOD_API_KEY:-}" \
+        -H "Content-Type: application/json" \
+        -d "{\"query\":\"mutation { podTerminate(input:{podId:\\\"${RUNPOD_POD_ID:-}\\\"}) }\"}"
+      exit 0
+    fi
+  done ) &
+echo "chien de garde arme : extinction apres ${INACTIVITE_MIN} min sans generation"
 
 $PY -m pip install -q --no-cache-dir "huggingface_hub>=0.26" hf_transfer 2>&1 | tail -1
 export HF_HUB_ENABLE_HF_TRANSFER=1
