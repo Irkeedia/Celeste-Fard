@@ -28,6 +28,20 @@ api.upload_file(path_or_fileobj="/workspace/comfy-boot.log",
 PYL
 }
 
+# CHIEN DE GARDE AUTONOME. La nuit du 3 au 4 septembre, ce pod a tourne ~13 h
+# pour rien (6,40 $) : je comptais sur le pod d'entrainement pour l'eteindre en
+# terminant, et ce chainage a echoue sans que je puisse savoir pourquoi — mon
+# push_log tournait AVANT les lignes d'extinction, donc elles n'apparaissaient
+# jamais dans le log publie.
+# La lecon : un pod qui coute de l'argent doit porter sa propre mort. Ne jamais
+# dependre d'une autre machine pour s'eteindre.
+WATCHDOG_H=${WATCHDOG_H:-4}
+( sleep $((WATCHDOG_H * 3600))
+  curl -s -X POST "https://api.runpod.io/graphql?api_key=${RUNPOD_API_KEY:-}" \
+    -H "Content-Type: application/json" \
+    -d "{\"query\":\"mutation { podTerminate(input:{podId:\\\"${RUNPOD_POD_ID:-}\\\"}) }\"}" ) &
+echo "chien de garde arme : extinction dans ${WATCHDOG_H}h"
+
 $PY -m pip install -q --no-cache-dir "huggingface_hub>=0.26" hf_transfer 2>&1 | tail -1
 export HF_HUB_ENABLE_HF_TRANSFER=1
 
